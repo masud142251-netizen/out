@@ -8,117 +8,67 @@
       const supabaseUrl = 'https://eyfecqehygiivjtbhniy.supabase.co';
       const supabaseKey = 'eyJhGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5ZmVjcWVoeWdpaXZqdGJobml5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NjQ0NDcsImV4cCI6MjA4NjI0MDQ0N30.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5ZmVjcWVoeWdpaXZqdGJobml5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NjQ0NDcsImV4cCI6MjA4NjI0MDQ0N30'; 
       const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
-window.addEventListener('DOMContentLoaded', async () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const productId = urlParams.get('product_id') || urlParams.get('id');
-        const affiliateId = urlParams.get('ref') || urlParams.get('aff');
-        const cartDataParam = urlParams.get('cart_data');
 
-        if(affiliateId) {
-            sessionStorage.setItem('mme_active_aff', affiliateId);
-            localStorage.setItem('mme_active_aff', affiliateId);
-        }
-
-        let cartItems = [];
-
-        // যদি URL এ এনকোড করা কার্ট ডাটা থাকে, সেটি আগে নেব
-        if(cartDataParam) {
-            try {
-                cartItems = JSON.parse(decodeURIComponent(cartDataParam));
-                localStorage.setItem('mme_cart_items', JSON.stringify(cartItems));
-                sessionStorage.setItem('mme_cart_items', JSON.stringify(cartItems));
-            } catch(e) {}
-        }
-
-        // না থাকলে লোকালস্টোরেজ থেকে চেক করব
-        if(cartItems.length === 0) {
-            cartItems = JSON.parse(localStorage.getItem('mme_cart_items') || sessionStorage.getItem('mme_cart_items') || '[]');
-        }
-
-        // যদি কোনো কারণে কার্ট খালি থাকে কিন্তু productId থাকে
-        if (cartItems.length === 0 && productId) {
-          const { data, error } = await _supabase
-            .from('products')
-            .select('*')
-            .eq('id', productId)
-            .single();
-
-          if (data) {
-            let activeAff = affiliateId || sessionStorage.getItem('mme_active_aff') || 'AFF-MASTER';
-            cartItems.push({
-                cartId: Date.now(),
-                productId: data.id,
-                title: data.title || data.name || "Exclusive Enterprise Item",
-                price: data.price || data.global || "$35.00",
-                quantity: 1,
-                color: "Standard",
-                size: "Standard",
-                sellerId: data.seller_id || 'VEN-MASUD',
-                image: data.image_url || data.imgUrl || "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc",
-                affiliateRef: activeAff
-            });
-            localStorage.setItem('mme_cart_items', JSON.stringify(cartItems));
-            sessionStorage.setItem('mme_cart_items', JSON.stringify(cartItems));
-          }
-        }
-
-        // চেকআউট ফর্মে আইটেমগুলো রেন্ডার করার ফাংশন
-        renderCheckoutCartSummary(cartItems);
-      });
       window.addEventListener('DOMContentLoaded', async () => {
         const urlParams = new URLSearchParams(window.location.search);
-        const productId = urlParams.get('product_id') || urlParams.get('id');
-        const affiliateId = urlParams.get('ref') || urlParams.get('aff');
+        const affiliateId = urlParams.get('ref') || urlParams.get('aff') || 'AFF-MASTER';
+        
+        // ইউজারের ব্রাউজার বা সেশনের জন্য একটি ইউনিক কার্ট আইডি বা ইউজার টোকেন ধরে রাখা
+        let userCartToken = localStorage.getItem('mme_cart_token');
+        if(!userCartToken) {
+            userCartToken = 'cart_' + Date.now() + '_' + Math.random().toString(36.substring(2, 9));
+            localStorage.setItem('mme_cart_token', userCartToken);
+        }
 
         if(affiliateId) {
             sessionStorage.setItem('mme_active_aff', affiliateId);
             localStorage.setItem('mme_active_aff', affiliateId);
         }
 
-        // কার্ট ডাটা লোকাল বা সেশন স্টোরেজ থেকে লোড করা
-        let cartItems = JSON.parse(localStorage.getItem('mme_cart_items') || sessionStorage.getItem('mme_cart_items') || '[]');
+        // সরাসরি Supabase থেকে এই ইউজারের কার্ট আইটেমগুলো ফেচ করা
+        try {
+            const { data, error } = await _supabase
+                .from('carts')
+                .select('*')
+                .eq('cart_token', userCartToken);
 
-        if (productId) {
-          const { data, error } = await _supabase
-            .from('products')
-            .select('*')
-            .eq('id', productId)
-            .single();
-
-          if (data) {
-            let activeAff = affiliateId || sessionStorage.getItem('mme_active_aff') || 'AFF-MASTER';
-            
-            if(!cartItems.some(i => i.productId == data.id)) {
-                cartItems.push({
-                    cartId: Date.now(),
-                    productId: data.id,
-                    title: data.title || data.name || "Exclusive Enterprise Item",
-                    price: data.price || data.global || "$35.00",
-                    quantity: 1,
-                    color: "Standard",
-                    size: "Standard",
-                    sellerId: data.seller_id || 'VEN-MASUD',
-                    image: data.image_url || data.imgUrl || "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc",
-                    affiliateRef: activeAff
-                });
-                localStorage.setItem('mme_cart_items', JSON.stringify(cartItems));
-                sessionStorage.setItem('mme_cart_items', JSON.stringify(cartItems));
+            if(data && data.length > 0) {
+                renderCheckoutCartSummary(data);
+            } else {
+                // যদি Supabase এ না পাওয়া যায়, তবে ফলব্যাক হিসেবে লোকালস্টোরেজ চেক করবে
+                let localItems = JSON.parse(localStorage.getItem('mme_cart_items') || '[]');
+                renderCheckoutCartSummary(localItems);
             }
-          }
+        } catch(err) {
+            let localItems = JSON.parse(localStorage.getItem('mme_cart_items') || '[]');
+            renderCheckoutCartSummary(localItems);
         }
-
-        // সাব-ডোমেইনে কার্ট সামারি রেন্ডার করার ফাংশন কল
-        renderCheckoutCartSummary(cartItems);
       });
 
       function renderCheckoutCartSummary(items) {
         window.activeCheckoutItems = items;
+        const summaryBox = document.getElementById('checkoutCartSummaryBox');
+        if(!summaryBox) return;
+
+        if(items && items.length > 0) {
+            summaryBox.innerHTML = items.map(i => `
+                <div class="summary-item-row">
+                    <img src="${i.image || i.image_url || 'https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc'}">
+                    <div style="flex:1; min-width:0;">
+                        <div style="font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${i.title || i.name || 'Exclusive Product'}</div>
+                        <div style="color:var(--gold-solid);">Qty: ${i.quantity || 1} | ${i.price || '$35.00'}</div>
+                    </div>
+                </div>
+            `).join('');
+        } else {
+            summaryBox.innerHTML = `<div style="font-size:0.7rem; color:var(--text-gray); text-align:center;">No items in cart yet.</div>`;
+        }
       }
     </script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MRMASUDAR.COM - Luxury Popup Checkout</title>
+    <title>MRMASUDAR.COM - Secure Cloud Checkout</title>
     
     <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -168,13 +118,12 @@ window.addEventListener('DOMContentLoaded', async () => {
             font-family: 'Cinzel', serif; letter-spacing: 0.5px; padding-right: 30px;
         }
 
-        /* কার্ট সামারি প্রিভিউ বক্স */
         .checkout-cart-summary {
             background: rgba(0,0,0,0.6); border: 1px solid rgba(212,175,55,0.3);
-            border-radius: 12px; padding: 10px; margin-bottom: 15px; max-height: 140px; overflow-y: auto;
+            border-radius: 12px; padding: 10px; margin-bottom: 15px; max-height: 150px; overflow-y: auto;
         }
         .summary-item-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; font-size: 0.72rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 5px; }
-        .summary-item-row img { width: 35px; height: 35px; border-radius: 6px; object-fit: cover; border: 1px solid var(--gold-solid); }
+        .summary-item-row img { width: 38px; height: 38px; border-radius: 6px; object-fit: cover; border: 1px solid var(--gold-solid); flex-shrink: 0; }
 
         .auth-form-group { margin-bottom: 12px; text-align: left; }
         .auth-form-group label { display: block; font-size: 0.68rem; color: var(--gold-solid); margin-bottom: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -185,7 +134,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         .auth-form-group input:focus, .auth-form-group select:focus, .auth-form-group textarea:focus { border-color: var(--gold-solid); }
         
         .phone-input-row { display: flex; gap: 6px; }
-        .phone-input-row select { width: 190px; font-size: 0.6rem; }
+        .phone-input-row select { width: 170px; font-size: 0.6rem; }
         
         .auth-submit-btn {
             width: 100%; background: var(--gold-gradient); border: none; padding: 12px; border-radius: 10px;
@@ -212,11 +161,10 @@ window.addEventListener('DOMContentLoaded', async () => {
                 <i class="fa-solid fa-xmark"></i>
             </button>
 
-            <h3 class="luxury-modal-title">Secure Checkout & Payment</h3>
+            <h3 class="luxury-modal-title">Secure Cloud Checkout</h3>
             
-            <!-- কার্ট আইটেম লিস্ট দেখানোর বক্স -->
             <div class="checkout-cart-summary" id="checkoutCartSummaryBox">
-                <div style="font-size:0.7rem; color:var(--text-gray); text-align:center;">Loading cart items...</div>
+                <div style="font-size:0.7rem; color:var(--text-gray); text-align:center;">Loading cloud cart items...</div>
             </div>
 
             <form onsubmit="handleOrderSubmit(event)">
@@ -270,24 +218,6 @@ window.addEventListener('DOMContentLoaded', async () => {
     </div>
 
     <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            let items = JSON.parse(localStorage.getItem('mme_cart_items') || sessionStorage.getItem('mme_cart_items') || '[]');
-            let summaryBox = document.getElementById('checkoutCartSummaryBox');
-            if(items.length > 0) {
-                summaryBox.innerHTML = items.map(i => `
-                    <div class="summary-item-row">
-                        <img src="${i.image || 'https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc'}">
-                        <div style="flex:1; min-width:0;">
-                            <div style="font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${i.title}</div>
-                            <div style="color:var(--gold-solid);">Qty: ${i.quantity} | ${i.price}</div>
-                        </div>
-                    </div>
-                `).join('');
-            } else {
-                summaryBox.innerHTML = `<div style="font-size:0.7rem; color:var(--text-gray); text-align:center;">No items in cart yet.</div>`;
-            }
-        });
-
         function showCustomToast(msg) {
             let toast = document.getElementById('customToast');
             toast.innerText = msg;
@@ -333,17 +263,20 @@ window.addEventListener('DOMContentLoaded', async () => {
                 hour: '2-digit', minute: '2-digit', second: '2-digit' 
             });
 
-            let cartItems = JSON.parse(localStorage.getItem('mme_cart_items') || sessionStorage.getItem('mme_cart_items') || '[]');
+            let itemsToOrder = window.activeCheckoutItems || [];
+            if(itemsToOrder.length === 0) {
+                itemsToOrder = JSON.parse(localStorage.getItem('mme_cart_items') || '[]');
+            }
+
             let allMasterOrders = JSON.parse(localStorage.getItem('mme_admin_orders') || '[]');
-            
             let totalOrderCount = allMasterOrders.length;
             let currentBatchNumber = Math.floor(totalOrderCount / 20000) + 1;
             let batchStart = ((currentBatchNumber - 1) * 20000) + 1;
             let batchEnd = currentBatchNumber * 20000;
             let batchName = `Batch-${currentBatchNumber} (${batchStart} - ${batchEnd})`;
 
-            if(cartItems.length === 0) {
-                cartItems = [{
+            if(itemsToOrder.length === 0) {
+                itemsToOrder = [{
                     productId: '1',
                     title: 'Exclusive Enterprise Item',
                     quantity: 1,
@@ -353,15 +286,15 @@ window.addEventListener('DOMContentLoaded', async () => {
                 }];
             }
 
-            cartItems.forEach(item => {
+            itemsToOrder.forEach(item => {
                 let orderRecord = {
                     trackingId: trackingId,
                     productId: item.productId || '1',
-                    productTitle: item.title,
-                    quantity: item.quantity,
-                    price: item.price,
+                    productTitle: item.title || item.name,
+                    quantity: item.quantity || 1,
+                    price: item.price || '$35.00',
                     sellerId: item.sellerId || 'VEN-MASUD',
-                    affiliateId: item.affiliateRef || 'AFF-MASTER',
+                    affiliateId: item.affiliateRef || sessionStorage.getItem('mme_active_aff') || 'AFF-MASTER',
                     customerName: name,
                     customerEmail: email,
                     customerPhone: phone,
@@ -389,6 +322,14 @@ window.addEventListener('DOMContentLoaded', async () => {
 
             showCustomToast(`Redirecting to Payment Gateway... [Trk: ${trackingId}]`);
             
+            // অর্ডার কমপ্লিট হওয়ার পর Supabase থেকে কার্ট মুছে ফেলা
+            let userCartToken = localStorage.getItem('mme_cart_token');
+            if(userCartToken) {
+                try {
+                    await _supabase.from('carts').delete().eq('cart_token', userCartToken);
+                } catch(e) {}
+            }
+
             localStorage.removeItem('mme_cart_items');
             sessionStorage.removeItem('mme_cart_items');
 
