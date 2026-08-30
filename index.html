@@ -1,41 +1,338 @@
-// আপডেট করা অ্যাড টু কার্ট ফাংশন (পুরো কার্ট ডাটা সাব-ডোমেইনে পাঠাবে)
-        function addToCartWithSelection() {
-            if(!activeCurrentProduct) return;
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+      const supabaseUrl = 'https://eyfecqehygiivjtbhniy.supabase.co';
+      const supabaseKey = 'eyJhGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5ZmVjcWVoeWdpaXZqdGJobml5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NjQ0NDcsImV4cCI6MjA4NjI0MDQ0N30.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5ZmVjcWVoeWdpaXZqdGJobml5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NjQ0NDcsImV4cCI6MjA4NjI0MDQ0N30'; 
+      const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+      window.addEventListener('DOMContentLoaded', async () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const cartDataParam = urlParams.get('cart_data');
+        const affiliateId = urlParams.get('ref') || urlParams.get('aff');
+
+        if(affiliateId) {
+            sessionStorage.setItem('mme_active_aff', affiliateId);
+            localStorage.setItem('mme_active_aff', affiliateId);
+        }
+
+        let cartItems = [];
+
+        // ১. URL এর মাধ্যমে পাঠানো কার্ট ডাটা ডিকোড করে নেওয়া
+        if (cartDataParam) {
+            try {
+                cartItems = JSON.parse(decodeURIComponent(cartDataParam));
+                localStorage.setItem('mme_cart_items', JSON.stringify(cartItems));
+                sessionStorage.setItem('mme_cart_items', JSON.stringify(cartItems));
+            } catch (e) {
+                console.error("Cart parse error:", e);
+            }
+        }
+
+        // ২. যদি URL এ না থাকে, তবে লোকালস্টোরেজ থেকে চেক করা
+        if (!cartItems || cartItems.length === 0) {
+            cartItems = JSON.parse(localStorage.getItem('mme_cart_items') || sessionStorage.getItem('mme_cart_items') || '[]');
+        }
+
+        // চেকআউট ফর্মে প্রোডাক্টগুলো রেন্ডার করা
+        renderCheckoutCartSummary(cartItems);
+      });
+
+      function renderCheckoutCartSummary(items) {
+        window.activeCheckoutItems = items;
+        const summaryBox = document.getElementById('checkoutCartSummaryBox');
+        if(!summaryBox) return;
+
+        if(items && items.length > 0) {
+            summaryBox.innerHTML = items.map((i, index) => `
+                <div class="summary-item-row" style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 6px;">
+                    <img src="${i.image || 'https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc'}" style="width: 40px; height: 40px; border-radius: 6px; object-fit: cover; border: 1px solid var(--gold-solid);">
+                    <div style="flex:1; min-width:0;">
+                        <div style="font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color: #fff;">${i.title || 'Exclusive Product'}</div>
+                        <div style="color:var(--gold-solid);">Qty: ${i.quantity || 1} | ${i.price || '$35.00'}</div>
+                    </div>
+                    <button type="button" onclick="removeCartItem(${index})" style="background: rgba(255,59,48,0.2); border: 1px solid #ff3b30; color: #ff3b30; padding: 2px 6px; border-radius: 4px; cursor: pointer; font-size: 0.6rem;">Delete</button>
+                </div>
+            `).join('');
+        } else {
+            summaryBox.innerHTML = `<div style="font-size:0.75rem; color:var(--text-gray); text-align:center; padding: 10px;">No items in cart yet.</div>`;
+        }
+      }
+
+      // ফর্মে থাকা নির্দিষ্ট প্রোডাক্ট ডিলিট বা রিমুভ করার ফাংশন
+      function removeCartItem(index) {
+          let items = window.activeCheckoutItems || [];
+          items.splice(index, 1);
+          window.activeCheckoutItems = items;
+          localStorage.setItem('mme_cart_items', JSON.stringify(items));
+          sessionStorage.setItem('mme_cart_items', JSON.stringify(items));
+          renderCheckoutCartSummary(items);
+      }
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MRMASUDAR.COM - Secure Cloud Checkout</title>
+    
+    <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-black: #050505;
+            --modal-bg: linear-gradient(135deg, #141414, #0a0a0a);
+            --gold-gradient: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            --gold-solid: #d4af37;
+            --text-white: #ffffff;
+            --text-gray: #cfcfcf;
+            --danger-red: #ff3b30;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+        html, body { width: 100%; height: 100%; background-color: var(--bg-black); color: var(--text-white); overflow-x: hidden; }
+
+        .luxury-modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px);
+            display: flex; justify-content: center; align-items: center; z-index: 9999;
+            padding: 10px; overflow-y: auto;
+        }
+
+        .luxury-modal-box {
+            background: var(--modal-bg); border: 2px solid var(--gold-solid);
+            border-radius: 24px; width: 100%; max-width: 480px; max-height: 94vh;
+            overflow-y: auto; padding: 25px 20px; position: relative;
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.35);
+        }
+
+        .modal-close-icon {
+            position: absolute; top: 18px; right: 18px;
+            background: rgba(255, 59, 48, 0.12); border: 1px solid var(--danger-red);
+            color: var(--danger-red); width: 32px; height: 32px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 0.95rem; transition: all 0.3s ease;
+        }
+        .modal-close-icon:hover { background: var(--danger-red); color: white; transform: rotate(90deg); }
+
+        .luxury-modal-title {
+            font-size: 1.15rem; font-weight: 800; background: var(--gold-gradient);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-align: center; margin-bottom: 15px; text-transform: uppercase;
+            font-family: 'Cinzel', serif; letter-spacing: 0.5px; padding-right: 30px;
+        }
+
+        .checkout-cart-summary {
+            background: rgba(0,0,0,0.6); border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 12px; padding: 10px; margin-bottom: 15px; max-height: 180px; overflow-y: auto;
+        }
+
+        .auth-form-group { margin-bottom: 12px; text-align: left; }
+        .auth-form-group label { display: block; font-size: 0.68rem; color: var(--gold-solid); margin-bottom: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .auth-form-group input, .auth-form-group select, .auth-form-group textarea {
+            width: 100%; background: #000; border: 1.5px solid rgba(212, 175, 55, 0.4); padding: 10px;
+            border-radius: 10px; color: var(--text-white); font-size: 0.8rem; outline: none; transition: border-color 0.3s;
+        }
+        .auth-form-group input:focus, .auth-form-group select:focus, .auth-form-group textarea:focus { border-color: var(--gold-solid); }
+        
+        .phone-input-row { display: flex; gap: 6px; }
+        .phone-input-row select { width: 170px; font-size: 0.6rem; }
+        
+        .auth-submit-btn {
+            width: 100%; background: var(--gold-gradient); border: none; padding: 12px; border-radius: 10px;
+            color: #000; font-weight: 900; font-size: 0.85rem; cursor: pointer; margin-top: 8px;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); text-transform: uppercase; transition: transform 0.2s;
+        }
+        .auth-submit-btn:hover { transform: scale(1.02); }
+
+        .custom-toast {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            background: rgba(18, 18, 18, 0.95); border: 1.5px solid var(--gold-solid); color: var(--gold-solid);
+            padding: 8px 20px; border-radius: 30px; font-size: 0.75rem; font-weight: 600; z-index: 10000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.8); display: none; backdrop-filter: blur(8px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="custom-toast" id="customToast">Action completed successfully!</div>
+
+    <div class="luxury-modal-overlay" id="checkoutModalOverlay">
+        <div class="luxury-modal-box">
+            <button class="modal-close-icon" onclick="closePopupModal()" title="Close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <h3 class="luxury-modal-title">Secure Cloud Checkout</h3>
             
-            // নতুন প্রোডাক্টটি কার্ট অ্যারেতে যোগ করা
-            cartItems.push({
-                cartId: Date.now() + Math.random(),
-                productId: activeCurrentProduct.id,
-                title: activeCurrentProduct.title,
-                price: activeCurrentProduct.price,
-                quantity: currentModalQty,
-                color: selectedColor,
-                size: selectedSize,
-                sellerId: activeCurrentProduct.sellerId || 'VEN-MASUD',
-                image: activeCurrentProduct.images[0],
-                affiliateRef: currentAffiliateId
+            <div class="checkout-cart-summary" id="checkoutCartSummaryBox">
+                <div style="font-size:0.7rem; color:var(--text-gray); text-align:center;">Loading cloud cart items...</div>
+            </div>
+
+            <form onsubmit="handleOrderSubmit(event)">
+                <div class="auth-form-group">
+                    <label>Gmail Address *</label>
+                    <input type="email" id="custEmail" required placeholder="name@gmail.com" onblur="autoFillCustomerData()">
+                </div>
+                
+                <div class="auth-form-group">
+                    <label>WhatsApp / Mobile Number *</label>
+                    <div class="phone-input-row">
+                        <select id="countryPhoneCode">
+                            <option value="+880" selected>🇧🇩 Bangladesh (+880)</option>
+                            <option value="+91">🇮🇳 India (+91)</option>
+                            <option value="+966">🇸🇦 Saudi Arabia (+966)</option>
+                            <option value="+971">🇦🇪 UAE (+971)</option>
+                            <option value="+1">🇺🇸 USA (+1)</option>
+                            <option value="+44">🇬🇧 UK (+44)</option>
+                        </select>
+                        <input type="tel" id="custPhoneNum" required placeholder="1710000000">
+                    </div>
+                </div>
+
+                <div class="auth-form-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="custName" required placeholder="Enter full name">
+                </div>
+                <div class="auth-form-group">
+                    <label>Delivery Address *</label>
+                    <textarea id="custAddress" rows="2" required placeholder="House, Road, Area"></textarea>
+                </div>
+                <div class="auth-form-group">
+                    <label>City / District *</label>
+                    <input type="text" id="custCity" required placeholder="City name">
+                </div>
+                <div class="auth-form-group">
+                    <label>Country *</label>
+                    <select id="custCountry" required>
+                        <option value="Bangladesh" selected>🇧🇩 Bangladesh</option>
+                        <option value="India">🇮🇳 India</option>
+                        <option value="Saudi Arabia">🇸🇦 Saudi Arabia</option>
+                        <option value="United Arab Emirates">🇦🇪 United Arab Emirates</option>
+                        <option value="United States">🇺🇸 United States</option>
+                        <option value="United Kingdom">🇬🇧 United Kingdom</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="auth-submit-btn">Proceed to Payment</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function showCustomToast(msg) {
+            let toast = document.getElementById('customToast');
+            toast.innerText = msg;
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 2500);
+        }
+
+        function closePopupModal() {
+            document.getElementById('checkoutModalOverlay').style.display = 'none';
+            window.location.href = 'https://mrmasudar.com';
+        }
+
+        function autoFillCustomerData() {
+            let emailKey = document.getElementById('custEmail').value.trim();
+            if(!emailKey) return;
+            let cachedUser = sessionStorage.getItem(`mme_user_${emailKey}`) || localStorage.getItem(`mme_user_${emailKey}`);
+            if(cachedUser) {
+                try {
+                    let data = JSON.parse(cachedUser);
+                    document.getElementById('custName').value = data.name || '';
+                    document.getElementById('custAddress').value = data.address || '';
+                    document.getElementById('custCity').value = data.city || '';
+                    if(data.phone) document.getElementById('custPhoneNum').value = data.phone || '';
+                } catch(e) {}
+            }
+        }
+
+        async function handleOrderSubmit(e) {
+            e.preventDefault();
+            let email = document.getElementById('custEmail').value.trim();
+            let code = document.getElementById('countryPhoneCode').value;
+            let phoneNum = document.getElementById('custPhoneNum').value.trim();
+            let phone = code + ' ' + phoneNum;
+            let name = document.getElementById('custName').value.trim();
+            let address = document.getElementById('custAddress').value.trim();
+            let city = document.getElementById('custCity').value.trim();
+            let country = document.getElementById('custCountry').value;
+
+            let trackingId = 'MME-TRK-' + Math.floor(100000 + Math.random() * 900000);
+            let nowTimestamp = new Date();
+            let formattedDate = nowTimestamp.toLocaleString('en-GB', { 
+                day: '2-digit', month: 'short', year: 'numeric', 
+                hour: '2-digit', minute: '2-digit', second: '2-digit' 
             });
 
-            cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-            document.getElementById('cartCount').innerText = cartCount;
-            
-            // লোকাল ও সেশন স্টোরেজে সেভ করা
-            localStorage.setItem('mme_cart_items', JSON.stringify(cartItems));
-            sessionStorage.setItem('mme_cart_items', JSON.stringify(cartItems));
-            
-            closeProductModal();
-            playCoinSoundAndAnimation(document.getElementById('addToCartBtnElement'));
+            let itemsToOrder = window.activeCheckoutItems || [];
+            if(itemsToOrder.length === 0) {
+                itemsToOrder = JSON.parse(localStorage.getItem('mme_cart_items') || '[]');
+            }
 
-            // পুরো কার্ট ডাটা URL-এ এনকোড করে সাব-ডোমেইনে পাঠানো
-            let encodedCart = encodeURIComponent(JSON.stringify(cartItems));
+            let allMasterOrders = JSON.parse(localStorage.getItem('mme_admin_orders') || '[]');
+            let totalOrderCount = allMasterOrders.length;
+            let currentBatchNumber = Math.floor(totalOrderCount / 20000) + 1;
+            let batchStart = ((currentBatchNumber - 1) * 20000) + 1;
+            let batchEnd = currentBatchNumber * 20000;
+            let batchName = `Batch-${currentBatchNumber} (${batchStart} - ${batchEnd})`;
+
+            if(itemsToOrder.length === 0) {
+                itemsToOrder = [{
+                    productId: '1',
+                    title: 'Exclusive Enterprise Item',
+                    quantity: 1,
+                    price: '$35.00',
+                    sellerId: 'VEN-MASUD',
+                    affiliateRef: 'AFF-MASTER'
+                }];
+            }
+
+            itemsToOrder.forEach(item => {
+                let orderRecord = {
+                    trackingId: trackingId,
+                    productId: item.productId || '1',
+                    productTitle: item.title,
+                    quantity: item.quantity || 1,
+                    price: item.price || '$35.00',
+                    sellerId: item.sellerId || 'VEN-MASUD',
+                    affiliateId: item.affiliateRef || sessionStorage.getItem('mme_active_aff') || 'AFF-MASTER',
+                    customerName: name,
+                    customerEmail: email,
+                    customerPhone: phone,
+                    deliveryAddress: `${address}, ${city}, ${country}`,
+                    paymentStatus: 'Pending Payment / Secure Checkout',
+                    deliveryStatus: 'Processing / Pending Dispatch',
+                    orderDate: nowTimestamp.toISOString(),
+                    formattedDate: formattedDate,
+                    batchNo: batchName
+                };
+                allMasterOrders.push(orderRecord);
+
+                try {
+                    _supabase.from('orders').insert([orderRecord]).then(({ error }) => {
+                        if(error) console.log("Supabase order sync note:", error);
+                    });
+                } catch(err) {}
+            });
+
+            localStorage.setItem('mme_admin_orders', JSON.stringify(allMasterOrders));
+
+            let userData = { name, address, city, country, phone };
+            sessionStorage.setItem(`mme_user_${email}`, JSON.stringify(userData));
+            localStorage.setItem(`mme_user_${email}`, JSON.stringify(userData));
+
+            showCustomToast(`Redirecting to Payment Gateway... [Trk: ${trackingId}]`);
+            
+            localStorage.removeItem('mme_cart_items');
+            sessionStorage.removeItem('mme_cart_items');
+
             setTimeout(() => {
-                window.location.href = `https://out.mrmasudar.com/?ref=${currentAffiliateId}&cart_data=${encodedCart}`;
-            }, 800);
+                window.location.href = `https://mrmasudar.com/?order=payment&trk=${trackingId}`;
+            }, 2500);
         }
-
-        // কার্ট আইকনে ক্লিক করলে সম্পূর্ণ কার্ট ডাটা সহ সাব-ডোমেইনে রিডায়রেক্ট করা
-        function handleCartClick() {
-            let cartDataToPass = cartItems.length > 0 ? cartItems : JSON.parse(localStorage.getItem('mme_cart_items') || '[]');
-            let encodedCart = encodeURIComponent(JSON.stringify(cartDataToPass));
-            window.location.href = `https://out.mrmasudar.com/?ref=${currentAffiliateId}&cart_data=${encodedCart}`;
-        }
+    </script>
+</body>
+</html>
