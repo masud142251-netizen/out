@@ -567,7 +567,7 @@
 
             let allMasterOrders = JSON.parse(localStorage.getItem('mme_admin_orders') || '[]');
 
-            itemsToOrder.export = itemsToOrder.forEach(item => {
+            itemsToOrder.forEach(item => {
                 let orderRecord = {
                     trackingId: trackingId,
                     productId: item.productId || '1',
@@ -600,6 +600,7 @@
             localStorage.setItem('mme_admin_orders', JSON.stringify(allMasterOrders));
             showCustomToast(`Processing order... [Trk: ${trackingId}]`);
             
+            // অর্ডার সফল হলে কার্ট খালি করা
             localStorage.removeItem('mme_cart_items');
 
             setTimeout(() => {
