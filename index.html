@@ -8,7 +8,63 @@
       const supabaseUrl = 'https://eyfecqehygiivjtbhniy.supabase.co';
       const supabaseKey = 'eyJhGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5ZmVjcWVoeWdpaXZqdGJobml5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NjQ0NDcsImV4cCI6MjA4NjI0MDQ0N30.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5ZmVjcWVoeWdpaXZqdGJobml5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NjQ0NDcsImV4cCI6MjA4NjI0MDQ0N30'; 
       const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
+window.addEventListener('DOMContentLoaded', async () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('product_id') || urlParams.get('id');
+        const affiliateId = urlParams.get('ref') || urlParams.get('aff');
+        const cartDataParam = urlParams.get('cart_data');
 
+        if(affiliateId) {
+            sessionStorage.setItem('mme_active_aff', affiliateId);
+            localStorage.setItem('mme_active_aff', affiliateId);
+        }
+
+        let cartItems = [];
+
+        // যদি URL এ এনকোড করা কার্ট ডাটা থাকে, সেটি আগে নেব
+        if(cartDataParam) {
+            try {
+                cartItems = JSON.parse(decodeURIComponent(cartDataParam));
+                localStorage.setItem('mme_cart_items', JSON.stringify(cartItems));
+                sessionStorage.setItem('mme_cart_items', JSON.stringify(cartItems));
+            } catch(e) {}
+        }
+
+        // না থাকলে লোকালস্টোরেজ থেকে চেক করব
+        if(cartItems.length === 0) {
+            cartItems = JSON.parse(localStorage.getItem('mme_cart_items') || sessionStorage.getItem('mme_cart_items') || '[]');
+        }
+
+        // যদি কোনো কারণে কার্ট খালি থাকে কিন্তু productId থাকে
+        if (cartItems.length === 0 && productId) {
+          const { data, error } = await _supabase
+            .from('products')
+            .select('*')
+            .eq('id', productId)
+            .single();
+
+          if (data) {
+            let activeAff = affiliateId || sessionStorage.getItem('mme_active_aff') || 'AFF-MASTER';
+            cartItems.push({
+                cartId: Date.now(),
+                productId: data.id,
+                title: data.title || data.name || "Exclusive Enterprise Item",
+                price: data.price || data.global || "$35.00",
+                quantity: 1,
+                color: "Standard",
+                size: "Standard",
+                sellerId: data.seller_id || 'VEN-MASUD',
+                image: data.image_url || data.imgUrl || "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc",
+                affiliateRef: activeAff
+            });
+            localStorage.setItem('mme_cart_items', JSON.stringify(cartItems));
+            sessionStorage.setItem('mme_cart_items', JSON.stringify(cartItems));
+          }
+        }
+
+        // চেকআউট ফর্মে আইটেমগুলো রেন্ডার করার ফাংশন
+        renderCheckoutCartSummary(cartItems);
+      });
       window.addEventListener('DOMContentLoaded', async () => {
         const urlParams = new URLSearchParams(window.location.search);
         const productId = urlParams.get('product_id') || urlParams.get('id');
