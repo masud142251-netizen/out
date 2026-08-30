@@ -19,6 +19,9 @@
             localStorage.setItem('mme_active_aff', affiliateId);
         }
 
+        // কার্ট ডাটা লোকাল বা সেশন স্টোরেজ থেকে লোড করা
+        let cartItems = JSON.parse(localStorage.getItem('mme_cart_items') || sessionStorage.getItem('mme_cart_items') || '[]');
+
         if (productId) {
           const { data, error } = await _supabase
             .from('products')
@@ -28,7 +31,6 @@
 
           if (data) {
             let activeAff = affiliateId || sessionStorage.getItem('mme_active_aff') || 'AFF-MASTER';
-            let cartItems = JSON.parse(sessionStorage.getItem('mme_cart_items') || localStorage.getItem('mme_cart_items') || '[]');
             
             if(!cartItems.some(i => i.productId == data.id)) {
                 cartItems.push({
@@ -43,12 +45,19 @@
                     image: data.image_url || data.imgUrl || "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc",
                     affiliateRef: activeAff
                 });
-                sessionStorage.setItem('mme_cart_items', JSON.stringify(cartItems));
                 localStorage.setItem('mme_cart_items', JSON.stringify(cartItems));
+                sessionStorage.setItem('mme_cart_items', JSON.stringify(cartItems));
             }
           }
         }
+
+        // সাব-ডোমেইনে কার্ট সামারি রেন্ডার করার ফাংশন কল
+        renderCheckoutCartSummary(cartItems);
       });
+
+      function renderCheckoutCartSummary(items) {
+        window.activeCheckoutItems = items;
+      }
     </script>
 
     <meta charset="UTF-8">
@@ -71,9 +80,8 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
-        html, body { width: 100%; height: 100%; background-color: var(--bg-black); color: var(--text-white); overflow: hidden; }
+        html, body { width: 100%; height: 100%; background-color: var(--bg-black); color: var(--text-white); overflow-x: hidden; }
 
-        /* LUXURY POP-UP MODAL OVERLAY */
         .luxury-modal-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px);
@@ -81,21 +89,13 @@
             padding: 10px; overflow-y: auto;
         }
 
-        /* POP-UP BOX CONTAINER */
         .luxury-modal-box {
             background: var(--modal-bg); border: 2px solid var(--gold-solid);
-            border-radius: 24px; width: 100%; max-width: 480px; max-height: 92vh;
+            border-radius: 24px; width: 100%; max-width: 480px; max-height: 94vh;
             overflow-y: auto; padding: 25px 20px; position: relative;
             box-shadow: 0 0 50px rgba(212, 175, 55, 0.35);
-            animation: modalPopIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        @keyframes modalPopIn {
-            from { opacity: 0; transform: scale(0.85); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        /* CLOSE (CROSS) BUTTON */
         .modal-close-icon {
             position: absolute; top: 18px; right: 18px;
             background: rgba(255, 59, 48, 0.12); border: 1px solid var(--danger-red);
@@ -105,34 +105,39 @@
         }
         .modal-close-icon:hover { background: var(--danger-red); color: white; transform: rotate(90deg); }
 
-        /* MODAL TITLE */
         .luxury-modal-title {
             font-size: 1.15rem; font-weight: 800; background: var(--gold-gradient);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-align: center; margin-bottom: 20px; text-transform: uppercase;
+            text-align: center; margin-bottom: 15px; text-transform: uppercase;
             font-family: 'Cinzel', serif; letter-spacing: 0.5px; padding-right: 30px;
         }
 
-        /* FORM CONTROLS */
-        .auth-form-group { margin-bottom: 14px; text-align: left; }
-        .auth-form-group label { display: block; font-size: 0.68rem; color: var(--gold-solid); margin-bottom: 5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        /* কার্ট সামারি প্রিভিউ বক্স */
+        .checkout-cart-summary {
+            background: rgba(0,0,0,0.6); border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 12px; padding: 10px; margin-bottom: 15px; max-height: 140px; overflow-y: auto;
+        }
+        .summary-item-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; font-size: 0.72rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 5px; }
+        .summary-item-row img { width: 35px; height: 35px; border-radius: 6px; object-fit: cover; border: 1px solid var(--gold-solid); }
+
+        .auth-form-group { margin-bottom: 12px; text-align: left; }
+        .auth-form-group label { display: block; font-size: 0.68rem; color: var(--gold-solid); margin-bottom: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
         .auth-form-group input, .auth-form-group select, .auth-form-group textarea {
-            width: 100%; background: #000; border: 1.5px solid rgba(212, 175, 55, 0.4); padding: 11px;
-            border-radius: 10px; color: var(--text-white); font-size: 0.82rem; outline: none; transition: border-color 0.3s;
+            width: 100%; background: #000; border: 1.5px solid rgba(212, 175, 55, 0.4); padding: 10px;
+            border-radius: 10px; color: var(--text-white); font-size: 0.8rem; outline: none; transition: border-color 0.3s;
         }
         .auth-form-group input:focus, .auth-form-group select:focus, .auth-form-group textarea:focus { border-color: var(--gold-solid); }
         
         .phone-input-row { display: flex; gap: 6px; }
-        .phone-input-row select { width: 210px; font-size: 0.62rem; }
+        .phone-input-row select { width: 190px; font-size: 0.6rem; }
         
         .auth-submit-btn {
-            width: 100%; background: var(--gold-gradient); border: none; padding: 13px; border-radius: 10px;
-            color: #000; font-weight: 900; font-size: 0.9rem; cursor: pointer; margin-top: 12px;
+            width: 100%; background: var(--gold-gradient); border: none; padding: 12px; border-radius: 10px;
+            color: #000; font-weight: 900; font-size: 0.85rem; cursor: pointer; margin-top: 8px;
             box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); text-transform: uppercase; transition: transform 0.2s;
         }
         .auth-submit-btn:hover { transform: scale(1.02); }
 
-        /* TOAST NOTIFICATION */
         .custom-toast {
             position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
             background: rgba(18, 18, 18, 0.95); border: 1.5px solid var(--gold-solid); color: var(--gold-solid);
@@ -145,16 +150,19 @@
 
     <div class="custom-toast" id="customToast">Action completed successfully!</div>
 
-    <!-- LUXURY POPUP CHECKOUT MODAL -->
     <div class="luxury-modal-overlay" id="checkoutModalOverlay">
         <div class="luxury-modal-box">
-            <!-- Cross Close Button -->
             <button class="modal-close-icon" onclick="closePopupModal()" title="Close">
                 <i class="fa-solid fa-xmark"></i>
             </button>
 
             <h3 class="luxury-modal-title">Secure Checkout & Payment</h3>
             
+            <!-- কার্ট আইটেম লিস্ট দেখানোর বক্স -->
+            <div class="checkout-cart-summary" id="checkoutCartSummaryBox">
+                <div style="font-size:0.7rem; color:var(--text-gray); text-align:center;">Loading cart items...</div>
+            </div>
+
             <form onsubmit="handleOrderSubmit(event)">
                 <div class="auth-form-group">
                     <label>Gmail Address *</label>
@@ -162,246 +170,15 @@
                 </div>
                 
                 <div class="auth-form-group">
-                    <label>WhatsApp / Mobile Number (210+ Countries) *</label>
+                    <label>WhatsApp / Mobile Number *</label>
                     <div class="phone-input-row">
                         <select id="countryPhoneCode">
-                            <option value="+93">🇦🇫 Afghanistan (+93)</option>
-                            <option value="+355">🇦🇱 Albania (+355)</option>
-                            <option value="+213">🇩🇿 Algeria (+213)</option>
-                            <option value="+376">🇦🇩 Andorra (+376)</option>
-                            <option value="+244">🇦🇴 Angola (+244)</option>
-                            <option value="+1268">🇦🇬 Antigua & Barbuda (+1268)</option>
-                            <option value="+54">🇦🇷 Argentina (+54)</option>
-                            <option value="+374">🇦🇲 Armenia (+374)</option>
-                            <option value="+297">🇦🇼 Aruba (+297)</option>
-                            <option value="+61">🇦🇺 Australia (+61)</option>
-                            <option value="+43">🇦🇹 Austria (+43)</option>
-                            <option value="+994">🇦🇿 Azerbaijan (+994)</option>
-                            <option value="+1242">🇧🇸 Bahamas (+1242)</option>
-                            <option value="+973">🇧🇭 Bahrain (+973)</option>
                             <option value="+880" selected>🇧🇩 Bangladesh (+880)</option>
-                            <option value="+1246">🇧🇧 Barbados (+1246)</option>
-                            <option value="+375">🇧🇾 Belarus (+375)</option>
-                            <option value="+32">🇧🇪 Belgium (+32)</option>
-                            <option value="+501">🇧🇿 Belize (+501)</option>
-                            <option value="+229">🇧🇯 Benin (+229)</option>
-                            <option value="+1441">🇧🇲 Bermuda (+1441)</option>
-                            <option value="+975">🇧🇹 Bhutan (+975)</option>
-                            <option value="+591">🇧🇴 Bolivia (+591)</option>
-                            <option value="+387">🇧🇦 Bosnia & Herzegovina (+387)</option>
-                            <option value="+267">🇧🇼 Botswana (+267)</option>
-                            <option value="+55">🇧🇷 Brazil (+55)</option>
-                            <option value="+246">🇮🇴 British Indian Ocean Territory (+246)</option>
-                            <option value="+1284">🇻🇬 British Virgin Islands (+1284)</option>
-                            <option value="+673">🇧🇳 Brunei (+673)</option>
-                            <option value="+359">🇧🇬 Bulgaria (+359)</option>
-                            <option value="+226">🇧🇫 Burkina Faso (+226)</option>
-                            <option value="+257">🇧🇮 Burundi (+257)</option>
-                            <option value="+855">🇰🇭 Cambodia (+855)</option>
-                            <option value="+237">🇨🇲 Cameroon (+237)</option>
-                            <option value="+1">🇨🇦 Canada (+1)</option>
-                            <option value="+238">🇨🇻 Cape Verde (+238)</option>
-                            <option value="+1345">🇰🇾 Cayman Islands (+1345)</option>
-                            <option value="+236">🇨🇫 Central African Republic (+236)</option>
-                            <option value="+235">🇹🇩 Chad (+235)</option>
-                            <option value="+56">🇨🇱 Chile (+56)</option>
-                            <option value="+86">🇨🇳 China (+86)</option>
-                            <option value="+61">🇨🇽 Christmas Island (+61)</option>
-                            <option value="+61">🇨🇨 Cocos Islands (+61)</option>
-                            <option value="+57">🇨🇴 Colombia (+57)</option>
-                            <option value="+269">🇰🇲 Comoros (+269)</option>
-                            <option value="+242">🇨🇬 Congo - Brazzaville (+242)</option>
-                            <option value="+243">🇨🇩 Congo - Kinshasa (+243)</option>
-                            <option value="+682">🇨🇰 Cook Islands (+682)</option>
-                            <option value="+506">🇨🇷 Costa Rica (+506)</option>
-                            <option value="+385">🇭🇷 Croatia (+385)</option>
-                            <option value="+53">🇨🇺 Cuba (+53)</option>
-                            <option value="+599">🇨🇼 Curaçao (+599)</option>
-                            <option value="+357">🇨🇾 Cyprus (+357)</option>
-                            <option value="+420">🇨🇿 Czech Republic (+420)</option>
-                            <option value="+45">🇩🇰 Denmark (+45)</option>
-                            <option value="+253">🇩🇯 Djibouti (+253)</option>
-                            <option value="+1767">🇩🇲 Dominica (+1767)</option>
-                            <option value="+1809">🇩🇴 Dominican Republic (+1809)</option>
-                            <option value="+593">🇪🇨 Ecuador (+593)</option>
-                            <option value="+20">🇪🇬 Egypt (+20)</option>
-                            <option value="+503">🇸🇻 El Salvador (+503)</option>
-                            <option value="+240">🇬🇶 Equatorial Guinea (+240)</option>
-                            <option value="+291">🇪🇷 Eritrea (+291)</option>
-                            <option value="+372">🇪🇪 Estonia (+372)</option>
-                            <option value="+251">🇪🇹 Ethiopia (+251)</option>
-                            <option value="+500">🇫🇰 Falkland Islands (+500)</option>
-                            <option value="+298">🇫🇴 Faroe Islands (+298)</option>
-                            <option value="+679">🇫🇯 Fiji (+679)</option>
-                            <option value="+358">🇫🇮 Finland (+358)</option>
-                            <option value="+33">🇫🇷 France (+33)</option>
-                            <option value="+594">🇬🇫 French Guiana (+594)</option>
-                            <option value="+689">🇵🇫 French Polynesia (+689)</option>
-                            <option value="+241">🇬🇦 Gabon (+241)</option>
-                            <option value="+220">🇬🇲 Gambia (+220)</option>
-                            <option value="+995">🇬🇪 Georgia (+995)</option>
-                            <option value="+49">🇩🇪 Germany (+49)</option>
-                            <option value="+233">🇬🇭 Ghana (+233)</option>
-                            <option value="+350">🇬🇮 Gibraltar (+350)</option>
-                            <option value="+30">🇬🇷 Greece (+30)</option>
-                            <option value="+299">🇬🇱 Greenland (+299)</option>
-                            <option value="+1473">🇬🇩 Grenada (+1473)</option>
-                            <option value="+590">🇬🇵 Guadeloupe (+590)</option>
-                            <option value="+1671">🇬🇺 Guam (+1671)</option>
-                            <option value="+502">🇬🇹 Guatemala (+502)</option>
-                            <option value="+44">🇬🇬 Guernsey (+44)</option>
-                            <option value="+224">🇬🇳 Guinea (+224)</option>
-                            <option value="+245">🇬🇼 Guinea-Bissau (+245)</option>
-                            <option value="+592">🇬🇾 Guyana (+592)</option>
-                            <option value="+509">🇭🇹 Haiti (+509)</option>
-                            <option value="+504">🇭🇳 Honduras (+504)</option>
-                            <option value="+852">🇭🇰 Hong Kong (+852)</option>
-                            <option value="+36">🇭🇺 Hungary (+36)</option>
-                            <option value="+354">🇮🇸 Iceland (+354)</option>
                             <option value="+91">🇮🇳 India (+91)</option>
-                            <option value="+62">🇮🇩 Indonesia (+62)</option>
-                            <option value="+98">🇮🇷 Iran (+98)</option>
-                            <option value="+964">🇮🇶 Iraq (+964)</option>
-                            <option value="+353">🇮🇪 Ireland (+353)</option>
-                            <option value="+44">🇮🇲 Isle of Man (+44)</option>
-                            <option value="+972">🇮🇱 Israel (+972)</option>
-                            <option value="+39">🇮🇹 Italy (+39)</option>
-                            <option value="+1876">🇯🇲 Jamaica (+1876)</option>
-                            <option value="+81">🇯🇵 Japan (+81)</option>
-                            <option value="+44">🇯🇪 Jersey (+44)</option>
-                            <option value="+962">🇯🇴 Jordan (+962)</option>
-                            <option value="+7">🇰🇿 Kazakhstan (+7)</option>
-                            <option value="+254">🇰🇪 Kenya (+254)</option>
-                            <option value="+686">🇰🇮 Kiribati (+686)</option>
-                            <option value="+383">🇽🇰 Kosovo (+383)</option>
-                            <option value="+965">🇰🇼 Kuwait (+965)</option>
-                            <option value="+996">🇰🇬 Kyrgyzstan (+996)</option>
-                            <option value="+856">🇱🇦 Laos (+856)</option>
-                            <option value="+371">🇱🇻 Latvia (+371)</option>
-                            <option value="+961">🇱🇧 Lebanon (+961)</option>
-                            <option value="+266">🇱🇸 Lesotho (+266)</option>
-                            <option value="+231">🇱🇷 Liberia (+231)</option>
-                            <option value="+218">🇱🇾 Libya (+218)</option>
-                            <option value="+423">🇱🇮 Liechtenstein (+423)</option>
-                            <option value="+370">🇱🇹 Lithuania (+370)</option>
-                            <option value="+352">🇱🇺 Luxembourg (+352)</option>
-                            <option value="+853">🇲🇴 Macau (+853)</option>
-                            <option value="+389">🇲🇰 North Macedonia (+389)</option>
-                            <option value="+261">🇲🇬 Madagascar (+261)</option>
-                            <option value="+265">🇲🇼 Malawi (+265)</option>
-                            <option value="+60">🇲🇾 Malaysia (+60)</option>
-                            <option value="+960">🇲🇻 Maldives (+960)</option>
-                            <option value="+223">🇲🇱 Mali (+223)</option>
-                            <option value="+356">🇲🇹 Malta (+356)</option>
-                            <option value="+692">🇲🇭 Marshall Islands (+692)</option>
-                            <option value="+596">🇲🇶 Martinique (+596)</option>
-                            <option value="+222">🇲🇷 Mauritania (+222)</option>
-                            <option value="+230">🇲🇺 Mauritius (+230)</option>
-                            <option value="+262">🇾🇹 Mayotte (+262)</option>
-                            <option value="+52">🇲🇽 Mexico (+52)</option>
-                            <option value="+691">🇫🇲 Micronesia (+691)</option>
-                            <option value="+373">🇲🇩 Moldova (+373)</option>
-                            <option value="+377">🇲🇨 Monaco (+377)</option>
-                            <option value="+976">🇲🇳 Mongolia (+976)</option>
-                            <option value="+382">🇲🇪 Montenegro (+382)</option>
-                            <option value="+1664">🇲🇸 Montserrat (+1664)</option>
-                            <option value="+212">🇲🇦 Morocco (+212)</option>
-                            <option value="+258">🇲🇿 Mozambique (+258)</option>
-                            <option value="+95">🇲🇲 Myanmar (+95)</option>
-                            <option value="+264">🇳🇦 Namibia (+264)</option>
-                            <option value="+674">🇳🇷 Nauru (+674)</option>
-                            <option value="+977">🇳🇵 Nepal (+977)</option>
-                            <option value="+31">🇳🇱 Netherlands (+31)</option>
-                            <option value="+687">🇳🇨 New Caledonia (+687)</option>
-                            <option value="+64">🇳🇿 New Zealand (+64)</option>
-                            <option value="+505">🇳🇮 Nicaragua (+505)</option>
-                            <option value="+227">🇳🇪 Niger (+227)</option>
-                            <option value="+234">🇳🇬 Nigeria (+234)</option>
-                            <option value="+683">🇳🇺 Niue (+683)</option>
-                            <option value="+672">🇳🇫 Norfolk Island (+672)</option>
-                            <option value="+850">🇰🇵 North Korea (+850)</option>
-                            <option value="+1670">🇲🇵 Northern Mariana Islands (+1670)</option>
-                            <option value="+47">🇳🇴 Norway (+47)</option>
-                            <option value="+968">🇴🇲 Oman (+968)</option>
-                            <option value="+92">🇵🇰 Pakistan (+92)</option>
-                            <option value="+680">🇵🇼 Palau (+680)</option>
-                            <option value="+970">🇵🇸 Palestine (+970)</option>
-                            <option value="+507">🇵🇦 Panama (+507)</option>
-                            <option value="+675">🇵🇬 Papua New Guinea (+675)</option>
-                            <option value="+595">🇵🇾 Paraguay (+595)</option>
-                            <option value="+51">🇵🇪 Peru (+51)</option>
-                            <option value="+63">🇵🇭 Philippines (+63)</option>
-                            <option value="+48">🇵🇱 Poland (+48)</option>
-                            <option value="+351">🇵🇹 Portugal (+351)</option>
-                            <option value="+1787">🇵🇷 Puerto Rico (+1787)</option>
-                            <option value="+974">🇶🇦 Qatar (+974)</option>
-                            <option value="+262">🇷🇪 Réunion (+262)</option>
-                            <option value="+40">🇷🇴 Romania (+40)</option>
-                            <option value="+7">🇷🇺 Russia (+7)</option>
-                            <option value="+250">🇷🇼 Rwanda (+250)</option>
-                            <option value="+590">🇧🇱 Saint Barthélemy (+590)</option>
-                            <option value="+290">🇸🇭 Saint Helena (+290)</option>
-                            <option value="+1869">🇰🇳 Saint Kitts & Nevis (+1869)</option>
-                            <option value="+1758">🇱🇨 Saint Lucia (+1758)</option>
-                            <option value="+590">🇲🇫 Saint Martin (+590)</option>
-                            <option value="+508">🇵🇲 Saint Pierre & Miquelon (+508)</option>
-                            <option value="+1784">🇻🇨 Saint Vincent & Grenadines (+1784)</option>
-                            <option value="+685">🇼🇸 Samoa (+685)</option>
-                            <option value="+378">🇸🇲 San Marino (+378)</option>
-                            <option value="+239">🇸🇹 São Tomé & Príncipe (+239)</option>
                             <option value="+966">🇸🇦 Saudi Arabia (+966)</option>
-                            <option value="+221">🇸🇳 Senegal (+221)</option>
-                            <option value="+381">🇷🇸 Serbia (+381)</option>
-                            <option value="+248">🇸🇨 Seychelles (+248)</option>
-                            <option value="+232">🇸🇱 Sierra Leone (+232)</option>
-                            <option value="+65">🇸🇬 Singapore (+65)</option>
-                            <option value="+1721">🇸🇽 Sint Maarten (+1721)</option>
-                            <option value="+421">🇸🇰 Slovakia (+421)</option>
-                            <option value="+386">🇸🇮 Slovenia (+386)</option>
-                            <option value="+677">🇸🇧 Solomon Islands (+677)</option>
-                            <option value="+252">🇸🇴 Somalia (+252)</option>
-                            <option value="+27">🇿🇦 South Africa (+27)</option>
-                            <option value="+82">🇰🇷 South Korea (+82)</option>
-                            <option value="+211">🇸🇸 South Sudan (+211)</option>
-                            <option value="+34">🇪🇸 Spain (+34)</option>
-                            <option value="+94">🇱🇰 Sri Lanka (+94)</option>
-                            <option value="+249">🇸🇩 Sudan (+249)</option>
-                            <option value="+597">🇸🇷 Suriname (+597)</option>
-                            <option value="+47">🇸🇻 Svalbard & Jan Mayen (+47)</option>
-                            <option value="+268">🇸🇿 Eswatini (+268)</option>
-                            <option value="+46">🇸🇪 Sweden (+46)</option>
-                            <option value="+41">🇨🇭 Switzerland (+41)</option>
-                            <option value="+963">🇸🇾 Syria (+963)</option>
-                            <option value="+886">🇹🇼 Taiwan (+886)</option>
-                            <option value="+992">🇹🇯 Tajikistan (+992)</option>
-                            <option value="+255">🇹🇿 Tanzania (+255)</option>
-                            <option value="+66">🇹🇭 Thailand (+66)</option>
-                            <option value="+670">🇹🇱 Timor-Leste (+670)</option>
-                            <option value="+228">🇹🇬 Togo (+228)</option>
-                            <option value="+690">🇹🇰 Tokelau (+690)</option>
-                            <option value="+676">🇹🇴 Tonga (+676)</option>
-                            <option value="+1868">🇹🇹 Trinidad & Tobago (+1868)</option>
-                            <option value="+216">🇹🇳 Tunisia (+216)</option>
-                            <option value="+90">🇹🇷 Turkey (+90)</option>
-                            <option value="+993">🇹🇲 Turkmenistan (+993)</option>
-                            <option value="+1649">🇹🇨 Turks & Caicos Islands (+1649)</option>
-                            <option value="+688">🇹🇻 Tuvalu (+688)</option>
-                            <option value="+256">🇺🇬 Uganda (+256)</option>
-                            <option value="+380">🇺🇦 Ukraine (+380)</option>
-                            <option value="+971">🇦🇪 United Arab Emirates (+971)</option>
-                            <option value="+44">🇬🇧 United Kingdom (+44)</option>
-                            <option value="+1">🇺🇸 United States (+1)</option>
-                            <option value="+598">🇺🇾 Uruguay (+598)</option>
-                            <option value="+998">🇺🇿 Uzbekistan (+998)</option>
-                            <option value="+678">🇻🇺 Vanuatu (+678)</option>
-                            <option value="+379">🇻🇦 Vatican City (+379)</option>
-                            <option value="+58">🇻🇪 Venezuela (+58)</option>
-                            <option value="+84">🇻🇳 Vietnam (+84)</option>
-                            <option value="+681">🇼🇫 Wallis & Futuna (+681)</option>
-                            <option value="+212">🇪🇭 Western Sahara (+212)</option>
-                            <option value="+967">🇾🇪 Yemen (+967)</option>
-                            <option value="+260">🇿🇲 Zambia (+260)</option>
-                            <option value="+263">🇿🇼 Zimbabwe (+263)</option>
+                            <option value="+971">🇦🇪 UAE (+971)</option>
+                            <option value="+1">🇺🇸 USA (+1)</option>
+                            <option value="+44">🇬🇧 UK (+44)</option>
                         </select>
                         <input type="tel" id="custPhoneNum" required placeholder="1710000000">
                     </div>
@@ -421,140 +198,40 @@
                 </div>
                 <div class="auth-form-group">
                     <label>Country *</label>
-                    <select id="custCountry" required onchange="syncCodeWithCountry(this.value)">
+                    <select id="custCountry" required>
                         <option value="Bangladesh" selected>🇧🇩 Bangladesh</option>
-                        <option value="Afghanistan">🇦🇫 Afghanistan</option>
-                        <option value="Albania">🇦🇱 Albania</option>
-                        <option value="Algeria">🇩🇿 Algeria</option>
-                        <option value="Andorra">🇦🇩 Andorra</option>
-                        <option value="Angola">🇦🇴 Angola</option>
-                        <option value="Argentina">🇦🇷 Argentina</option>
-                        <option value="Armenia">🇦🇲 Armenia</option>
-                        <option value="Australia">🇦🇺 Australia</option>
-                        <option value="Austria">🇦🇹 Austria</option>
-                        <option value="Azerbaijan">🇦🇿 Azerbaijan</option>
-                        <option value="Bahrain">🇧🇭 Bahrain</option>
-                        <option value="Belarus">🇧🇾 Belarus</option>
-                        <option value="Belgium">🇧🇪 Belgium</option>
-                        <option value="Belize">🇧🇿 Belize</option>
-                        <option value="Benin">🇧🇯 Benin</option>
-                        <option value="Bhutan">🇧🇹 Bhutan</option>
-                        <option value="Bolivia">🇧🇴 Bolivia</option>
-                        <option value="Bosnia & Herzegovina">🇧🇦 Bosnia & Herzegovina</option>
-                        <option value="Botswana">🇧🇼 Botswana</option>
-                        <option value="Brazil">🇧🇷 Brazil</option>
-                        <option value="Brunei">🇧🇳 Brunei</option>
-                        <option value="Bulgaria">🇧🇬 Bulgaria</option>
-                        <option value="Cambodia">🇰🇭 Cambodia</option>
-                        <option value="Cameroon">🇨🇲 Cameroon</option>
-                        <option value="Canada">🇨🇦 Canada</option>
-                        <option value="Chile">🇨🇱 Chile</option>
-                        <option value="China">🇨🇳 China</option>
-                        <option value="Colombia">🇨🇴 Colombia</option>
-                        <option value="Costa Rica">🇨🇷 Costa Rica</option>
-                        <option value="Croatia">🇭🇷 Croatia</option>
-                        <option value="Cuba">🇨🇺 Cuba</option>
-                        <option value="Cyprus">🇨🇾 Cyprus</option>
-                        <option value="Czech Republic">🇨🇿 Czech Republic</option>
-                        <option value="Denmark">🇩🇰 Denmark</option>
-                        <option value="Egypt">🇪🇬 Egypt</option>
-                        <option value="Estonia">🇪🇪 Estonia</option>
-                        <option value="Finland">🇫🇮 Finland</option>
-                        <option value="France">🇫🇷 France</option>
-                        <option value="Georgia">🇬🇪 Georgia</option>
-                        <option value="Germany">🇩🇪 Germany</option>
-                        <option value="Ghana">🇬🇭 Ghana</option>
-                        <option value="Greece">🇬🇷 Greece</option>
-                        <option value="Hong Kong">🇭🇸 Hong Kong</option>
-                        <option value="Hungary">🇭🇺 Hungary</option>
-                        <option value="Iceland">🇮🇸 Iceland</option>
                         <option value="India">🇮🇳 India</option>
-                        <option value="Indonesia">🇮🇩 Indonesia</option>
-                        <option value="Iran">🇮🇷 Iran</option>
-                        <option value="Iraq">🇮🇶 Iraq</option>
-                        <option value="Ireland">🇮🇪 Ireland</option>
-                        <option value="Israel">🇮🇱 Israel</option>
-                        <option value="Italy">🇮🇹 Italy</option>
-                        <option value="Japan">🇯🇵 Japan</option>
-                        <option value="Jordan">🇯🇴 Jordan</option>
-                        <option value="Kazakhstan">🇰🇿 Kazakhstan</option>
-                        <option value="Kenya">🇰🇪 Kenya</option>
-                        <option value="Kuwait">🇰🇼 Kuwait</option>
-                        <option value="Kyrgyzstan">🇰🇬 Kyrgyzstan</option>
-                        <option value="Laos">🇱🇦 Laos</option>
-                        <option value="Latvia">🇱🇻 Latvia</option>
-                        <option value="Lebanon">🇱🇧 Lebanon</option>
-                        <option value="Libya">🇱🇾 Libya</option>
-                        <option value="Lithuania">🇱🇹 Lithuania</option>
-                        <option value="Luxembourg">🇱🇺 Luxembourg</option>
-                        <option value="Malaysia">🇲🇾 Malaysia</option>
-                        <option value="Maldives">🇲🇻 Maldives</option>
-                        <option value="Malta">🇲🇹 Malta</option>
-                        <option value="Mexico">🇲🇽 Mexico</option>
-                        <option value="Moldova">🇲🇩 Moldova</option>
-                        <option value="Mongolia">🇲🇳 Mongolia</option>
-                        <option value="Montenegro">🇲🇪 Montenegro</option>
-                        <option value="Morocco">🇲🇦 Morocco</option>
-                        <option value="Myanmar">🇲🇲 Myanmar</option>
-                        <option value="Namibia">🇳🇦 Namibia</option>
-                        <option value="Nepal">🇳🇵 Nepal</option>
-                        <option value="Netherlands">🇳🇱 Netherlands</option>
-                        <option value="New Zealand">🇳🇿 New Zealand</option>
-                        <option value="Nicaragua">🇳🇮 Nicaragua</option>
-                        <option value="Nigeria">🇳🇬 Nigeria</option>
-                        <option value="North Korea">🇰🇵 North Korea</option>
-                        <option value="Norway">🇳🇴 Norway</option>
-                        <option value="Oman">🇴🇲 Oman</option>
-                        <option value="Pakistan">🇵🇰 Pakistan</option>
-                        <option value="Palestine">🇵🇸 Palestine</option>
-                        <option value="Panama">🇵🇦 Panama</option>
-                        <option value="Paraguay">🇵🇾 Paraguay</option>
-                        <option value="Peru">🇵🇪 Peru</option>
-                        <option value="Philippines">🇵🇭 Philippines</option>
-                        <option value="Poland">🇵🇱 Poland</option>
-                        <option value="Portugal">🇵🇹 Portugal</option>
-                        <option value="Qatar">🇶🇦 Qatar</option>
-                        <option value="Romania">🇷🇴 Romania</option>
-                        <option value="Russia">🇷🇺 Russia</option>
                         <option value="Saudi Arabia">🇸🇦 Saudi Arabia</option>
-                        <option value="Serbia">🇷🇸 Serbia</option>
-                        <option value="Singapore">🇸🇬 Singapore</option>
-                        <option value="Slovakia">🇸🇰 Slovakia</option>
-                        <option value="Slovenia">🇸🇮 Slovenia</option>
-                        <option value="South Africa">🇿🇦 South Africa</option>
-                        <option value="South Korea">🇰🇷 South Korea</option>
-                        <option value="Spain">🇪🇸 Spain</option>
-                        <option value="Sri Lanka">🇱🇰 Sri Lanka</option>
-                        <option value="Sudan">🇸🇩 Sudan</option>
-                        <option value="Sweden">🇸🇪 Sweden</option>
-                        <option value="Switzerland">🇨🇭 Switzerland</option>
-                        <option value="Syria">🇸🇾 Syria</option>
-                        <option value="Taiwan">🇹🇼 Taiwan</option>
-                        <option value="Thailand">🇹🇭 Thailand</option>
-                        <option value="Tunisia">🇹🇳 Tunisia</option>
-                        <option value="Turkey">🇹🇷 Turkey</option>
-                        <option value="Ukraine">🇺🇦 Ukraine</option>
                         <option value="United Arab Emirates">🇦🇪 United Arab Emirates</option>
-                        <option value="United Kingdom">🇬🇧 United Kingdom</option>
                         <option value="United States">🇺🇸 United States</option>
-                        <option value="Uruguay">🇺🇾 Uruguay</option>
-                        <option value="Uzbekistan">🇺🇿 Uzbekistan</option>
-                        <option value="Venezuela">🇻🇪 Venezuela</option>
-                        <option value="Vietnam">🇻🇳 Vietnam</option>
-                        <option value="Yemen">🇾🇪 Yemen</option>
-                        <option value="Zambia">🇿🇲 Zambia</option>
-                        <option value="Zimbabwe">🇿🇼 Zimbabwe</option>
+                        <option value="United Kingdom">🇬🇧 United Kingdom</option>
                     </select>
                 </div>
                 
-                <!-- PROCEED TO PAYMENT BUTTON -->
                 <button type="submit" class="auth-submit-btn">Proceed to Payment</button>
             </form>
         </div>
     </div>
 
-    <!-- LOGIC SCRIPT -->
     <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            let items = JSON.parse(localStorage.getItem('mme_cart_items') || sessionStorage.getItem('mme_cart_items') || '[]');
+            let summaryBox = document.getElementById('checkoutCartSummaryBox');
+            if(items.length > 0) {
+                summaryBox.innerHTML = items.map(i => `
+                    <div class="summary-item-row">
+                        <img src="${i.image || 'https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc'}">
+                        <div style="flex:1; min-width:0;">
+                            <div style="font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${i.title}</div>
+                            <div style="color:var(--gold-solid);">Qty: ${i.quantity} | ${i.price}</div>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                summaryBox.innerHTML = `<div style="font-size:0.7rem; color:var(--text-gray); text-align:center;">No items in cart yet.</div>`;
+            }
+        });
+
         function showCustomToast(msg) {
             let toast = document.getElementById('customToast');
             toast.innerText = msg;
@@ -582,52 +259,6 @@
             }
         }
 
-        function syncCodeWithCountry(selectedCountryName) {
-            let countryToDialCode = {
-                "Afghanistan": "+93", "Albania": "+355", "Algeria": "+213", "Andorra": "+376",
-                "Angola": "+244", "Argentina": "+54", "Armenia": "+374", "Australia": "+61",
-                "Austria": "+43", "Azerbaijan": "+994", "Bahrain": "+973", "Bangladesh": "+880",
-                "Belarus": "+375", "Belgium": "+32", "Belize": "+501", "Benin": "+229",
-                "Bhutan": "+975", "Bolivia": "+591", "Bosnia & Herzegovina": "+387", "Botswana": "+267",
-                "Brazil": "+55", "Brunei": "+673", "Bulgaria": "+359", "Cambodia": "+855",
-                "Cameroon": "+237", "Canada": "+1", "Chile": "+56", "China": "+86",
-                "Colombia": "+57", "Costa Rica": "+506", "Croatia": "+385", "Cuba": "+53",
-                "Cyprus": "+357", "Czech Republic": "+420", "Denmark": "+45", "Egypt": "+20",
-                "Estonia": "+372", "Finland": "+358", "France": "+33", "Georgia": "+995",
-                "Germany": "+49", "Ghana": "+233", "Greece": "+30", "Hong Kong": "+852",
-                "Hungary": "+36", "Iceland": "+354", "India": "+91", "Indonesia": "+62",
-                "Iran": "+98", "Iraq": "+964", "Ireland": "+353", "Israel": "+972",
-                "Italy": "+39", "Japan": "+81", "Jordan": "+962", "Kazakhstan": "+7",
-                "Kenya": "+254", "Kuwait": "+965", "Kyrgyzstan": "+996", "Laos": "+856",
-                "Latvia": "+371", "Lebanon": "+961", "Libya": "+218", "Lithuania": "+370",
-                "Luxembourg": "+352", "Malaysia": "+60", "Maldives": "+960", "Malta": "+356",
-                "Mexico": "+52", "Moldova": "+373", "Mongolia": "+976", "Montenegro": "+382",
-                "Morocco": "+212", "Myanmar": "+95", "Namibia": "+264", "Nepal": "+977",
-                "Netherlands": "+31", "New Zealand": "+64", "Nicaragua": "+505", "Nigeria": "+234",
-                "North Korea": "+850", "Norway": "+47", "Oman": "+968", "Pakistan": "+92",
-                "Palestine": "+970", "Panama": "+507", "Paraguay": "+595", "Peru": "+51",
-                "Philippines": "+63", "Poland": "+48", "Portugal": "+351", "Qatar": "+974",
-                "Romania": "+40", "Russia": "+7", "Saudi Arabia": "+966", "Serbia": "+381",
-                "Singapore": "+65", "Slovakia": "+421", "Slovenia": "+386", "South Africa": "+27",
-                "South Korea": "+82", "Spain": "+34", "Sri Lanka": "+94", "Sudan": "+249",
-                "Sweden": "+46", "Switzerland": "+41", "Syria": "+963", "Taiwan": "+886",
-                "Thailand": "+66", "Tunisia": "+216", "Turkey": "+90", "Ukraine": "+380",
-                "United Arab Emirates": "+971", "United Kingdom": "+44", "United States": "+1",
-                "Uruguay": "+598", "Uzbekistan": "+998", "Venezuela": "+58", "Vietnam": "+84",
-                "Yemen": "+967", "Zambia": "+260", "Zimbabwe": "+263"
-            };
-            let matchingDialCode = countryToDialCode[selectedCountryName];
-            if(matchingDialCode) {
-                let phoneCodeSelect = document.getElementById('countryPhoneCode');
-                for(let i = 0; i < phoneCodeSelect.options.length; i++) {
-                    if(phoneCodeSelect.options[i].value === matchingDialCode) {
-                        phoneCodeSelect.selectedIndex = i;
-                        break;
-                    }
-                }
-            }
-        }
-
         async function handleOrderSubmit(e) {
             e.preventDefault();
             let email = document.getElementById('custEmail').value.trim();
@@ -646,7 +277,7 @@
                 hour: '2-digit', minute: '2-digit', second: '2-digit' 
             });
 
-            let cartItems = JSON.parse(sessionStorage.getItem('mme_cart_items') || localStorage.getItem('mme_cart_items') || '[]');
+            let cartItems = JSON.parse(localStorage.getItem('mme_cart_items') || sessionStorage.getItem('mme_cart_items') || '[]');
             let allMasterOrders = JSON.parse(localStorage.getItem('mme_admin_orders') || '[]');
             
             let totalOrderCount = allMasterOrders.length;
@@ -702,8 +333,8 @@
 
             showCustomToast(`Redirecting to Payment Gateway... [Trk: ${trackingId}]`);
             
-            sessionStorage.removeItem('mme_cart_items');
             localStorage.removeItem('mme_cart_items');
+            sessionStorage.removeItem('mme_cart_items');
 
             setTimeout(() => {
                 window.location.href = `https://mrmasudar.com/?order=payment&trk=${trackingId}`;
