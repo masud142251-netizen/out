@@ -20,23 +20,21 @@
 
         let cartItems = [];
 
-        // ১. URL এর মাধ্যমে পাঠানো কার্ট ডাটা ডিকোড করে নেওয়া
+        // URL থেকে সরাসরি কার্ট ডাটা রিকভার করা
         if (cartDataParam) {
             try {
                 cartItems = JSON.parse(decodeURIComponent(cartDataParam));
-                localStorage.setItem('mme_cart_items', JSON.stringify(cartItems));
-                sessionStorage.setItem('mme_cart_items', JSON.stringify(cartItems));
+                localStorage.setItem('mme_subdomain_cart', JSON.stringify(cartItems));
             } catch (e) {
-                console.error("Cart parse error:", e);
+                console.error("Cart decode error:", e);
             }
         }
 
-        // ২. যদি URL এ না থাকে, তবে লোকালস্টোরেজ থেকে চেক করা
+        // যদি URL এ না থাকে তবে সাব-ডোমেইনের নিজস্ব লোকালস্টোরেজ চেক করবে
         if (!cartItems || cartItems.length === 0) {
-            cartItems = JSON.parse(localStorage.getItem('mme_cart_items') || sessionStorage.getItem('mme_cart_items') || '[]');
+            cartItems = JSON.parse(localStorage.getItem('mme_subdomain_cart') || '[]');
         }
 
-        // চেকআউট ফর্মে প্রোডাক্টগুলো রেন্ডার করা
         renderCheckoutCartSummary(cartItems);
       });
 
@@ -47,27 +45,25 @@
 
         if(items && items.length > 0) {
             summaryBox.innerHTML = items.map((i, index) => `
-                <div class="summary-item-row" style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 6px;">
-                    <img src="${i.image || 'https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc'}" style="width: 40px; height: 40px; border-radius: 6px; object-fit: cover; border: 1px solid var(--gold-solid);">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 0.72rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 6px;">
+                    <img src="${i.image || 'https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc'}" style="width: 36px; height: 36px; border-radius: 6px; object-fit: cover; border: 1px solid var(--gold-solid);">
                     <div style="flex:1; min-width:0;">
-                        <div style="font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color: #fff;">${i.title || 'Exclusive Product'}</div>
+                        <div style="font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color: #fff;">${i.title || 'Product'}</div>
                         <div style="color:var(--gold-solid);">Qty: ${i.quantity || 1} | ${i.price || '$35.00'}</div>
                     </div>
-                    <button type="button" onclick="removeCartItem(${index})" style="background: rgba(255,59,48,0.2); border: 1px solid #ff3b30; color: #ff3b30; padding: 2px 6px; border-radius: 4px; cursor: pointer; font-size: 0.6rem;">Delete</button>
+                    <button type="button" onclick="removeSubdomainCartItem(${index})" style="background: rgba(255,59,48,0.2); border: 1px solid #ff3b30; color: #ff3b30; padding: 2px 6px; border-radius: 4px; cursor: pointer; font-size: 0.6rem;">Delete</button>
                 </div>
             `).join('');
         } else {
-            summaryBox.innerHTML = `<div style="font-size:0.75rem; color:var(--text-gray); text-align:center; padding: 10px;">No items in cart yet.</div>`;
+            summaryBox.innerHTML = `<div style="font-size:0.75rem; color:var(--text-gray); text-align:center; padding: 10px;">কোনো প্রোডাক্ট কারټে নেই।</div>`;
         }
       }
 
-      // ফর্মে থাকা নির্দিষ্ট প্রোডাক্ট ডিলিট বা রিমুভ করার ফাংশন
-      function removeCartItem(index) {
+      function removeSubdomainCartItem(index) {
           let items = window.activeCheckoutItems || [];
           items.splice(index, 1);
           window.activeCheckoutItems = items;
-          localStorage.setItem('mme_cart_items', JSON.stringify(items));
-          sessionStorage.setItem('mme_cart_items', JSON.stringify(items));
+          localStorage.setItem('mme_subdomain_cart', JSON.stringify(items));
           renderCheckoutCartSummary(items);
       }
     </script>
@@ -168,13 +164,13 @@
             <h3 class="luxury-modal-title">Secure Cloud Checkout</h3>
             
             <div class="checkout-cart-summary" id="checkoutCartSummaryBox">
-                <div style="font-size:0.7rem; color:var(--text-gray); text-align:center;">Loading cloud cart items...</div>
+                <div style="font-size:0.7rem; color:var(--text-gray); text-align:center;">লোড হচ্ছে...</div>
             </div>
 
             <form onsubmit="handleOrderSubmit(event)">
                 <div class="auth-form-group">
                     <label>Gmail Address *</label>
-                    <input type="email" id="custEmail" required placeholder="name@gmail.com" onblur="autoFillCustomerData()">
+                    <input type="email" id="custEmail" required placeholder="name@gmail.com">
                 </div>
                 
                 <div class="auth-form-group">
@@ -194,15 +190,15 @@
 
                 <div class="auth-form-group">
                     <label>Full Name *</label>
-                    <input type="text" id="custName" required placeholder="Enter full name">
+                    <input type="text" id="custName" required placeholder="আপনার পুরো নাম">
                 </div>
                 <div class="auth-form-group">
                     <label>Delivery Address *</label>
-                    <textarea id="custAddress" rows="2" required placeholder="House, Road, Area"></textarea>
+                    <textarea id="custAddress" rows="2" required placeholder="বাসা, রোড, এলাকা"></textarea>
                 </div>
                 <div class="auth-form-group">
                     <label>City / District *</label>
-                    <input type="text" id="custCity" required placeholder="City name">
+                    <input type="text" id="custCity" required placeholder="শহর / জেলা">
                 </div>
                 <div class="auth-form-group">
                     <label>Country *</label>
@@ -216,7 +212,7 @@
                     </select>
                 </div>
                 
-                <button type="submit" class="auth-submit-btn">Proceed to Payment</button>
+                <button type="submit" class="auth-submit-btn">অর্ডার কনফার্ম করুন</button>
             </form>
         </div>
     </div>
@@ -232,21 +228,6 @@
         function closePopupModal() {
             document.getElementById('checkoutModalOverlay').style.display = 'none';
             window.location.href = 'https://mrmasudar.com';
-        }
-
-        function autoFillCustomerData() {
-            let emailKey = document.getElementById('custEmail').value.trim();
-            if(!emailKey) return;
-            let cachedUser = sessionStorage.getItem(`mme_user_${emailKey}`) || localStorage.getItem(`mme_user_${emailKey}`);
-            if(cachedUser) {
-                try {
-                    let data = JSON.parse(cachedUser);
-                    document.getElementById('custName').value = data.name || '';
-                    document.getElementById('custAddress').value = data.address || '';
-                    document.getElementById('custCity').value = data.city || '';
-                    if(data.phone) document.getElementById('custPhoneNum').value = data.phone || '';
-                } catch(e) {}
-            }
         }
 
         async function handleOrderSubmit(e) {
@@ -267,17 +248,9 @@
                 hour: '2-digit', minute: '2-digit', second: '2-digit' 
             });
 
-            let itemsToOrder = window.activeCheckoutItems || [];
-            if(itemsToOrder.length === 0) {
-                itemsToOrder = JSON.parse(localStorage.getItem('mme_cart_items') || '[]');
-            }
+            let itemsToOrder = window.activeCheckoutItems || JSON.parse(localStorage.getItem('mme_subdomain_cart') || '[]');
 
             let allMasterOrders = JSON.parse(localStorage.getItem('mme_admin_orders') || '[]');
-            let totalOrderCount = allMasterOrders.length;
-            let currentBatchNumber = Math.floor(totalOrderCount / 20000) + 1;
-            let batchStart = ((currentBatchNumber - 1) * 20000) + 1;
-            let batchEnd = currentBatchNumber * 20000;
-            let batchName = `Batch-${currentBatchNumber} (${batchStart} - ${batchEnd})`;
 
             if(itemsToOrder.length === 0) {
                 itemsToOrder = [{
@@ -286,7 +259,7 @@
                     quantity: 1,
                     price: '$35.00',
                     sellerId: 'VEN-MASUD',
-                    affiliateRef: 'AFF-MASTER'
+                    affiliateRef: sessionStorage.getItem('mme_active_aff') || 'AFF-MASTER'
                 }];
             }
 
@@ -307,31 +280,27 @@
                     deliveryStatus: 'Processing / Pending Dispatch',
                     orderDate: nowTimestamp.toISOString(),
                     formattedDate: formattedDate,
-                    batchNo: batchName
+                    batchNo: 'Batch-1'
                 };
                 allMasterOrders.push(orderRecord);
 
                 try {
                     _supabase.from('orders').insert([orderRecord]).then(({ error }) => {
-                        if(error) console.log("Supabase order sync note:", error);
+                        if(error) console.log("Supabase sync note:", error);
                     });
                 } catch(err) {}
             });
 
             localStorage.setItem('mme_admin_orders', JSON.stringify(allMasterOrders));
 
-            let userData = { name, address, city, country, phone };
-            sessionStorage.setItem(`mme_user_${email}`, JSON.stringify(userData));
-            localStorage.setItem(`mme_user_${email}`, JSON.stringify(userData));
-
-            showCustomToast(`Redirecting to Payment Gateway... [Trk: ${trackingId}]`);
+            showCustomToast(`অর্ডার সফলভাবে প্রসেস হচ্ছে... [Trk: ${trackingId}]`);
             
+            localStorage.removeItem('mme_subdomain_cart');
             localStorage.removeItem('mme_cart_items');
-            sessionStorage.removeItem('mme_cart_items');
 
             setTimeout(() => {
-                window.location.href = `https://mrmasudar.com/?order=payment&trk=${trackingId}`;
-            }, 2500);
+                window.location.href = `https://mrmasudar.com/?order=success&trk=${trackingId}`;
+            }, 2000);
         }
     </script>
 </body>
