@@ -51,8 +51,7 @@
                         <div style="font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color: #fff;">${i.title || 'Product'}</div>
                         <div style="color:var(--gold-solid);">Qty: ${i.quantity || 1} | ${i.price || '$35.00'}</div>
                     </div>
-                    <!-- এখানে লেখার বদলে আকর্ষণীয় গোল ক্রস বাটন দেওয়া হয়েছে -->
-                    <button type="button" onclick="removeSubdomainCartItem(${index})" title="Remove Item" style="background: rgba(255,59,48,0.2); border: 1px solid #ff3b30; color: #ff3b30; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 0.75rem; flex-shrink: 0; transition: transform 0.2s;"><i class="fa-solid fa-xmark"></i></button>
+                    <button type="button" onclick="removeSubdomainCartItem(${index})" title="Remove Item" style="background: rgba(255,59,48,0.2); border: 1px solid #ff3b30; color: #ff3b30; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 0.75rem; flex-shrink: 0;"><i class="fa-solid fa-xmark"></i></button>
                 </div>
             `).join('');
         } else {
