@@ -20,11 +20,20 @@
 
         let cartItems = [];
 
+        // যদি URL এ নতুন কার্ট ডাটা থাকে এবং লোকালস্টোরেজে আগে থেকে সেভ না থাকে তবেই সেট করবে
         if (cartDataParam) {
             try {
-                cartItems = JSON.parse(decodeURIComponent(cartDataParam));
-                localStorage.setItem('mme_subdomain_cart', JSON.stringify(cartItems));
-                localStorage.setItem('mme_cart_items', JSON.stringify(cartItems));
+                let parsedUrlCart = JSON.parse(decodeURIComponent(cartDataParam));
+                let existingLocalCart = JSON.parse(localStorage.getItem('mme_subdomain_cart') || '[]');
+                
+                // যদি লোকালস্টোরেজে কিছু আইটেম অলরেডি ডিলিট করা হয়ে থাকে, তবে ইউআরএলের পুরানো ডাটা যেন রিস্টোর না হয়
+                if (existingLocalCart.length > 0 && existingLocalCart.length < parsedUrlCart.length) {
+                    cartItems = existingLocalCart;
+                } else {
+                    cartItems = parsedUrlCart;
+                    localStorage.setItem('mme_subdomain_cart', JSON.stringify(cartItems));
+                    localStorage.setItem('mme_cart_items', JSON.stringify(cartItems));
+                }
             } catch (e) {
                 console.error("Cart decode error:", e);
             }
@@ -62,8 +71,12 @@
           let items = window.activeCheckoutItems || [];
           items.splice(index, 1);
           window.activeCheckoutItems = items;
+          
+          // লোকালস্টোরেজ এবং সেশনস্টোরেজ থেকে একদম পার্মানেন্টলি আপডেট করা
           localStorage.setItem('mme_subdomain_cart', JSON.stringify(items));
           localStorage.setItem('mme_cart_items', JSON.stringify(items));
+          sessionStorage.setItem('mme_cart_items', JSON.stringify(items));
+          
           renderCheckoutCartSummary(items);
       }
     </script>
@@ -322,7 +335,7 @@
                             <option value="+260">Zambia (+260)</option>
                             <option value="+263">Zimbabwe (+263)</option>
                         </select>
-                        <input type="tel" id="custPhoneNum" required value="1332008886" placeholder="1332008886">
+                        <input type="tel" id="custPhoneNum" required placeholder="1710000000">
                     </div>
                 </div>
 
@@ -577,7 +590,6 @@
 
             showCustomToast(`Processing order... [Trk: ${trackingId}]`);
             
-            // সব স্টোরেজ থেকে কার্ট ক্লিয়ার করা যাতে আর রিফ্রেশ না হয়
             localStorage.removeItem('mme_subdomain_cart');
             localStorage.removeItem('mme_cart_items');
             sessionStorage.removeItem('mme_cart_items');
