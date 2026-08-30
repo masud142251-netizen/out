@@ -1,1 +1,237 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MRMASUDAR.COM - Secure Checkout Hub</title>
+    
+    <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Supabase CDN Script -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+    <style>
+        :root {
+            --bg-black: #080808;
+            --card-bg: #121212;
+            --gold-gradient: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            --gold-solid: #d4af37;
+            --text-white: #ffffff;
+            --text-gray: #cfcfcf;
+            --danger-red: #ff3b30;
+            --success-green: #28a745;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg-black); color: var(--text-white); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+
+        .checkout-container { background: linear-gradient(135deg, #161616, #0c0c0c); border: 2px solid var(--gold-solid); width: 100%; max-width: 480px; border-radius: 20px; padding: 25px 20px; box-shadow: 0 0 40px rgba(212,175,55,0.3); position: relative; }
+        
+        .checkout-header { text-align: center; margin-bottom: 20px; border-bottom: 1px solid rgba(212,175,55,0.3); padding-bottom: 12px; }
+        .checkout-title { font-family: 'Cinzel', serif; font-size: 1.2rem; font-weight: 700; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; }
+        .checkout-subtitle { font-size: 0.7rem; color: var(--text-gray); margin-top: 4px; }
+
+        .cart-items-list { max-height: 160px; overflow-y: auto; margin-bottom: 15px; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 8px; }
+        .cart-item-row { display: flex; align-items: center; justify-content: space-between; background: #0a0a0a; border: 1px solid rgba(212,175,55,0.2); padding: 8px 10px; border-radius: 8px; margin-bottom: 6px; font-size: 0.75rem; }
+        
+        .checkout-form-group { margin-bottom: 12px; text-align: left; }
+        .checkout-form-group label { display: block; font-size: 0.7rem; color: var(--gold-solid); margin-bottom: 4px; font-weight: 600; text-transform: uppercase; }
+        .checkout-form-input { width: 100%; background: #000; border: 1.5px solid rgba(212,175,55,0.4); padding: 10px; border-radius: 8px; color: var(--text-white); font-size: 0.8rem; outline: none; }
+        .checkout-form-input:focus { border-color: var(--gold-solid); box-shadow: 0 0 8px rgba(212,175,55,0.4); }
+        
+        .order-submit-btn { width: 100%; background: var(--gold-gradient); border: none; padding: 12px; border-radius: 10px; color: var(--bg-black); font-weight: 800; font-size: 0.9rem; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 15px rgba(212,175,55,0.4); transition: transform 0.2s; }
+        .order-submit-btn:hover { transform: scale(1.02); }
+
+        .custom-toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(18, 18, 18, 0.95); border: 1.5px solid var(--gold-solid); color: var(--gold-solid); padding: 8px 18px; border-radius: 30px; font-size: 0.75rem; font-weight: 600; z-index: 9999; display: none; box-shadow: 0 4px 20px rgba(0,0,0,0.8); }
+    </style>
+</head>
+<body>
+
+    <div class="custom-toast" id="customToast">Order processed successfully!</div>
+
+    <div class="checkout-container">
+        <div class="checkout-header">
+            <h2 class="checkout-title">Secure Checkout Hub</h2>
+            <p class="checkout-subtitle">MRMASUDAR.COM Enterprise Gateway</p>
+        </div>
+
+        <div class="cart-items-list" id="cartItemsListContainer">
+            <div style="text-align: center; color: var(--text-gray); font-size: 0.75rem; padding: 20px;">Loading cart details...</div>
+        </div>
+
+        <div style="background: rgba(20,20,20,0.9); padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(212,175,55,0.3); margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;">
+            <span style="color: var(--text-gray);">Total Amount:</span>
+            <span id="cartTotalPrice" style="color: var(--gold-solid); font-weight: 800; font-size: 1rem;">$0.00</span>
+        </div>
+
+        <form id="checkoutForm" onsubmit="submitCustomerOrder(event)">
+            <div class="checkout-form-group">
+                <label>Full Name *</label>
+                <input type="text" class="checkout-form-input" id="custName" placeholder="Enter your full name..." required>
+            </div>
+            <div class="checkout-form-group">
+                <label>Phone Number *</label>
+                <input type="tel" class="checkout-form-input" id="custPhone" placeholder="Enter phone number..." required>
+            </div>
+            <div class="checkout-form-group">
+                <label>Delivery Address *</label>
+                <textarea class="checkout-form-input" id="custAddress" rows="2" placeholder="House, Road, Area, City..." required style="resize:none;"></textarea>
+            </div>
+            <div class="checkout-form-group">
+                <label>Email (Optional)</label>
+                <input type="email" class="checkout-form-input" id="custEmail" placeholder="Enter email address...">
+            </div>
+            <button type="submit" class="order-submit-btn">Complete Secure Order</button>
+        </form>
+    </div>
+
+    <script>
+        // সুপাবেস কানেকশন ইনিশিয়ালাইজেশন
+        const supabaseUrl = 'https://eyfecqehygiivjtbhniy.supabase.co';
+        const supabaseKey = 'eyJhGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5ZmVjcWVoeWdpaXZqdGJobml5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NjQ0NDcsImV4cCI6MjA4NjI0MDQ0N30.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5ZmVjcWVoeWdpaXZqdGJobml5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NjQ0NDcsImV4cCI6MjA4NjI0MDQ0N30';
+        const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+        let cartItems = [];
+        let urlParams = new URLSearchParams(window.location.search);
+        let affiliateId = urlParams.get('ref') || urlParams.get('aff') || 'AFF-MASTER';
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            let productId = urlParams.get('product_id');
+
+            // লোকাল স্টোরেজ বা সেশন থেকে কার্ট ডেটা লোড করা
+            let savedCart = sessionStorage.getItem('mme_cart_items') || localStorage.getItem('mme_cart_items');
+            if(savedCart) {
+                cartItems = JSON.parse(savedCart);
+            } else if(productId) {
+                // সুপাবেস থেকে সরাসরি প্রোডাক্ট ফেচ করে কার্টে যুক্ত করা
+                const { data, error } = await _supabase.from('products').select('*').eq('id', productId).single();
+                if(data) {
+                    cartItems.push({
+                        cartId: Date.now(),
+                        productId: data.id,
+                        title: data.title || "Exclusive Item",
+                        price: data.price || "$35.00",
+                        quantity: 1,
+                        color: "Standard",
+                        size: "Standard",
+                        sellerId: data.seller_id || 'VEN-MASUD',
+                        image: data.image_url || "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc",
+                        affiliateRef: affiliateId
+                    });
+                }
+            }
+            updateCartCheckoutUI();
+        });
+
+        function showCustomToast(msg) {
+            let toast = document.getElementById('customToast');
+            toast.innerText = msg;
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 3000);
+        }
+
+        function updateCartCheckoutUI() {
+            let container = document.getElementById('cartItemsListContainer');
+            let totalEl = document.getElementById('cartTotalPrice');
+            
+            if(cartItems.length === 0) {
+                container.innerHTML = `<div style="text-align: center; color: var(--text-gray); font-size: 0.75rem; padding: 20px;">Your cart is empty.</div>`;
+                totalEl.innerText = "$0.00";
+                return;
+            }
+
+            let totalVal = 0;
+            container.innerHTML = cartItems.map((item, idx) => {
+                let numericPrice = parseFloat(item.price.replace(/[^0-9.]/g, '')) || 0;
+                let subTotal = numericPrice * item.quantity;
+                totalVal += subTotal;
+                return `
+                    <div class="cart-item-row">
+                        <div style="display:flex; align-items:center; gap:8px; max-width:70%;">
+                            <img src="${item.image}" style="width:35px; height:35px; object-fit:cover; border-radius:6px; border:1px solid var(--gold-solid);">
+                            <div style="overflow:hidden;">
+                                <div style="font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${item.title}</div>
+                                <div style="font-size:0.65rem; color:var(--text-gray);">Qty: ${item.quantity} | ${item.color}</div>
+                            </div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div style="color:var(--gold-solid); font-weight:700;">$${subTotal.toFixed(2)}</div>
+                            <i class="fa-solid fa-trash-can" style="color:var(--danger-red); cursor:pointer; font-size:0.7rem; margin-top:3px;" onclick="removeCheckoutItem(${idx})"></i>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            totalEl.innerText = `$${totalVal.toFixed(2)}`;
+        }
+
+        function removeCheckoutItem(idx) {
+            cartItems.splice(idx, 1);
+            sessionStorage.setItem('mme_cart_items', JSON.stringify(cartItems));
+            localStorage.setItem('mme_cart_items', JSON.stringify(cartItems));
+            updateCartCheckoutUI();
+        }
+
+        async function submitCustomerOrder(e) {
+            e.preventDefault();
+            if(cartItems.length === 0) {
+                showCustomToast("Your cart is empty!");
+                return;
+            }
+
+            let name = document.getElementById('custName').value.trim();
+            let phone = document.getElementById('custPhone').value.trim();
+            let address = document.getElementById('custAddress').value.trim();
+            let email = document.getElementById('custEmail').value.trim();
+
+            let trackingId = 'TRK-' + Math.floor(100000 + Math.random() * 900000);
+            let now = new Date();
+            let formattedDate = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
+
+            let allOrders = JSON.parse(localStorage.getItem('mme_admin_orders') || '[]');
+
+            cartItems.forEach(ci => {
+                let orderObj = {
+                    trackingId: trackingId,
+                    batchNo: 'Batch-1 (20k)',
+                    formattedDate: formattedDate,
+                    customerName: name,
+                    customerPhone: phone,
+                    customerEmail: email || 'N/A',
+                    deliveryAddress: address,
+                    productTitle: ci.title,
+                    quantity: ci.quantity,
+                    price: ci.price,
+                    color: ci.color,
+                    size: ci.size,
+                    sellerId: ci.sellerId || 'VEN-MASUD',
+                    affiliateId: affiliateId,
+                    paymentStatus: 'Cash On Delivery'
+                };
+                allOrders.push(orderObj);
+            });
+
+            // সুপাবেসে অর্ডার ডেটা সিঙ্ক করার চেষ্টা (যদি টেবিল থাকে)
+            try {
+                await _supabase.from('orders').insert(allOrders);
+            } catch(err) {
+                console.log("Supabase sync fallback to local storage");
+            }
+
+            localStorage.setItem('mme_admin_orders', JSON.stringify(allOrders));
+
+            cartItems = [];
+            sessionStorage.removeItem('mme_cart_items');
+            localStorage.removeItem('mme_cart_items');
+
+            document.getElementById('checkoutForm').reset();
+            showCustomToast(`Order Placed Successfully! Tracking ID: ${trackingId}`);
+            
+            setTimeout(() => {
+                window.location.href = `https://mrmasudar.com/?order=success&trk=${trackingId}`;
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
