@@ -64,6 +64,7 @@
           items.splice(index, 1);
           window.activeCheckoutItems = items;
           
+          // লোকালস্টোরেজ এবং উইন্ডোজ স্টেট একদম ফ্রেশ করা হচ্ছে
           localStorage.setItem('mme_cart_items', JSON.stringify(items));
           renderCheckoutCartSummary(items);
           showCustomToast("Product removed successfully");
@@ -608,6 +609,7 @@
             localStorage.setItem('mme_admin_orders', JSON.stringify(allMasterOrders));
             showCustomToast(`Processing order... [Trk: ${trackingId}]`);
             
+            // অর্ডার সফল হলে কার্ট বা ঝুড়ি সম্পূর্ণ ফ্রেশ বা খালি করে দেওয়া হচ্ছে
             localStorage.removeItem('mme_cart_items');
 
             setTimeout(() => {
