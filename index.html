@@ -11,10 +11,19 @@
       window.addEventListener('DOMContentLoaded', async () => {
         const urlParams = new URLSearchParams(window.location.search);
         const affiliateId = urlParams.get('ref') || urlParams.get('aff');
+        const cartParam = urlParams.get('cart');
 
         if(affiliateId) {
             sessionStorage.setItem('mme_active_aff', affiliateId);
             localStorage.setItem('mme_active_aff', affiliateId);
+        }
+
+        // ইউআরএল বা লোকালস্টোরেজ থেকে কার্ট ডেটা লোড করা
+        if(cartParam) {
+            try {
+                let decodedCart = JSON.parse(decodeURIComponent(cartParam));
+                localStorage.setItem('mme_cart_items', JSON.stringify(decodedCart));
+            } catch(e) {}
         }
 
         loadSubdomainCart();
@@ -41,7 +50,7 @@
                     <img src="${i.image || 'https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc'}" style="width: 36px; height: 36px; border-radius: 6px; object-fit: cover; border: 1px solid var(--gold-solid);">
                     <div style="flex:1; min-width:0;">
                         <div style="font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color: #fff;">${i.title || 'Product'}</div>
-                        <div style="color:var(--gold-solid);">Qty: ${i.quantity || 1} | ${i.price || '$35.00'} ${i.color ? '| Color: '+i.color : ''} ${i.size ? '| Size: '+i.size : ''}</div>
+                        <div style="color:var(--gold-solid);">Qty: ${i.quantity || 1} | ${i.price || '$35.00'}</div>
                     </div>
                     <button type="button" onclick="removeSubdomainCartItem(${index})" style="background: rgba(255,59,48,0.2); border: 1px solid #ff3b30; color: #ff3b30; padding: 2px 6px; border-radius: 4px; cursor: pointer; font-size: 0.6rem;">Delete</button>
                 </div>
@@ -58,7 +67,6 @@
           
           localStorage.setItem('mme_cart_items', JSON.stringify(items));
           renderCheckoutCartSummary(items);
-          showCustomToast("Product removed successfully");
       }
     </script>
 
@@ -600,7 +608,6 @@
             localStorage.setItem('mme_admin_orders', JSON.stringify(allMasterOrders));
             showCustomToast(`Processing order... [Trk: ${trackingId}]`);
             
-            // অর্ডার সফল হলে কার্ট খালি করা
             localStorage.removeItem('mme_cart_items');
 
             setTimeout(() => {
