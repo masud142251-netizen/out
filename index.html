@@ -17,10 +17,18 @@
             localStorage.setItem('mme_active_aff', affiliateId);
         }
 
-        // সরাসরি লোকালস্টোরেজ থেকে কার্ট আইটেম লোড করা হচ্ছে
-        let cartItems = JSON.parse(localStorage.getItem('mme_cart_items') || '[]');
-        renderCheckoutCartSummary(cartItems);
+        loadSubdomainCart();
       });
+
+      function loadSubdomainCart() {
+          let cartItems = [];
+          try {
+              cartItems = JSON.parse(localStorage.getItem('mme_cart_items') || '[]');
+          } catch(e) {
+              cartItems = [];
+          }
+          renderCheckoutCartSummary(cartItems);
+      }
 
       function renderCheckoutCartSummary(items) {
         window.activeCheckoutItems = items;
@@ -33,7 +41,7 @@
                     <img src="${i.image || 'https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc'}" style="width: 36px; height: 36px; border-radius: 6px; object-fit: cover; border: 1px solid var(--gold-solid);">
                     <div style="flex:1; min-width:0;">
                         <div style="font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color: #fff;">${i.title || 'Product'}</div>
-                        <div style="color:var(--gold-solid);">Qty: ${i.quantity || 1} | ${i.price || '$35.00'}</div>
+                        <div style="color:var(--gold-solid);">Qty: ${i.quantity || 1} | ${i.price || '$35.00'} ${i.color ? '| Color: '+i.color : ''} ${i.size ? '| Size: '+i.size : ''}</div>
                     </div>
                     <button type="button" onclick="removeSubdomainCartItem(${index})" style="background: rgba(255,59,48,0.2); border: 1px solid #ff3b30; color: #ff3b30; padding: 2px 6px; border-radius: 4px; cursor: pointer; font-size: 0.6rem;">Delete</button>
                 </div>
@@ -48,19 +56,18 @@
           items.splice(index, 1);
           window.activeCheckoutItems = items;
           
-          // লোকালস্টোরেজ আপডেট করে পাকাপাকিভাবে রিমুভ করা
           localStorage.setItem('mme_cart_items', JSON.stringify(items));
-          
           renderCheckoutCartSummary(items);
+          showCustomToast("Product removed successfully");
       }
     </script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MRMASUDAR.COM - Secure Checkout</title>
+    <title>MRMASUDAR.COM - Secure Checkout & Enterprise Hub</title>
     
     <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@600;700;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -77,45 +84,58 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
         html, body { width: 100%; height: 100%; background-color: var(--bg-black); color: var(--text-white); overflow-x: hidden; }
 
+        header.app-header {
+            display: flex; justify-content: space-between; align-items: center; padding: 6px 10px;
+            background: rgba(11, 11, 11, 0.98); position: fixed; top: 0; left: 0; z-index: 1000;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.4); backdrop-filter: blur(12px); width: 100%; box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+        }
+        .brand-container { display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; }
+        .logo { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold-solid); box-shadow: 0 0 10px rgba(212, 175, 55, 0.6); background: #000; flex-shrink: 0; }
+        .brand-title-main { 
+            font-family: 'Cinzel Decorative', serif; font-size: 0.92rem; font-weight: 900; 
+            background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+            text-transform: uppercase; letter-spacing: 0.3px;
+        }
+
         .luxury-modal-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px);
             display: flex; justify-content: center; align-items: center; z-index: 9999;
-            padding: 10px; overflow-y: auto;
+            padding: 10px; overflow-y: auto; padding-top: 60px;
         }
         .luxury-modal-box {
             background: var(--modal-bg); border: 2px solid var(--gold-solid);
-            border-radius: 24px; width: 100%; max-width: 480px; max-height: 94vh;
-            overflow-y: auto; padding: 25px 20px; position: relative;
+            border-radius: 24px; width: 100%; max-width: 480px; max-height: 90vh;
+            overflow-y: auto; padding: 20px; position: relative;
             box-shadow: 0 0 50px rgba(212, 175, 55, 0.35);
         }
         .luxury-modal-title {
             font-size: 1.15rem; font-weight: 800; background: var(--gold-gradient);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-align: center; margin-bottom: 15px; text-transform: uppercase;
+            text-align: center; margin-bottom: 12px; text-transform: uppercase;
             font-family: 'Cinzel', serif; letter-spacing: 0.5px;
         }
         .checkout-cart-summary {
             background: rgba(0,0,0,0.6); border: 1px solid rgba(212,175,55,0.3);
-            border-radius: 12px; padding: 10px; margin-bottom: 15px; max-height: 180px; overflow-y: auto;
+            border-radius: 12px; padding: 10px; margin-bottom: 12px; max-height: 160px; overflow-y: auto;
         }
-        .auth-form-group { margin-bottom: 12px; text-align: left; }
-        .auth-form-group label { display: block; font-size: 0.68rem; color: var(--gold-solid); margin-bottom: 4px; font-weight: 700; text-transform: uppercase; }
+        .auth-form-group { margin-bottom: 10px; text-align: left; }
+        .auth-form-group label { display: block; font-size: 0.68rem; color: var(--gold-solid); margin-bottom: 3px; font-weight: 700; text-transform: uppercase; }
         .auth-form-group input, .auth-form-group select, .auth-form-group textarea {
-            width: 100%; background: #000; border: 1.5px solid rgba(212, 175, 55, 0.4); padding: 10px;
-            border-radius: 10px; color: var(--text-white); font-size: 0.8rem; outline: none;
+            width: 100%; background: #000; border: 1.5px solid rgba(212, 175, 55, 0.4); padding: 9px;
+            border-radius: 10px; color: var(--text-white); font-size: 0.78rem; outline: none;
         }
         .phone-input-row { display: flex; gap: 6px; }
         .phone-input-row select { width: 190px; font-size: 0.6rem; }
         .auth-submit-btn {
-            width: 100%; background: var(--gold-gradient); border: none; padding: 12px; border-radius: 10px;
-            color: #000; font-weight: 900; font-size: 0.85rem; cursor: pointer; margin-top: 8px;
+            width: 100%; background: var(--gold-gradient); border: none; padding: 11px; border-radius: 10px;
+            color: #000; font-weight: 900; font-size: 0.82rem; cursor: pointer; margin-top: 6px;
             box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); text-transform: uppercase;
         }
         .custom-toast {
-            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            position: fixed; top: 75px; left: 50%; transform: translateX(-50%);
             background: rgba(18, 18, 18, 0.95); border: 1.5px solid var(--gold-solid); color: var(--gold-solid);
-            padding: 8px 20px; border-radius: 30px; font-size: 0.75rem; font-weight: 600; z-index: 10000; display: none;
+            padding: 8px 18px; border-radius: 30px; font-size: 0.75rem; font-weight: 600; z-index: 10000; display: none;
         }
     </style>
 </head>
@@ -123,12 +143,22 @@
 
     <div class="custom-toast" id="customToast">Action completed successfully!</div>
 
-    <div class="luxury-modal-overlay" id="checkoutModalOverlay">
+    <header class="app-header">
+        <div class="brand-container" onclick="window.location.href='https://mrmasudar.com'">
+            <img src="https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc" alt="Logo" class="logo">
+            <span class="brand-title-main">MRMASUDAR.COM</span>
+        </div>
+        <div style="font-size: 0.7rem; color: var(--gold-solid); font-weight: 700;">
+            <i class="fa-solid fa-lock"></i> SECURE CHECKOUT
+        </div>
+    </header>
+
+    <div class="luxury-modal-overlay">
         <div class="luxury-modal-box">
-            <h3 class="luxury-modal-title">Secure Checkout</h3>
+            <h3 class="luxury-modal-title">Secure Checkout & Order Hub</h3>
             
             <div class="checkout-cart-summary" id="checkoutCartSummaryBox">
-                <div style="font-size:0.7rem; color:var(--text-gray); text-align:center;">Loading...</div>
+                <div style="font-size:0.7rem; color:var(--text-gray); text-align:center;">Loading cart...</div>
             </div>
 
             <form onsubmit="handleOrderSubmit(event)">
@@ -309,7 +339,7 @@
                             <option value="+260">Zambia (+260)</option>
                             <option value="+263">Zimbabwe (+263)</option>
                         </select>
-                        <input type="tel" id="custPhoneNum" required placeholder="Enter WhatsApp number">
+                        <input type="tel" id="custPhoneNum" required placeholder="WhatsApp number">
                     </div>
                 </div>
 
@@ -498,7 +528,7 @@
                     </select>
                 </div>
                 
-                <button type="submit" class="auth-submit-btn">Proceed to Payment</button>
+                <button type="submit" class="auth-submit-btn">Proceed to Payment & Place Order</button>
             </form>
         </div>
     </div>
@@ -530,15 +560,22 @@
             });
 
             let itemsToOrder = window.activeCheckoutItems || [];
+            if(itemsToOrder.length === 0) {
+                showCustomToast("Your cart is empty!");
+                return;
+            }
+
             let allMasterOrders = JSON.parse(localStorage.getItem('mme_admin_orders') || '[]');
 
-            itemsToOrder.forEach(item => {
+            itemsToOrder.export = itemsToOrder.forEach(item => {
                 let orderRecord = {
                     trackingId: trackingId,
                     productId: item.productId || '1',
                     productTitle: item.title,
                     quantity: item.quantity || 1,
                     price: item.price || '$35.00',
+                    color: item.color || 'Standard',
+                    size: item.size || 'Standard',
                     sellerId: item.sellerId || 'VEN-MASUD',
                     affiliateId: item.affiliateRef || sessionStorage.getItem('mme_active_aff') || 'AFF-MASTER',
                     customerName: name,
@@ -561,10 +598,8 @@
             });
 
             localStorage.setItem('mme_admin_orders', JSON.stringify(allMasterOrders));
-
             showCustomToast(`Processing order... [Trk: ${trackingId}]`);
             
-            // অর্ডার সফল হলে কার্ট খালি করা
             localStorage.removeItem('mme_cart_items');
 
             setTimeout(() => {
