@@ -49,7 +49,14 @@
                     <img src="${i.image || 'https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc'}" style="width: 36px; height: 36px; border-radius: 6px; object-fit: cover; border: 1px solid var(--gold-solid); flex-shrink: 0;">
                     <div style="flex:1; min-width:0;">
                         <div style="font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color: #fff;">${i.title || 'Product'}</div>
-                        <div style="color:var(--gold-solid);">Qty: ${i.quantity || 1} | ${i.price || '$35.00'}</div>
+                        <div style="color:var(--gold-solid); display: flex; align-items: center; gap: 6px; margin-top: 2px;">
+                            <span>${i.price || '$35.00'}</span>
+                            <div style="display: inline-flex; align-items: center; background: rgba(255,255,255,0.1); border-radius: 4px; padding: 1px 4px;">
+                                <button type="button" onclick="updateItemQuantity(${index}, -1)" style="background:none; border:none; color:#fff; cursor:pointer; font-size:0.7rem; padding:0 3px;">-</button>
+                                <span style="padding: 0 4px; color:#fff; font-weight:600;">${i.quantity || 1}</span>
+                                <button type="button" onclick="updateItemQuantity(${index}, 1)" style="background:none; border:none; color:#fff; cursor:pointer; font-size:0.7rem; padding:0 3px;">+</button>
+                            </div>
+                        </div>
                     </div>
                     <button type="button" onclick="removeSubdomainCartItem(${index})" title="Remove Item" style="background: rgba(255,59,48,0.2); border: 1px solid #ff3b30; color: #ff3b30; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 0.75rem; flex-shrink: 0;"><i class="fa-solid fa-xmark"></i></button>
                 </div>
@@ -59,12 +66,27 @@
         }
       }
 
+      // কোয়ান্টিটি প্লাস-মাইনাস এবং ০ বা তার নিচে গেলে লিস্ট থেকে রিমুভ করার ফাংশন
+      function updateItemQuantity(index, change) {
+          let items = window.activeCheckoutItems || [];
+          if(items[index]) {
+              items[index].quantity = (items[index].quantity || 1) + change;
+              
+              if(items[index].quantity <= 0) {
+                  items.splice(index, 1);
+              }
+              
+              window.activeCheckoutItems = items;
+              localStorage.setItem('mme_cart_items', JSON.stringify(items));
+              renderCheckoutCartSummary(items);
+          }
+      }
+
       function removeSubdomainCartItem(index) {
           let items = window.activeCheckoutItems || [];
           items.splice(index, 1);
           window.activeCheckoutItems = items;
           
-          // লোকালস্টোরেজ এবং উইন্ডোজ স্টেট একদম ফ্রেশ করা হচ্ছে
           localStorage.setItem('mme_cart_items', JSON.stringify(items));
           renderCheckoutCartSummary(items);
           showCustomToast("Product removed successfully");
@@ -609,7 +631,6 @@
             localStorage.setItem('mme_admin_orders', JSON.stringify(allMasterOrders));
             showCustomToast(`Processing order... [Trk: ${trackingId}]`);
             
-            // অর্ডার সফল হলে কার্ট বা ঝুড়ি সম্পূর্ণ ফ্রেশ বা খালি করে দেওয়া হচ্ছে
             localStorage.removeItem('mme_cart_items');
 
             setTimeout(() => {
