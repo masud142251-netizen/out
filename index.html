@@ -9,7 +9,79 @@
       const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
       window.addEventListener('DOMContentLoaded', async () => {
+       window.addEventListener('DOMContentLoaded', async () => {
         const urlParams = new URLSearchParams(window.location.search);
+        const affiliateId = urlParams.get('ref') || urlParams.get('aff');
+        const sidParam = urlParams.get('sid');
+        const cartParam = urlParams.get('cart');
+
+        if(affiliateId) {
+            sessionStorage.setItem('mme_active_aff', affiliateId);
+            localStorage.setItem('mme_active_aff', affiliateId);
+        }
+
+        if(sidParam) {
+            localStorage.setItem('mme_user_session_id', sidParam);
+        }
+
+        // যদি ইউআরএল-এ কার্ট ডেটা থাকে এবং Supabase-এ কোনো ডেটা না থাকে তবেই প্রথমবার সেট হবে
+        if(cartParam) {
+            try {
+                let decodedCart = JSON.parse(decodeURIComponent(cartParam));
+                let existingLocal = JSON.parse(localStorage.getItem('mme_cart_items') || '[]');
+                // যদি লোকালস্টোরেজে আইটেম কম থাকে (যেমন ইউজার কেটে দিয়েছে), তবে ইউআরএলের ওভাররাইট ঠেকানো
+                if(existingLocal.length === 0) {
+                    localStorage.setItem('mme_cart_items', JSON.stringify(decodedCart));
+                }
+            } catch(e) {}
+
+            // কাজ শেষে ইউআরএল থেকে কার্ট প্যারামিটার পরিষ্কার করে ফেলা যাতে রিফ্রেশ করলে আবার ব্যাক না করে
+            window.history.replaceState({}, document.title, window.location.pathname + (affiliateId ? `?ref=${affiliateId}` : ''));
+        }
+
+        await loadCartFromSupabaseOrStorage();
+      });
+
+      async function loadCartFromSupabaseOrStorage() {
+          let sid = localStorage.getItem('mme_user_session_id');
+          let cartItems = [];
+          
+          if(sid) {
+              try {
+                  let { data, error } = await _supabase.from('carts').select('cart_items').eq('user_session_id', sid).single();
+                  if(data && data.cart_items) {
+                      cartItems = data.cart_items;
+                      localStorage.setItem('mme_cart_items', JSON.stringify(cartItems));
+                  }
+              } catch(e) {}
+          }
+
+          if(cartItems.length === 0) {
+              try {
+                  cartItems = JSON.parse(localStorage.getItem('mme_cart_items') || '[]');
+              } catch(e) {
+                  cartItems = [];
+              }
+          }
+
+          renderCheckoutCartSummary(cartItems);
+      }
+
+      async function updateAndSyncCart(items) {
+          window.activeCheckoutItems = items;
+          localStorage.setItem('mme_cart_items', JSON.stringify(items));
+          
+          let sid = localStorage.getItem('mme_user_session_id');
+          if(sid) {
+              try {
+                  await _supabase.from('carts').upsert([
+                      { user_session_id: sid, cart_items: items, updated_at: new Date() }
+                  ], { onConflict: 'user_session_id' });
+              } catch(e) {}
+          }
+          renderCheckoutCartSummary(items);
+      }
+          const urlParams = new URLSearchParams(window.location.search);
         const affiliateId = urlParams.get('ref') || urlParams.get('aff');
         const sidParam = urlParams.get('sid');
         const cartParam = urlParams.get('cart');
