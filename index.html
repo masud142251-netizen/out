@@ -1,80 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
+    <!-- Supabase CDN Script -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
       const supabaseUrl = 'https://eyfecqehygiivjtbhniy.supabase.co';
-      const supabaseKey = 'eyJhGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5ZmVjcWVoeWdpaXZqdGJobniyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NjQ0NDcsImV4cCI6MjA4NjI0MDQ0N30.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5ZmVjcWVoeWdpaXZqdGJobniyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NjQ0NDcsImV4cCI6MjA4NjI0MDQ0N30'; 
+      const supabaseKey = 'eyJhGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5ZmVjcWVoeWdpaXZqdGJobniyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NjQ0NDcsImV4cCI6MjA4NjI0MDQ0N30.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5ZmVjcWVoeWdpaXZqdGJobniyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NjQ0NDcsImV4cCI6MjA4NjI0MDQ0N30';
       const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
       window.addEventListener('DOMContentLoaded', async () => {
         const urlParams = new URLSearchParams(window.location.search);
         const affiliateId = urlParams.get('ref') || urlParams.get('aff');
-        const cartParam = urlParams.get('cart');
 
         if(affiliateId) {
+            sessionStorage.setItem('mme_active_aff', affiliateId);
             localStorage.setItem('mme_active_aff', affiliateId);
         }
 
-        if(cartParam) {
-            try {
-                let decodedCart = JSON.parse(decodeURIComponent(cartParam));
-                localStorage.setItem('mme_cart_items', JSON.stringify(decodedCart));
-            } catch(e) {}
-        }
-
-        loadCheckoutCart();
+        updateSupabaseCartBadge();
       });
 
-      function loadCheckoutCart() {
-          let cartItems = [];
-          try {
-              cartItems = JSON.parse(localStorage.getItem('mme_cart_items') || '[]');
-          } catch(e) {
-              cartItems = [];
-          }
-          renderCartSummary(cartItems);
-      }
-
-      function renderCartSummary(items) {
-        window.activeCheckoutItems = items;
-        const summaryBox = document.getElementById('checkoutCartSummaryBox');
-        if(!summaryBox) return;
-
-        if(items && items.length > 0) {
-            summaryBox.innerHTML = items.map((i, index) => `
-                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 0.72rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 6px;">
-                    <img src="${i.image || 'https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc'}" style="width: 36px; height: 36px; border-radius: 6px; object-fit: cover; border: 1px solid var(--gold-solid); flex-shrink: 0;">
-                    <div style="flex:1; min-width:0;">
-                        <div style="font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color: #fff;">${i.title || 'Product'}</div>
-                        <div style="color:var(--gold-solid);">Qty: ${i.quantity || 1} | ${i.price || '$35.00'}</div>
-                    </div>
-                    <button type="button" onclick="removeCartItem(${index})" title="Remove" style="background: rgba(255,59,48,0.2); border: 1px solid #ff3b30; color: #ff3b30; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 0.75rem; flex-shrink: 0;"><i class="fa-solid fa-xmark"></i></button>
-                </div>
-            `).join('');
-        } else {
-            summaryBox.innerHTML = `<div style="font-size:0.75rem; color:var(--text-gray); text-align:center; padding: 10px;">Your cart is empty.</div>`;
-        }
-      }
-
-      function removeCartItem(index) {
-          let items = window.activeCheckoutItems || [];
-          items.splice(index, 1);
-          window.activeCheckoutItems = items;
-          
-          localStorage.setItem('mme_cart_items', JSON.stringify(items));
-          renderCartSummary(items);
-      }
-
-      function closeCheckoutModal() {
-          window.location.href = 'https://mrmasudar.com';
+      async function updateSupabaseCartBadge() {
+        let currentAff = sessionStorage.getItem('mme_active_aff') || localStorage.getItem('mme_active_aff') || 'AFF-MASTER';
+        try {
+            let { data, error } = await _supabase.from('cart_items').select('*').eq('affiliate_ref', currentAff);
+            if(data) {
+                let totalCount = data.reduce((sum, item) => sum + (item.quantity || 1), 0);
+                let badgeEl = document.getElementById('cartCount');
+                if(badgeEl) badgeEl.innerText = totalCount;
+            }
+        } catch(e) {}
       }
     </script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MRMASUDAR.COM - Secure Checkout & Enterprise Hub</title>
+    <title>MR MASUDAR ENTERPRISE - Luxury Ecosystem</title>
     
     <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@600;700;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -82,604 +44,622 @@
     
     <style>
         :root {
-            --bg-black: #050505;
-            --modal-bg: linear-gradient(135deg, #141414, #0a0a0a);
+            --bg-black: #080808;
+            --card-bg: #121212;
             --gold-gradient: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
             --gold-solid: #d4af37;
             --text-white: #ffffff;
-            --text-gray: #cfcfcf;
-            --danger-red: #ff3b30;
+            --text-gray: #b3b3b3;
+            --pink-heart: #ff2d55;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
-        html, body { width: 100%; height: 100%; background-color: var(--bg-black); color: var(--text-white); overflow-x: hidden; }
+        html, body { width: 100%; overflow-x: hidden !important; background-color: var(--bg-black); color: var(--text-white); position: relative; }
+        body { padding-top: 60px; padding-bottom: 95px; }
 
         header.app-header {
-            display: flex; justify-content: space-between; align-items: center; padding: 6px 10px;
+            display: flex; justify-content: space-between; align-items: center; padding: 8px 12px;
             background: rgba(11, 11, 11, 0.98); position: fixed; top: 0; left: 0; z-index: 1000;
             border-bottom: 1px solid rgba(212, 175, 55, 0.4); backdrop-filter: blur(12px); width: 100%; box-shadow: 0 4px 20px rgba(0,0,0,0.8);
         }
-        .brand-container { display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; }
-        .logo { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold-solid); box-shadow: 0 0 10px rgba(212, 175, 55, 0.6); background: #000; flex-shrink: 0; }
-        .brand-title-main { 
-            font-family: 'Cinzel Decorative', serif; font-size: 0.92rem; font-weight: 900; 
-            background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
-            text-transform: uppercase; letter-spacing: 0.3px;
-        }
+        .brand-container { display: flex; align-items: center; gap: 7px; }
+        .logo { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold-solid); box-shadow: 0 0 12px rgba(212, 175, 55, 0.6); background: #000; }
+        .brand-text-box { display: flex; flex-direction: column; align-items: stretch; }
+        .brand-title-main { font-family: 'Cinzel Decorative', serif; font-size: 0.9rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.1; text-transform: uppercase; white-space: nowrap; }
+        .brand-title-sub { font-family: 'Cinzel', serif; font-size: 0.52rem; font-weight: 700; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 4.2px; text-transform: uppercase; display: flex; justify-content: space-between; margin-top: 1px; }
 
-        .luxury-modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px);
-            display: flex; justify-content: center; align-items: center; z-index: 9999;
-            padding: 10px; overflow-y: auto; padding-top: 60px;
-        }
-        .luxury-modal-box {
-            background: var(--modal-bg); border: 2px solid var(--gold-solid);
-            border-radius: 24px; width: 100%; max-width: 480px; max-height: 90vh;
-            overflow-y: auto; padding: 20px; position: relative;
-            box-shadow: 0 0 50px rgba(212, 175, 55, 0.35);
-        }
-        .golden-cross-btn-top-right { 
-            background: rgba(18,18,18,0.95); border: 1.5px solid var(--gold-solid); color: var(--gold-solid); 
-            width: 34px; height: 34px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; 
-            cursor: pointer; font-size: 1rem; font-weight: bold; position: absolute; top: 15px; right: 15px; z-index: 4500;
-            box-shadow: 0 0 15px rgba(212,175,55,0.6); transition: all 0.3s ease;
-        }
-        .golden-cross-btn-top-right:hover { background: var(--gold-solid); color: #000; transform: scale(1.1); }
+        .top-right-controls { display: flex; align-items: center; gap: 6px; }
+        .auth-top-btn { background: var(--gold-gradient); color: #111; border: none; padding: 6px 14px; border-radius: 8px; font-weight: 800; font-size: 0.78rem; cursor: pointer; box-shadow: 0 0 15px rgba(212, 175, 55, 0.6); white-space: nowrap; display: flex; align-items: center; gap: 5px; }
 
-        .luxury-modal-title {
-            font-size: 1.15rem; font-weight: 800; background: var(--gold-gradient);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-align: center; margin-bottom: 12px; text-transform: uppercase;
-            font-family: 'Cinzel', serif; letter-spacing: 0.5px; padding-right: 30px;
+        .country-square-badge { display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(20,20,20,0.95), rgba(35,35,35,0.95)); border: 1px solid var(--gold-solid); padding: 3px 6px; border-radius: 6px; text-align: center; min-width: 40px; }
+        .badge-top-text { font-size: 0.58rem; font-weight: 700; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: flex; align-items: center; gap: 2px; }
+        .badge-bottom-text { font-size: 6px; color: var(--text-gray); text-transform: uppercase; }
+
+        .category-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 5, 5, 0.5); display: none; justify-content: center; align-items: center; z-index: 2500; backdrop-filter: blur(4px); padding: 15px; }
+        .category-modal-box { background: rgba(12, 12, 12, 0.95); backdrop-filter: blur(16px); border: 2px solid var(--gold-solid); width: 100%; max-width: 420px; border-radius: 22px; padding: 22px; position: relative; box-shadow: 0 0 30px rgba(212,175,55,0.2); }
+        .cat-modal-title { font-family: 'Cinzel', serif; font-size: 1.15rem; font-weight: 700; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1.5px; }
+        .category-grid-popup { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .cat-popup-item { background: rgba(20, 20, 20, 0.85); border: 1px solid rgba(212, 175, 55, 0.3); padding: 14px 10px; border-radius: 14px; color: var(--text-white); font-size: 0.75rem; font-weight: 600; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 6px; transition: 0.3s; }
+        .cat-popup-item:nth-child(1) { grid-column: span 2; flex-direction: row; justify-content: space-between; padding: 12px 16px; }
+        .cat-popup-item i { font-size: 1.25rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .ecosystem-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); display: none; flex-direction: column; z-index: 4000; backdrop-filter: blur(10px); }
+        .ecosystem-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: rgba(15, 15, 15, 0.98); border-bottom: 1px solid var(--gold-solid); }
+        .ecosystem-title { font-family: 'Cinzel', serif; font-size: 1rem; font-weight: 700; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; }
+        .ecosystem-close-btn { background: rgba(255,255,255,0.1); border: 1px solid var(--gold-solid); color: var(--text-white); padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 0.75rem; font-weight: 600; }
+        .ecosystem-body { flex: 1; width: 100%; background: #000; position: relative; }
+        .ecosystem-body iframe { width: 100%; height: 100%; border: none; }
+
+        .auth-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.88); display: none; justify-content: center; align-items: center; z-index: 3000; backdrop-filter: blur(8px); padding: 12px; }
+        .auth-modal-box { background: var(--card-bg); border: 2px solid var(--gold-solid); width: 100%; max-width: 380px; border-radius: 18px; padding: 22px; position: relative; max-height: 90vh; overflow-y: auto; box-shadow: 0 0 35px rgba(212,175,55,0.4); }
+        .close-modal { position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.1); border: none; color: var(--text-white); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; }
+        .auth-tabs { display: flex; margin-bottom: 15px; border-bottom: 1px solid rgba(212,175,55,0.4); }
+        .auth-tab-btn { flex: 1; background: transparent; border: none; color: var(--text-gray); padding: 10px; font-weight: 600; font-size: 0.85rem; cursor: pointer; }
+        .auth-tab-btn.active { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; border-bottom: 2px solid var(--gold-solid); font-weight: 700; }
+        .auth-form-group { margin-bottom: 12px; text-align: left; }
+        .auth-form-group label { display: block; font-size: 0.72rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 4px; font-weight: 700; text-transform: uppercase; }
+        .auth-form-group input, .auth-form-group select, .auth-form-group textarea { width: 100%; background: #000; border: 1.5px solid rgba(212,175,55,0.5); padding: 10px; border-radius: 8px; color: var(--text-white); font-size: 0.8rem; outline: none; }
+        .password-field-wrapper { position: relative; width: 100%; }
+        .password-field-wrapper input { padding-right: 35px; }
+        .toggle-password { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--gold-solid); cursor: pointer; }
+        .phone-group { display: flex; gap: 6px; }
+        .phone-group select { width: 125px; flex-shrink: 0; }
+        .auth-submit-btn { width: 100%; background: var(--gold-gradient); border: none; padding: 11px; border-radius: 10px; color: var(--bg-black); font-weight: 800; font-size: 0.9rem; cursor: pointer; margin-top: 10px; }
+        .forgot-pass-link { display: block; text-align: right; font-size: 0.7rem; color: var(--text-gray); margin-top: 5px; cursor: pointer; text-decoration: underline; }
+
+        .floating-cart { position: fixed; bottom: 72px; right: 15px; background: var(--card-bg); border: 2px solid var(--gold-solid); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 20px rgba(212, 175, 55, 0.8); z-index: 1050; }
+        .floating-cart.smooth-center-bounce { animation: smoothCartCenterBounce 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important; }
+        @keyframes smoothCartCenterBounce { 
+            0% { transform: scale(1) translate(0, 0) rotate(0deg); } 
+            35% { transform: scale(1.45) translate(-38vw, -32vh) rotate(-15deg); box-shadow: 0 0 40px var(--gold-solid); } 
+            65% { transform: scale(1.5) translate(-38vw, -32vh) rotate(15deg); box-shadow: 0 0 50px var(--gold-solid); } 
+            100% { transform: scale(1) translate(0, 0) rotate(0deg); box-shadow: 0 0 20px rgba(212, 175, 55, 0.8); } 
         }
-        .checkout-cart-summary {
-            background: rgba(0,0,0,0.6); border: 1px solid rgba(212,175,55,0.3);
-            border-radius: 12px; padding: 10px; margin-bottom: 12px; max-height: 160px; overflow-y: auto;
-        }
-        .auth-form-group { margin-bottom: 10px; text-align: left; }
-        .auth-form-group label { display: block; font-size: 0.68rem; color: var(--gold-solid); margin-bottom: 3px; font-weight: 700; text-transform: uppercase; }
-        .auth-form-group input, .auth-form-group select, .auth-form-group textarea {
-            width: 100%; background: #000; border: 1.5px solid rgba(212, 175, 55, 0.4); padding: 9px;
-            border-radius: 10px; color: var(--text-white); font-size: 0.78rem; outline: none;
-        }
-        .phone-input-row { display: flex; gap: 6px; }
-        .phone-input-row select { width: 190px; font-size: 0.6rem; }
-        .auth-submit-btn {
-            width: 100%; background: var(--gold-gradient); border: none; padding: 11px; border-radius: 10px;
-            color: #000; font-weight: 900; font-size: 0.82rem; cursor: pointer; margin-top: 6px;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); text-transform: uppercase;
-        }
-        .custom-toast {
-            position: fixed; top: 75px; left: 50%; transform: translateX(-50%);
-            background: rgba(18, 18, 18, 0.95); border: 1.5px solid var(--gold-solid); color: var(--gold-solid);
-            padding: 8px 18px; border-radius: 30px; font-size: 0.75rem; font-weight: 600; z-index: 10000; display: none;
-        }
+        .floating-cart i { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.25rem; }
+        .cart-badge { position: absolute; top: -3px; right: -3px; background: var(--pink-heart); color: white; font-size: 0.65rem; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+        .flying-coin { position: fixed; width: 22px; height: 22px; background: var(--gold-solid); border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 14px var(--gold-solid); z-index: 9999; pointer-events: none; transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
+
+        .feed-container { padding: 10px 8px; column-count: 2; column-gap: 8px; width: 100%; max-width: 1650px; margin: 0 auto; }
+        @media (min-width: 768px) { .feed-container { column-count: 3; padding: 14px; column-gap: 12px; } }
+        @media (min-width: 1024px) { .feed-container { column-count: 4; column-gap: 14px; padding: 18px; } }
+
+        .product-card { break-inside: avoid; background: var(--card-bg); border-radius: 14px; margin-bottom: 10px; overflow: hidden; border: 1px solid rgba(212, 175, 55, 0.35); box-shadow: 0 6px 20px rgba(0,0,0,0.6); display: flex; flex-direction: column; transition: transform 0.4s ease; }
+        .product-card:hover { transform: translateY(-5px); border-color: var(--gold-solid); }
+        .product-media-box { position: relative; width: 100%; cursor: pointer; background: #111; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .product-media-box img { width: 100%; height: auto; display: block; object-fit: cover; }
+        
+        .video-wrapper { position: relative; width: 100%; padding-bottom: 145%; background: #000; overflow: hidden; }
+        .video-wrapper iframe { position: absolute; top: -22%; left: -15%; width: 130%; height: 144%; border: none; pointer-events: none; }
+        .video-click-shield { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 4; cursor: pointer; }
+
+        .product-bottom-actions { display: flex; justify-content: space-around; align-items: center; background: linear-gradient(135deg, rgba(18,18,18,0.98), rgba(28,28,28,0.98)); padding: 9px 6px; border-top: 1px solid rgba(212, 175, 55, 0.25); font-size: 0.72rem; }
+        .action-item { display: flex; align-items: center; gap: 4px; color: var(--text-white); cursor: pointer; font-weight: 500; }
+        .action-item.view-icon i { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .action-item.like-icon i { color: var(--pink-heart); }
+        .action-item.like-icon.active i { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .action-item.share-icon i { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.88); display: none; justify-content: center; align-items: center; z-index: 2000; backdrop-filter: blur(8px); padding: 12px; }
+        .modal-content { background: var(--card-bg); border: 2px solid var(--gold-solid); width: 100%; max-width: 380px; border-radius: 18px; padding: 18px; position: relative; max-height: 90vh; overflow-y: auto; box-shadow: 0 0 35px rgba(212,175,55,0.3); }
+        
+        .modal-media-slider { width: 100%; border-radius: 12px; overflow-x: auto; display: flex; scroll-snap-type: x mandatory; gap: 10px; margin-bottom: 8px; border: 1px solid rgba(212, 175, 55, 0.4); background: #000; scrollbar-width: none; position: relative; }
+        .modal-media-slider::-webkit-scrollbar { display: none; }
+        .modal-slide-item { flex: 0 0 100%; width: 100%; height: 300px; scroll-snap-align: center; position: relative; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .modal-slide-item img { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+        .modal-thumbnails-strip { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 12px; }
+        .thumb-item { flex: 0 0 55px; height: 55px; border-radius: 8px; overflow: hidden; border: 1.5px solid rgba(212, 175, 55, 0.35); cursor: pointer; background: #000; position: relative; }
+        .thumb-item.active { border-color: var(--gold-solid); box-shadow: 0 0 10px rgba(212,175,55,0.6); }
+        .thumb-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .thumb-item .thumb-video-indicator { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; color: var(--gold-solid); font-size: 0.9rem; }
+
+        .modal-sound-btn { position: absolute; bottom: 12px; right: 12px; background: rgba(10, 10, 10, 0.75); border: 1.5px solid var(--gold-solid); color: var(--gold-solid); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; }
+        
+        .modal-price-box { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; gap: 6px; }
+        .modal-price-group { display: flex; align-items: center; gap: 6px; }
+        .modal-price { font-size: 1.15rem; font-weight: 700; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .modal-bd-discount { background: linear-gradient(135deg, #ff2d55, #ff6b8b); color: white; font-size: 0.62rem; padding: 3px 6px; border-radius: 5px; font-weight: 700; }
+        .modal-seller-btn { font-size: 0.72rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; padding: 5px 10px; border-radius: 6px; border: 1px solid rgba(212, 175, 55, 0.5); cursor: pointer; font-weight: 700; }
+        .modal-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; color: var(--text-white); }
+        .modal-desc { font-size: 0.78rem; color: var(--text-gray); margin-bottom: 15px; line-height: 1.4; }
+        .modal-add-btn { width: 100%; background: var(--gold-gradient); border: none; padding: 10px; border-radius: 10px; color: var(--bg-black); font-weight: 800; font-size: 0.9rem; cursor: pointer; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4); }
+
+        .share-link-box { background: #000; border: 1px solid var(--gold-solid); border-radius: 8px; padding: 8px; margin-bottom: 12px; text-align: center; }
+        .share-link-input { width: 100%; background: transparent; border: none; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 0.75rem; text-align: center; outline: none; font-weight: 600; }
+        .share-options-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .share-option-item { display: flex; flex-direction: column; align-items: center; background: rgba(255,255,255,0.04); padding: 8px; border-radius: 8px; cursor: pointer; border: 1px solid rgba(212, 175, 55, 0.3); color: var(--text-white); font-size: 0.65rem; gap: 4px; text-decoration: none; }
+        .share-option-item i { font-size: 1.2rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        nav.bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(11, 11, 11, 0.99); border-top: 1px solid rgba(212, 175, 55, 0.4); display: flex; justify-content: space-between; align-items: center; padding: 6px 8px; z-index: 1000; backdrop-filter: blur(15px); }
+        .nav-menus-left { display: flex; gap: 2px; flex: 1.1; justify-content: space-around; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-gray); font-size: 0.55rem; font-weight: 500; padding: 3px 4px; border-radius: 6px; cursor: pointer; }
+        .nav-item i { font-size: 0.9rem; margin-bottom: 1px; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-item.active { color: var(--gold-solid); background: rgba(212, 175, 55, 0.1); }
+        .bottom-search-wrapper { display: flex; align-items: center; background: var(--card-bg); border: 1.5px solid var(--gold-solid); border-radius: 16px; padding: 2px 5px; width: 38%; }
+        .bottom-search-wrapper input { flex: 1; background: transparent; border: none; outline: none; color: var(--text-white); font-size: 0.68rem; padding: 2px; min-width: 0; }
+        .bottom-search-actions { display: flex; align-items: center; gap: 4px; color: var(--gold-solid); font-size: 0.75rem; }
+        .bottom-search-actions i { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; cursor: pointer; }
+        .search-submit-btn { background: var(--gold-gradient); border: none; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--bg-black); font-size: 0.6rem; cursor: pointer; }
+        .search-submit-btn i { background: none !important; -webkit-text-fill-color: var(--bg-black) !important; color: var(--bg-black) !important; }
+        #hiddenCameraInput { display: none; }
     </style>
 </head>
 <body>
 
-    <div class="custom-toast" id="customToast">Action completed successfully!</div>
-
     <header class="app-header">
-        <div class="brand-container" onclick="window.location.href='https://mrmasudar.com'">
-            <img src="https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc" alt="Logo" class="logo">
-            <span class="brand-title-main">MRMASUDAR.COM</span>
+        <div class="brand-container">
+            <img src="https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc" alt="Logo" class="logo" loading="lazy">
+            <div class="brand-text-box">
+                <span class="brand-title-main">MR MASUDAR</span>
+                <span class="brand-title-sub">
+                    <span>E</span><span>N</span><span>T</span><span>E</span><span>R</span><span>P</span><span>R</span><span>I</span><span>S</span><span>E</span>
+                </span>
+            </div>
         </div>
-        <div style="font-size: 0.7rem; color: var(--gold-solid); font-weight: 700;">
-            <i class="fa-solid fa-lock"></i> SECURE CHECKOUT
+        <div class="top-right-controls">
+            <button class="auth-top-btn" onclick="openAuthModal('signin')">
+                <i class="fa-solid fa-user"></i> Login
+            </button>
+            <div class="country-square-badge">
+                <span class="badge-top-text"><i class="fa-solid fa-globe"></i> 200+</span>
+                <span class="badge-bottom-text">Country</span>
+            </div>
         </div>
     </header>
 
-    <div class="luxury-modal-overlay">
-        <div class="luxury-modal-box">
-            <button class="golden-cross-btn-top-right" onclick="closeCheckoutModal()" title="Close"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="luxury-modal-title">Secure Checkout & Order Hub</h3>
-            
-            <div class="checkout-cart-summary" id="checkoutCartSummaryBox">
-                <div style="font-size:0.7rem; color:var(--text-gray); text-align:center;">Loading cart...</div>
+    <div class="category-modal-overlay" id="categoryModalOverlay" onclick="closeCategoryModal(event)">
+        <div class="category-modal-box">
+            <button class="close-modal" onclick="document.getElementById('categoryModalOverlay').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="cat-modal-title">✨ Luxury Categories</h3>
+            <div class="category-grid-popup">
+                <div class="cat-popup-item" onclick="selectCategory('All')">
+                    <span><i class="fa-solid fa-wand-magic-sparkles" style="margin-right: 6px;"></i> All Products</span> <i class="fa-solid fa-arrow-right"></i>
+                </div>
+                <div class="cat-popup-item" onclick="selectCategory('👔 FASHION (MEN)')"><i class="fa-solid fa-shirt"></i><span>Men Fashion</span></div>
+                <div class="cat-popup-item" onclick="selectCategory('👗 FASHION (WOMEN)')"><i class="fa-solid fa-person-dress"></i><span>Women Fashion</span></div>
+                <div class="cat-popup-item" onclick="selectCategory('👶 BABY & KIDS')"><i class="fa-solid fa-child"></i><span>Baby & Kids</span></div>
+                <div class="cat-popup-item" onclick="selectCategory('🎁 LUXURY GIFTS')"><i class="fa-solid fa-gift"></i><span>Luxury Gifts</span></div>
+                <div class="cat-popup-item" onclick="selectCategory('🏡 HOME DECOR')"><i class="fa-solid fa-house-chimney"></i><span>Home Decor</span></div>
+                <div class="cat-popup-item" onclick="selectCategory('🎨 ART & CRAFT')"><i class="fa-solid fa-palette"></i><span>Art & Craft</span></div>
             </div>
-
-            <form onsubmit="handleOrderSubmit(event)">
-                <div class="auth-form-group">
-                    <label>Gmail Address *</label>
-                    <input type="email" id="custEmail" required placeholder="name@gmail.com">
-                </div>
-                
-                <div class="auth-form-group">
-                    <label>WhatsApp Number *</label>
-                    <div class="phone-input-row">
-                        <select id="countryPhoneCode">
-                            <option value="+93">Afghanistan (+93)</option>
-                            <option value="+355">Albania (+355)</option>
-                            <option value="+213">Algeria (+213)</option>
-                            <option value="+376">Andorra (+376)</option>
-                            <option value="+244">Angola (+244)</option>
-                            <option value="+1268">Antigua and Barbuda (+1268)</option>
-                            <option value="+54">Argentina (+54)</option>
-                            <option value="+374">Armenia (+374)</option>
-                            <option value="+61">Australia (+61)</option>
-                            <option value="+43">Austria (+43)</option>
-                            <option value="+994">Azerbaijan (+994)</option>
-                            <option value="+1242">Bahamas (+1242)</option>
-                            <option value="+973">Bahrain (+973)</option>
-                            <option value="+880" selected>Bangladesh (+880)</option>
-                            <option value="+1246">Barbados (+1246)</option>
-                            <option value="+375">Belarus (+375)</option>
-                            <option value="+32">Belgium (+32)</option>
-                            <option value="+501">Belize (+501)</option>
-                            <option value="+229">Benin (+229)</option>
-                            <option value="+975">Bhutan (+975)</option>
-                            <option value="+591">Bolivia (+591)</option>
-                            <option value="+387">Bosnia and Herzegovina (+387)</option>
-                            <option value="+267">Botswana (+267)</option>
-                            <option value="+55">Brazil (+55)</option>
-                            <option value="+673">Brunei (+673)</option>
-                            <option value="+359">Bulgaria (+359)</option>
-                            <option value="+226">Burkina Faso (+226)</option>
-                            <option value="+257">Burundi (+257)</option>
-                            <option value="+855">Cambodia (+855)</option>
-                            <option value="+237">Cameroon (+237)</option>
-                            <option value="+1">Canada (+1)</option>
-                            <option value="+238">Cape Verde (+238)</option>
-                            <option value="+236">Central African Republic (+236)</option>
-                            <option value="+235">Chad (+235)</option>
-                            <option value="+56">Chile (+56)</option>
-                            <option value="+86">China (+86)</option>
-                            <option value="+57">Colombia (+57)</option>
-                            <option value="+269">Comoros (+269)</option>
-                            <option value="+242">Congo (+242)</option>
-                            <option value="+506">Costa Rica (+506)</option>
-                            <option value="+385">Croatia (+385)</option>
-                            <option value="+53">Cuba (+53)</option>
-                            <option value="+357">Cyprus (+357)</option>
-                            <option value="+420">Czech Republic (+420)</option>
-                            <option value="+45">Denmark (+45)</option>
-                            <option value="+253">Djibouti (+253)</option>
-                            <option value="+1767">Dominica (+1767)</option>
-                            <option value="+1809">Dominican Republic (+1809)</option>
-                            <option value="+593">Ecuador (+593)</option>
-                            <option value="+20">Egypt (+20)</option>
-                            <option value="+503">El Salvador (+503)</option>
-                            <option value="+240">Equatorial Guinea (+240)</option>
-                            <option value="+291">Eritrea (+291)</option>
-                            <option value="+372">Estonia (+372)</option>
-                            <option value="+251">Ethiopia (+251)</option>
-                            <option value="+679">Fiji (+679)</option>
-                            <option value="+358">Finland (+358)</option>
-                            <option value="+33">France (+33)</option>
-                            <option value="+241">Gabon (+241)</option>
-                            <option value="+220">Gambia (+220)</option>
-                            <option value="+995">Georgia (+995)</option>
-                            <option value="+49">Germany (+49)</option>
-                            <option value="+233">Ghana (+233)</option>
-                            <option value="+30">Greece (+30)</option>
-                            <option value="+1473">Grenada (+1473)</option>
-                            <option value="+502">Guatemala (+502)</option>
-                            <option value="+224">Guinea (+224)</option>
-                            <option value="+245">Guinea-Bissau (+245)</option>
-                            <option value="+592">Guyana (+592)</option>
-                            <option value="+509">Haiti (+509)</option>
-                            <option value="+504">Honduras (+504)</option>
-                            <option value="+852">Hong Kong (+852)</option>
-                            <option value="+36">Hungary (+36)</option>
-                            <option value="+354">Iceland (+354)</option>
-                            <option value="+91">India (+91)</option>
-                            <option value="+62">Indonesia (+62)</option>
-                            <option value="+98">Iran (+98)</option>
-                            <option value="+964">Iraq (+964)</option>
-                            <option value="+353">Ireland (+353)</option>
-                            <option value="+972">Israel (+972)</option>
-                            <option value="+39">Italy (+39)</option>
-                            <option value="+1876">Jamaica (+1876)</option>
-                            <option value="+81">Japan (+81)</option>
-                            <option value="+962">Jordan (+962)</option>
-                            <option value="+7">Kazakhstan (+7)</option>
-                            <option value="+254">Kenya (+254)</option>
-                            <option value="+686">Kiribati (+686)</option>
-                            <option value="+850">North Korea (+850)</option>
-                            <option value="+82">South Korea (+82)</option>
-                            <option value="+965">Kuwait (+965)</option>
-                            <option value="+996">Kyrgyzstan (+996)</option>
-                            <option value="+856">Laos (+856)</option>
-                            <option value="+371">Latvia (+371)</option>
-                            <option value="+961">Lebanon (+961)</option>
-                            <option value="+266">Lesotho (+266)</option>
-                            <option value="+231">Liberia (+231)</option>
-                            <option value="+218">Libya (+218)</option>
-                            <option value="+423">Liechtenstein (+423)</option>
-                            <option value="+370">Lithuania (+370)</option>
-                            <option value="+352">Luxembourg (+352)</option>
-                            <option value="+853">Macau (+853)</option>
-                            <option value="+389">North Macedonia (+389)</option>
-                            <option value="+261">Madagascar (+261)</option>
-                            <option value="+265">Malawi (+265)</option>
-                            <option value="+60">Malaysia (+60)</option>
-                            <option value="+960">Maldives (+960)</option>
-                            <option value="+223">Mali (+223)</option>
-                            <option value="+356">Malta (+356)</option>
-                            <option value="+692">Marshall Islands (+692)</option>
-                            <option value="+222">Mauritania (+222)</option>
-                            <option value="+230">Mauritius (+230)</option>
-                            <option value="+52">Mexico (+52)</option>
-                            <option value="+691">Micronesia (+691)</option>
-                            <option value="+373">Moldova (+373)</option>
-                            <option value="+377">Monaco (+377)</option>
-                            <option value="+976">Mongolia (+976)</option>
-                            <option value="+382">Montenegro (+382)</option>
-                            <option value="+212">Morocco (+212)</option>
-                            <option value="+258">Mozambique (+258)</option>
-                            <option value="+95">Myanmar (+95)</option>
-                            <option value="+264">Namibia (+264)</option>
-                            <option value="+674">Nauru (+674)</option>
-                            <option value="+977">Nepal (+977)</option>
-                            <option value="+31">Netherlands (+31)</option>
-                            <option value="+64">New Zealand (+64)</option>
-                            <option value="+505">Nicaragua (+505)</option>
-                            <option value="+227">Niger (+227)</option>
-                            <option value="+234">Nigeria (+234)</option>
-                            <option value="+47">Norway (+47)</option>
-                            <option value="+968">Oman (+968)</option>
-                            <option value="+92">Pakistan (+92)</option>
-                            <option value="+680">Palau (+680)</option>
-                            <option value="+970">Palestine (+970)</option>
-                            <option value="+507">Panama (+507)</option>
-                            <option value="+675">Papua New Guinea (+675)</option>
-                            <option value="+595">Paraguay (+595)</option>
-                            <option value="+51">Peru (+51)</option>
-                            <option value="+63">Philippines (+63)</option>
-                            <option value="+48">Poland (+48)</option>
-                            <option value="+351">Portugal (+351)</option>
-                            <option value="+974">Qatar (+974)</option>
-                            <option value="+40">Romania (+40)</option>
-                            <option value="+7">Russia (+7)</option>
-                            <option value="+250">Rwanda (+250)</option>
-                            <option value="+1869">Saint Kitts and Nevis (+1869)</option>
-                            <option value="+1758">Saint Lucia (+1758)</option>
-                            <option value="+1784">Saint Vincent and the Grenadines (+1784)</option>
-                            <option value="+685">Samoa (+685)</option>
-                            <option value="+378">San Marino (+378)</option>
-                            <option value="+239">Sao Tome and Principe (+239)</option>
-                            <option value="+966">Saudi Arabia (+966)</option>
-                            <option value="+221">Senegal (+221)</option>
-                            <option value="+381">Serbia (+381)</option>
-                            <option value="+248">Seychelles (+248)</option>
-                            <option value="+232">Sierra Leone (+232)</option>
-                            <option value="+65">Singapore (+65)</option>
-                            <option value="+421">Slovakia (+421)</option>
-                            <option value="+386">Slovenia (+386)</option>
-                            <option value="+677">Solomon Islands (+677)</option>
-                            <option value="+252">Somalia (+252)</option>
-                            <option value="+27">South Africa (+27)</option>
-                            <option value="+211">South Sudan (+211)</option>
-                            <option value="+34">Spain (+34)</option>
-                            <option value="+94">Sri Lanka (+94)</option>
-                            <option value="+249">Sudan (+249)</option>
-                            <option value="+597">Suriname (+597)</option>
-                            <option value="+268">Eswatini (+268)</option>
-                            <option value="+46">Sweden (+46)</option>
-                            <option value="+41">Switzerland (+41)</option>
-                            <option value="+963">Syria (+963)</option>
-                            <option value="+886">Taiwan (+886)</option>
-                            <option value="+992">Tajikistan (+992)</option>
-                            <option value="+255">Tanzania (+255)</option>
-                            <option value="+66">Thailand (+66)</option>
-                            <option value="+670">Timor-Leste (+670)</option>
-                            <option value="+228">Togo (+228)</option>
-                            <option value="+676">Tonga (+676)</option>
-                            <option value="+1868">Trinidad and Tobago (+1868)</option>
-                            <option value="+216">Tunisia (+216)</option>
-                            <option value="+90">Turkey (+90)</option>
-                            <option value="+993">Turkmenistan (+993)</option>
-                            <option value="+688">Tuvalu (+688)</option>
-                            <option value="+256">Uganda (+256)</option>
-                            <option value="+380">Ukraine (+380)</option>
-                            <option value="+971">United Arab Emirates (+971)</option>
-                            <option value="+44">United Kingdom (+44)</option>
-                            <option value="+1">United States (+1)</option>
-                            <option value="+598">Uruguay (+598)</option>
-                            <option value="+998">Uzbekistan (+998)</option>
-                            <option value="+678">Vanuatu (+678)</option>
-                            <option value="+39">Vatican City (+39)</option>
-                            <option value="+58">Venezuela (+58)</option>
-                            <option value="+84">Vietnam (+84)</option>
-                            <option value="+967">Yemen (+967)</option>
-                            <option value="+260">Zambia (+260)</option>
-                            <option value="+263">Zimbabwe (+263)</option>
-                        </select>
-                        <input type="tel" id="custPhoneNum" required placeholder="WhatsApp number">
-                    </div>
-                </div>
-
-                <div class="auth-form-group">
-                    <label>Full Name *</label>
-                    <input type="text" id="custName" required placeholder="Enter your full name">
-                </div>
-                <div class="auth-form-group">
-                    <label>Delivery Address *</label>
-                    <textarea id="custAddress" rows="2" required placeholder="House, Road, Area"></textarea>
-                </div>
-                <div class="auth-form-group">
-                    <label>City / District *</label>
-                    <input type="text" id="custCity" required placeholder="City / District">
-                </div>
-                <div class="auth-form-group">
-                    <label>Country *</label>
-                    <select id="custCountry" required>
-                        <option value="Afghanistan">Afghanistan</option>
-                        <option value="Albania">Albania</option>
-                        <option value="Algeria">Algeria</option>
-                        <option value="Andorra">Andorra</option>
-                        <option value="Angola">Angola</option>
-                        <option value="Antigua and Barbuda">Antigua and Barbuda</option>
-                        <option value="Argentina">Argentina</option>
-                        <option value="Armenia">Armenia</option>
-                        <option value="Australia">Australia</option>
-                        <option value="Austria">Austria</option>
-                        <option value="Azerbaijan">Azerbaijan</option>
-                        <option value="Bahamas">Bahamas</option>
-                        <option value="Bahrain">Bahrain</option>
-                        <option value="Bangladesh" selected>Bangladesh</option>
-                        <option value="Barbados">Barbados</option>
-                        <option value="Belarus">Belarus</option>
-                        <option value="Belgium">Belgium</option>
-                        <option value="Belize">Belize</option>
-                        <option value="Benin">Benin</option>
-                        <option value="Bhutan">Bhutan</option>
-                        <option value="Bolivia">Bolivia</option>
-                        <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
-                        <option value="Botswana">Botswana</option>
-                        <option value="Brazil">Brazil</option>
-                        <option value="Brunei">Brunei</option>
-                        <option value="Bulgaria">Bulgaria</option>
-                        <option value="Burkina Faso">Burkina Faso</option>
-                        <option value="Burundi">Burundi</option>
-                        <option value="Cambodia">Cambodia</option>
-                        <option value="Cameroon">Cameroon</option>
-                        <option value="Canada">Canada</option>
-                        <option value="Cape Verde">Cape Verde</option>
-                        <option value="Central African Republic">Central African Republic</option>
-                        <option value="Chad">Chad</option>
-                        <option value="Chile">Chile</option>
-                        <option value="China">China</option>
-                        <option value="Colombia">Colombia</option>
-                        <option value="Comoros">Comoros</option>
-                        <option value="Congo">Congo</option>
-                        <option value="Costa Rica">Costa Rica</option>
-                        <option value="Croatia">Croatia</option>
-                        <option value="Cuba">Cuba</option>
-                        <option value="Cyprus">Cyprus</option>
-                        <option value="Czech Republic">Czech Republic</option>
-                        <option value="Denmark">Denmark</option>
-                        <option value="Djibouti">Djibouti</option>
-                        <option value="Dominica">Dominica</option>
-                        <option value="Dominican Republic">Dominican Republic</option>
-                        <option value="Ecuador">Ecuador</option>
-                        <option value="Egypt">Egypt</option>
-                        <option value="El Salvador">El Salvador</option>
-                        <option value="Equatorial Guinea">Equatorial Guinea</option>
-                        <option value="Eritrea">Eritrea</option>
-                        <option value="Estonia">Estonia</option>
-                        <option value="Ethiopia">Ethiopia</option>
-                        <option value="Fiji">Fiji</option>
-                        <option value="Finland">Finland</option>
-                        <option value="France">France</option>
-                        <option value="Gabon">Gabon</option>
-                        <option value="Gambia">Gambia</option>
-                        <option value="Georgia">Georgia</option>
-                        <option value="Germany">Germany</option>
-                        <option value="Ghana">Ghana</option>
-                        <option value="Greece">Greece</option>
-                        <option value="Grenada">Grenada</option>
-                        <option value="Guatemala">Guatemala</option>
-                        <option value="Guinea">Guinea</option>
-                        <option value="Guinea-Bissau">Guinea-Bissau</option>
-                        <option value="Guyana">Guyana</option>
-                        <option value="Haiti">Haiti</option>
-                        <option value="Honduras">Honduras</option>
-                        <option value="Hong Kong">Hong Kong</option>
-                        <option value="Hungary">Hungary</option>
-                        <option value="Iceland">Iceland</option>
-                        <option value="India">India</option>
-                        <option value="Indonesia">Indonesia</option>
-                        <option value="Iran">Iran</option>
-                        <option value="Iraq">Iraq</option>
-                        <option value="Ireland">Ireland</option>
-                        <option value="Israel">Israel</option>
-                        <option value="Italy">Italy</option>
-                        <option value="Jamaica">Jamaica</option>
-                        <option value="Japan">Japan</option>
-                        <option value="Jordan">Jordan</option>
-                        <option value="Kazakhstan">Kazakhstan</option>
-                        <option value="Kenya">Kenya</option>
-                        <option value="Kiribati">Kiribati</option>
-                        <option value="North Korea">North Korea</option>
-                        <option value="South Korea">South Korea</option>
-                        <option value="Kuwait">Kuwait</option>
-                        <option value="Kyrgyzstan">Kyrgyzstan</option>
-                        <option value="Laos">Laos</option>
-                        <option value="Latvia">Latvia</option>
-                        <option value="Lebanon">Lebanon</option>
-                        <option value="Lesotho">Lesotho</option>
-                        <option value="Liberia">Liberia</option>
-                        <option value="Libya">Libya</option>
-                        <option value="Liechtenstein">Liechtenstein</option>
-                        <option value="Lithuania">Lithuania</option>
-                        <option value="Luxembourg">Luxembourg</option>
-                        <option value="Macau">Macau</option>
-                        <option value="North Macedonia">North Macedonia</option>
-                        <option value="Madagascar">Madagascar</option>
-                        <option value="Malawi">Malawi</option>
-                        <option value="Malaysia">Malaysia</option>
-                        <option value="Maldives">Maldives</option>
-                        <option value="Mali">Mali</option>
-                        <option value="Malta">Malta</option>
-                        <option value="Marshall Islands">Marshall Islands</option>
-                        <option value="Mauritania">Mauritania</option>
-                        <option value="Mauritius">Mauritius</option>
-                        <option value="Mexico">Mexico</option>
-                        <option value="Micronesia">Micronesia</option>
-                        <option value="Moldova">Moldova</option>
-                        <option value="Monaco">Monaco</option>
-                        <option value="Mongolia">Mongolia</option>
-                        <option value="Montenegro">Montenegro</option>
-                        <option value="Morocco">Morocco</option>
-                        <option value="Mozambique">Mozambique</option>
-                        <option value="Myanmar">Myanmar</option>
-                        <option value="Namibia">Namibia</option>
-                        <option value="Nauru">Nauru</option>
-                        <option value="Nepal">Nepal</option>
-                        <option value="Netherlands">Netherlands</option>
-                        <option value="New Zealand">New Zealand</option>
-                        <option value="Nicaragua">Nicaragua</option>
-                        <option value="Niger">Niger</option>
-                        <option value="Nigeria">Nigeria</option>
-                        <option value="Norway">Norway</option>
-                        <option value="Oman">Oman</option>
-                        <option value="Pakistan">Pakistan</option>
-                        <option value="Palau">Palau</option>
-                        <option value="Palestine">Palestine</option>
-                        <option value="Panama">Panama</option>
-                        <option value="Papua New Guinea">Papua New Guinea</option>
-                        <option value="Paraguay">Paraguay</option>
-                        <option value="Peru">Peru</option>
-                        <option value="Philippines">Philippines</option>
-                        <option value="Poland">Poland</option>
-                        <option value="Portugal">Portugal</option>
-                        <option value="Qatar">Qatar</option>
-                        <option value="Romania">Romania</option>
-                        <option value="Russia">Russia</option>
-                        <option value="Rwanda">Rwanda</option>
-                        <option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
-                        <option value="Saint Lucia">Saint Lucia</option>
-                        <option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
-                        <option value="Samoa">Samoa</option>
-                        <option value="San Marino">San Marino</option>
-                        <option value="Sao Tome and Principe">Sao Tome and Principe</option>
-                        <option value="Saudi Arabia">Saudi Arabia</option>
-                        <option value="Senegal">Senegal</option>
-                        <option value="Serbia">Serbia</option>
-                        <option value="Seychelles">Seychelles</option>
-                        <option value="Sierra Leone">Sierra Leone</option>
-                        <option value="Singapore">Singapore</option>
-                        <option value="Slovakia">Slovakia</option>
-                        <option value="Slovenia">Slovenia</option>
-                        <option value="Solomon Islands">Solomon Islands</option>
-                        <option value="Somalia">Somalia</option>
-                        <option value="South Africa">South Africa</option>
-                        <option value="South Sudan">South Sudan</option>
-                        <option value="Spain">Spain</option>
-                        <option value="Sri Lanka">Sri Lanka</option>
-                        <option value="Sudan">Sudan</option>
-                        <option value="Suriname">Suriname</option>
-                        <option value="Eswatini">Eswatini</option>
-                        <option value="Sweden">Sweden</option>
-                        <option value="Switzerland">Switzerland</option>
-                        <option value="Syria">Syria</option>
-                        <option value="Taiwan">Taiwan</option>
-                        <option value="Tajikistan">Tajikistan</option>
-                        <option value="Tanzania">Tanzania</option>
-                        <option value="Thailand">Thailand</option>
-                        <option value="Timor-Leste">Timor-Leste</option>
-                        <option value="Togo">Togo</option>
-                        <option value="Tonga">Tonga</option>
-                        <option value="Trinidad and Tobago">Trinidad and Tobago</option>
-                        <option value="Tunisia">Tunisia</option>
-                        <option value="Turkey">Turkey</option>
-                        <option value="Turkmenistan">Turkmenistan</option>
-                        <option value="Tuvalu">Tuvalu</option>
-                        <option value="Uganda">Uganda</option>
-                        <option value="Ukraine">Ukraine</option>
-                        <option value="United Arab Emirates">United Arab Emirates</option>
-                        <option value="United Kingdom">United Kingdom</option>
-                        <option value="United States">United States</option>
-                        <option value="Uruguay">Uruguay</option>
-                        <option value="Uzbekistan">Uzbekistan</option>
-                        <option value="Vanuatu">Vanuatu</option>
-                        <option value="Vatican City">Vatican City</option>
-                        <option value="Venezuela">Venezuela</option>
-                        <option value="Vietnam">Vietnam</option>
-                        <option value="Yemen">Yemen</option>
-                        <option value="Zambia">Zambia</option>
-                        <option value="Zimbabwe">Zimbabwe</option>
-                    </select>
-                </div>
-                
-                <button type="submit" class="auth-submit-btn">Proceed to Payment & Place Order</button>
-            </form>
         </div>
     </div>
 
+    <div class="ecosystem-modal-overlay" id="ecosystemModal">
+        <div class="ecosystem-header">
+            <span class="ecosystem-title" id="ecosystemModalTitle">Ecosystem Module</span>
+            <button class="ecosystem-close-btn" onclick="closeEcosystemModal()"><i class="fa-solid fa-xmark"></i> Close</button>
+        </div>
+        <div class="ecosystem-body">
+            <iframe id="ecosystemIframe" src="" loading="lazy"></iframe>
+        </div>
+    </div>
+
+    <div class="auth-modal-overlay" id="authModal">
+        <div class="auth-modal-box">
+            <button class="close-modal" onclick="closeAuthModal()"><i class="fa-solid fa-xmark"></i></button>
+            <div class="auth-tabs">
+                <button class="auth-tab-btn active" id="tabSignInBtn" onclick="switchAuthTab('signin')">Sign In</button>
+                <button class="auth-tab-btn" id="tabSignUpBtn" onclick="switchAuthTab('signup')">Sign Up</button>
+            </div>
+            <div id="signInFormContainer">
+                <form onsubmit="handleSignInSubmit(event)">
+                    <div class="auth-form-group">
+                        <label>Email or WhatsApp Number</label>
+                        <input type="text" id="loginEmailOrPhone" placeholder="Enter your email or WhatsApp" required>
+                    </div>
+                    <div class="auth-form-group">
+                        <label>Password</label>
+                        <div class="password-field-wrapper">
+                            <input type="password" id="loginPassword" placeholder="Enter password" required>
+                            <button type="button" class="toggle-password" onclick="togglePasswordVisibility('loginPassword', this)"><i class="fa-solid fa-eye"></i></button>
+                        </div>
+                        <span class="forgot-pass-link" onclick="openForgotPassModal()">Forgot Password?</span>
+                    </div>
+                    <button type="submit" class="auth-submit-btn">Sign In</button>
+                </form>
+            </div>
+            <div id="signUpFormContainer" style="display: none;">
+                <form onsubmit="handleSignUpSubmit(event)">
+                    <div class="auth-form-group"><label>Full Name *</label><input type="text" id="regName" placeholder="Enter your full name" required></div>
+                    <div class="auth-form-group"><label>Email Address *</label><input type="email" id="regEmail" placeholder="customer@gmail.com" required></div>
+                    <div class="auth-form-group"><label>Select Your Country *</label><select id="regCountrySelect" required><option value="">-- Choose Country --</option></select></div>
+                    <div class="auth-form-group"><label>WhatsApp Number *</label>
+                        <div class="phone-group"><select id="regDialCodeSelect"></select><input type="tel" id="regWhatsApp" placeholder="17XXXXXXXX" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required></div>
+                    </div>
+                    <div class="auth-form-group"><label>Residential Address *</label><textarea id="regAddress" rows="2" placeholder="House, Road, City, Zip Code..." required></textarea></div>
+                    <div class="auth-form-group"><label>Password *</label>
+                        <div class="password-field-wrapper"><input type="password" id="regPassword" placeholder="Min 10 chars, Upper, Lower, Symbol" required><button type="button" class="toggle-password" onclick="togglePasswordVisibility('regPassword', this)"><i class="fa-solid fa-eye"></i></button></div>
+                    </div>
+                    <button type="submit" class="auth-submit-btn">Create Account</button>
+                </form>
+            </div>
+            <div id="forgotPassContainer" style="display: none;">
+                <h3 style="font-family: 'Cinzel', serif; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; font-size: 1rem; text-align: center;">Reset Password</h3>
+                <form onsubmit="handleForgotPassSubmit(event)">
+                    <div class="auth-form-group"><label>Registered Email</label><input type="email" placeholder="Enter your email" required></div>
+                    <button type="submit" class="auth-submit-btn">Send Reset Link</button>
+                    <span class="forgot-pass-link" style="text-align: center; display: block; margin-top: 10px;" onclick="switchAuthTab('signin')">Back to Sign In</span>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="floating-cart" id="floatingCart" onclick="handleCartCheckout()">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span class="cart-badge" id="cartCount">0</span>
+    </div>
+
+    <main class="feed-container" id="productFeed"></main>
+    <input type="file" id="hiddenCameraInput" accept="image/*" onchange="handleGalleryImage(event)">
+
+    <div class="modal-overlay" id="productModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeProductModal()"><i class="fa-solid fa-xmark"></i></button>
+            <div class="modal-media-slider" id="modalMediaSlider" onscroll="handleSliderScroll()"></div>
+            <div class="modal-thumbnails-strip" id="modalThumbnailsStrip"></div>
+            <div class="modal-price-box">
+                <div class="modal-price-group">
+                    <span class="modal-price" id="modalPrice">$0.00</span>
+                    <span class="modal-bd-discount" id="modalBdDiscount">BD 15% OFF</span>
+                </div>
+                <button class="modal-seller-btn" id="modalSellerBtn" onclick="revealSellerName()">Seller</button>
+            </div>
+            <h3 class="modal-title" id="modalTitle">Product Title</h3>
+            <p class="modal-desc" id="modalDesc">Exquisite luxury craft.</p>
+            <button class="modal-add-btn" onclick="addToCartWithSupabase(event)">Add To Cart</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="shareModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeShareModal()"><i class="fa-solid fa-xmark"></i></button>
+            <h3 style="font-family: 'Cinzel', serif; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; margin-bottom: 8px;">Share Luxury Item</h3>
+            <div class="share-link-box"><input type="text" id="shareLinkInput" class="share-link-input" readonly onclick="this.select()"></div>
+            <div class="share-options-grid">
+                <a href="#" id="shareCopy" class="share-option-item" onclick="copyAffiliateLink(event)"><i class="fa-solid fa-link"></i><span>Copy Link</span></a>
+                <a href="#" id="shareFacebook" target="_blank" class="share-option-item"><i class="fa-brands fa-facebook"></i><span>Facebook</span></a>
+                <a href="#" id="shareYoutube" target="_blank" class="share-option-item"><i class="fa-brands fa-youtube"></i><span>YouTube</span></a>
+                <a href="#" id="shareInstagram" target="_blank" class="share-option-item"><i class="fa-brands fa-instagram"></i><span>Instagram</span></a>
+                <a href="#" id="shareTiktok" target="_blank" class="share-option-item"><i class="fa-brands fa-tiktok"></i><span>TikTok</span></a>
+                <a href="#" id="shareTwitter" target="_blank" class="share-option-item"><i class="fa-brands fa-x-twitter"></i><span>X</span></a>
+            </div>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <div class="nav-menus-left">
+            <div class="nav-item" onclick="openEcosystemPage('https://affiliate.mrmasudar.com', 'Affiliate & Earn', this)"><i class="fa-solid fa-handshake"></i><span>Affiliate</span></div>
+            <div class="nav-item" onclick="openEcosystemPage('https://etech.mrmasudar.com', 'E-Tech Academy', this)"><i class="fa-solid fa-graduation-cap"></i><span>E-Tech</span></div>
+            <div class="nav-item" onclick="openEcosystemPage('https://seller.mrmasudar.com', 'Seller Dashboard', this)"><i class="fa-solid fa-chart-line"></i><span>Seller</span></div>
+            <div class="nav-item active" id="itemNavBtn" onclick="openCategoryModal(this)"><i class="fa-solid fa-clipboard-list"></i><span>Item</span></div>
+        </div>
+        <div class="bottom-search-wrapper">
+            <input type="text" id="searchInput" placeholder="Search by name..." onkeypress="handleSearchKey(event)">
+            <div class="bottom-search-actions">
+                <i class="fa-solid fa-camera" onclick="triggerCamera()" title="Upload"></i>
+                <i class="fa-solid fa-microphone" onclick="triggerVoiceSearch()" title="Voice"></i>
+                <button class="search-submit-btn" onclick="performSearchSubmit()"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+        </div>
+    </nav>
+
     <script>
-        function showCustomToast(msg) {
-            let toast = document.getElementById('customToast');
-            toast.innerText = msg;
-            toast.style.display = 'block';
-            setTimeout(() => { toast.style.display = 'none'; }, 2500);
+        const allCountries = [
+            {name: "Afghanistan", flag: "🇦🇫", dial: "+93"}, {name: "Bangladesh", flag: "🇧🇩", dial: "+880"},
+            {name: "United Kingdom", flag: "🇬🇧", dial: "+44"}, {name: "United States", flag: "🇺🇸", dial: "+1"}
+        ];
+
+        let activeCurrentProduct = null;
+        let selectedActiveProductPrice = 145.00;
+        let activeCurrentSeller = '';
+        let currentShareUrl = '';
+        let currentAffiliateId = sessionStorage.getItem('mme_active_aff') || localStorage.getItem('mme_active_aff') || 'AFF-MASTER';
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            const countrySelect = document.getElementById('regCountrySelect');
+            const dialSelect = document.getElementById('regDialCodeSelect');
+            if(countrySelect && dialSelect) {
+                allCountries.forEach(c => {
+                    let opt1 = document.createElement('option'); opt1.value = c.name; opt1.textContent = c.flag + " " + c.name; countrySelect.appendChild(opt1);
+                    let opt2 = document.createElement('option'); opt2.value = c.dial; opt2.textContent = c.flag + " " + c.dial; if(c.name === "Bangladesh") opt2.selected = true; dialSelect.appendChild(opt2);
+                });
+            }
+            await loadCombinedProductsFromSupabase();
+        });
+
+        async function loadCombinedProductsFromSupabase(filterCat = 'All') {
+            const feed = document.getElementById('productFeed');
+            feed.innerHTML = `<div style="text-align:center; color:var(--gold-solid); padding:25px; grid-column:span 2; font-size:0.75rem;">Loading Supabase Enterprise Data...</div>`;
+
+            let products = [];
+            try {
+                let { data, error } = await _supabase.from('products').select('*');
+                if(data && data.length > 0) products = data;
+            } catch(e) {}
+
+            if(products.length === 0) {
+                products = [
+                    {
+                        id: 1, title: "Exquisite Resin & Gold Leaf Wall Clock", category: "🏡 HOME DECOR", price: "$145.00", bdDiscount: "BD 20% OFF",
+                        seller: "MR Artisan Hub", videoUrl: "https://www.youtube.com/embed/EjSt6U8SQ0I?autoplay=1&mute=1&loop=1&playlist=EjSt6U8SQ0I&controls=0&showinfo=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0",
+                        images: ["https://lh3.googleusercontent.com/d/18yy4G5Nd4OUf5a1T4mKHhvUFTq_6Eds5", "https://lh3.googleusercontent.com/d/1-tTiXMrioUbLiRkx2jNRpkUYVVBah5Fb"],
+                        views: 820, likes: 235, desc: "Handcrafted luxury geometric wooden wall clock embedded with shimmering gold leaf flakes."
+                    }
+                ];
+            }
+
+            if(filterCat !== 'All') products = products.filter(p => p.category === filterCat);
+
+            feed.innerHTML = "";
+            products.forEach(item => {
+                let pId = item.id || 1;
+                let title = item.title || item.name || 'Luxury Product';
+                let price = item.price || '$145.00';
+                let videoUrl = item.videoUrl || item.video_url || '';
+                let imageUrl = (item.images && item.images[0]) || item.image || "https://lh3.googleusercontent.com/d/18yy4G5Nd4OUf5a1T4mKHhvUFTq_6Eds5";
+                let likes = item.likes || 235;
+                let views = item.views || 820;
+
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                let mediaContent = videoUrl ? `<div class="video-wrapper"><iframe src="${videoUrl}" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe><div class="video-click-shield" onclick="openProductModal('${pId}')"></div></div>` : `<div class="product-media-box" onclick="openProductModal('${pId}')"><img src="${imageUrl}" alt="${title}" loading="lazy"></div>`;
+
+                card.innerHTML = `
+                    ${mediaContent}
+                    <div class="product-bottom-actions">
+                        <div class="action-item view-icon"><i class="fa-solid fa-eye"></i> <span>${views}</span></div>
+                        <div class="action-item like-icon" onclick="handleSupabaseLike('${pId}', this)"><i class="fa-solid fa-heart"></i> <span id="like-count-${pId}">${likes}</span></div>
+                        <div class="action-item share-icon" onclick="openShareModal('${title}', '${pId}')"><i class="fa-solid fa-share-nodes"></i> <span>Share</span></div>
+                    </div>
+                `;
+                feed.appendChild(card);
+            });
+            window.allLoadedProducts = products;
         }
 
-        async function handleOrderSubmit(e) {
-            e.preventDefault();
-            let email = document.getElementById('custEmail').value.trim();
-            let code = document.getElementById('countryPhoneCode').value;
-            let phoneNum = document.getElementById('custPhoneNum').value.trim();
-            let phone = code + ' ' + phoneNum;
-            let name = document.getElementById('custName').value.trim();
-            let address = document.getElementById('custAddress').value.trim();
-            let city = document.getElementById('custCity').value.trim();
-            let country = document.getElementById('custCountry').value;
+        async function handleSupabaseLike(pId, el) {
+            el.classList.toggle('active');
+            const countSpan = document.getElementById(`like-count-${pId}`);
+            let currentLikes = parseInt(countSpan.innerText) + 1;
+            countSpan.innerText = currentLikes;
+            try {
+                await _supabase.from('products').update({ likes: currentLikes }).eq('id', pId);
+            } catch(e) {}
+        }
 
-            let trackingId = 'MME-TRK-' + Math.floor(100000 + Math.random() * 900000);
-            let nowTimestamp = new Date();
-            let formattedDate = nowTimestamp.toLocaleString('en-GB', { 
-                day: '2-digit', month: 'short', year: 'numeric', 
-                hour: '2-digit', minute: '2-digit', second: '2-digit' 
+        function openCategoryModal(element) {
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+            element.classList.add('active');
+            document.getElementById('categoryModalOverlay').style.display = 'flex';
+        }
+
+        function closeCategoryModal(e) {
+            if(e.target.id === 'categoryModalOverlay') document.getElementById('categoryModalOverlay').style.display = 'none';
+        }
+
+        async function selectCategory(cat) {
+            document.getElementById('categoryModalOverlay').style.display = 'none';
+            await loadCombinedProductsFromSupabase(cat);
+        }
+
+        function openEcosystemPage(url, title, element) {
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+            if(element) element.classList.add('active');
+            document.getElementById('ecosystemModalTitle').innerText = title;
+            document.getElementById('ecosystemIframe').src = url;
+            document.getElementById('ecosystemModal').style.display = 'flex';
+        }
+
+        function closeEcosystemModal() {
+            document.getElementById('ecosystemModal').style.display = 'none';
+            document.getElementById('ecosystemIframe').src = '';
+            document.getElementById('itemNavBtn').classList.add('active');
+        }
+
+        async function openProductModal(id) {
+            let products = window.allLoadedProducts || [];
+            const product = products.find(p => p.id == id || p.id == String(id));
+            if(!product) return;
+
+            activeCurrentProduct = product;
+            activeCurrentSeller = product.seller || "Masudar Enterprise";
+            let cleanNum = parseFloat((product.price || "145.00").replace(/[^0-9.]/g, ''));
+            selectedActiveProductPrice = isNaN(cleanNum) ? 145.00 : cleanNum;
+
+            let currentViews = (product.views || 820) + 1;
+            document.getElementById('modalTitle').innerText = product.title || product.name;
+            document.getElementById('modalPrice').innerText = product.price || "$145.00";
+            document.getElementById('modalBdDiscount').innerText = product.bdDiscount || "BD 20% OFF";
+            document.getElementById('modalDesc').innerText = product.desc || "Exquisite luxury craft.";
+
+            const slider = document.getElementById('modalMediaSlider');
+            const thumbStrip = document.getElementById('modalThumbnailsStrip');
+            slider.innerHTML = ""; thumbStrip.innerHTML = "";
+
+            let imagesArr = product.images || [product.image || "https://lh3.googleusercontent.com/d/18yy4G5Nd4OUf5a1T4mKHhvUFTq_6Eds5"];
+            let slideIndex = 0;
+
+            if(product.videoUrl && product.videoUrl.trim() !== "") {
+                const videoSlide = document.createElement('div');
+                videoSlide.className = 'modal-slide-item';
+                videoSlide.id = `modal-slide-${slideIndex}`;
+                let rawBase = product.videoUrl.split('?')[0];
+                let videoIdMatch = rawBase.split('/').pop();
+                let mUrlMuted = `${rawBase}?autoplay=1&mute=1&loop=1&playlist=${videoIdMatch}&controls=0&showinfo=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0`;
+                let mUrlUnmuted = `${rawBase}?autoplay=1&mute=0&loop=1&playlist=${videoIdMatch}&controls=0&showinfo=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0`;
+
+                videoSlide.innerHTML = `
+                    <div style="position:relative; width:100%; height:100%; background:#000; overflow:hidden;">
+                        <iframe id="modalYoutubeIframe" src="${mUrlMuted}" style="position:absolute; top:-15%; left:-15%; width:130%; height:130%; border:none;" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <button class="modal-sound-btn" onclick="toggleModalSound('${mUrlMuted}', '${mUrlUnmuted}')"><i class="fa-solid fa-volume-xmark" id="modalSoundIcon"></i></button>
+                    </div>
+                `;
+                slider.appendChild(videoSlide);
+
+                const thumb = document.createElement('div');
+                thumb.className = `thumb-item ${slideIndex === 0 ? 'active' : ''}`;
+                thumb.innerHTML = `<img src="${imagesArr[0]}"><div class="thumb-video-indicator"><i class="fa-solid fa-play"></i></div>`;
+                thumb.onclick = () => scrollToSlide(0);
+                thumbStrip.appendChild(thumb);
+                slideIndex++;
+            }
+
+            imagesArr.forEach((imgSrc, idx) => {
+                const imgSlide = document.createElement('div');
+                imgSlide.className = 'modal-slide-item';
+                imgSlide.id = `modal-slide-${slideIndex}`;
+                imgSlide.innerHTML = `<img src="${imgSrc}">`;
+                slider.appendChild(imgSlide);
+
+                const thumb = document.createElement('div');
+                thumb.className = `thumb-item ${slideIndex === 0 ? 'active' : ''}`;
+                thumb.innerHTML = `<img src="${imgSrc}">`;
+                thumb.onclick = () => scrollToSlide(slideIndex);
+                thumbStrip.appendChild(thumb);
+                slideIndex++;
             });
 
-            let itemsToOrder = window.activeCheckoutItems || [];
-            if(itemsToOrder.length === 0) {
-                showCustomToast("Your cart is empty!");
-                return;
-            }
+            document.getElementById('productModal').style.display = 'flex';
 
-            for(let item of itemsToOrder) {
-                let orderRecord = {
-                    tracking_id: trackingId,
-                    product_id: String(item.productId || '1'),
-                    product_title: item.title,
-                    quantity: Number(item.quantity || 1),
-                    price: item.price || '$35.00',
-                    seller_id: item.sellerId || 'VEN-MASUD',
-                    affiliate_id: item.affiliateRef || localStorage.getItem('mme_active_aff') || 'AFF-MASTER',
-                    customer_name: name,
-                    customer_email: email,
-                    customer_phone: phone,
-                    delivery_address: `${address}, ${city}, ${country}`,
-                    payment_status: 'Pending Payment',
-                    delivery_status: 'Processing',
-                    created_at: nowTimestamp.toISOString()
-                };
-
-                try {
-                    let { error } = await _supabase.from('orders').insert([orderRecord]);
-                    if(error) console.log("Supabase Error:", error.message);
-                } catch(err) {
-                    console.log("Network error:", err);
-                }
-            }
-
-            showCustomToast(`Order placed successfully! [Trk: ${trackingId}]`);
-            
-            // অর্ডার কনফার্ম হওয়ার সাথে সাথে ঝুড়ি একদম ফ্রেশ বা খালি করা হচ্ছে
-            localStorage.removeItem('mme_cart_items');
-
-            setTimeout(() => {
-                window.location.href = `https://mrmasudar.com/?order=success&trk=${trackingId}`;
-            }, 2000);
+            try {
+                await _supabase.from('products').update({ views: currentViews }).eq('id', product.id);
+            } catch(e) {}
         }
 
-        function closeCheckoutModal() {
-            window.location.href = 'https://mrmasudar.com';
+        function scrollToSlide(index) {
+            const slider = document.getElementById('modalMediaSlider');
+            const targetSlide = document.getElementById(`modal-slide-${index}`);
+            if(targetSlide) slider.scrollTo({ left: targetSlide.offsetLeft - slider.offsetLeft, behavior: 'smooth' });
+        }
+
+        let isModalAudioOn = false;
+        function toggleModalSound(mutedUrl, unmutedUrl) {
+            const iframe = document.getElementById('modalYoutubeIframe');
+            const icon = document.getElementById('modalSoundIcon');
+            if(!iframe) return;
+            isModalAudioOn = !isModalAudioOn;
+            iframe.src = isModalAudioOn ? unmutedUrl : mutedUrl;
+            icon.className = isModalAudioOn ? "fa-solid fa-volume-high" : "fa-solid fa-volume-xmark";
+        }
+
+        function revealSellerName() {
+            const sellerBtn = document.getElementById('modalSellerBtn');
+            sellerBtn.innerText = sellerBtn.innerText === "Seller" ? activeCurrentSeller : "Seller";
+        }
+
+        function closeProductModal() {
+            isModalAudioOn = false;
+            document.getElementById('productModal').style.display = 'none';
+        }
+
+        function openAuthModal(mode) { document.getElementById('authModal').style.display = 'flex'; }
+        function closeAuthModal() { document.getElementById('authModal').style.display = 'none'; }
+        function switchAuthTab(tab) {
+            document.getElementById('signInFormContainer').style.display = tab === 'signin' ? 'block' : 'none';
+            document.getElementById('signUpFormContainer').style.display = tab === 'signup' ? 'block' : 'none';
+            document.getElementById('forgotPassContainer').style.display = 'none';
+        }
+        function openForgotPassModal() { document.getElementById('signInFormContainer').style.display = 'none'; document.getElementById('forgotPassContainer').style.display = 'block'; }
+        function handleSignInSubmit(e) { e.preventDefault(); alert("Successfully Signed In!"); closeAuthModal(); }
+        function handleSignUpSubmit(e) { e.preventDefault(); alert("Account registered successfully!"); closeAuthModal(); }
+        function handleForgotPassSubmit(e) { e.preventDefault(); alert("Reset instructions sent."); switchAuthTab('signin'); }
+
+        // Supabase-এর সাথে ডাইরেক্ট কার্ট অ্যাড ও অ্যানিমেশন
+        async function addToCartWithSupabase(event) {
+            if(!activeCurrentProduct) activeCurrentProduct = window.allLoadedProducts[0];
+            closeProductModal();
+
+            let imagesArr = activeCurrentProduct.images || [activeCurrentProduct.image || "https://lh3.googleusercontent.com/d/18yy4G5Nd4OUf5a1T4mKHhvUFTq_6Eds5"];
+            let cartRecord = {
+                product_id: String(activeCurrentProduct.id),
+                title: activeCurrentProduct.title || activeCurrentProduct.name,
+                price: activeCurrentProduct.price,
+                quantity: 1,
+                seller_id: activeCurrentProduct.seller || 'MASUD-HUB',
+                image: imagesArr[0],
+                affiliate_ref: currentAffiliateId
+            };
+
+            try {
+                await _supabase.from('cart_items').insert([cartRecord]);
+            } catch(e) {}
+
+            updateSupabaseCartBadge();
+
+            // কয়েন ফ্লাই ও কার্ট বাউন্স অ্যানিমেশন
+            const btnRect = event.target.getBoundingClientRect();
+            const cartElement = document.getElementById('floatingCart');
+            const cartRect = cartElement.getBoundingClientRect();
+
+            for (let i = 0; i < 4; i++) {
+                setTimeout(() => {
+                    const coin = document.createElement('div');
+                    coin.className = 'flying-coin';
+                    coin.style.left = `${btnRect.left + btnRect.width / 2 - 11}px`;
+                    coin.style.top = `${btnRect.top + btnRect.height / 2 - 11}px`;
+                    document.body.appendChild(coin);
+                    setTimeout(() => {
+                        coin.style.left = `${cartRect.left + cartRect.width / 2 - 11}px`;
+                        coin.style.top = `${cartRect.top + cartRect.height / 2 - 11}px`;
+                        coin.style.transform = 'scale(0.35) rotate(720deg)';
+                        coin.style.opacity = '0.4';
+                    }, 40);
+                    setTimeout(() => coin.remove(), 800);
+                }, i * 70);
+            }
+
+            setTimeout(() => {
+                cartElement.classList.add('smooth-center-bounce');
+                setTimeout(() => cartElement.classList.remove('smooth-center-bounce'), 800);
+            }, 350);
+        }
+
+        async function handleCartCheckout() {
+            let { data } = await _supabase.from('cart_items').select('*').eq('affiliate_ref', currentAffiliateId);
+            if(!data || data.length === 0) {
+                alert("Your shopping cart is currently empty.");
+            } else {
+                let encodedCart = encodeURIComponent(JSON.stringify(data));
+                window.location.href = `https://out.mrmasudar.com/?ref=${currentAffiliateId}&cart_data=${encodedCart}`;
+            }
+        }
+
+        function openShareModal(title, id) {
+            currentShareUrl = `https://mrmasudar.com/product.html?id=${id}&ref=${currentAffiliateId}`;
+            document.getElementById('shareLinkInput').value = currentShareUrl;
+            document.getElementById('shareFacebook').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentShareUrl)}`;
+            document.getElementById('shareYoutube').href = `https://www.youtube.com/results?search_query=${encodeURIComponent(title)}`;
+            document.getElementById('shareTwitter').href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentShareUrl)}`;
+            document.getElementById('shareModal').style.display = 'flex';
+        }
+        function closeShareModal() { document.getElementById('shareModal').style.display = 'none'; }
+        function copyAffiliateLink(e) {
+            e.preventDefault();
+            const linkInput = document.getElementById('shareLinkInput');
+            linkInput.select();
+            navigator.clipboard.writeText(linkInput.value);
+            e.currentTarget.querySelector('span').innerText = "Copied!";
+            setTimeout(() => e.currentTarget.querySelector('span').innerText = "Copy Link", 1200);
+        }
+
+        async function performSearchSubmit() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            let allProds = window.allLoadedProducts || [];
+            if(query === "") {
+                await loadCombinedProductsFromSupabase();
+                return;
+            }
+            let filtered = allProds.filter(p => (p.title || p.name || '').toLowerCase().includes(query) || (p.desc || '').toLowerCase().includes(query));
+            loadCombinedProductsFromSupabase(filtered); // পসিবল ফিল্টার রেন্ডার
+        }
+        function handleSearchKey(e) { if (e.key === 'Enter') performSearchSubmit(); }
+
+        function triggerCamera() { document.getElementById('hiddenCameraInput').click(); }
+        function handleGalleryImage(e) { if(e.target.files[0]) alert("Image uploaded: " + e.target.files[0].name); }
+        function triggerVoiceSearch() {
+            let text = prompt("Search product:");
+            if(text) { document.getElementById('searchInput').value = text; performSearchSubmit(); }
         }
     </script>
 </body>
