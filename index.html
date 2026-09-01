@@ -12,32 +12,54 @@
         const urlParams = new URLSearchParams(window.location.search);
         const affiliateId = urlParams.get('ref') || urlParams.get('aff');
         const sidParam = urlParams.get('sid');
+        const cartParam = urlParams.get('cart');
 
-        if(affiliateId) localStorage.setItem('mme_active_aff', affiliateId);
-        if(sidParam) localStorage.setItem('mme_user_session_id', sidParam);
+        if(affiliateId) {
+            sessionStorage.setItem('mme_active_aff', affiliateId);
+            localStorage.setItem('mme_active_aff', affiliateId);
+        }
 
-        await loadCartFromSupabase();
+        if(sidParam) {
+            localStorage.setItem('mme_user_session_id', sidParam);
+        }
+
+        // যদি ইউআরএল-এ কার্ট ডেটা থাকে, তবে সেটি আগে লোকালস্টোরেজে সেভ হবে
+        if(cartParam) {
+            try {
+                let decodedCart = JSON.parse(decodeURIComponent(cartParam));
+                localStorage.setItem('mme_cart_items', JSON.stringify(decodedCart));
+            } catch(e) {}
+        }
+
+        await loadCartFromSupabaseOrStorage();
       });
 
-      async function loadCartFromSupabase() {
+      async function loadCartFromSupabaseOrStorage() {
           let sid = localStorage.getItem('mme_user_session_id');
           let cartItems = [];
+          
           if(sid) {
               try {
-                  let { data } = await _supabase.from('carts').select('cart_items').eq('user_session_id', sid).single();
-                  if(data && data.cart_items) {
+                  let { data, error } = await _supabase.from('carts').select('cart_items').eq('user_session_id', sid).single();
+                  if(data && data.cart_items && data.cart_items.length > 0) {
                       cartItems = data.cart_items;
                       localStorage.setItem('mme_cart_items', JSON.stringify(cartItems));
                   }
               } catch(e) {}
           }
+
           if(cartItems.length === 0) {
-              try { cartItems = JSON.parse(localStorage.getItem('mme_cart_items') || '[]'); } catch(e) { cartItems = []; }
+              try {
+                  cartItems = JSON.parse(localStorage.getItem('mme_cart_items') || '[]');
+              } catch(e) {
+                  cartItems = [];
+              }
           }
+
           renderCheckoutCartSummary(cartItems);
       }
 
-      async function updateSupabaseCart(items) {
+      async function updateAndSyncCart(items) {
           window.activeCheckoutItems = items;
           localStorage.setItem('mme_cart_items', JSON.stringify(items));
           
@@ -84,48 +106,250 @@
           let items = window.activeCheckoutItems || [];
           if(items[index]) {
               items[index].quantity = (items[index].quantity || 1) + change;
-              if(items[index].quantity <= 0) { items.splice(index, 1); }
-              updateSupabaseCart(items);
+              if(items[index].quantity <= 0) {
+                  items.splice(index, 1);
+              }
+              updateAndSyncCart(items);
           }
       }
 
       function removeSubdomainCartItem(index) {
           let items = window.activeCheckoutItems || [];
           items.splice(index, 1);
-          updateSupabaseCart(items);
+          updateAndSyncCart(items);
           showCustomToast("Product removed successfully");
       }
     </script>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MRMASUDAR.COM - Secure Checkout</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MRMASUDAR.COM - Secure Checkout & Enterprise Hub</title>
+    
+    <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@600;700;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        :root { --bg-black: #050505; --gold-solid: #d4af37; --text-white: #fff; --text-gray: #cfcfcf; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background: var(--bg-black); color: var(--text-white); padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .checkout-box { background: #121212; border: 2px solid var(--gold-solid); border-radius: 20px; width: 100%; max-width: 450px; padding: 20px; }
-        .checkout-cart-summary { background: rgba(0,0,0,0.6); border: 1px solid rgba(212,175,55,0.3); border-radius: 12px; padding: 10px; margin-bottom: 15px; max-height: 200px; overflow-y: auto; }
-        .auth-submit-btn { width: 100%; background: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728); border: none; padding: 12px; border-radius: 10px; color: #000; font-weight: 800; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
-        .custom-toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #121212; border: 1px solid var(--gold-solid); color: var(--gold-solid); padding: 8px 16px; border-radius: 20px; font-size: 0.75rem; display: none; z-index: 9999; }
+        :root {
+            --bg-black: #050505;
+            --modal-bg: linear-gradient(135deg, #141414, #0a0a0a);
+            --gold-gradient: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            --gold-solid: #d4af37;
+            --text-white: #ffffff;
+            --text-gray: #cfcfcf;
+            --danger-red: #ff3b30;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+        html, body { width: 100%; height: 100%; background-color: var(--bg-black); color: var(--text-white); overflow-x: hidden; }
+
+        header.app-header {
+            display: flex; justify-content: space-between; align-items: center; padding: 6px 10px;
+            background: rgba(11, 11, 11, 0.98); position: fixed; top: 0; left: 0; z-index: 1000;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.4); backdrop-filter: blur(12px); width: 100%; box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+        }
+        .brand-container { display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; }
+        .logo { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold-solid); box-shadow: 0 0 10px rgba(212, 175, 55, 0.6); background: #000; flex-shrink: 0; }
+        .brand-title-main { 
+            font-family: 'Cinzel Decorative', serif; font-size: 0.92rem; font-weight: 900; 
+            background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+            text-transform: uppercase; letter-spacing: 0.3px;
+        }
+
+        .luxury-modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px);
+            display: flex; justify-content: center; align-items: center; z-index: 9999;
+            padding: 10px; overflow-y: auto; padding-top: 60px;
+        }
+        .luxury-modal-box {
+            background: var(--modal-bg); border: 2px solid var(--gold-solid);
+            border-radius: 24px; width: 100%; max-width: 480px; max-height: 90vh;
+            overflow-y: auto; padding: 20px; position: relative;
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.35);
+        }
+        .luxury-modal-title {
+            font-size: 1.15rem; font-weight: 800; background: var(--gold-gradient);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-align: center; margin-bottom: 12px; text-transform: uppercase;
+            font-family: 'Cinzel', serif; letter-spacing: 0.5px;
+        }
+        .checkout-cart-summary {
+            background: rgba(0,0,0,0.6); border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 12px; padding: 10px; margin-bottom: 12px; max-height: 160px; overflow-y: auto;
+        }
+        .auth-form-group { margin-bottom: 10px; text-align: left; }
+        .auth-form-group label { display: block; font-size: 0.68rem; color: var(--gold-solid); margin-bottom: 3px; font-weight: 700; text-transform: uppercase; }
+        .auth-form-group input, .auth-form-group select, .auth-form-group textarea {
+            width: 100%; background: #000; border: 1.5px solid rgba(212, 175, 55, 0.4); padding: 9px;
+            border-radius: 10px; color: var(--text-white); font-size: 0.78rem; outline: none;
+        }
+        .phone-input-row { display: flex; gap: 6px; }
+        .phone-input-row select { width: 190px; font-size: 0.6rem; }
+        .auth-submit-btn {
+            width: 100%; background: var(--gold-gradient); border: none; padding: 11px; border-radius: 10px;
+            color: #000; font-weight: 900; font-size: 0.82rem; cursor: pointer; margin-top: 6px;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); text-transform: uppercase;
+        }
+        .custom-toast {
+            position: fixed; top: 75px; left: 50%; transform: translateX(-50%);
+            background: rgba(18, 18, 18, 0.95); border: 1.5px solid var(--gold-solid); color: var(--gold-solid);
+            padding: 8px 18px; border-radius: 30px; font-size: 0.75rem; font-weight: 600; z-index: 10000; display: none;
+        }
     </style>
 </head>
 <body>
+
     <div class="custom-toast" id="customToast">Action completed successfully!</div>
-    <div class="checkout-box">
-        <h3 style="font-family:'Cinzel',serif; color:var(--gold-solid); text-align:center; margin-bottom:15px;">Secure Checkout Hub</h3>
-        <div class="checkout-cart-summary" id="checkoutCartSummaryBox">
-            <div style="font-size:0.75rem; color:var(--text-gray); text-align:center;">Loading cart...</div>
+
+    <header class="app-header">
+        <div class="brand-container" onclick="window.location.href='https://mrmasudar.com'">
+            <img src="https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc" alt="Logo" class="logo">
+            <span class="brand-title-main">MRMASUDAR.COM</span>
         </div>
-        <button class="auth-submit-btn" onclick="window.location.href='https://mrmasudar.com'">Return to Home</button>
+        <div style="font-size: 0.7rem; color: var(--gold-solid); font-weight: 700;">
+            <i class="fa-solid fa-lock"></i> SECURE CHECKOUT
+        </div>
+    </header>
+
+    <div class="luxury-modal-overlay">
+        <div class="luxury-modal-box">
+            <h3 class="luxury-modal-title">Secure Checkout & Order Hub</h3>
+            
+            <div class="checkout-cart-summary" id="checkoutCartSummaryBox">
+                <div style="font-size:0.7rem; color:var(--text-gray); text-align:center;">Loading cart...</div>
+            </div>
+
+            <form onsubmit="handleOrderSubmit(event)">
+                <div class="auth-form-group">
+                    <label>Gmail Address *</label>
+                    <input type="email" id="custEmail" required placeholder="name@gmail.com">
+                </div>
+                
+                <div class="auth-form-group">
+                    <label>WhatsApp Number *</label>
+                    <div class="phone-input-row">
+                        <select id="countryPhoneCode">
+                            <option value="+880" selected>Bangladesh (+880)</option>
+                            <option value="+91">India (+91)</option>
+                            <option value="+1">United States (+1)</option>
+                            <option value="+44">United Kingdom (+44)</option>
+                            <option value="+966">Saudi Arabia (+966)</option>
+                            <option value="+971">United Arab Emirates (+971)</option>
+                        </select>
+                        <input type="tel" id="custPhoneNum" required placeholder="WhatsApp number">
+                    </div>
+                </div>
+
+                <div class="auth-form-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="custName" required placeholder="Enter your full name">
+                </div>
+                <div class="auth-form-group">
+                    <label>Delivery Address *</label>
+                    <textarea id="custAddress" rows="2" required placeholder="House, Road, Area"></textarea>
+                </div>
+                <div class="auth-form-group">
+                    <label>City / District *</label>
+                    <input type="text" id="custCity" required placeholder="City / District">
+                </div>
+                <div class="auth-form-group">
+                    <label>Country *</label>
+                    <select id="custCountry" required>
+                        <option value="Bangladesh" selected>Bangladesh</option>
+                        <option value="India">India</option>
+                        <option value="United States">United States</option>
+                        <option value="United Kingdom">United Kingdom</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="auth-submit-btn">Proceed to Payment & Place Order</button>
+            </form>
+        </div>
     </div>
+
     <script>
         function showCustomToast(msg) {
-            let t = document.getElementById('customToast');
-            t.innerText = msg; t.style.display = 'block';
-            setTimeout(() => t.style.display = 'none', 2000);
+            let toast = document.getElementById('customToast');
+            toast.innerText = msg;
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 2500);
+        }
+
+        async function handleOrderSubmit(e) {
+            e.preventDefault();
+            let email = document.getElementById('custEmail').value.trim();
+            let code = document.getElementById('countryPhoneCode').value;
+            let phoneNum = document.getElementById('custPhoneNum').value.trim();
+            let phone = code + ' ' + phoneNum;
+            let name = document.getElementById('custName').value.trim();
+            let address = document.getElementById('custAddress').value.trim();
+            let city = document.getElementById('custCity').value.trim();
+            let country = document.getElementById('custCountry').value;
+
+            let trackingId = 'MME-TRK-' + Math.floor(100000 + Math.random() * 900000);
+            let nowTimestamp = new Date();
+            let formattedDate = nowTimestamp.toLocaleString('en-GB', { 
+                day: '2-digit', month: 'short', year: 'numeric', 
+                hour: '2-digit', minute: '2-digit', second: '2-digit' 
+            });
+
+            let itemsToOrder = window.activeCheckoutItems || [];
+            if(itemsToOrder.length === 0) {
+                showCustomToast("Your cart is empty!");
+                return;
+            }
+
+            let allMasterOrders = JSON.parse(localStorage.getItem('mme_admin_orders') || '[]');
+
+            itemsToOrder.forEach(item => {
+                let orderRecord = {
+                    trackingId: trackingId,
+                    productId: item.productId || '1',
+                    productTitle: item.title,
+                    quantity: item.quantity || 1,
+                    price: item.price || '$35.00',
+                    color: item.color || 'Standard',
+                    size: item.size || 'Standard',
+                    sellerId: item.sellerId || 'VEN-MASUD',
+                    affiliateId: item.affiliateRef || sessionStorage.getItem('mme_active_aff') || 'AFF-MASTER',
+                    customerName: name,
+                    customerEmail: email,
+                    customerPhone: phone,
+                    deliveryAddress: `${address}, ${city}, ${country}`,
+                    paymentStatus: 'Pending Payment / Secure Checkout',
+                    deliveryStatus: 'Processing / Pending Dispatch',
+                    orderDate: nowTimestamp.toISOString(),
+                    formattedDate: formattedDate,
+                    batchNo: 'Batch-1'
+                };
+                allMasterOrders.push(orderRecord);
+
+                try {
+                    _supabase.from('orders').insert([orderRecord]).then(({ error }) => {
+                        if(error) console.log("Supabase sync note:", error);
+                    });
+                } catch(err) {}
+            });
+
+            localStorage.setItem('mme_admin_orders', JSON.stringify(allMasterOrders));
+            showCustomToast(`Processing order... [Trk: ${trackingId}]`);
+            
+            localStorage.removeItem('mme_cart_items');
+            
+            // Supabase কার্ট টেবিলও পরিষ্কার করে দেওয়া
+            let sid = localStorage.getItem('mme_user_session_id');
+            if(sid) {
+                try {
+                    await _supabase.from('carts').upsert([
+                        { user_session_id: sid, cart_items: [], updated_at: new Date() }
+                    ], { onConflict: 'user_session_id' });
+                } catch(e) {}
+            }
+
+            setTimeout(() => {
+                window.location.href = `https://mrmasudar.com/?order=success&trk=${trackingId}`;
+            }, 2000);
         }
     </script>
 </body>
