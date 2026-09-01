@@ -9,7 +9,6 @@
       const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
       window.addEventListener('DOMContentLoaded', async () => {
-       window.addEventListener('DOMContentLoaded', async () => {
         const urlParams = new URLSearchParams(window.location.search);
         const affiliateId = urlParams.get('ref') || urlParams.get('aff');
         const sidParam = urlParams.get('sid');
@@ -17,32 +16,33 @@
 
         if(affiliateId) {
             sessionStorage.setItem('mme_active_aff', affiliateId);
-            localStorage.setItem('mme_active_aff', affiliateId);
         }
 
         if(sidParam) {
             localStorage.setItem('mme_user_session_id', sidParam);
         }
 
-        // যদি ইউআরএল-এ কার্ট ডেটা থাকে এবং Supabase-এ কোনো ডেটা না থাকে তবেই প্রথমবার সেট হবে
+        // হোমপেজ থেকে নতুন কার্ট ডেটা আসলে সেটিকে সরাসরি Supabase-এ সেভ করে ইউআরএল পরিষ্কার করা হবে
         if(cartParam) {
             try {
                 let decodedCart = JSON.parse(decodeURIComponent(cartParam));
-                let existingLocal = JSON.parse(localStorage.getItem('mme_cart_items') || '[]');
-                // যদি লোকালস্টোরেজে আইটেম কম থাকে (যেমন ইউজার কেটে দিয়েছে), তবে ইউআরএলের ওভাররাইট ঠেকানো
-                if(existingLocal.length === 0) {
-                    localStorage.setItem('mme_cart_items', JSON.stringify(decodedCart));
+                let sid = localStorage.getItem('mme_user_session_id');
+                if(sid) {
+                    await _supabase.from('carts').upsert([
+                        { user_session_id: sid, cart_items: decodedCart, updated_at: new Date() }
+                    ], { onConflict: 'user_session_id' });
                 }
             } catch(e) {}
 
-            // কাজ শেষে ইউআরএল থেকে কার্ট প্যারামিটার পরিষ্কার করে ফেলা যাতে রিফ্রেশ করলে আবার ব্যাক না করে
+            // ইউআরএল থেকে কার্ট ডেটা মুছে ফেলা যাতে রিফ্রেশ করলে আর ওভাররাইট না করে
             window.history.replaceState({}, document.title, window.location.pathname + (affiliateId ? `?ref=${affiliateId}` : ''));
         }
 
-        await loadCartFromSupabaseOrStorage();
+        // সরাসরি Supabase থেকে কার্ট ডাটা ফেচ করা
+        await loadCartDirectlyFromSupabase();
       });
 
-      async function loadCartFromSupabaseOrStorage() {
+      async function loadCartDirectlyFromSupabase() {
           let sid = localStorage.getItem('mme_user_session_id');
           let cartItems = [];
           
@@ -51,93 +51,20 @@
                   let { data, error } = await _supabase.from('carts').select('cart_items').eq('user_session_id', sid).single();
                   if(data && data.cart_items) {
                       cartItems = data.cart_items;
-                      localStorage.setItem('mme_cart_items', JSON.stringify(cartItems));
                   }
               } catch(e) {}
-          }
-
-          if(cartItems.length === 0) {
-              try {
-                  cartItems = JSON.parse(localStorage.getItem('mme_cart_items') || '[]');
-              } catch(e) {
-                  cartItems = [];
-              }
           }
 
           renderCheckoutCartSummary(cartItems);
       }
 
-      async function updateAndSyncCart(items) {
+      async function updateAndSyncCartInSupabase(items) {
           window.activeCheckoutItems = items;
-          localStorage.setItem('mme_cart_items', JSON.stringify(items));
-          
           let sid = localStorage.getItem('mme_user_session_id');
-          if(sid) {
-              try {
-                  await _supabase.from('carts').upsert([
-                      { user_session_id: sid, cart_items: items, updated_at: new Date() }
-                  ], { onConflict: 'user_session_id' });
-              } catch(e) {}
-          }
-          renderCheckoutCartSummary(items);
-      }
-          const urlParams = new URLSearchParams(window.location.search);
-        const affiliateId = urlParams.get('ref') || urlParams.get('aff');
-        const sidParam = urlParams.get('sid');
-        const cartParam = urlParams.get('cart');
-
-        if(affiliateId) {
-            sessionStorage.setItem('mme_active_aff', affiliateId);
-            localStorage.setItem('mme_active_aff', affiliateId);
-        }
-
-        if(sidParam) {
-            localStorage.setItem('mme_user_session_id', sidParam);
-        }
-
-        // যদি ইউআরএল-এ কার্ট ডেটা থাকে, তবে সেটি আগে লোকালস্টোরেজে সেভ হবে
-        if(cartParam) {
-            try {
-                let decodedCart = JSON.parse(decodeURIComponent(cartParam));
-                localStorage.setItem('mme_cart_items', JSON.stringify(decodedCart));
-            } catch(e) {}
-        }
-
-        await loadCartFromSupabaseOrStorage();
-      });
-
-      async function loadCartFromSupabaseOrStorage() {
-          let sid = localStorage.getItem('mme_user_session_id');
-          let cartItems = [];
           
           if(sid) {
               try {
-                  let { data, error } = await _supabase.from('carts').select('cart_items').eq('user_session_id', sid).single();
-                  if(data && data.cart_items && data.cart_items.length > 0) {
-                      cartItems = data.cart_items;
-                      localStorage.setItem('mme_cart_items', JSON.stringify(cartItems));
-                  }
-              } catch(e) {}
-          }
-
-          if(cartItems.length === 0) {
-              try {
-                  cartItems = JSON.parse(localStorage.getItem('mme_cart_items') || '[]');
-              } catch(e) {
-                  cartItems = [];
-              }
-          }
-
-          renderCheckoutCartSummary(cartItems);
-      }
-
-      async function updateAndSyncCart(items) {
-          window.activeCheckoutItems = items;
-          localStorage.setItem('mme_cart_items', JSON.stringify(items));
-          
-          let sid = localStorage.getItem('mme_user_session_id');
-          if(sid) {
-              try {
+                  // সরাসরি ডাটাবেজে পার্মানেন্টলি আপডেট করা
                   await _supabase.from('carts').upsert([
                       { user_session_id: sid, cart_items: items, updated_at: new Date() }
                   ], { onConflict: 'user_session_id' });
@@ -147,12 +74,12 @@
       }
 
       function renderCheckoutCartSummary(items) {
-        window.activeCheckoutItems = items;
+        window.activeCheckoutItems = items || [];
         const summaryBox = document.getElementById('checkoutCartSummaryBox');
         if(!summaryBox) return;
 
-        if(items && items.length > 0) {
-            summaryBox.innerHTML = items.map((i, index) => `
+        if(window.activeCheckoutItems && window.activeCheckoutItems.length > 0) {
+            summaryBox.innerHTML = window.activeCheckoutItems.map((i, index) => `
                 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 0.72rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 6px;">
                     <img src="${i.image || 'https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc'}" style="width: 36px; height: 36px; border-radius: 6px; object-fit: cover; border: 1px solid var(--gold-solid); flex-shrink: 0;">
                     <div style="flex:1; min-width:0;">
@@ -181,15 +108,15 @@
               if(items[index].quantity <= 0) {
                   items.splice(index, 1);
               }
-              updateAndSyncCart(items);
+              updateAndSyncCartInSupabase(items);
           }
       }
 
       function removeSubdomainCartItem(index) {
           let items = window.activeCheckoutItems || [];
           items.splice(index, 1);
-          updateAndSyncCart(items);
-          showCustomToast("Product removed successfully");
+          updateAndSyncCartInSupabase(items);
+          showCustomToast("Product removed from Supabase cart");
       }
     </script>
 
@@ -209,7 +136,6 @@
             --gold-solid: #d4af37;
             --text-white: #ffffff;
             --text-gray: #cfcfcf;
-            --danger-red: #ff3b30;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -289,7 +215,7 @@
             <h3 class="luxury-modal-title">Secure Checkout & Order Hub</h3>
             
             <div class="checkout-cart-summary" id="checkoutCartSummaryBox">
-                <div style="font-size:0.7rem; color:var(--text-gray); text-align:center;">Loading cart...</div>
+                <div style="font-size:0.7rem; color:var(--text-gray); text-align:center;">Loading cart from database...</div>
             </div>
 
             <form onsubmit="handleOrderSubmit(event)">
@@ -407,9 +333,7 @@
             localStorage.setItem('mme_admin_orders', JSON.stringify(allMasterOrders));
             showCustomToast(`Processing order... [Trk: ${trackingId}]`);
             
-            localStorage.removeItem('mme_cart_items');
-            
-            // Supabase কার্ট টেবিলও পরিষ্কার করে দেওয়া
+            // অর্ডার সফল হওয়ার পর Supabase ডাটাবেজ থেকে কার্ট একবারে খালি করে দেওয়া
             let sid = localStorage.getItem('mme_user_session_id');
             if(sid) {
                 try {
