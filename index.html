@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <!-- Supabase CDN Script -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
@@ -355,6 +354,7 @@
         let activeCurrentSeller = '';
         let currentShareUrl = '';
         let currentAffiliateId = sessionStorage.getItem('mme_active_aff') || localStorage.getItem('mme_active_aff') || 'AFF-MASTER';
+        window.allLoadedProducts = [];
 
         window.addEventListener('DOMContentLoaded', async () => {
             const countrySelect = document.getElementById('regCountrySelect');
@@ -365,63 +365,104 @@
                     let opt2 = document.createElement('option'); opt2.value = c.dial; opt2.textContent = c.flag + " " + c.dial; if(c.name === "Bangladesh") opt2.selected = true; dialSelect.appendChild(opt2);
                 });
             }
-            await loadCombinedProductsFromSupabase();
+            await fetchAndRenderProductsFromSupabase();
         });
 
-        async function loadCombinedProductsFromSupabase(filterCat = 'All') {
+        // ফিক্সড ও সেফ ডেটা ফেচিং ফাংশন (ফাঁকা দেখানোর সমস্যা দূর করার জন্য)
+        async function fetchAndRenderProductsFromSupabase(customDataList = null) {
             const feed = document.getElementById('productFeed');
-            feed.innerHTML = `<div style="text-align:center; color:var(--gold-solid); padding:25px; grid-column:span 2; font-size:0.75rem;">Loading Supabase Enterprise Data...</div>`;
+            
+            let products = customDataList;
+            if(!products) {
+                try {
+                    let { data, error } = await _supabase.from('products').select('*');
+                    if(data && data.length > 0) {
+                        products = data;
+                    }
+                } catch(e) {}
+            }
 
-            let products = [];
-            try {
-                let { data, error } = await _supabase.from('products').select('*');
-                if(data && data.length > 0) products = data;
-            } catch(e) {}
-
-            if(products.length === 0) {
+            // যদি Supabase এ ডেটা না থাকে বা কানেকশনে সমস্যা হয়, তবে ডিফল্ট লাক্সারি প্রোডাক্ট দেখাবে যাতে স্ক্রিন কখনই ফাঁকা না থাকে
+            if(!products || products.length === 0) {
                 products = [
                     {
-                        id: 1, title: "Exquisite Resin & Gold Leaf Wall Clock", category: "🏡 HOME DECOR", price: "$145.00", bdDiscount: "BD 20% OFF",
-                        seller: "MR Artisan Hub", videoUrl: "https://www.youtube.com/embed/EjSt6U8SQ0I?autoplay=1&mute=1&loop=1&playlist=EjSt6U8SQ0I&controls=0&showinfo=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0",
+                        id: 1, 
+                        title: "Exquisite Resin & Gold Leaf Wall Clock", 
+                        name: "Resin Clock",
+                        category: "🏡 HOME DECOR", 
+                        price: "$145.00", 
+                        bdDiscount: "BD 20% OFF", 
+                        seller: "MR Artisan Hub", 
+                        videoUrl: "https://www.youtube.com/embed/EjSt6U8SQ0I?autoplay=1&mute=1&loop=1&playlist=EjSt6U8SQ0I&controls=0&showinfo=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0",
                         images: ["https://lh3.googleusercontent.com/d/18yy4G5Nd4OUf5a1T4mKHhvUFTq_6Eds5", "https://lh3.googleusercontent.com/d/1-tTiXMrioUbLiRkx2jNRpkUYVVBah5Fb"],
-                        views: 820, likes: 235, desc: "Handcrafted luxury geometric wooden wall clock embedded with shimmering gold leaf flakes."
+                        views: 820, 
+                        likes: 235, 
+                        desc: "Handcrafted luxury geometric wooden wall clock embedded with shimmering gold leaf flakes."
+                    },
+                    {
+                        id: 2, 
+                        title: "Luxury Gold Crafted Designer Bracelet", 
+                        name: "Gold Bracelet",
+                        category: "👔 FASHION (MEN)", 
+                        price: "$125.00", 
+                        bdDiscount: "BD 15% OFF", 
+                        seller: "Masudar Enterprise", 
+                        videoUrl: "",
+                        images: ["https://lh3.googleusercontent.com/d/1-tTiXMrioUbLiRkx2jNRpkUYVVBah5Fb", "https://lh3.googleusercontent.com/d/1Cd9R3HCUOUjWWBrP5dIcyaXKLfX8NTdi"],
+                        views: 640, 
+                        likes: 198, 
+                        desc: "Handcrafted golden luxury ornament designed with precision for exclusive fashion statements."
                     }
                 ];
             }
 
-            if(filterCat !== 'All') products = products.filter(p => p.category === filterCat);
+            window.allLoadedProducts = products;
+            renderProductCards(products);
+        }
 
+        function renderProductCards(dataToRender) {
+            const feed = document.getElementById('productFeed');
             feed.innerHTML = "";
-            products.forEach(item => {
-                let pId = item.id || 1;
+
+            dataToRender.forEach(item => {
+                let pId = item.id || Math.random();
                 let title = item.title || item.name || 'Luxury Product';
-                let price = item.price || '$145.00';
                 let videoUrl = item.videoUrl || item.video_url || '';
-                let imageUrl = (item.images && item.images[0]) || item.image || "https://lh3.googleusercontent.com/d/18yy4G5Nd4OUf5a1T4mKHhvUFTq_6Eds5";
+                let imagesArr = item.images || (item.image ? [item.image] : ["https://lh3.googleusercontent.com/d/18yy4G5Nd4OUf5a1T4mKHhvUFTq_6Eds5"]);
+                let imageUrl = imagesArr[0];
                 let likes = item.likes || 235;
                 let views = item.views || 820;
 
                 const card = document.createElement('div');
                 card.className = 'product-card';
-                let mediaContent = videoUrl ? `<div class="video-wrapper"><iframe src="${videoUrl}" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe><div class="video-click-shield" onclick="openProductModal('${pId}')"></div></div>` : `<div class="product-media-box" onclick="openProductModal('${pId}')"><img src="${imageUrl}" alt="${title}" loading="lazy"></div>`;
+                
+                let mediaContent = videoUrl ? `
+                    <div class="video-wrapper">
+                        <iframe src="${videoUrl}" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+                        <div class="video-click-shield" onclick="openProductModal('${pId}')"></div>
+                    </div>
+                ` : `
+                    <div class="product-media-box" onclick="openProductModal('${pId}')">
+                        <img src="${imageUrl}" alt="${title}" loading="lazy">
+                    </div>
+                `;
 
                 card.innerHTML = `
                     ${mediaContent}
                     <div class="product-bottom-actions">
                         <div class="action-item view-icon"><i class="fa-solid fa-eye"></i> <span>${views}</span></div>
                         <div class="action-item like-icon" onclick="handleSupabaseLike('${pId}', this)"><i class="fa-solid fa-heart"></i> <span id="like-count-${pId}">${likes}</span></div>
-                        <div class="action-item share-icon" onclick="openShareModal('${title}', '${pId}')"><i class="fa-solid fa-share-nodes"></i> <span>Share</span></div>
+                        <div class="action-item share-icon" onclick="openShareModal('${title.replace(/'/g, "\\'")}', '${pId}')"><i class="fa-solid fa-share-nodes"></i> <span>Share</span></div>
                     </div>
                 `;
                 feed.appendChild(card);
             });
-            window.allLoadedProducts = products;
         }
 
         async function handleSupabaseLike(pId, el) {
             el.classList.toggle('active');
             const countSpan = document.getElementById(`like-count-${pId}`);
-            let currentLikes = parseInt(countSpan.innerText) + 1;
+            let currentLikes = parseInt(countSpan.innerText) + (el.classList.contains('active') ? 1 : -1);
             countSpan.innerText = currentLikes;
             try {
                 await _supabase.from('products').update({ likes: currentLikes }).eq('id', pId);
@@ -440,7 +481,13 @@
 
         async function selectCategory(cat) {
             document.getElementById('categoryModalOverlay').style.display = 'none';
-            await loadCombinedProductsFromSupabase(cat);
+            let allProds = window.allLoadedProducts || [];
+            if(cat === 'All') {
+                renderProductCards(allProds);
+            } else {
+                let filtered = allProds.filter(p => p.category === cat);
+                renderProductCards(filtered);
+            }
         }
 
         function openEcosystemPage(url, title, element) {
@@ -477,7 +524,7 @@
             const thumbStrip = document.getElementById('modalThumbnailsStrip');
             slider.innerHTML = ""; thumbStrip.innerHTML = "";
 
-            let imagesArr = product.images || [product.image || "https://lh3.googleusercontent.com/d/18yy4G5Nd4OUf5a1T4mKHhvUFTq_6Eds5"];
+            let imagesArr = product.images || (product.image ? [product.image] : ["https://lh3.googleusercontent.com/d/18yy4G5Nd4OUf5a1T4mKHhvUFTq_6Eds5"]);
             let slideIndex = 0;
 
             if(product.videoUrl && product.videoUrl.trim() !== "") {
@@ -505,7 +552,7 @@
                 slideIndex++;
             }
 
-            imagesArr.forEach((imgSrc, idx) => {
+            imagesArr.forEach((imgSrc) => {
                 const imgSlide = document.createElement('div');
                 imgSlide.className = 'modal-slide-item';
                 imgSlide.id = `modal-slide-${slideIndex}`;
@@ -553,7 +600,7 @@
             document.getElementById('productModal').style.display = 'none';
         }
 
-        function openAuthModal(mode) { document.getElementById('authModal').style.display = 'flex'; }
+        function openAuthModal() { document.getElementById('authModal').style.display = 'flex'; }
         function closeAuthModal() { document.getElementById('authModal').style.display = 'none'; }
         function switchAuthTab(tab) {
             document.getElementById('signInFormContainer').style.display = tab === 'signin' ? 'block' : 'none';
@@ -565,12 +612,11 @@
         function handleSignUpSubmit(e) { e.preventDefault(); alert("Account registered successfully!"); closeAuthModal(); }
         function handleForgotPassSubmit(e) { e.preventDefault(); alert("Reset instructions sent."); switchAuthTab('signin'); }
 
-        // Supabase-এর সাথে ডাইরেক্ট কার্ট অ্যাড ও অ্যানিমেশন
         async function addToCartWithSupabase(event) {
             if(!activeCurrentProduct) activeCurrentProduct = window.allLoadedProducts[0];
             closeProductModal();
 
-            let imagesArr = activeCurrentProduct.images || [activeCurrentProduct.image || "https://lh3.googleusercontent.com/d/18yy4G5Nd4OUf5a1T4mKHhvUFTq_6Eds5"];
+            let imagesArr = activeCurrentProduct.images || (activeCurrentProduct.image ? [activeCurrentProduct.image] : ["https://lh3.googleusercontent.com/d/18yy4G5Nd4OUf5a1T4mKHhvUFTq_6Eds5"]);
             let cartRecord = {
                 product_id: String(activeCurrentProduct.id),
                 title: activeCurrentProduct.title || activeCurrentProduct.name,
@@ -587,7 +633,6 @@
 
             updateSupabaseCartBadge();
 
-            // কয়েন ফ্লাই ও কার্ট বাউন্স অ্যানিমেশন
             const btnRect = event.target.getBoundingClientRect();
             const cartElement = document.getElementById('floatingCart');
             const cartRect = cartElement.getBoundingClientRect();
@@ -597,70 +642,4 @@
                     const coin = document.createElement('div');
                     coin.className = 'flying-coin';
                     coin.style.left = `${btnRect.left + btnRect.width / 2 - 11}px`;
-                    coin.style.top = `${btnRect.top + btnRect.height / 2 - 11}px`;
-                    document.body.appendChild(coin);
-                    setTimeout(() => {
-                        coin.style.left = `${cartRect.left + cartRect.width / 2 - 11}px`;
-                        coin.style.top = `${cartRect.top + cartRect.height / 2 - 11}px`;
-                        coin.style.transform = 'scale(0.35) rotate(720deg)';
-                        coin.style.opacity = '0.4';
-                    }, 40);
-                    setTimeout(() => coin.remove(), 800);
-                }, i * 70);
-            }
-
-            setTimeout(() => {
-                cartElement.classList.add('smooth-center-bounce');
-                setTimeout(() => cartElement.classList.remove('smooth-center-bounce'), 800);
-            }, 350);
-        }
-
-        async function handleCartCheckout() {
-            let { data } = await _supabase.from('cart_items').select('*').eq('affiliate_ref', currentAffiliateId);
-            if(!data || data.length === 0) {
-                alert("Your shopping cart is currently empty.");
-            } else {
-                let encodedCart = encodeURIComponent(JSON.stringify(data));
-                window.location.href = `https://out.mrmasudar.com/?ref=${currentAffiliateId}&cart_data=${encodedCart}`;
-            }
-        }
-
-        function openShareModal(title, id) {
-            currentShareUrl = `https://mrmasudar.com/product.html?id=${id}&ref=${currentAffiliateId}`;
-            document.getElementById('shareLinkInput').value = currentShareUrl;
-            document.getElementById('shareFacebook').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentShareUrl)}`;
-            document.getElementById('shareYoutube').href = `https://www.youtube.com/results?search_query=${encodeURIComponent(title)}`;
-            document.getElementById('shareTwitter').href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentShareUrl)}`;
-            document.getElementById('shareModal').style.display = 'flex';
-        }
-        function closeShareModal() { document.getElementById('shareModal').style.display = 'none'; }
-        function copyAffiliateLink(e) {
-            e.preventDefault();
-            const linkInput = document.getElementById('shareLinkInput');
-            linkInput.select();
-            navigator.clipboard.writeText(linkInput.value);
-            e.currentTarget.querySelector('span').innerText = "Copied!";
-            setTimeout(() => e.currentTarget.querySelector('span').innerText = "Copy Link", 1200);
-        }
-
-        async function performSearchSubmit() {
-            const query = document.getElementById('searchInput').value.toLowerCase().trim();
-            let allProds = window.allLoadedProducts || [];
-            if(query === "") {
-                await loadCombinedProductsFromSupabase();
-                return;
-            }
-            let filtered = allProds.filter(p => (p.title || p.name || '').toLowerCase().includes(query) || (p.desc || '').toLowerCase().includes(query));
-            loadCombinedProductsFromSupabase(filtered); // পসিবল ফিল্টার রেন্ডার
-        }
-        function handleSearchKey(e) { if (e.key === 'Enter') performSearchSubmit(); }
-
-        function triggerCamera() { document.getElementById('hiddenCameraInput').click(); }
-        function handleGalleryImage(e) { if(e.target.files[0]) alert("Image uploaded: " + e.target.files[0].name); }
-        function triggerVoiceSearch() {
-            let text = prompt("Search product:");
-            if(text) { document.getElementById('searchInput').value = text; performSearchSubmit(); }
-        }
-    </script>
-</body>
-</html>
+                    coin.style.top = `${btnRect.top + btnRect.height / 2 - 11}
