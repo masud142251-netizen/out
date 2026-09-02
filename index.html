@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MRMASUDAR.COM - Supreme Checkout & Luxury Dashboard</title>
+    <title>MRMASUDAR.COM - Secure Checkout & Luxury Dashboard</title>
     
     <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -11,6 +11,27 @@
     
     <!-- Chart.js for Top Spending Analytics Graph -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Firebase SDK Integration -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyCvUftOHiXFCuAzivaBut1XvNLpGE-LQ-w",
+            authDomain: "mr-masudar.firebaseapp.com",
+            projectId: "mr-masudar",
+            storageBucket: "mr-masudar.firebasestorage.app",
+            messagingSenderId: "644110210393",
+            appId: "1:644110210393:web:dc756217266f0af039e848",
+            measurementId: "G-BZBCMZQ87M"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        window.db = getFirestore(app);
+        window.firebaseAddDoc = addDoc;
+        window.firebaseCollection = collection;
+    </script>
 
     <style>
         :root {
@@ -154,7 +175,7 @@
             </div>
         </div>
         <div class="top-right-controls">
-            <a href="index.html" class="back-home-btn"><i class="fa-solid fa-arrow-left"></i> Home</a>
+            <a href="https://mrmasudar.com" class="back-home-btn"><i class="fa-solid fa-arrow-left"></i> Home</a>
         </div>
     </header>
 
@@ -339,7 +360,7 @@
             }
         }
 
-        function handleAuthSubmit() {
+        async function handleAuthSubmit() {
             let email = document.getElementById('regEmail').value.trim();
             let pass = document.getElementById('regPassword').value.trim();
 
@@ -351,8 +372,16 @@
             let userData = {
                 email: email,
                 name: isSignUpMode ? (document.getElementById('regFullName').value.trim() || "Valued Customer") : email.split('@')[0],
-                whatsapp: isSignUpMode ? document.getElementById('regWhatsapp').value.trim() : ""
+                whatsapp: isSignUpMode ? document.getElementById('regWhatsapp').value.trim() : "",
+                timestamp: new Date().toISOString()
             };
+
+            // Save user info to Firebase Firestore automatically
+            try {
+                if(window.db && window.firebaseAddDoc && window.firebaseCollection) {
+                    await window.firebaseAddDoc(window.firebaseCollection(window.db, "customers"), userData);
+                }
+            } catch(e) {}
 
             localStorage.setItem('mme_logged_user', JSON.stringify(userData));
             showCustomToast("Successfully entered dashboard!");
@@ -441,12 +470,25 @@
             el.classList.add('selected');
         }
 
-        function processSecurePayment() {
+        async function processSecurePayment() {
             let cartItems = JSON.parse(localStorage.getItem('mme_cart_items') || '[]');
             if(cartItems.length === 0) {
                 showCustomToast("No items in cart to checkout!");
                 return;
             }
+
+            let orderData = {
+                items: cartItems,
+                gateway: selectedPaymentGateway,
+                user: JSON.parse(localStorage.getItem('mme_logged_user') || '{}'),
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                if(window.db && window.firebaseAddDoc && window.firebaseCollection) {
+                    await window.firebaseAddDoc(window.firebaseCollection(window.db, "orders"), orderData);
+                }
+            } catch(e) {}
 
             showCustomToast(`Payment via ${selectedPaymentGateway} successful! Order placed.`);
             
