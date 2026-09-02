@@ -32,18 +32,22 @@
         window.firebaseAddDoc = addDoc;
         window.firebaseCollection = collection;
 
+        // প্রথমবার সাবডোমেইনে আসলে ফায়ারবেস থেকে ডেটা এনে লোকাল স্টোরেজে সেট হবে, এরপর আর ওভাররাইট করবে না
         async function fetchFirebaseCartOnLoad() {
             try {
-                const querySnapshot = await getDocs(collection(window.db, "global_carts"));
-                let firebaseCart = [];
-                querySnapshot.forEach((doc) => {
-                    firebaseCart.push(doc.data());
-                });
-                if(firebaseCart.length > 0) {
-                    localStorage.setItem('mme_cart_items', JSON.stringify(firebaseCart));
-                    if(typeof renderCartSheet === 'function') {
-                        renderCartSheet();
+                let localCart = localStorage.getItem('mme_cart_items');
+                if(!localCart) {
+                    const querySnapshot = await getDocs(collection(window.db, "global_carts"));
+                    let firebaseCart = [];
+                    querySnapshot.forEach((doc) => {
+                        firebaseCart.push(doc.data());
+                    });
+                    if(firebaseCart.length > 0) {
+                        localStorage.setItem('mme_cart_items', JSON.stringify(firebaseCart));
                     }
+                }
+                if(typeof renderCartSheet === 'function') {
+                    renderCartSheet();
                 }
             } catch(e) {}
         }
@@ -110,7 +114,7 @@
         .luxury-sheet-table th { background: rgba(212, 175, 55, 0.15); color: var(--gold-solid); font-size: 0.68rem; font-weight: 800; text-transform: uppercase; padding: 8px 10px; border: 1px solid rgba(212,175,55,0.3); text-align: left; }
         .luxury-sheet-table td { padding: 10px; border: 1px solid rgba(212,175,55,0.2); font-size: 0.72rem; color: #fff; vertical-align: middle; }
         .sheet-product-img { width: 42px; height: 42px; border-radius: 6px; object-fit: cover; border: 1px solid var(--gold-solid); }
-        .sheet-delete-btn { background: transparent; border: none; color: #ff2d55; font-size: 0.85rem; cursor: pointer; }
+        .sheet-delete-btn { background: transparent; border: none; color: #ff2d55; font-size: 0.85rem; cursor: pointer; padding: 4px 8px; }
 
         /* AUTH CARD */
         .auth-card { background: var(--card-bg); border: 1.5px solid var(--gold-solid); border-radius: 20px; padding: 25px 20px; text-align: center; box-shadow: 0 0 30px rgba(212,175,55,0.25); }
@@ -133,7 +137,6 @@
         .analytics-card { background: var(--card-bg); border: 1.5px solid rgba(212,175,55,0.5); border-radius: 16px; padding: 15px; }
         .analytics-title { font-size: 0.8rem; font-weight: 800; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
 
-        /* PAYMENT & ONE-TIME INFO MODAL OR SECTION */
         .payment-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
         .full-span { grid-column: span 2; }
         .phone-input-row { display: flex; gap: 8px; }
@@ -471,7 +474,7 @@
             cartItems.splice(index, 1);
             localStorage.setItem('mme_cart_items', JSON.stringify(cartItems));
             renderCartSheet();
-            showCustomToast("Product removed from sheet.");
+            showCustomToast("Product removed from sheet permanently.");
         }
 
         function loadSavedShippingInfo() {
@@ -509,7 +512,6 @@
                 return;
             }
 
-            // Save info permanently so user doesn't need to enter again
             localStorage.setItem('mme_saved_shipping', JSON.stringify(shippingInfo));
 
             let orderData = {
@@ -526,7 +528,7 @@
                 }
             } catch(e) {}
 
-            showCustomToast(`Payment via ${selectedPaymentGateway} successful! Info saved for future.`);
+            showCustomToast(`Payment via ${selectedPaymentGateway} successful! Order placed.`);
             localStorage.setItem('mme_cart_items', JSON.stringify([]));
             renderCartSheet();
         }
