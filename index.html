@@ -8,7 +8,6 @@
     <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script type="module">
@@ -30,21 +29,15 @@
         window.firebaseAddDoc = addDoc;
         window.firebaseCollection = collection;
 
-        // শুধু প্রথমবার যখন লোকাল স্টোরেজ একেবারে খালি থাকবে, তখনই ফায়ারবেস থেকে কার্ট ডেটা আনবে। 
-        // এর পরে আর কখনো ফায়ারবেস থেকে পুরনো কার্ট টেনে এনে লোকাল স্টোরেজ ওভাররাইট করবে না।
-        async function fetchFirebaseCartOnLoadOnce() {
+        async function loadSubdomainCartFromFirebase() {
             try {
-                let localCart = localStorage.getItem('mme_cart_items');
-                if(!localCart) {
-                    const querySnapshot = await getDocs(collection(window.db, "global_carts"));
-                    let firebaseCart = [];
-                    querySnapshot.forEach((doc) => {
-                        firebaseCart.push(doc.data());
-                    });
-                    if(firebaseCart.length > 0) {
-                        localStorage.setItem('mme_cart_items', JSON.stringify(firebaseCart));
-                    }
-                }
+                const querySnapshot = await getDocs(collection(window.db, "global_carts"));
+                let itemsList = [];
+                querySnapshot.forEach((doc) => {
+                    itemsList.push({ id: doc.id, ...doc.data() });
+                });
+                // ফায়ারবেসের ডেটা সরাসরি টেবিলে রেন্ডার হবে
+                window.subdomainCartItems = itemsList;
                 if(typeof renderCartSheet === 'function') {
                     renderCartSheet();
                 }
@@ -52,7 +45,7 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            fetchFirebaseCartOnLoadOnce();
+            loadSubdomainCartFromFirebase();
         });
     </script>
 
@@ -81,30 +74,15 @@
         .brand-container { display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; max-width: 68%; min-width: 0; }
         .logo { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--gold-solid); background: #000; flex-shrink: 0; box-shadow: 0 0 10px rgba(212,175,55,0.4); }
         .brand-text-box { display: flex; flex-direction: column; justify-content: center; min-width: 0; width: 100%; }
-        .brand-title-main { 
-            font-size: 0.96rem; font-weight: 900; 
-            background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
-            line-height: 1.15; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: 0.8px;
-        }
-        .brand-subtitle-craft {
-            font-size: 0.44rem; color: var(--text-gray); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: 4.8px; text-transform: uppercase; display: block; width: 100%; text-align: justify;
-        }
+        .brand-title-main { font-size: 0.96rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.15; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: 0.8px; }
+        .brand-subtitle-craft { font-size: 0.44rem; color: var(--text-gray); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: 4.8px; text-transform: uppercase; display: block; width: 100%; text-align: justify; }
         .top-right-controls { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
-        .back-home-btn {
-            background: transparent; border: 1.5px solid var(--gold-solid); color: var(--gold-solid);
-            padding: 6px 12px; border-radius: 8px; font-size: 0.65rem; font-weight: 800; cursor: pointer; text-decoration: none;
-            display: flex; align-items: center; gap: 5px; text-transform: uppercase; transition: 0.3s;
-        }
+        .back-home-btn { background: transparent; border: 1.5px solid var(--gold-solid); color: var(--gold-solid); padding: 6px 12px; border-radius: 8px; font-size: 0.65rem; font-weight: 800; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 5px; text-transform: uppercase; transition: 0.3s; }
         .back-home-btn:hover { background: var(--gold-gradient); color: #000; }
 
-        .custom-toast {
-            position: fixed; top: 78px; left: 50%; transform: translateX(-50%);
-            background: rgba(18, 18, 18, 0.95); border: 1.5px solid var(--gold-solid); color: var(--gold-solid);
-            padding: 8px 18px; border-radius: 30px; font-size: 0.75rem; font-weight: 700; z-index: 9999; display: none;
-        }
+        .custom-toast { position: fixed; top: 78px; left: 50%; transform: translateX(-50%); background: rgba(18, 18, 18, 0.95); border: 1.5px solid var(--gold-solid); color: var(--gold-solid); padding: 8px 18px; border-radius: 30px; font-size: 0.75rem; font-weight: 700; z-index: 9999; display: none; }
 
         .checkout-main-container { width: 100%; max-width: 920px; margin: 0 auto; padding: 15px; display: flex; flex-direction: column; gap: 18px; }
-
         .section-box { background: var(--card-bg); border: 1.5px solid rgba(212,175,55,0.4); border-radius: 16px; padding: 16px; }
         .section-title { font-size: 0.85rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
 
@@ -195,7 +173,8 @@
                         </tr>
                     </thead>
                     <tbody id="cartSheetTableBody">
-                        </tbody>
+                        <!-- Dynamic Cart Rows Here -->
+                    </tbody>
                 </table>
             </div>
             <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; border-top:1px solid rgba(212,175,55,0.3); padding-top:10px;">
@@ -206,24 +185,20 @@
 
         <div class="auth-card" id="authCardBox">
             <h2 class="auth-title" id="authFormTitle">Customer Sign Up</h2>
-            
             <div id="signUpNameField">
                 <div class="auth-input-group">
                     <label>Full Name</label>
                     <input type="text" class="auth-input" id="regFullName" placeholder="Masudar Rahman">
                 </div>
             </div>
-
             <div class="auth-input-group">
                 <label>Gmail / Email</label>
                 <input type="email" class="auth-input" id="regEmail" placeholder="yourname@gmail.com">
             </div>
-            
             <div class="auth-input-group">
                 <label>Password (Manual Entry)</label>
                 <input type="password" class="auth-input" id="regPassword" placeholder="Enter secure password">
             </div>
-
             <button class="auth-btn" id="authSubmitBtn" onclick="handleAuthSubmit()">Create Account & Enter Dashboard</button>
             <div class="auth-switch-text" id="authSwitchToggle" onclick="toggleAuthMode()">
                 Already have an account? <span>Sign In here</span>
@@ -231,7 +206,6 @@
         </div>
 
         <div class="dashboard-content-area" id="dashboardContentArea">
-            
             <div class="dash-top-bar">
                 <div>
                     <span class="dash-welcome" id="dashUserName">Welcome, User</span>
@@ -332,18 +306,16 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
 
     <script>
         let isSignUpMode = true;
         let selectedPaymentGateway = "Payoneer";
         let spendingChartInstance = null;
+        window.subdomainCartItems = [];
 
         window.addEventListener('DOMContentLoaded', () => {
-            renderCartSheet();
             checkAuthStatus();
             initSpendingChart();
             loadSavedShippingInfo();
@@ -422,10 +394,11 @@
         }
 
         function renderCartSheet() {
-            let cartItems = JSON.parse(localStorage.getItem('mme_cart_items') || '[]');
             const tbody = document.getElementById('cartSheetTableBody');
             if(!tbody) return;
             tbody.innerHTML = "";
+
+            let cartItems = window.subdomainCartItems || [];
 
             if(cartItems.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--text-gray); padding:15px; font-weight:600;">Your product sheet is currently empty.</td></tr>`;
@@ -447,7 +420,7 @@
                     <td style="color:var(--text-gray);">Color: ${item.color || 'Std'} | Size: ${item.size || 'Std'}</td>
                     <td style="font-family:var(--font-numeric); font-weight:800;">${item.quantity || 1}</td>
                     <td style="font-family:var(--font-numeric); font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">${item.price || '$0.00'}</td>
-                    <td><button class="sheet-delete-btn" onclick="removeCartItem(${index})"><i class="fa-solid fa-trash"></i></button></td>
+                    <td><button class="sheet-delete-btn" onclick="removeSubdomainCartItem('${item.id}', ${index})"><i class="fa-solid fa-trash"></i></button></td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -457,11 +430,20 @@
             document.getElementById('totalSpentText').innerText = `Sheet Total: ${formattedTotal}`;
         }
 
-        function removeCartItem(index) {
-            let cartItems = JSON.parse(localStorage.getItem('mme_cart_items') || '[]');
+        async function removeSubdomainCartItem(docId, index) {
+            let cartItems = window.subdomainCartItems || [];
             cartItems.splice(index, 1);
-            localStorage.setItem('mme_cart_items', JSON.stringify(cartItems));
+            window.subdomainCartItems = cartItems;
             renderCartSheet();
+
+            try {
+                if(window.db && docId) {
+                    import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js").then(async ({ doc, deleteDoc }) => {
+                        await deleteDoc(doc(window.db, "global_carts", docId));
+                    });
+                }
+            } catch(e) {}
+
             showCustomToast("Product removed from sheet permanently.");
         }
 
@@ -482,7 +464,7 @@
         }
 
         async function processOneClickPayment() {
-            let cartItems = JSON.parse(localStorage.getItem('mme_cart_items') || '[]');
+            let cartItems = window.subdomainCartItems || [];
             if(cartItems.length === 0) {
                 showCustomToast("No items in sheet to checkout!");
                 return;
@@ -517,7 +499,7 @@
             } catch(e) {}
 
             showCustomToast(`Payment via ${selectedPaymentGateway} successful! Order placed.`);
-            localStorage.setItem('mme_cart_items', JSON.stringify([]));
+            window.subdomainCartItems = [];
             renderCartSheet();
         }
 
