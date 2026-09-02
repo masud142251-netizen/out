@@ -90,7 +90,6 @@
         .section-box { background: var(--card-bg); border: 1.5px solid rgba(212,175,55,0.4); border-radius: 16px; padding: 16px; }
         .section-title { font-size: 0.85rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
 
-        /* প্রোডাক্ট টেবিল */
         .luxury-sheet-table { width: 100%; border-collapse: collapse; margin-top: 5px; }
         .luxury-sheet-table th { background: rgba(212, 175, 55, 0.15); color: var(--gold-solid); font-size: 0.68rem; font-weight: 800; text-transform: uppercase; padding: 8px 10px; border: 1px solid rgba(212,175,55,0.3); text-align: left; font-family: var(--font-luxury); }
         .luxury-sheet-table td { padding: 8px 10px; border: 1px solid rgba(212,175,55,0.2); font-size: 0.72rem; color: #fff; vertical-align: middle; }
@@ -109,7 +108,7 @@
         .auth-trigger-btn.alt { background: transparent; border: 1.5px solid var(--gold-solid); color: var(--gold-solid); }
         .auth-trigger-btn:hover { transform: scale(1.02); }
 
-        /* পপআপ মডাল (সাইন আপ ও সাইন ইন) */
+        /* পপআপ মডাল */
         .auth-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 6000; backdrop-filter: blur(6px); padding: 15px; }
         .auth-modal-box { background: #141414; border: 1.5px solid var(--gold-solid); width: 100%; max-width: 380px; border-radius: 18px; padding: 25px 18px; text-align: center; position: relative; box-shadow: 0 0 30px rgba(212,175,55,0.3); font-family: var(--font-body); }
         .auth-modal-title { font-size: 1.05rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 14px; font-family: var(--font-luxury); }
@@ -157,7 +156,6 @@
         .chat-input-bar input { flex: 1; background: transparent; border: none; outline: none; color: #fff; font-size: 0.7rem; padding: 4px 8px; font-weight: 600; font-family: var(--font-body); }
         .chat-send-btn { background: var(--gold-gradient); border: none; width: 32px; border-radius: 6px; color: #000; font-weight: 900; cursor: pointer; }
 
-        /* প্রোডাক্ট ডিটেইলস পপআপ মোডাল (যাতে সব তথ্য একসাথে দেখা যায়) */
         .prod-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 5000; backdrop-filter: blur(6px); padding: 15px; }
         .prod-modal-box { background: #141414; border: 1.5px solid var(--gold-solid); width: 100%; max-width: 380px; border-radius: 16px; padding: 25px 16px 16px 16px; text-align: center; position: relative; box-shadow: 0 0 25px rgba(212,175,55,0.3); font-family: var(--font-body); }
         .prod-modal-img { width: 120px; height: 120px; border-radius: 10px; object-fit: cover; border: 1.5px solid var(--gold-solid); margin-bottom: 12px; }
@@ -171,7 +169,7 @@
 
     <div class="custom-toast" id="customToast">Action completed successfully!</div>
 
-    <!-- প্রোডাক্ট ইনফো পপআপ মোডাল (টাইটেল, ডেসক্রিপশন, সাইজ ও কালারসহ) -->
+    <!-- প্রোডাক্ট ডিটেইলস পপআপ -->
     <div class="prod-modal-overlay" id="prodModalOverlay" onclick="closeProdModal(event)">
         <div class="prod-modal-box">
             <button class="auth-modal-close" onclick="document.getElementById('prodModalOverlay').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
@@ -186,7 +184,7 @@
         </div>
     </div>
 
-    <!-- সাইন আপ পপআপ মোডাল -->
+    <!-- সাইন আপ পপআপ -->
     <div class="auth-modal-overlay" id="signUpModalOverlay" onclick="closeAuthModal(event, 'signUpModalOverlay')">
         <div class="auth-modal-box">
             <button class="auth-modal-close" onclick="document.getElementById('signUpModalOverlay').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
@@ -207,7 +205,7 @@
         </div>
     </div>
 
-    <!-- সাইন ইন পপআপ মোডাল -->
+    <!-- সাইন ইন পপআপ -->
     <div class="auth-modal-overlay" id="signInModalOverlay" onclick="closeAuthModal(event, 'signInModalOverlay')">
         <div class="auth-modal-box">
             <button class="auth-modal-close" onclick="document.getElementById('signInModalOverlay').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
@@ -239,7 +237,6 @@
 
     <div class="checkout-main-container">
 
-        <!-- লাক্সারি প্রোডাক্ট শিট -->
         <div class="section-box">
             <div class="section-title"><i class="fa-solid fa-gem"></i> Luxury Product</div>
             <div style="overflow-x: auto;">
@@ -252,9 +249,7 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody id="cartSheetTableBody">
-                        <!-- Dynamic Cart Rows Here -->
-                    </tbody>
+                    <tbody id="cartSheetTableBody"></tbody>
                 </table>
             </div>
             <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; border-top:1px solid rgba(212,175,55,0.3); padding-top:10px;">
@@ -263,7 +258,7 @@
             </div>
         </div>
 
-        <!-- সাইন আপ / সাইন ইন অ্যাকশন ব্যানার -->
+        <!-- সাইন আপ / সাইন ইন বাটন ব্যানার -->
         <div class="auth-action-banner" id="authBannerBox">
             <span class="auth-banner-title">Unlock Your Luxury Hub</span>
             <p style="font-size:0.7rem; color:var(--text-gray); font-family:var(--font-body);">Please sign up or sign in to access your secure dashboard and complete orders.</p>
@@ -273,7 +268,6 @@
             </div>
         </div>
 
-        <!-- ড্যাশবোর্ড এরিয়া -->
         <div class="dashboard-content-area" id="dashboardContentArea">
             <div class="dash-top-bar">
                 <div>
@@ -299,9 +293,7 @@
                     <div class="auth-input-group">
                         <label>WhatsApp Number <span>*</span></label>
                         <div class="phone-input-row">
-                            <select class="country-code-select" id="payCountryCode">
-                                <!-- ১৯৫+ স্বাধীন দেশের কোড ও ফ্ল্যাগ ডায়নামিকালি পপুলেট হবে -->
-                            </select>
+                            <select class="country-code-select" id="payCountryCode"></select>
                             <input type="text" class="auth-input" id="payWhatsapp" placeholder="1712345678" required>
                         </div>
                     </div>
@@ -370,7 +362,6 @@
         let spendingChartInstance = null;
         window.subdomainCartItems = [];
 
-        // ১৯৫+ স্বাধীন দেশের তালিকা (ফ্ল্যাগ ও কান্ট্রি কোডসহ)
         const allWorldCountries = [
             { name: "Afghanistan", code: "+93", flag: "🇦🇫", zone: "Kabul" },
             { name: "Albania", code: "+355", flag: "🇦🇱", zone: "Tirane" },
@@ -465,7 +456,6 @@
             setTimeout(() => { toast.style.display = 'none'; }, 2200);
         }
 
-        // ১৯৫+ দেশের ড্রপডাউন পপুলেট করা এবং অটো-লোকেশন ট্র্যাক করে কোড সেট করা
         function populateAllCountryCodes() {
             let select = document.getElementById('payCountryCode');
             let countryField = document.getElementById('payCountry');
@@ -619,7 +609,6 @@
             document.getElementById('totalSpentText').innerText = `Total: ${formattedTotal}`;
         }
 
-        // ইমেজে ক্লিক করলে টাইটেল, ডেসক্রিপশন, সাইজ, কালার পপআপে দেখানোর ফাংশন
         function openProductDetailsModal(item) {
             document.getElementById('modalProdImg').src = item.image || 'https://via.placeholder.com/120';
             document.getElementById('modalProdTitle').innerText = item.title || 'Exclusive Luxury Item';
