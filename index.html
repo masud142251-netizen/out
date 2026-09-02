@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MRMASUDAR.COM - Secure Checkout & Luxury Dashboard</title>
+    <title>MRMASUDAR.COM - Luxury Dashboard & Sheet Checkout</title>
     
     <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Chart.js for Top Spending Analytics Graph -->
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- Firebase SDK & Real-time Cart Sync Integration -->
+    <!-- Firebase SDK & Real-time Sync -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -32,7 +32,6 @@
         window.firebaseAddDoc = addDoc;
         window.firebaseCollection = collection;
 
-        // ফায়ারবেস থেকে সরাসরি কার্ট ডেটা রিয়েল-টাইমে ফেচ করে লোকাল স্টোরেজে সিঙ্ক এবং রেন্ডার করা
         async function fetchFirebaseCartOnLoad() {
             try {
                 const querySnapshot = await getDocs(collection(window.db, "global_carts"));
@@ -42,8 +41,8 @@
                 });
                 if(firebaseCart.length > 0) {
                     localStorage.setItem('mme_cart_items', JSON.stringify(firebaseCart));
-                    if(typeof renderDashboardCart === 'function') {
-                        renderDashboardCart();
+                    if(typeof renderCartSheet === 'function') {
+                        renderCartSheet();
                     }
                 }
             } catch(e) {}
@@ -71,7 +70,6 @@
         html, body { width: 100%; overflow-x: hidden !important; background-color: var(--bg-black); color: var(--text-white); position: relative; }
         body { padding-top: 74px; padding-bottom: 40px; }
 
-        /* HEADER */
         header.app-header {
             display: flex; justify-content: space-between; align-items: center; padding: 6px 12px;
             background: rgba(11, 11, 11, 0.98); position: fixed; top: 0; left: 0; z-index: 1000;
@@ -102,73 +100,59 @@
             padding: 8px 18px; border-radius: 30px; font-size: 0.75rem; font-weight: 700; z-index: 9999; display: none;
         }
 
-        /* CONTAINER WRAPPER */
-        .checkout-main-container { width: 100%; max-width: 900px; margin: 0 auto; padding: 15px; }
+        .checkout-main-container { width: 100%; max-width: 920px; margin: 0 auto; padding: 15px; display: flex; flex-direction: column; gap: 18px; }
 
-        /* AUTH SECTION (SIGN UP / SIGN IN) */
-        .auth-card {
-            background: var(--card-bg); border: 1.5px solid var(--gold-solid); border-radius: 20px;
-            padding: 25px 20px; max-width: 420px; margin: 40px auto; text-align: center;
-            box-shadow: 0 0 30px rgba(212,175,55,0.25); display: block;
-        }
-        .auth-title { font-size: 1.2rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 15px; }
-        .auth-input-group { margin-bottom: 12px; text-align: left; }
-        .auth-input-group label { font-size: 0.65rem; font-weight: 700; color: var(--text-gray); text-transform: uppercase; margin-bottom: 4px; display: block; }
-        .auth-input { width: 100%; background: #000; border: 1.5px solid rgba(212,175,55,0.4); padding: 10px 12px; border-radius: 8px; color: #fff; font-size: 0.8rem; font-weight: 700; outline: none; }
-        .auth-input:focus { border-color: var(--gold-solid); }
-        .auth-btn { width: 100%; background: var(--gold-gradient); border: none; padding: 11px; border-radius: 8px; color: #000; font-weight: 900; font-size: 0.85rem; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
-        .auth-switch-text { font-size: 0.68rem; color: var(--text-gray); margin-top: 12px; cursor: pointer; font-weight: 600; }
-        .auth-switch-text span { color: var(--gold-solid); font-weight: 800; text-decoration: underline; }
-
-        /* DASHBOARD SECTION */
-        .dashboard-wrapper { display: none; flex-direction: column; gap: 18px; }
-        
-        .dash-top-bar { display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); border: 1.5px solid var(--gold-solid); padding: 14px 18px; border-radius: 14px; }
-        .dash-welcome { font-size: 0.95rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; }
-        .dash-actions-right { display: flex; gap: 10px; align-items: center; }
-        .logout-btn { background: transparent; border: 1.5px solid #ff2d55; color: #ff2d55; padding: 5px 10px; border-radius: 6px; font-size: 0.65rem; font-weight: 800; cursor: pointer; }
-
-        /* TOP GRAPH CONTAINER */
-        .analytics-card { background: var(--card-bg); border: 1.5px solid rgba(212,175,55,0.5); border-radius: 16px; padding: 15px; position: relative; }
-        .analytics-title { font-size: 0.8rem; font-weight: 800; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-
-        /* SECTION HEADINGS */
         .section-box { background: var(--card-bg); border: 1.5px solid rgba(212,175,55,0.4); border-radius: 16px; padding: 16px; }
         .section-title { font-size: 0.85rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
 
-        /* CART & ORDERS LIST */
-        .cart-items-stack { display: flex; flex-direction: column; gap: 10px; max-height: 350px; overflow-y: auto; padding-right: 4px; }
-        .cart-item-row { display: flex; align-items: center; justify-content: space-between; background: #181818; border: 1px solid rgba(212,175,55,0.3); border-radius: 10px; padding: 10px; gap: 10px; }
-        .cart-item-img { width: 55px; height: 55px; border-radius: 8px; object-fit: cover; border: 1px solid var(--gold-solid); flex-shrink: 0; }
-        .cart-item-info { flex: 1; min-width: 0; }
-        .cart-item-name { font-size: 0.75rem; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .cart-item-meta { font-size: 0.6rem; color: var(--text-gray); font-family: var(--font-numeric); font-weight: 600; }
-        .cart-item-price { font-size: 0.75rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: var(--font-numeric); }
-        .cart-item-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
-        .remove-item-btn { background: transparent; border: none; color: #ff2d55; font-size: 0.75rem; cursor: pointer; }
+        /* LUXURY TABLE / SHEET FORMAT FOR PRODUCTS */
+        .luxury-sheet-table { width: 100%; border-collapse: collapse; margin-top: 5px; }
+        .luxury-sheet-table th { background: rgba(212, 175, 55, 0.15); color: var(--gold-solid); font-size: 0.68rem; font-weight: 800; text-transform: uppercase; padding: 8px 10px; border: 1px solid rgba(212,175,55,0.3); text-align: left; }
+        .luxury-sheet-table td { padding: 10px; border: 1px solid rgba(212,175,55,0.2); font-size: 0.72rem; color: #fff; vertical-align: middle; }
+        .sheet-product-img { width: 42px; height: 42px; border-radius: 6px; object-fit: cover; border: 1px solid var(--gold-solid); }
+        .sheet-delete-btn { background: transparent; border: none; color: #ff2d55; font-size: 0.85rem; cursor: pointer; }
 
-        /* BUTTONS STYLING */
-        .lux-btn { background: var(--gold-gradient); border: none; padding: 10px 16px; border-radius: 8px; color: #000; font-weight: 900; font-size: 0.75rem; cursor: pointer; text-transform: uppercase; display: inline-flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 0 10px rgba(212,175,55,0.3); transition: 0.3s; }
-        .lux-btn:hover { transform: scale(1.02); }
-        .lux-btn-outline { background: transparent; border: 1.5px solid var(--gold-solid); color: var(--gold-solid); padding: 8px 14px; border-radius: 8px; font-weight: 800; font-size: 0.72rem; cursor: pointer; text-transform: uppercase; }
-        
-        /* SHIPPING ADDRESS BOX */
-        .shipping-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        /* AUTH CARD */
+        .auth-card { background: var(--card-bg); border: 1.5px solid var(--gold-solid); border-radius: 20px; padding: 25px 20px; text-align: center; box-shadow: 0 0 30px rgba(212,175,55,0.25); }
+        .auth-title { font-size: 1.15rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 14px; }
+        .auth-input-group { margin-bottom: 12px; text-align: left; }
+        .auth-input-group label { font-size: 0.62rem; font-weight: 700; color: var(--text-gray); text-transform: uppercase; margin-bottom: 4px; display: block; }
+        .auth-input { width: 100%; background: #000; border: 1.5px solid rgba(212,175,55,0.4); padding: 10px 12px; border-radius: 8px; color: #fff; font-size: 0.8rem; font-weight: 700; outline: none; }
+        .auth-input:focus { border-color: var(--gold-solid); }
+        .auth-btn { width: 100%; background: var(--gold-gradient); border: none; padding: 11px; border-radius: 8px; color: #000; font-weight: 900; font-size: 0.82rem; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
+        .auth-switch-text { font-size: 0.68rem; color: var(--text-gray); margin-top: 12px; cursor: pointer; font-weight: 600; }
+        .auth-switch-text span { color: var(--gold-solid); font-weight: 800; text-decoration: underline; }
+
+        /* DASHBOARD AREA */
+        .dashboard-content-area { display: none; flex-direction: column; gap: 18px; }
+        .dash-top-bar { display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); border: 1.5px solid var(--gold-solid); padding: 16px 20px; border-radius: 16px; box-shadow: 0 0 15px rgba(212,175,55,0.2); }
+        .dash-welcome { font-size: 1.05rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 0.5px; }
+        .logout-btn { background: transparent; border: 1.5px solid #ff2d55; color: #ff2d55; padding: 6px 12px; border-radius: 6px; font-size: 0.65rem; font-weight: 800; cursor: pointer; transition: 0.3s; }
+        .logout-btn:hover { background: #ff2d55; color: #fff; }
+
+        .analytics-card { background: var(--card-bg); border: 1.5px solid rgba(212,175,55,0.5); border-radius: 16px; padding: 15px; }
+        .analytics-title { font-size: 0.8rem; font-weight: 800; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+
+        /* PAYMENT & ONE-TIME INFO MODAL OR SECTION */
+        .payment-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
         .full-span { grid-column: span 2; }
+        .phone-input-row { display: flex; gap: 8px; }
+        .country-code-select { background: #000; border: 1.5px solid rgba(212,175,55,0.4); padding: 10px 6px; border-radius: 8px; color: #fff; font-size: 0.75rem; font-weight: 700; outline: none; width: 130px; }
+        .country-code-select option { background: #121212; color: #fff; }
 
-        /* PAYMENT GATEWAY OPTIONS */
         .payment-methods-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; }
         .pay-option-card { background: #181818; border: 1.5px solid rgba(212,175,55,0.4); padding: 12px; border-radius: 10px; cursor: pointer; text-align: center; transition: 0.3s; display: flex; flex-direction: column; align-items: center; gap: 6px; }
         .pay-option-card.selected, .pay-option-card:hover { border-color: var(--gold-solid); background: rgba(212,175,55,0.1); }
         .pay-option-card i { font-size: 1.2rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .pay-option-card span { font-size: 0.7rem; font-weight: 800; color: #fff; }
 
-        /* LIVE TRACKING SECTION */
+        .lux-btn { background: var(--gold-gradient); border: none; padding: 12px 16px; border-radius: 10px; color: #000; font-weight: 900; font-size: 0.8rem; cursor: pointer; text-transform: uppercase; display: inline-flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 0 12px rgba(212,175,55,0.3); width: 100%; margin-top: 14px; }
+        .lux-btn:hover { transform: scale(1.01); }
+
         .tracking-status-box { background: #161616; border: 1px solid var(--gold-solid); border-radius: 10px; padding: 12px; margin-top: 8px; font-size: 0.72rem; font-weight: 700; display: flex; flex-direction: column; gap: 6px; }
         .tracking-link { color: var(--gold-solid); text-decoration: underline; font-weight: 800; word-break: break-all; }
 
-        /* CUSTOMER SUPPORT / IN-APP CHAT */
-        .support-chat-box { background: #0f0f0f; border: 1.5px solid rgba(212,175,55,0.4); border-radius: 12px; height: 220px; display: flex; flex-direction: column; overflow: hidden; margin-top: 10px; }
+        .support-chat-box { background: #0f0f0f; border: 1.5px solid rgba(212,175,55,0.4); border-radius: 12px; height: 200px; display: flex; flex-direction: column; overflow: hidden; margin-top: 10px; }
         .chat-messages-area { flex: 1; padding: 10px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; font-size: 0.7rem; }
         .chat-msg { max-width: 80%; padding: 8px 12px; border-radius: 10px; font-weight: 600; line-height: 1.35; }
         .chat-msg.customer { background: rgba(212,175,55,0.2); border: 1px solid var(--gold-solid); align-self: flex-end; color: #fff; }
@@ -176,17 +160,12 @@
         .chat-input-bar { display: flex; border-top: 1.5px solid rgba(212,175,55,0.3); background: #141414; padding: 6px; }
         .chat-input-bar input { flex: 1; background: transparent; border: none; outline: none; color: #fff; font-size: 0.7rem; padding: 4px 8px; font-weight: 700; }
         .chat-send-btn { background: var(--gold-gradient); border: none; width: 32px; border-radius: 6px; color: #000; font-weight: 900; cursor: pointer; }
-
-        /* NOTIFICATION BELL BADGE */
-        .notif-badge-icon { position: relative; cursor: pointer; }
-        .notif-dot { position: absolute; top: -2px; right: -2px; width: 8px; height: 8px; background: var(--pink-heart); border-radius: 50%; display: none; }
     </style>
 </head>
 <body>
 
     <div class="custom-toast" id="customToast">Action completed successfully!</div>
 
-    <!-- HEADER -->
     <header class="app-header">
         <div class="brand-container" onclick="showCustomToast('MRMASUDAR.COM - Secure Checkout')">
             <img src="https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc" alt="Logo" class="logo" loading="lazy">
@@ -202,118 +181,143 @@
 
     <div class="checkout-main-container">
 
-        <!-- AUTH CARD (SIGN UP / SIGN IN) -->
+        <!-- SECTION 1: LUXURY SHEET / TABLE FORMAT FOR CART & ORDERS -->
+        <div class="section-box">
+            <div class="section-title"><i class="fa-solid fa-table"></i> My Luxury Product Sheet</div>
+            <div style="overflow-x: auto;">
+                <table class="luxury-sheet-table">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Product Name</th>
+                            <th>Details (Color/Size)</th>
+                            <th>Qty</th>
+                            <th>Price</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cartSheetTableBody">
+                        <!-- Dynamic Cart Rows Here -->
+                    </tbody>
+                </table>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; border-top:1px solid rgba(212,175,55,0.3); padding-top:10px;">
+                <span style="font-size:0.75rem; font-weight:800;">Total Payable Sheet Amount:</span>
+                <span style="font-size:0.95rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-family:var(--font-numeric);" id="sheetTotalPrice">$0.00</span>
+            </div>
+        </div>
+
+        <!-- SECTION 2: AUTH CARD (NAME, GMAIL, MANUAL PASSWORD ONLY) -->
         <div class="auth-card" id="authCardBox">
             <h2 class="auth-title" id="authFormTitle">Customer Sign Up</h2>
-            <div id="signUpExtraFields">
+            
+            <div id="signUpNameField">
                 <div class="auth-input-group">
                     <label>Full Name</label>
                     <input type="text" class="auth-input" id="regFullName" placeholder="Masudar Rahman">
                 </div>
-                <div class="auth-input-group">
-                    <label>WhatsApp Number</label>
-                    <input type="text" class="auth-input" id="regWhatsapp" placeholder="+8801XXXXXXXXX">
-                </div>
             </div>
+
             <div class="auth-input-group">
                 <label>Gmail / Email</label>
                 <input type="email" class="auth-input" id="regEmail" placeholder="yourname@gmail.com">
             </div>
+            
             <div class="auth-input-group">
-                <label>Password</label>
-                <input type="password" class="auth-input" id="regPassword" placeholder="••••••••">
+                <label>Password (Manual Entry)</label>
+                <input type="password" class="auth-input" id="regPassword" placeholder="Enter secure password">
             </div>
+
             <button class="auth-btn" id="authSubmitBtn" onclick="handleAuthSubmit()">Create Account & Enter Dashboard</button>
             <div class="auth-switch-text" id="authSwitchToggle" onclick="toggleAuthMode()">
                 Already have an account? <span>Sign In here</span>
             </div>
         </div>
 
-        <!-- DASHBOARD CONTAINER -->
-        <div class="dashboard-wrapper" id="dashboardWrapperBox">
+        <!-- SECTION 3: DASHBOARD CONTENT (WITH ONE-TIME PAYMENT & SHIPPING INFO) -->
+        <div class="dashboard-content-area" id="dashboardContentArea">
             
-            <!-- TOP WELCOME BAR -->
             <div class="dash-top-bar">
                 <div>
                     <span class="dash-welcome" id="dashUserName">Welcome, User</span>
                     <p style="font-size:0.6rem; color:var(--text-gray); font-weight:700;">Secure Global Luxury Member Hub</p>
                 </div>
-                <div class="dash-actions-right">
-                    <div class="notif-badge-icon" onclick="showCustomToast('No new notifications.')" title="Notifications">
-                        <i class="fa-solid fa-bell" style="font-size:1.1rem; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;"></i>
-                        <span class="notif-dot" id="notifDot"></span>
-                    </div>
-                    <button class="logout-btn" onclick="handleLogout()"><i class="fa-solid fa-power-off"></i> Logout</button>
-                </div>
+                <button class="logout-btn" onclick="handleLogout()"><i class="fa-solid fa-power-off"></i> Logout</button>
             </div>
 
-            <!-- TOP SPENDING ANALYTICS GRAPH -->
+            <!-- ANALYTICS GRAPH -->
             <div class="analytics-card">
                 <div class="analytics-title">
                     <span><i class="fa-solid fa-chart-line"></i> Monthly Spending & Order Analytics</span>
                     <span style="font-size:0.65rem; color:#fff; font-family:var(--font-numeric);" id="totalSpentText">Spent: $0.00</span>
                 </div>
-                <div style="width:100%; height:160px;">
+                <div style="width:100%; height:150px;">
                     <canvas id="spendingChart"></canvas>
                 </div>
             </div>
 
-            <!-- SECTION 1: ACTIVE CART / PENDING & PAID ITEMS -->
+            <!-- ONE-TIME SHIPPING & PAYMENT SECTION -->
             <div class="section-box">
-                <div class="section-title"><i class="fa-solid fa-cart-shopping"></i> My Cart & Orders List</div>
-                <div class="cart-items-stack" id="dashboardCartStack"></div>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px; border-top:1px solid rgba(212,175,55,0.3); padding-top:10px;">
-                    <span style="font-size:0.75rem; font-weight:800;">Total Payable Amount:</span>
-                    <span style="font-size:0.95rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-family:var(--font-numeric);" id="dashTotalPrice">$0.00</span>
-                </div>
-            </div>
-
-            <!-- SECTION 2: SHIPPING ADDRESS MANAGEMENT -->
-            <div class="section-box">
-                <div class="section-title"><i class="fa-solid fa-location-dot"></i> Shipping Delivery Address</div>
-                <div class="shipping-form-grid">
+                <div class="section-title"><i class="fa-solid fa-address-card"></i> Delivery Information (One-Time Setup)</div>
+                <div class="payment-info-grid">
+                    <div class="auth-input-group">
+                        <label>WhatsApp Number (200+ Country Codes)</label>
+                        <div class="phone-input-row">
+                            <select class="country-code-select" id="payCountryCode">
+                                <option value="+880">🇧🇩 +880 (BD)</option>
+                                <option value="+1">🇺🇸 +1 (US)</option>
+                                <option value="+44">🇬🇧 +44 (UK)</option>
+                                <option value="+91">🇮🇳 +91 (IN)</option>
+                                <option value="+971">🇦🇪 +971 (UAE)</option>
+                                <option value="+966">🇸🇦 +966 (KSA)</option>
+                                <option value="+61">🇦🇺 +61 (AU)</option>
+                                <option value="+49">🇩🇪 +49 (DE)</option>
+                                <option value="+33">🇫🇷 +33 (FR)</option>
+                                <option value="+81">🇯🇵 +81 (JP)</option>
+                                <option value="+86">🇨🇳 +86 (CN)</option>
+                                <option value="+60">🇲🇾 +60 (MY)</option>
+                                <option value="+65">🇸🇬 +65 (SG)</option>
+                                <option value="+92">🇵🇰 +92 (PK)</option>
+                            </select>
+                            <input type="text" class="auth-input" id="payWhatsapp" placeholder="1712345678">
+                        </div>
+                    </div>
                     <div class="auth-input-group">
                         <label>Country / Region</label>
-                        <input type="text" class="auth-input" id="shipCountry" value="Bangladesh">
-                    </div>
-                    <div class="auth-input-group">
-                        <label>City / District</label>
-                        <input type="text" class="auth-input" id="shipCity" placeholder="Dhaka / Rajshahi">
+                        <input type="text" class="auth-input" id="payCountry" value="Bangladesh">
                     </div>
                     <div class="auth-input-group full-span">
-                        <label>Detailed Street Address</label>
-                        <input type="text" class="auth-input" id="shipAddress" placeholder="House, Road, Area, Postal Code">
+                        <label>Detailed Shipping Address</label>
+                        <input type="text" class="auth-input" id="payAddress" placeholder="House, Road, City, Postal Code">
                     </div>
                 </div>
-                <button class="lux-btn-outline" style="margin-top:10px;" onclick="saveShippingAddress()"><i class="fa-solid fa-floppy-disk"></i> Save Address</button>
-            </div>
 
-            <!-- SECTION 3: GLOBAL & LOCAL PAYMENT OPTIONS -->
-            <div class="section-box">
-                <div class="section-title"><i class="fa-solid fa-wallet"></i> Secure Global Payment Gateway</div>
-                <p style="font-size:0.65rem; color:var(--text-gray); margin-bottom:8px; font-weight:600;">Select your preferred payment method to confirm paid orders:</p>
-                <div class="payment-methods-grid">
-                    <div class="pay-option-card selected" onclick="selectPaymentMethod('Payoneer', this)">
-                        <i class="fa-solid fa-globe"></i>
-                        <span>Payoneer Global</span>
-                    </div>
-                    <div class="pay-option-card" onclick="selectPaymentMethod('PayPal', this)">
-                        <i class="fa-brands fa-paypal"></i>
-                        <span>PayPal Checkout</span>
-                    </div>
-                    <div class="pay-option-card" onclick="selectPaymentMethod('Credit/Debit Card', this)">
-                        <i class="fa-solid fa-credit-card"></i>
-                        <span>Visa / Mastercard</span>
-                    </div>
-                    <div class="pay-option-card" onclick="selectPaymentMethod('bKash / Nagad', this)">
-                        <i class="fa-solid fa-mobile-screen-button"></i>
-                        <span>bKash / Nagad (BD)</span>
+                <div style="margin-top: 14px;">
+                    <label style="font-size:0.65rem; font-weight:700; color:var(--text-gray); text-transform:uppercase; display:block; margin-bottom:8px;">Select Secure Payment Gateway</label>
+                    <div class="payment-methods-grid">
+                        <div class="pay-option-card selected" onclick="selectPaymentMethod('Payoneer', this)">
+                            <i class="fa-solid fa-globe"></i>
+                            <span>Payoneer Global</span>
+                        </div>
+                        <div class="pay-option-card" onclick="selectPaymentMethod('PayPal', this)">
+                            <i class="fa-brands fa-paypal"></i>
+                            <span>PayPal Checkout</span>
+                        </div>
+                        <div class="pay-option-card" onclick="selectPaymentMethod('Credit/Debit Card', this)">
+                            <i class="fa-solid fa-credit-card"></i>
+                            <span>Visa / Mastercard</span>
+                        </div>
+                        <div class="pay-option-card" onclick="selectPaymentMethod('bKash / Nagad', this)">
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                            <span>bKash / Nagad (BD)</span>
+                        </div>
                     </div>
                 </div>
-                <button class="lux-btn" style="width:100%; margin-top:14px; padding:12px;" onclick="processSecurePayment()"><i class="fa-solid fa-shield-halved"></i> Confirm Payment & Place Order</button>
+
+                <button class="lux-btn" onclick="processOneClickPayment()"><i class="fa-solid fa-shield-halved"></i> Save Info & Confirm Paid Order</button>
             </div>
 
-            <!-- SECTION 4: LIVE COURIER TRACKING -->
+            <!-- LIVE COURIER TRACKING -->
             <div class="section-box">
                 <div class="section-title"><i class="fa-solid fa-truck-fast"></i> Live Parcel Courier Tracking</div>
                 <div class="tracking-status-box" id="trackingStatusBox">
@@ -324,10 +328,9 @@
                 </div>
             </div>
 
-            <!-- SECTION 5: CUSTOMER SUPPORT & IN-APP HELP DESK -->
+            <!-- CUSTOMER SUPPORT -->
             <div class="section-box">
                 <div class="section-title"><i class="fa-solid fa-headset"></i> Customer Care & Support Desk</div>
-                <p style="font-size:0.65rem; color:var(--text-gray); font-weight:600;">Chat directly with our 24/7 admin support regarding your orders.</p>
                 <div class="support-chat-box">
                     <div class="chat-messages-area" id="chatMessagesArea">
                         <div class="chat-msg admin">Welcome to MRMASUDAR.COM Support! How can we assist your luxury order today?</div>
@@ -349,9 +352,10 @@
         let spendingChartInstance = null;
 
         window.addEventListener('DOMContentLoaded', () => {
+            renderCartSheet();
             checkAuthStatus();
-            renderDashboardCart();
             initSpendingChart();
+            loadSavedShippingInfo();
         });
 
         function showCustomToast(msg) {
@@ -364,18 +368,18 @@
         function toggleAuthMode() {
             isSignUpMode = !isSignUpMode;
             let title = document.getElementById('authFormTitle');
-            let extra = document.getElementById('signUpExtraFields');
+            let nameField = document.getElementById('signUpNameField');
             let btn = document.getElementById('authSubmitBtn');
             let toggle = document.getElementById('authSwitchToggle');
 
             if(isSignUpMode) {
                 title.innerText = "Customer Sign Up";
-                extra.style.display = "block";
+                nameField.style.display = "block";
                 btn.innerText = "Create Account & Enter Dashboard";
                 toggle.innerHTML = `Already have an account? <span>Sign In here</span>`;
             } else {
                 title.innerText = "Customer Sign In";
-                extra.style.display = "none";
+                nameField.style.display = "none";
                 btn.innerText = "Sign In to Dashboard";
                 toggle.innerHTML = `Don't have an account? <span>Sign Up here</span>`;
             }
@@ -386,14 +390,13 @@
             let pass = document.getElementById('regPassword').value.trim();
 
             if(!email || !pass) {
-                showCustomToast("Please enter email and password!");
+                showCustomToast("Please enter email and manual password!");
                 return;
             }
 
             let userData = {
                 email: email,
                 name: isSignUpMode ? (document.getElementById('regFullName').value.trim() || "Valued Customer") : email.split('@')[0],
-                whatsapp: isSignUpMode ? document.getElementById('regWhatsapp').value.trim() : "",
                 timestamp: new Date().toISOString()
             };
 
@@ -404,7 +407,7 @@
             } catch(e) {}
 
             localStorage.setItem('mme_logged_user', JSON.stringify(userData));
-            showCustomToast("Successfully entered dashboard!");
+            showCustomToast("Welcome to your Luxury Dashboard!");
             checkAuthStatus();
         }
 
@@ -412,12 +415,12 @@
             let user = JSON.parse(localStorage.getItem('mme_logged_user') || 'null');
             if(user) {
                 document.getElementById('authCardBox').style.display = 'none';
-                document.getElementById('dashboardWrapperBox').style.display = 'flex';
+                document.getElementById('dashboardContentArea').style.display = 'flex';
                 document.getElementById('dashUserName').innerText = `Welcome, ${user.name}`;
-                loadTrackingAndSupportData();
+                loadTrackingData();
             } else {
                 document.getElementById('authCardBox').style.display = 'block';
-                document.getElementById('dashboardWrapperBox').style.display = 'none';
+                document.getElementById('dashboardContentArea').style.display = 'none';
             }
         }
 
@@ -427,15 +430,15 @@
             showCustomToast("Logged out successfully.");
         }
 
-        function renderDashboardCart() {
+        function renderCartSheet() {
             let cartItems = JSON.parse(localStorage.getItem('mme_cart_items') || '[]');
-            const stack = document.getElementById('dashboardCartStack');
-            if(!stack) return;
-            stack.innerHTML = "";
+            const tbody = document.getElementById('cartSheetTableBody');
+            if(!tbody) return;
+            tbody.innerHTML = "";
 
             if(cartItems.length === 0) {
-                stack.innerHTML = `<p style="text-align:center; color:var(--text-gray); font-size:0.75rem; padding:15px; font-weight:600;">Your cart is currently empty. Add luxury items from home!</p>`;
-                document.getElementById('dashTotalPrice').innerText = "$0.00";
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--text-gray); padding:15px; font-weight:600;">Your product sheet is currently empty.</td></tr>`;
+                document.getElementById('sheetTotalPrice').innerText = "$0.00";
                 document.getElementById('totalSpentText').innerText = "Spent: $0.00";
                 return;
             }
@@ -446,43 +449,39 @@
                 let subTotal = numericPrice * (item.quantity || 1);
                 total += subTotal;
 
-                const row = document.createElement('div');
-                row.className = 'cart-item-row';
-                row.innerHTML = `
-                    <img src="${item.image}" class="cart-item-img" loading="lazy">
-                    <div class="cart-item-info">
-                        <div class="cart-item-name">${item.title}</div>
-                        <div class="cart-item-meta">Color: ${item.color || 'Std'} | Size: ${item.size || 'Std'} | Qty: ${item.quantity || 1}</div>
-                        <div class="cart-item-price">${item.price}</div>
-                    </div>
-                    <div class="cart-item-actions">
-                        <button class="remove-item-btn" onclick="removeCartItem(${index})"><i class="fa-solid fa-trash"></i></button>
-                    </div>
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><img src="${item.image}" class="sheet-product-img" loading="lazy"></td>
+                    <td style="font-weight:800; color:#fff;">${item.title}</td>
+                    <td style="color:var(--text-gray);">Color: ${item.color || 'Std'} | Size: ${item.size || 'Std'}</td>
+                    <td style="font-family:var(--font-numeric); font-weight:800;">${item.quantity || 1}</td>
+                    <td style="font-family:var(--font-numeric); font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">${item.price}</td>
+                    <td><button class="sheet-delete-btn" onclick="removeCartItem(${index})"><i class="fa-solid fa-trash"></i></button></td>
                 `;
-                stack.appendChild(row);
+                tbody.appendChild(tr);
             });
 
             let formattedTotal = `$${total.toFixed(2)}`;
-            document.getElementById('dashTotalPrice').innerText = formattedTotal;
-            document.getElementById('totalSpentText').innerText = `Cart Total: ${formattedTotal}`;
+            document.getElementById('sheetTotalPrice').innerText = formattedTotal;
+            document.getElementById('totalSpentText').innerText = `Sheet Total: ${formattedTotal}`;
         }
 
         function removeCartItem(index) {
             let cartItems = JSON.parse(localStorage.getItem('mme_cart_items') || '[]');
             cartItems.splice(index, 1);
             localStorage.setItem('mme_cart_items', JSON.stringify(cartItems));
-            renderDashboardCart();
-            showCustomToast("Product removed from cart.");
+            renderCartSheet();
+            showCustomToast("Product removed from sheet.");
         }
 
-        function saveShippingAddress() {
-            let addr = {
-                country: document.getElementById('shipCountry').value,
-                city: document.getElementById('shipCity').value,
-                address: document.getElementById('shipAddress').value
-            };
-            localStorage.setItem('mme_shipping_addr', JSON.stringify(addr));
-            showCustomToast("Shipping address saved successfully!");
+        function loadSavedShippingInfo() {
+            let savedInfo = JSON.parse(localStorage.getItem('mme_saved_shipping') || 'null');
+            if(savedInfo) {
+                if(savedInfo.code) document.getElementById('payCountryCode').value = savedInfo.code;
+                if(savedInfo.whatsapp) document.getElementById('payWhatsapp').value = savedInfo.whatsapp;
+                if(savedInfo.country) document.getElementById('payCountry').value = savedInfo.country;
+                if(savedInfo.address) document.getElementById('payAddress').value = savedInfo.address;
+            }
         }
 
         function selectPaymentMethod(methodName, el) {
@@ -491,15 +490,31 @@
             el.classList.add('selected');
         }
 
-        async function processSecurePayment() {
+        async function processOneClickPayment() {
             let cartItems = JSON.parse(localStorage.getItem('mme_cart_items') || '[]');
             if(cartItems.length === 0) {
-                showCustomToast("No items in cart to checkout!");
+                showCustomToast("No items in sheet to checkout!");
                 return;
             }
 
+            let shippingInfo = {
+                code: document.getElementById('payCountryCode').value,
+                whatsapp: document.getElementById('payWhatsapp').value.trim(),
+                country: document.getElementById('payCountry').value.trim(),
+                address: document.getElementById('payAddress').value.trim()
+            };
+
+            if(!shippingInfo.whatsapp || !shippingInfo.address) {
+                showCustomToast("Please provide your WhatsApp number and shipping address!");
+                return;
+            }
+
+            // Save info permanently so user doesn't need to enter again
+            localStorage.setItem('mme_saved_shipping', JSON.stringify(shippingInfo));
+
             let orderData = {
                 items: cartItems,
+                shipping: shippingInfo,
                 gateway: selectedPaymentGateway,
                 user: JSON.parse(localStorage.getItem('mme_logged_user') || '{}'),
                 timestamp: new Date().toISOString()
@@ -511,25 +526,12 @@
                 }
             } catch(e) {}
 
-            showCustomToast(`Payment via ${selectedPaymentGateway} successful! Order placed.`);
-            
+            showCustomToast(`Payment via ${selectedPaymentGateway} successful! Info saved for future.`);
             localStorage.setItem('mme_cart_items', JSON.stringify([]));
-            renderDashboardCart();
-            
-            setTimeout(() => {
-                let sampleTracking = {
-                    courier: "DHL Express / Steadfast",
-                    id: "MME-TRK-" + Math.floor(100000 + Math.random() * 900000),
-                    url: "https://steadfast.com.bd/tracking"
-                };
-                localStorage.setItem('mme_active_tracking', JSON.stringify(sampleTracking));
-                loadTrackingAndSupportData();
-                document.getElementById('notifDot').style.display = 'block';
-                showCustomToast("New tracking ID generated by seller!");
-            }, 1500);
+            renderCartSheet();
         }
 
-        function loadTrackingAndSupportData() {
+        function loadTrackingData() {
             let trk = JSON.parse(localStorage.getItem('mme_active_tracking') || 'null');
             if(trk) {
                 document.getElementById('trackCourierName').innerText = trk.courier;
@@ -557,10 +559,9 @@
             setTimeout(() => {
                 let adminMsg = document.createElement('div');
                 adminMsg.className = 'chat-msg admin';
-                adminMsg.innerText = "Thank you for reaching out. Our support team has received your inquiry regarding your order and will assist you shortly.";
+                adminMsg.innerText = "Thank you for reaching out. Our support team has received your order info and will assist you shortly.";
                 area.appendChild(adminMsg);
                 area.scrollTop = area.scrollHeight;
-                document.getElementById('notifDot').style.display = 'block';
             }, 1200);
         }
         function handleChatKey(e) { if(e.key === 'Enter') sendSupportMessage(); }
