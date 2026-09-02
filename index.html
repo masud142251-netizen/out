@@ -12,10 +12,10 @@
     <!-- Chart.js for Top Spending Analytics Graph -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- Firebase SDK Integration -->
+    <!-- Firebase SDK & Real-time Cart Sync Integration -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
         
         const firebaseConfig = {
             apiKey: "AIzaSyCvUftOHiXFCuAzivaBut1XvNLpGE-LQ-w",
@@ -31,6 +31,27 @@
         window.db = getFirestore(app);
         window.firebaseAddDoc = addDoc;
         window.firebaseCollection = collection;
+
+        // ফায়ারবেস থেকে সরাসরি কার্ট ডেটা রিয়েল-টাইমে ফেচ করে লোকাল স্টোরেজে সিঙ্ক এবং রেন্ডার করা
+        async function fetchFirebaseCartOnLoad() {
+            try {
+                const querySnapshot = await getDocs(collection(window.db, "global_carts"));
+                let firebaseCart = [];
+                querySnapshot.forEach((doc) => {
+                    firebaseCart.push(doc.data());
+                });
+                if(firebaseCart.length > 0) {
+                    localStorage.setItem('mme_cart_items', JSON.stringify(firebaseCart));
+                    if(typeof renderDashboardCart === 'function') {
+                        renderDashboardCart();
+                    }
+                }
+            } catch(e) {}
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            fetchFirebaseCartOnLoad();
+        });
     </script>
 
     <style>
@@ -88,7 +109,7 @@
         .auth-card {
             background: var(--card-bg); border: 1.5px solid var(--gold-solid); border-radius: 20px;
             padding: 25px 20px; max-width: 420px; margin: 40px auto; text-align: center;
-            box-shadow: 0 0 30px rgba(212,175,55,0.25); display: none;
+            box-shadow: 0 0 30px rgba(212,175,55,0.25); display: block;
         }
         .auth-title { font-size: 1.2rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 15px; }
         .auth-input-group { margin-bottom: 12px; text-align: left; }
@@ -376,7 +397,6 @@
                 timestamp: new Date().toISOString()
             };
 
-            // Save user info to Firebase Firestore automatically
             try {
                 if(window.db && window.firebaseAddDoc && window.firebaseCollection) {
                     await window.firebaseAddDoc(window.firebaseCollection(window.db, "customers"), userData);
@@ -410,6 +430,7 @@
         function renderDashboardCart() {
             let cartItems = JSON.parse(localStorage.getItem('mme_cart_items') || '[]');
             const stack = document.getElementById('dashboardCartStack');
+            if(!stack) return;
             stack.innerHTML = "";
 
             if(cartItems.length === 0) {
@@ -492,11 +513,9 @@
 
             showCustomToast(`Payment via ${selectedPaymentGateway} successful! Order placed.`);
             
-            // Clear cart after successful paid order
             localStorage.setItem('mme_cart_items', JSON.stringify([]));
             renderDashboardCart();
             
-            // Trigger sample live tracking update
             setTimeout(() => {
                 let sampleTracking = {
                     courier: "DHL Express / Steadfast",
@@ -535,7 +554,6 @@
             input.value = "";
             area.scrollTop = area.scrollHeight;
 
-            // Auto Admin/Support Reply Simulation
             setTimeout(() => {
                 let adminMsg = document.createElement('div');
                 adminMsg.className = 'chat-msg admin';
