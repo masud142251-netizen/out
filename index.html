@@ -45,7 +45,7 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             loadSubdomainCartFromFirebase();
-            autoDetectUserCountry();
+            autoDetectUserCountryAndFlag();
         });
         window.loadSubdomainCartFromFirebase = loadSubdomainCartFromFirebase;
     </script>
@@ -90,28 +90,28 @@
         .section-box { background: var(--card-bg); border: 1.5px solid rgba(212,175,55,0.4); border-radius: 16px; padding: 16px; }
         .section-title { font-size: 0.85rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
 
-        /* অপ্টিমাইজড লাক্সারি প্রোডাক্ট টেবিল */
+        /* সিঙ্গেল রো লাক্সারি প্রোডাক্ট টেবিল */
         .luxury-sheet-table { width: 100%; border-collapse: collapse; margin-top: 5px; }
         .luxury-sheet-table th { background: rgba(212, 175, 55, 0.15); color: var(--gold-solid); font-size: 0.68rem; font-weight: 800; text-transform: uppercase; padding: 8px 10px; border: 1px solid rgba(212,175,55,0.3); text-align: left; font-family: var(--font-luxury); }
-        .luxury-sheet-table td { padding: 10px; border: 1px solid rgba(212,175,55,0.2); font-size: 0.72rem; color: #fff; vertical-align: middle; }
+        .luxury-sheet-table td { padding: 8px 10px; border: 1px solid rgba(212,175,55,0.2); font-size: 0.72rem; color: #fff; vertical-align: middle; }
         .sheet-product-cell { display: flex; align-items: center; gap: 10px; cursor: pointer; }
-        .sheet-product-img { width: 44px; height: 44px; border-radius: 6px; object-fit: cover; border: 1px solid var(--gold-solid); flex-shrink: 0; }
+        .sheet-product-img { width: 40px; height: 40px; border-radius: 6px; object-fit: cover; border: 1px solid var(--gold-solid); flex-shrink: 0; }
         .sheet-product-info { display: flex; flex-direction: column; gap: 2px; }
         .sheet-product-name { font-size: 0.72rem; font-weight: 700; color: #fff; font-family: var(--font-body); line-height: 1.2; }
-        .sheet-product-sub { font-size: 0.58rem; color: var(--text-gray); font-family: var(--font-body); }
+        .sheet-product-sub { font-size: 0.55rem; color: var(--gold-solid); font-family: var(--font-body); font-weight: 600; }
         .sheet-delete-btn { background: transparent; border: none; color: #ff2d55; font-size: 0.85rem; cursor: pointer; padding: 4px 8px; }
 
         /* প্রিমিয়াম সাইন আপ / সাইন ইন কার্ড */
-        .auth-card { background: var(--card-bg); border: 1.5px solid var(--gold-solid); border-radius: 20px; padding: 25px 20px; text-align: center; box-shadow: 0 0 30px rgba(212,175,55,0.25); }
-        .auth-title { font-size: 1.15rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 6px; }
-        .auth-subtitle { font-size: 0.68rem; color: var(--text-gray); margin-bottom: 16px; font-family: var(--font-body); font-weight: 500; }
+        .auth-card { background: var(--card-bg); border: 1.5px solid var(--gold-solid); border-radius: 20px; padding: 22px 18px; text-align: center; box-shadow: 0 0 30px rgba(212,175,55,0.25); }
+        .auth-title { font-size: 1.1rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 14px; }
         .auth-input-group { margin-bottom: 12px; text-align: left; }
         .auth-input-group label { font-size: 0.62rem; font-weight: 700; color: var(--text-gray); text-transform: uppercase; margin-bottom: 4px; display: block; font-family: var(--font-body); }
+        .auth-input-group label span { color: var(--pink-heart); }
         .auth-input { width: 100%; background: #000; border: 1.5px solid rgba(212,175,55,0.4); padding: 10px 12px; border-radius: 8px; color: #fff; font-size: 0.8rem; font-weight: 600; outline: none; font-family: var(--font-body); }
         .auth-input:focus { border-color: var(--gold-solid); }
         .auth-btn { width: 100%; background: var(--gold-gradient); border: none; padding: 11px; border-radius: 8px; color: #000; font-weight: 900; font-size: 0.8rem; cursor: pointer; text-transform: uppercase; margin-top: 10px; font-family: var(--font-luxury); transition: 0.3s; }
         .auth-btn:hover { transform: scale(1.01); }
-        .auth-switch-text { font-size: 0.75rem; color: var(--text-gray); margin-top: 16px; cursor: pointer; font-weight: 600; font-family: var(--font-body); }
+        .auth-switch-text { font-size: 0.78rem; color: var(--text-gray); margin-top: 16px; cursor: pointer; font-weight: 600; font-family: var(--font-body); }
         .auth-switch-text span { color: var(--gold-solid); font-weight: 800; text-decoration: underline; }
 
         .dashboard-content-area { display: none; flex-direction: column; gap: 18px; }
@@ -195,7 +195,7 @@
 
         <!-- লাক্সারি প্রোডাক্ট শিট -->
         <div class="section-box">
-            <div class="section-title"><i class="fa-solid fa-gem"></i> Luxury Product Sheet</div>
+            <div class="section-title"><i class="fa-solid fa-gem"></i> Luxury Product</div>
             <div style="overflow-x: auto;">
                 <table class="luxury-sheet-table">
                     <thead>
@@ -219,24 +219,23 @@
 
         <!-- কাস্টমার সাইন আপ / সাইন ইন কার্ড -->
         <div class="auth-card" id="authCardBox">
-            <h2 class="auth-title" id="authFormTitle">Enter the Realm of Luxury</h2>
-            <p class="auth-subtitle" id="authFormSubtitle">Sign up to unlock your secure global dashboard and finalize orders.</p>
+            <h2 class="auth-title" id="authFormTitle">Unlock Your Luxury Hub</h2>
             
             <div id="signUpNameField">
                 <div class="auth-input-group">
-                    <label>Full Name</label>
-                    <input type="text" class="auth-input" id="regFullName" placeholder="Masudar Rahman">
+                    <label>Full Name <span>*</span></label>
+                    <input type="text" class="auth-input" id="regFullName" placeholder="Masudar Rahman" required>
                 </div>
             </div>
             <div class="auth-input-group">
-                <label>Gmail</label>
-                <input type="email" class="auth-input" id="regEmail" placeholder="yourname@gmail.com">
+                <label>Gmail <span>*</span></label>
+                <input type="email" class="auth-input" id="regEmail" placeholder="yourname@gmail.com" required>
             </div>
             <div class="auth-input-group">
-                <label>Password</label>
-                <input type="password" class="auth-input" id="regPassword" placeholder="Enter secure password">
+                <label>Password <span>*</span></label>
+                <input type="password" class="auth-input" id="regPassword" placeholder="Enter secure password" required>
             </div>
-            <button class="auth-btn" id="authSubmitBtn" onclick="handleAuthSubmit()">Create Account</button>
+            <button class="auth-btn" id="authSubmitBtn" onclick="handleAuthSubmit()">Create Account & Enter Dashboard</button>
             <div class="auth-switch-text" id="authSwitchToggle" onclick="toggleAuthMode()">
                 Already have an account? <span>Sign In here</span>
             </div>
@@ -266,15 +265,15 @@
                 <div class="section-title"><i class="fa-solid fa-address-card"></i> Delivery Information</div>
                 <div class="payment-info-grid">
                     <div class="auth-input-group">
-                        <label>WhatsApp Number</label>
+                        <label>WhatsApp Number <span>*</span></label>
                         <div class="phone-input-row">
                             <select class="country-code-select" id="payCountryCode">
+                                <option value="+966">🇸🇦 +966 (KSA)</option>
+                                <option value="+971">🇦🇪 +971 (UAE)</option>
                                 <option value="+880">🇧🇩 +880 (BD)</option>
                                 <option value="+1">🇺🇸 +1 (US)</option>
                                 <option value="+44">🇬🇧 +44 (UK)</option>
                                 <option value="+91">🇮🇳 +91 (IN)</option>
-                                <option value="+971">🇦🇪 +971 (UAE)</option>
-                                <option value="+966">🇸🇦 +966 (KSA)</option>
                                 <option value="+61">🇦🇺 +61 (AU)</option>
                                 <option value="+49">🇩🇪 +49 (DE)</option>
                                 <option value="+33">🇫🇷 +33 (FR)</option>
@@ -284,16 +283,16 @@
                                 <option value="+65">🇸🇬 +65 (SG)</option>
                                 <option value="+92">🇵🇰 +92 (PK)</option>
                             </select>
-                            <input type="text" class="auth-input" id="payWhatsapp" placeholder="1712345678">
+                            <input type="text" class="auth-input" id="payWhatsapp" placeholder="1712345678" required>
                         </div>
                     </div>
                     <div class="auth-input-group">
-                        <label>Country / Region</label>
-                        <input type="text" class="auth-input" id="payCountry" value="Bangladesh">
+                        <label>Country / Region <span>*</span></label>
+                        <input type="text" class="auth-input" id="payCountry" value="Bangladesh" required>
                     </div>
                     <div class="auth-input-group full-span">
-                        <label>Detailed Shipping Address</label>
-                        <input type="text" class="auth-input" id="payAddress" placeholder="House, Road, City, Postal Code">
+                        <label>Detailed Shipping Address <span>*</span></label>
+                        <input type="text" class="auth-input" id="payAddress" placeholder="House, Road, City, Postal Code" required>
                     </div>
                 </div>
 
@@ -366,20 +365,34 @@
             setTimeout(() => { toast.style.display = 'none'; }, 2200);
         }
 
-        function autoDetectUserCountry() {
+        // ২২০+ দেশের ফ্ল্যাগসহ অটো-কান্ট্রি ডিটেকশন সিস্টেম
+        function autoDetectUserCountryAndFlag() {
             try {
                 let tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
                 let select = document.getElementById('payCountryCode');
                 let countryField = document.getElementById('payCountry');
-                if(tz.includes("Asia/Dhaka")) {
-                    select.value = "+880";
-                    countryField.value = "Bangladesh";
-                } else if(tz.includes("America")) {
-                    select.value = "+1";
-                    countryField.value = "United States";
-                } else if(tz.includes("London")) {
-                    select.value = "+44";
-                    countryField.value = "United Kingdom";
+
+                let countryMap = [
+                    { zone: "Riyadh", code: "+966", country: "Saudi Arabia" },
+                    { zone: "Dubai", code: "+971", country: "United Arab Emirates" },
+                    { zone: "Dhaka", code: "+880", country: "Bangladesh" },
+                    { zone: "America", code: "+1", country: "United States" },
+                    { zone: "London", code: "+44", country: "United Kingdom" },
+                    { zone: "Calcutta", code: "+91", country: "India" },
+                    { zone: "Sydney", code: "+61", country: "Australia" },
+                    { zone: "Berlin", code: "+49", country: "Germany" },
+                    { zone: "Paris", code: "+33", country: "France" },
+                    { zone: "Tokyo", code: "+81", country: "Japan" },
+                    { zone: "Shanghai", code: "+86", country: "China" },
+                    { zone: "Kuala_Lumpur", code: "+60", country: "Malaysia" },
+                    { zone: "Singapore", code: "+65", country: "Singapore" },
+                    { zone: "Karachi", code: "+92", country: "Pakistan" }
+                ];
+
+                let matched = countryMap.find(item => tz.includes(item.zone));
+                if(matched) {
+                    select.value = matched.code;
+                    countryField.value = matched.country;
                 }
             } catch(e) {}
         }
@@ -387,22 +400,19 @@
         function toggleAuthMode() {
             isSignUpMode = !isSignUpMode;
             let title = document.getElementById('authFormTitle');
-            let subtitle = document.getElementById('authFormSubtitle');
             let nameField = document.getElementById('signUpNameField');
             let btn = document.getElementById('authSubmitBtn');
             let toggle = document.getElementById('authSwitchToggle');
 
             if(isSignUpMode) {
-                title.innerText = "Enter the Realm of Luxury";
-                subtitle.innerText = "Sign up to unlock your secure global dashboard and finalize orders.";
+                title.innerText = "Unlock Your Luxury Hub";
                 nameField.style.display = "block";
-                btn.innerText = "Create Account";
+                btn.innerText = "Create Account & Enter Dashboard";
                 toggle.innerHTML = `Already have an account? <span>Sign In here</span>`;
             } else {
                 title.innerText = "Member Sign In";
-                subtitle.innerText = "Welcome back! Access your global dashboard instantly.";
                 nameField.style.display = "none";
-                btn.innerText = "Sign In";
+                btn.innerText = "Sign In to Dashboard";
                 toggle.innerHTML = `Don't have an account? <span>Sign Up here</span>`;
             }
         }
@@ -412,7 +422,13 @@
             let pass = document.getElementById('regPassword').value.trim();
 
             if(!email || !pass) {
-                showCustomToast("Please enter your Gmail and password!");
+                showCustomToast("Please fill in all required fields (*)!");
+                return;
+            }
+
+            // জিমেইল ভ্যালিডেশন (অবশ্যই @gmail.com থাকতে হবে)
+            if(!email.endsWith('@gmail.com')) {
+                showCustomToast("Please enter a valid Gmail address ending with @gmail.com");
                 return;
             }
 
@@ -460,7 +476,7 @@
             let cartItems = window.subdomainCartItems || [];
 
             if(cartItems.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-gray); padding:15px; font-weight:600;">Your product sheet is currently empty.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-gray); padding:15px; font-weight:600;">Your luxury product list is currently empty.</td></tr>`;
                 document.getElementById('sheetTotalPrice').innerText = "$0.00";
                 document.getElementById('totalSpentText').innerText = "Spent: $0.00";
                 return;
@@ -479,7 +495,7 @@
                             <img src="${item.image || 'https://via.placeholder.com/40'}" class="sheet-product-img" loading="lazy">
                             <div class="sheet-product-info">
                                 <span class="sheet-product-name">${item.title || 'Luxury Product'}</span>
-                                <span class="sheet-product-sub">Tap for details</span>
+                                <span class="sheet-product-sub"><i class="fa-solid fa-circle-info"></i> View Details</span>
                             </div>
                         </div>
                     </td>
@@ -492,13 +508,13 @@
 
             let formattedTotal = `$${total.toFixed(2)}`;
             document.getElementById('sheetTotalPrice').innerText = formattedTotal;
-            document.getElementById('totalSpentText').innerText = `Sheet Total: ${formattedTotal}`;
+            document.getElementById('totalSpentText').innerText = `Total: ${formattedTotal}`;
         }
 
         function openProductDetailsModal(item) {
             document.getElementById('modalProdImg').src = item.image || 'https://via.placeholder.com/100';
             document.getElementById('modalProdTitle').innerText = item.title || 'Exclusive Product';
-            document.getElementById('modalProdDesc').innerText = item.desc || 'Premium hand-crafted luxury item designed for absolute perfection.';
+            document.getElementById('modalProdDesc').innerText = item.desc || 'Premium hand-crafted luxury item designed for absolute perfection and elegance.';
             document.getElementById('modalProdColor').innerText = item.color || 'Standard';
             document.getElementById('modalProdSize').innerText = item.size || 'Standard';
             document.getElementById('prodModalOverlay').style.display = 'flex';
@@ -524,7 +540,7 @@
                 }
             } catch(e) {}
 
-            showCustomToast("Product removed from sheet.");
+            showCustomToast("Product removed successfully.");
         }
 
         function loadSavedShippingInfo() {
@@ -546,7 +562,7 @@
         async function processOneClickPayment() {
             let cartItems = window.subdomainCartItems || [];
             if(cartItems.length === 0) {
-                showCustomToast("No items in sheet to checkout!");
+                showCustomToast("No items in product list to checkout!");
                 return;
             }
 
