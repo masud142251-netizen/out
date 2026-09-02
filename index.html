@@ -30,35 +30,21 @@
         window.firebaseAddDoc = addDoc;
         window.firebaseCollection = collection;
 
-        // ফায়ারবেস এবং লোকাল স্টোরেজের কার্ট ডেটা পারফেক্টলি সিংক করার ফাংশন
-        async function syncFirebaseAndLocalCart() {
+        // শুধু প্রথমবার যখন লোকাল স্টোরেজ একেবারে খালি থাকবে, তখনই ফায়ারবেস থেকে কার্ট ডেটা আনবে। 
+        // এর পরে আর কখনো ফায়ারবেস থেকে পুরনো কার্ট টেনে এনে লোকাল স্টোরেজ ওভাররাইট করবে না।
+        async function fetchFirebaseCartOnLoadOnce() {
             try {
-                const querySnapshot = await getDocs(collection(window.db, "global_carts"));
-                let firebaseCart = [];
-                querySnapshot.forEach((doc) => {
-                    firebaseCart.push(doc.data());
-                });
-
-                if(firebaseCart.length > 0) {
-                    // ফায়ারবেসে যদি নতুন প্রোডাক্ট থাকে তবে লোকাল স্টোরেজের সাথে মার্জ বা আপডেট করবে
-                    let localCart = JSON.parse(localStorage.getItem('mme_cart_items') || '[]');
-                    
-                    // যদি লোকাল স্টোরেজ খালি থাকে অথবা ফায়ারবেসে নতুন আইটেম থাকে
-                    if(localCart.length === 0) {
+                let localCart = localStorage.getItem('mme_cart_items');
+                if(!localCart) {
+                    const querySnapshot = await getDocs(collection(window.db, "global_carts"));
+                    let firebaseCart = [];
+                    querySnapshot.forEach((doc) => {
+                        firebaseCart.push(doc.data());
+                    });
+                    if(firebaseCart.length > 0) {
                         localStorage.setItem('mme_cart_items', JSON.stringify(firebaseCart));
-                    } else {
-                        // দুটি মিলিয়ে ইউনিক প্রোডাক্টগুলো রাখব
-                        let combined = [...localCart];
-                        firebaseCart.forEach(fbItem => {
-                            let exists = combined.some(item => item.title === fbItem.title);
-                            if(!exists) {
-                                combined.push(fbItem);
-                            }
-                        });
-                        localStorage.setItem('mme_cart_items', JSON.stringify(combined));
                     }
                 }
-                
                 if(typeof renderCartSheet === 'function') {
                     renderCartSheet();
                 }
@@ -66,7 +52,7 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            syncFirebaseAndLocalCart();
+            fetchFirebaseCartOnLoadOnce();
         });
     </script>
 
@@ -122,14 +108,12 @@
         .section-box { background: var(--card-bg); border: 1.5px solid rgba(212,175,55,0.4); border-radius: 16px; padding: 16px; }
         .section-title { font-size: 0.85rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
 
-        /* LUXURY TABLE / SHEET FORMAT FOR PRODUCTS */
         .luxury-sheet-table { width: 100%; border-collapse: collapse; margin-top: 5px; }
         .luxury-sheet-table th { background: rgba(212, 175, 55, 0.15); color: var(--gold-solid); font-size: 0.68rem; font-weight: 800; text-transform: uppercase; padding: 8px 10px; border: 1px solid rgba(212,175,55,0.3); text-align: left; }
         .luxury-sheet-table td { padding: 10px; border: 1px solid rgba(212,175,55,0.2); font-size: 0.72rem; color: #fff; vertical-align: middle; }
         .sheet-product-img { width: 42px; height: 42px; border-radius: 6px; object-fit: cover; border: 1px solid var(--gold-solid); }
         .sheet-delete-btn { background: transparent; border: none; color: #ff2d55; font-size: 0.85rem; cursor: pointer; padding: 4px 8px; }
 
-        /* AUTH CARD */
         .auth-card { background: var(--card-bg); border: 1.5px solid var(--gold-solid); border-radius: 20px; padding: 25px 20px; text-align: center; box-shadow: 0 0 30px rgba(212,175,55,0.25); }
         .auth-title { font-size: 1.15rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 14px; }
         .auth-input-group { margin-bottom: 12px; text-align: left; }
@@ -140,7 +124,6 @@
         .auth-switch-text { font-size: 0.68rem; color: var(--text-gray); margin-top: 12px; cursor: pointer; font-weight: 600; }
         .auth-switch-text span { color: var(--gold-solid); font-weight: 800; text-decoration: underline; }
 
-        /* DASHBOARD AREA */
         .dashboard-content-area { display: none; flex-direction: column; gap: 18px; }
         .dash-top-bar { display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); border: 1.5px solid var(--gold-solid); padding: 16px 20px; border-radius: 16px; box-shadow: 0 0 15px rgba(212,175,55,0.2); }
         .dash-welcome { font-size: 1.05rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 0.5px; }
