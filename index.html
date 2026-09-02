@@ -9,10 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- Firebase SDK & Real-time Sync -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -32,20 +30,35 @@
         window.firebaseAddDoc = addDoc;
         window.firebaseCollection = collection;
 
-        // প্রথমবার সাবডোমেইনে আসলে ফায়ারবেস থেকে ডেটা এনে লোকাল স্টোরেজে সেট হবে, এরপর আর ওভাররাইট করবে না
-        async function fetchFirebaseCartOnLoad() {
+        // ফায়ারবেস এবং লোকাল স্টোরেজের কার্ট ডেটা পারফেক্টলি সিংক করার ফাংশন
+        async function syncFirebaseAndLocalCart() {
             try {
-                let localCart = localStorage.getItem('mme_cart_items');
-                if(!localCart) {
-                    const querySnapshot = await getDocs(collection(window.db, "global_carts"));
-                    let firebaseCart = [];
-                    querySnapshot.forEach((doc) => {
-                        firebaseCart.push(doc.data());
-                    });
-                    if(firebaseCart.length > 0) {
+                const querySnapshot = await getDocs(collection(window.db, "global_carts"));
+                let firebaseCart = [];
+                querySnapshot.forEach((doc) => {
+                    firebaseCart.push(doc.data());
+                });
+
+                if(firebaseCart.length > 0) {
+                    // ফায়ারবেসে যদি নতুন প্রোডাক্ট থাকে তবে লোকাল স্টোরেজের সাথে মার্জ বা আপডেট করবে
+                    let localCart = JSON.parse(localStorage.getItem('mme_cart_items') || '[]');
+                    
+                    // যদি লোকাল স্টোরেজ খালি থাকে অথবা ফায়ারবেসে নতুন আইটেম থাকে
+                    if(localCart.length === 0) {
                         localStorage.setItem('mme_cart_items', JSON.stringify(firebaseCart));
+                    } else {
+                        // দুটি মিলিয়ে ইউনিক প্রোডাক্টগুলো রাখব
+                        let combined = [...localCart];
+                        firebaseCart.forEach(fbItem => {
+                            let exists = combined.some(item => item.title === fbItem.title);
+                            if(!exists) {
+                                combined.push(fbItem);
+                            }
+                        });
+                        localStorage.setItem('mme_cart_items', JSON.stringify(combined));
                     }
                 }
+                
                 if(typeof renderCartSheet === 'function') {
                     renderCartSheet();
                 }
@@ -53,7 +66,7 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            fetchFirebaseCartOnLoad();
+            syncFirebaseAndLocalCart();
         });
     </script>
 
@@ -184,7 +197,6 @@
 
     <div class="checkout-main-container">
 
-        <!-- SECTION 1: LUXURY SHEET / TABLE FORMAT FOR CART & ORDERS -->
         <div class="section-box">
             <div class="section-title"><i class="fa-solid fa-table"></i> My Luxury Product Sheet</div>
             <div style="overflow-x: auto;">
@@ -200,8 +212,7 @@
                         </tr>
                     </thead>
                     <tbody id="cartSheetTableBody">
-                        <!-- Dynamic Cart Rows Here -->
-                    </tbody>
+                        </tbody>
                 </table>
             </div>
             <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; border-top:1px solid rgba(212,175,55,0.3); padding-top:10px;">
@@ -210,7 +221,6 @@
             </div>
         </div>
 
-        <!-- SECTION 2: AUTH CARD (NAME, GMAIL, MANUAL PASSWORD ONLY) -->
         <div class="auth-card" id="authCardBox">
             <h2 class="auth-title" id="authFormTitle">Customer Sign Up</h2>
             
@@ -237,7 +247,6 @@
             </div>
         </div>
 
-        <!-- SECTION 3: DASHBOARD CONTENT (WITH ONE-TIME PAYMENT & SHIPPING INFO) -->
         <div class="dashboard-content-area" id="dashboardContentArea">
             
             <div class="dash-top-bar">
@@ -248,7 +257,6 @@
                 <button class="logout-btn" onclick="handleLogout()"><i class="fa-solid fa-power-off"></i> Logout</button>
             </div>
 
-            <!-- ANALYTICS GRAPH -->
             <div class="analytics-card">
                 <div class="analytics-title">
                     <span><i class="fa-solid fa-chart-line"></i> Monthly Spending & Order Analytics</span>
@@ -259,7 +267,6 @@
                 </div>
             </div>
 
-            <!-- ONE-TIME SHIPPING & PAYMENT SECTION -->
             <div class="section-box">
                 <div class="section-title"><i class="fa-solid fa-address-card"></i> Delivery Information (One-Time Setup)</div>
                 <div class="payment-info-grid">
@@ -320,7 +327,6 @@
                 <button class="lux-btn" onclick="processOneClickPayment()"><i class="fa-solid fa-shield-halved"></i> Save Info & Confirm Paid Order</button>
             </div>
 
-            <!-- LIVE COURIER TRACKING -->
             <div class="section-box">
                 <div class="section-title"><i class="fa-solid fa-truck-fast"></i> Live Parcel Courier Tracking</div>
                 <div class="tracking-status-box" id="trackingStatusBox">
@@ -331,7 +337,6 @@
                 </div>
             </div>
 
-            <!-- CUSTOMER SUPPORT -->
             <div class="section-box">
                 <div class="section-title"><i class="fa-solid fa-headset"></i> Customer Care & Support Desk</div>
                 <div class="support-chat-box">
@@ -448,17 +453,17 @@
 
             let total = 0;
             cartItems.forEach((item, index) => {
-                let numericPrice = parseFloat(item.price.replace('$', '')) || 0;
+                let numericPrice = parseFloat((item.price || "0").replace('$', '')) || 0;
                 let subTotal = numericPrice * (item.quantity || 1);
                 total += subTotal;
 
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td><img src="${item.image}" class="sheet-product-img" loading="lazy"></td>
-                    <td style="font-weight:800; color:#fff;">${item.title}</td>
+                    <td><img src="${item.image || 'https://via.placeholder.com/40'}" class="sheet-product-img" loading="lazy"></td>
+                    <td style="font-weight:800; color:#fff;">${item.title || 'Luxury Product'}</td>
                     <td style="color:var(--text-gray);">Color: ${item.color || 'Std'} | Size: ${item.size || 'Std'}</td>
                     <td style="font-family:var(--font-numeric); font-weight:800;">${item.quantity || 1}</td>
-                    <td style="font-family:var(--font-numeric); font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">${item.price}</td>
+                    <td style="font-family:var(--font-numeric); font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">${item.price || '$0.00'}</td>
                     <td><button class="sheet-delete-btn" onclick="removeCartItem(${index})"><i class="fa-solid fa-trash"></i></button></td>
                 `;
                 tbody.appendChild(tr);
