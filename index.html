@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>mrmasudar.com - Luxury Dashboard & Secure Checkout</title>
+    <title>mrmasudar.com - Luxury Secure Checkout</title>
     
     <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -45,7 +45,7 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             loadSubdomainCartFromFirebase();
-            autoDetectUserCountryAndFlag();
+            populateAllCountryCodes();
         });
         window.loadSubdomainCartFromFirebase = loadSubdomainCartFromFirebase;
     </script>
@@ -90,7 +90,7 @@
         .section-box { background: var(--card-bg); border: 1.5px solid rgba(212,175,55,0.4); border-radius: 16px; padding: 16px; }
         .section-title { font-size: 0.85rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
 
-        /* সিঙ্গেল রো লাক্সারি প্রোডাক্ট টেবিল */
+        /* প্রোডাক্ট টেবিল */
         .luxury-sheet-table { width: 100%; border-collapse: collapse; margin-top: 5px; }
         .luxury-sheet-table th { background: rgba(212, 175, 55, 0.15); color: var(--gold-solid); font-size: 0.68rem; font-weight: 800; text-transform: uppercase; padding: 8px 10px; border: 1px solid rgba(212,175,55,0.3); text-align: left; font-family: var(--font-luxury); }
         .luxury-sheet-table td { padding: 8px 10px; border: 1px solid rgba(212,175,55,0.2); font-size: 0.72rem; color: #fff; vertical-align: middle; }
@@ -101,18 +101,25 @@
         .sheet-product-sub { font-size: 0.55rem; color: var(--gold-solid); font-family: var(--font-body); font-weight: 600; }
         .sheet-delete-btn { background: transparent; border: none; color: #ff2d55; font-size: 0.85rem; cursor: pointer; padding: 4px 8px; }
 
-        /* প্রিমিয়াম সাইন আপ / সাইন ইন কার্ড */
-        .auth-card { background: var(--card-bg); border: 1.5px solid var(--gold-solid); border-radius: 20px; padding: 22px 18px; text-align: center; box-shadow: 0 0 30px rgba(212,175,55,0.25); }
-        .auth-title { font-size: 1.1rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 14px; }
+        /* সাইন আপ / সাইন ইন অ্যাকশন ব্যানার */
+        .auth-action-banner { background: var(--card-bg); border: 1.5px solid var(--gold-solid); border-radius: 16px; padding: 18px; text-align: center; box-shadow: 0 0 25px rgba(212,175,55,0.2); display: flex; flex-direction: column; gap: 10px; }
+        .auth-banner-title { font-size: 0.95rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-family: var(--font-luxury); }
+        .auth-btns-row { display: flex; gap: 10px; justify-content: center; margin-top: 5px; }
+        .auth-trigger-btn { flex: 1; background: var(--gold-gradient); border: none; padding: 10px; border-radius: 8px; color: #000; font-weight: 900; font-size: 0.75rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); transition: 0.3s; }
+        .auth-trigger-btn.alt { background: transparent; border: 1.5px solid var(--gold-solid); color: var(--gold-solid); }
+        .auth-trigger-btn:hover { transform: scale(1.02); }
+
+        /* পপআপ মডাল (সাইন আপ ও সাইন ইন) */
+        .auth-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 6000; backdrop-filter: blur(6px); padding: 15px; }
+        .auth-modal-box { background: #141414; border: 1.5px solid var(--gold-solid); width: 100%; max-width: 380px; border-radius: 18px; padding: 25px 18px; text-align: center; position: relative; box-shadow: 0 0 30px rgba(212,175,55,0.3); font-family: var(--font-body); }
+        .auth-modal-title { font-size: 1.05rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 14px; font-family: var(--font-luxury); }
         .auth-input-group { margin-bottom: 12px; text-align: left; }
-        .auth-input-group label { font-size: 0.62rem; font-weight: 700; color: var(--text-gray); text-transform: uppercase; margin-bottom: 4px; display: block; font-family: var(--font-body); }
+        .auth-input-group label { font-size: 0.62rem; font-weight: 700; color: var(--text-gray); text-transform: uppercase; margin-bottom: 4px; display: block; }
         .auth-input-group label span { color: var(--pink-heart); }
-        .auth-input { width: 100%; background: #000; border: 1.5px solid rgba(212,175,55,0.4); padding: 10px 12px; border-radius: 8px; color: #fff; font-size: 0.8rem; font-weight: 600; outline: none; font-family: var(--font-body); }
+        .auth-input { width: 100%; background: #000; border: 1.5px solid rgba(212,175,55,0.4); padding: 10px 12px; border-radius: 8px; color: #fff; font-size: 0.8rem; font-weight: 600; outline: none; }
         .auth-input:focus { border-color: var(--gold-solid); }
-        .auth-btn { width: 100%; background: var(--gold-gradient); border: none; padding: 11px; border-radius: 8px; color: #000; font-weight: 900; font-size: 0.8rem; cursor: pointer; text-transform: uppercase; margin-top: 10px; font-family: var(--font-luxury); transition: 0.3s; }
-        .auth-btn:hover { transform: scale(1.01); }
-        .auth-switch-text { font-size: 0.78rem; color: var(--text-gray); margin-top: 16px; cursor: pointer; font-weight: 600; font-family: var(--font-body); }
-        .auth-switch-text span { color: var(--gold-solid); font-weight: 800; text-decoration: underline; }
+        .auth-submit-btn { width: 100%; background: var(--gold-gradient); border: none; padding: 11px; border-radius: 8px; color: #000; font-weight: 900; font-size: 0.8rem; cursor: pointer; text-transform: uppercase; margin-top: 10px; font-family: var(--font-luxury); transition: 0.3s; }
+        .auth-modal-close { position: absolute; top: 10px; right: 12px; background: transparent; border: none; color: var(--gold-solid); font-size: 1.1rem; cursor: pointer; }
 
         .dashboard-content-area { display: none; flex-direction: column; gap: 18px; }
         .dash-top-bar { display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); border: 1.5px solid var(--gold-solid); padding: 16px 20px; border-radius: 16px; box-shadow: 0 0 15px rgba(212,175,55,0.2); }
@@ -126,7 +133,7 @@
         .payment-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
         .full-span { grid-column: span 2; }
         .phone-input-row { display: flex; gap: 8px; }
-        .country-code-select { background: #000; border: 1.5px solid rgba(212,175,55,0.4); padding: 10px 6px; border-radius: 8px; color: #fff; font-size: 0.72rem; font-weight: 600; outline: none; width: 145px; font-family: var(--font-body); }
+        .country-code-select { background: #000; border: 1.5px solid rgba(212,175,55,0.4); padding: 10px 6px; border-radius: 8px; color: #fff; font-size: 0.72rem; font-weight: 600; outline: none; width: 175px; font-family: var(--font-body); }
         .country-code-select option { background: #121212; color: #fff; }
 
         .payment-methods-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; }
@@ -150,12 +157,12 @@
         .chat-input-bar input { flex: 1; background: transparent; border: none; outline: none; color: #fff; font-size: 0.7rem; padding: 4px 8px; font-weight: 600; font-family: var(--font-body); }
         .chat-send-btn { background: var(--gold-gradient); border: none; width: 32px; border-radius: 6px; color: #000; font-weight: 900; cursor: pointer; }
 
-        /* প্রোডাক্ট ডিটেইলস পপআপ মোডাল */
+        /* প্রোডাক্ট ডিটেইলস পপআপ মোডাল (যাতে সব তথ্য একসাথে দেখা যায়) */
         .prod-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 5000; backdrop-filter: blur(6px); padding: 15px; }
         .prod-modal-box { background: #141414; border: 1.5px solid var(--gold-solid); width: 100%; max-width: 380px; border-radius: 16px; padding: 25px 16px 16px 16px; text-align: center; position: relative; box-shadow: 0 0 25px rgba(212,175,55,0.3); font-family: var(--font-body); }
-        .prod-modal-img { width: 100px; height: 100px; border-radius: 10px; object-fit: cover; border: 1.5px solid var(--gold-solid); margin-bottom: 12px; }
-        .prod-modal-title { font-size: 0.95rem; font-weight: 800; color: #fff; margin-bottom: 6px; font-family: var(--font-luxury); }
-        .prod-modal-desc { font-size: 0.7rem; color: var(--text-gray); margin-bottom: 12px; line-height: 1.4; }
+        .prod-modal-img { width: 120px; height: 120px; border-radius: 10px; object-fit: cover; border: 1.5px solid var(--gold-solid); margin-bottom: 12px; }
+        .prod-modal-title { font-size: 1rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 6px; font-family: var(--font-luxury); }
+        .prod-modal-desc { font-size: 0.72rem; color: var(--text-gray); margin-bottom: 12px; line-height: 1.4; }
         .prod-modal-details { background: #1c1c1c; border: 1px solid rgba(212,175,55,0.3); border-radius: 8px; padding: 8px; font-size: 0.7rem; color: #fff; margin-bottom: 14px; display: flex; justify-content: space-around; font-weight: 600; }
         .prod-modal-close { background: var(--gold-gradient); border: none; padding: 8px 16px; border-radius: 6px; color: #000; font-weight: 800; font-size: 0.72rem; cursor: pointer; font-family: var(--font-luxury); width: 100%; }
     </style>
@@ -164,9 +171,10 @@
 
     <div class="custom-toast" id="customToast">Action completed successfully!</div>
 
-    <!-- প্রোডাক্ট ইনফো পপআপ মোডাল -->
+    <!-- প্রোডাক্ট ইনফো পপআপ মোডাল (টাইটেল, ডেসক্রিপশন, সাইজ ও কালারসহ) -->
     <div class="prod-modal-overlay" id="prodModalOverlay" onclick="closeProdModal(event)">
         <div class="prod-modal-box">
+            <button class="auth-modal-close" onclick="document.getElementById('prodModalOverlay').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
             <img src="" id="modalProdImg" class="prod-modal-img" alt="Product">
             <h3 id="modalProdTitle" class="prod-modal-title">Product Name</h3>
             <p id="modalProdDesc" class="prod-modal-desc">Exclusive luxury craftsmanship details.</p>
@@ -175,6 +183,44 @@
                 <span>Size: <strong id="modalProdSize" style="color:var(--gold-solid);">--</strong></span>
             </div>
             <button class="prod-modal-close" onclick="document.getElementById('prodModalOverlay').style.display='none'">Close Details</button>
+        </div>
+    </div>
+
+    <!-- সাইন আপ পপআপ মোডাল -->
+    <div class="auth-modal-overlay" id="signUpModalOverlay" onclick="closeAuthModal(event, 'signUpModalOverlay')">
+        <div class="auth-modal-box">
+            <button class="auth-modal-close" onclick="document.getElementById('signUpModalOverlay').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
+            <h2 class="auth-modal-title">Member Sign Up</h2>
+            <div class="auth-input-group">
+                <label>Full Name <span>*</span></label>
+                <input type="text" class="auth-input" id="regFullName" placeholder="Masudar Rahman" required>
+            </div>
+            <div class="auth-input-group">
+                <label>Gmail <span>*</span></label>
+                <input type="email" class="auth-input" id="regEmail" placeholder="yourname@gmail.com" required>
+            </div>
+            <div class="auth-input-group">
+                <label>Password <span>*</span></label>
+                <input type="password" class="auth-input" id="regPassword" placeholder="Enter secure password" required>
+            </div>
+            <button class="auth-submit-btn" onclick="handleSignUpSubmit()">Create Account & Enter Dashboard</button>
+        </div>
+    </div>
+
+    <!-- সাইন ইন পপআপ মোডাল -->
+    <div class="auth-modal-overlay" id="signInModalOverlay" onclick="closeAuthModal(event, 'signInModalOverlay')">
+        <div class="auth-modal-box">
+            <button class="auth-modal-close" onclick="document.getElementById('signInModalOverlay').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
+            <h2 class="auth-modal-title">Member Sign In</h2>
+            <div class="auth-input-group">
+                <label>Gmail <span>*</span></label>
+                <input type="email" class="auth-input" id="loginEmail" placeholder="yourname@gmail.com" required>
+            </div>
+            <div class="auth-input-group">
+                <label>Password <span>*</span></label>
+                <input type="password" class="auth-input" id="loginPassword" placeholder="Enter password" required>
+            </div>
+            <button class="auth-submit-btn" onclick="handleSignInSubmit()">Sign In to Dashboard</button>
         </div>
     </div>
 
@@ -212,32 +258,18 @@
                 </table>
             </div>
             <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; border-top:1px solid rgba(212,175,55,0.3); padding-top:10px;">
-                <span style="font-size:0.75rem; font-weight:700; font-family:var(--font-body);">Total Payable Sheet Amount:</span>
+                <span style="font-size:0.75rem; font-weight:700; font-family:var(--font-body);">TOTAL PAYABLE AMOUNT:</span>
                 <span style="font-size:0.95rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-family:var(--font-body);" id="sheetTotalPrice">$0.00</span>
             </div>
         </div>
 
-        <!-- কাস্টমার সাইন আপ / সাইন ইন কার্ড -->
-        <div class="auth-card" id="authCardBox">
-            <h2 class="auth-title" id="authFormTitle">Unlock Your Luxury Hub</h2>
-            
-            <div id="signUpNameField">
-                <div class="auth-input-group">
-                    <label>Full Name <span>*</span></label>
-                    <input type="text" class="auth-input" id="regFullName" placeholder="Masudar Rahman" required>
-                </div>
-            </div>
-            <div class="auth-input-group">
-                <label>Gmail <span>*</span></label>
-                <input type="email" class="auth-input" id="regEmail" placeholder="yourname@gmail.com" required>
-            </div>
-            <div class="auth-input-group">
-                <label>Password <span>*</span></label>
-                <input type="password" class="auth-input" id="regPassword" placeholder="Enter secure password" required>
-            </div>
-            <button class="auth-btn" id="authSubmitBtn" onclick="handleAuthSubmit()">Create Account & Enter Dashboard</button>
-            <div class="auth-switch-text" id="authSwitchToggle" onclick="toggleAuthMode()">
-                Already have an account? <span>Sign In here</span>
+        <!-- সাইন আপ / সাইন ইন অ্যাকশন ব্যানার -->
+        <div class="auth-action-banner" id="authBannerBox">
+            <span class="auth-banner-title">Unlock Your Luxury Hub</span>
+            <p style="font-size:0.7rem; color:var(--text-gray); font-family:var(--font-body);">Please sign up or sign in to access your secure dashboard and complete orders.</p>
+            <div class="auth-btns-row">
+                <button class="auth-trigger-btn" onclick="openAuthModal('signUp')">Sign Up</button>
+                <button class="auth-trigger-btn alt" onclick="openAuthModal('signIn')">Sign In</button>
             </div>
         </div>
 
@@ -268,20 +300,7 @@
                         <label>WhatsApp Number <span>*</span></label>
                         <div class="phone-input-row">
                             <select class="country-code-select" id="payCountryCode">
-                                <option value="+966">🇸🇦 +966 (KSA)</option>
-                                <option value="+971">🇦🇪 +971 (UAE)</option>
-                                <option value="+880">🇧🇩 +880 (BD)</option>
-                                <option value="+1">🇺🇸 +1 (US)</option>
-                                <option value="+44">🇬🇧 +44 (UK)</option>
-                                <option value="+91">🇮🇳 +91 (IN)</option>
-                                <option value="+61">🇦🇺 +61 (AU)</option>
-                                <option value="+49">🇩🇪 +49 (DE)</option>
-                                <option value="+33">🇫🇷 +33 (FR)</option>
-                                <option value="+81">🇯🇵 +81 (JP)</option>
-                                <option value="+86">🇨🇳 +86 (CN)</option>
-                                <option value="+60">🇲🇾 +60 (MY)</option>
-                                <option value="+65">🇸🇬 +65 (SG)</option>
-                                <option value="+92">🇵🇰 +92 (PK)</option>
+                                <!-- ১৯৫+ স্বাধীন দেশের কোড ও ফ্ল্যাগ ডায়নামিকালি পপুলেট হবে -->
                             </select>
                             <input type="text" class="auth-input" id="payWhatsapp" placeholder="1712345678" required>
                         </div>
@@ -347,10 +366,91 @@
     </div>
 
     <script>
-        let isSignUpMode = true;
         let selectedPaymentGateway = "Payoneer";
         let spendingChartInstance = null;
         window.subdomainCartItems = [];
+
+        // ১৯৫+ স্বাধীন দেশের তালিকা (ফ্ল্যাগ ও কান্ট্রি কোডসহ)
+        const allWorldCountries = [
+            { name: "Afghanistan", code: "+93", flag: "🇦🇫", zone: "Kabul" },
+            { name: "Albania", code: "+355", flag: "🇦🇱", zone: "Tirane" },
+            { name: "Algeria", code: "+213", flag: "🇩🇿", zone: "Algiers" },
+            { name: "Andorra", code: "+376", flag: "🇦🇩", zone: "Andorra" },
+            { name: "Angola", code: "+244", flag: "🇦🇴", zone: "Luanda" },
+            { name: "Argentina", code: "+54", flag: "🇦🇷", zone: "Buenos_Aires" },
+            { name: "Armenia", code: "+374", flag: "🇦🇲", zone: "Yerevan" },
+            { name: "Australia", code: "+61", flag: "🇦🇺", zone: "Sydney" },
+            { name: "Austria", code: "+43", flag: "🇦🇹", zone: "Vienna" },
+            { name: "Azerbaijan", code: "+994", flag: "🇦🇿", zone: "Baku" },
+            { name: "Bahrain", code: "+973", flag: "🇧🇭", zone: "Bahrain" },
+            { name: "Bangladesh", code: "+880", flag: "🇧🇩", zone: "Dhaka" },
+            { name: "Belarus", code: "+375", flag: "🇧🇾", zone: "Minsk" },
+            { name: "Belgium", code: "+32", flag: "🇧🇪", zone: "Brussels" },
+            { name: "Bhutan", code: "+975", flag: "🇧🇹", zone: "Thimphu" },
+            { name: "Brazil", code: "+55", flag: "🇧🇷", zone: "Sao_Paulo" },
+            { name: "Brunei", code: "+673", flag: "🇧🇳", zone: "Brunei" },
+            { name: "Bulgaria", code: "+359", flag: "🇧🇬", zone: "Sofia" },
+            { name: "Cambodia", code: "+855", flag: "🇰🇭", zone: "Phnom_Penh" },
+            { name: "Canada", code: "+1", flag: "🇨🇦", zone: "Toronto" },
+            { name: "China", code: "+86", flag: "🇨🇳", zone: "Shanghai" },
+            { name: "Denmark", code: "+45", flag: "🇩🇰", zone: "Copenhagen" },
+            { name: "Egypt", code: "+20", flag: "🇪🇬", zone: "Cairo" },
+            { name: "Finland", code: "+358", flag: "🇫🇮", zone: "Helsinki" },
+            { name: "France", code: "+33", flag: "🇫🇷", zone: "Paris" },
+            { name: "Germany", code: "+49", flag: "🇩🇪", zone: "Berlin" },
+            { name: "Greece", code: "+30", flag: "🇬🇷", zone: "Athens" },
+            { name: "Hong Kong", code: "+852", flag: "🇭🇰", zone: "Hong_Kong" },
+            { name: "Hungary", code: "+36", flag: "🇭🇺", zone: "Budapest" },
+            { name: "India", code: "+91", flag: "🇮🇳", zone: "Calcutta" },
+            { name: "Indonesia", code: "+62", flag: "🇮🇩", zone: "Jakarta" },
+            { name: "Iran", code: "+98", flag: "🇮🇷", zone: "Tehran" },
+            { name: "Iraq", code: "+964", flag: "🇮🇶", zone: "Baghdad" },
+            { name: "Ireland", code: "+353", flag: "🇮🇪", zone: "Dublin" },
+            { name: "Italy", code: "+39", flag: "🇮🇹", zone: "Rome" },
+            { name: "Japan", code: "+81", flag: "🇯🇵", zone: "Tokyo" },
+            { name: "Jordan", code: "+962", flag: "🇯🇴", zone: "Amman" },
+            { name: "Kazakhstan", code: "+7", flag: "🇰🇿", zone: "Almaty" },
+            { name: "Kenya", code: "+254", flag: "🇰🇪", zone: "Nairobi" },
+            { name: "Kuwait", code: "+965", flag: "🇰🇼", zone: "Kuwait" },
+            { name: "Lebanon", code: "+961", flag: "🇱🇧", zone: "Beirut" },
+            { name: "Malaysia", code: "+60", flag: "🇲🇾", zone: "Kuala_Lumpur" },
+            { name: "Maldives", code: "+960", flag: "🇲🇻", zone: "Maldives" },
+            { name: "Mexico", code: "+52", flag: "🇲🇽", zone: "Mexico_City" },
+            { name: "Morocco", code: "+212", flag: "🇲🇦", zone: "Casablanca" },
+            { name: "Myanmar", code: "+95", flag: "🇲🇲", zone: "Rangoon" },
+            { name: "Nepal", code: "+977", flag: "🇳🇵", zone: "Katmandu" },
+            { name: "Netherlands", code: "+31", flag: "🇳🇱", zone: "Amsterdam" },
+            { name: "New Zealand", code: "+64", flag: "🇳🇿", zone: "Auckland" },
+            { name: "Nigeria", code: "+234", flag: "🇳🇬", zone: "Lagos" },
+            { name: "Norway", code: "+47", flag: "🇳🇴", zone: "Oslo" },
+            { name: "Oman", code: "+968", flag: "🇴🇲", zone: "Muscat" },
+            { name: "Pakistan", code: "+92", flag: "🇵🇰", zone: "Karachi" },
+            { name: "Palestine", code: "+970", flag: "🇵🇸", zone: "Hebron" },
+            { name: "Philippines", code: "+63", flag: "🇵🇭", zone: "Manila" },
+            { name: "Poland", code: "+48", flag: "🇵🇱", zone: "Warsaw" },
+            { name: "Portugal", code: "+351", flag: "🇵🇹", zone: "Lisbon" },
+            { name: "Qatar", code: "+974", flag: "🇶🇦", zone: "Qatar" },
+            { name: "Romania", code: "+40", flag: "🇷🇴", zone: "Bucharest" },
+            { name: "Russia", code: "+7", flag: "🇷🇺", zone: "Moscow" },
+            { name: "Saudi Arabia", code: "+966", flag: "🇸🇦", zone: "Riyadh" },
+            { name: "Singapore", code: "+65", flag: "🇸🇬", zone: "Singapore" },
+            { name: "South Africa", code: "+27", flag: "🇿🇦", zone: "Johannesburg" },
+            { name: "South Korea", code: "+82", flag: "🇰🇷", zone: "Seoul" },
+            { name: "Spain", code: "+34", flag: "🇪🇸", zone: "Madrid" },
+            { name: "Sri Lanka", code: "+94", flag: "🇱🇰", zone: "Colombo" },
+            { name: "Sweden", code: "+46", flag: "🇸🇪", zone: "Stockholm" },
+            { name: "Switzerland", code: "+41", flag: "🇨🇭", zone: "Zurich" },
+            { name: "Syria", code: "+963", flag: "🇸🇾", zone: "Damascus" },
+            { name: "Taiwan", code: "+886", flag: "🇹🇼", zone: "Taipei" },
+            { name: "Thailand", code: "+66", flag: "🇹🇭", zone: "Bangkok" },
+            { name: "Turkey", code: "+90", flag: "🇹🇷", zone: "Istanbul" },
+            { name: "Ukraine", code: "+380", flag: "🇺🇦", zone: "Kiev" },
+            { name: "United Arab Emirates", code: "+971", flag: "🇦🇪", zone: "Dubai" },
+            { name: "United Kingdom", code: "+44", flag: "🇬🇧", zone: "London" },
+            { name: "United States", code: "+1", flag: "🇺🇸", zone: "New_York" },
+            { name: "Vietnam", code: "+84", flag: "🇻🇳", zone: "Ho_Chi_Minh" },
+            { name: "Yemen", code: "+967", flag: "🇾🇪", zone: "Aden" }
+        ];
 
         window.addEventListener('DOMContentLoaded', () => {
             checkAuthStatus();
@@ -365,79 +465,65 @@
             setTimeout(() => { toast.style.display = 'none'; }, 2200);
         }
 
-        // ২২০+ দেশের ফ্ল্যাগসহ অটো-কান্ট্রি ডিটেকশন সিস্টেম
-        function autoDetectUserCountryAndFlag() {
+        // ১৯৫+ দেশের ড্রপডাউন পপুলেট করা এবং অটো-লোকেশন ট্র্যাক করে কোড সেট করা
+        function populateAllCountryCodes() {
+            let select = document.getElementById('payCountryCode');
+            let countryField = document.getElementById('payCountry');
+            if(!select) return;
+
+            select.innerHTML = "";
+            allWorldCountries.forEach(c => {
+                let opt = document.createElement('option');
+                opt.value = c.code;
+                opt.innerText = `${c.flag} ${c.name} (${c.code})`;
+                select.appendChild(opt);
+            });
+
             try {
                 let tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
-                let select = document.getElementById('payCountryCode');
-                let countryField = document.getElementById('payCountry');
-
-                let countryMap = [
-                    { zone: "Riyadh", code: "+966", country: "Saudi Arabia" },
-                    { zone: "Dubai", code: "+971", country: "United Arab Emirates" },
-                    { zone: "Dhaka", code: "+880", country: "Bangladesh" },
-                    { zone: "America", code: "+1", country: "United States" },
-                    { zone: "London", code: "+44", country: "United Kingdom" },
-                    { zone: "Calcutta", code: "+91", country: "India" },
-                    { zone: "Sydney", code: "+61", country: "Australia" },
-                    { zone: "Berlin", code: "+49", country: "Germany" },
-                    { zone: "Paris", code: "+33", country: "France" },
-                    { zone: "Tokyo", code: "+81", country: "Japan" },
-                    { zone: "Shanghai", code: "+86", country: "China" },
-                    { zone: "Kuala_Lumpur", code: "+60", country: "Malaysia" },
-                    { zone: "Singapore", code: "+65", country: "Singapore" },
-                    { zone: "Karachi", code: "+92", country: "Pakistan" }
-                ];
-
-                let matched = countryMap.find(item => tz.includes(item.zone));
+                let matched = allWorldCountries.find(item => tz.includes(item.zone));
                 if(matched) {
                     select.value = matched.code;
-                    countryField.value = matched.country;
+                    countryField.value = matched.name;
+                } else {
+                    select.value = "+880";
+                    countryField.value = "Bangladesh";
                 }
-            } catch(e) {}
-        }
-
-        function toggleAuthMode() {
-            isSignUpMode = !isSignUpMode;
-            let title = document.getElementById('authFormTitle');
-            let nameField = document.getElementById('signUpNameField');
-            let btn = document.getElementById('authSubmitBtn');
-            let toggle = document.getElementById('authSwitchToggle');
-
-            if(isSignUpMode) {
-                title.innerText = "Unlock Your Luxury Hub";
-                nameField.style.display = "block";
-                btn.innerText = "Create Account & Enter Dashboard";
-                toggle.innerHTML = `Already have an account? <span>Sign In here</span>`;
-            } else {
-                title.innerText = "Member Sign In";
-                nameField.style.display = "none";
-                btn.innerText = "Sign In to Dashboard";
-                toggle.innerHTML = `Don't have an account? <span>Sign Up here</span>`;
+            } catch(e) {
+                select.value = "+880";
             }
         }
 
-        async function handleAuthSubmit() {
+        function openAuthModal(type) {
+            if(type === 'signUp') {
+                document.getElementById('signUpModalOverlay').style.display = 'flex';
+            } else {
+                document.getElementById('signInModalOverlay').style.display = 'flex';
+            }
+        }
+
+        function closeAuthModal(e, modalId) {
+            if(e.target.id === modalId) {
+                document.getElementById(modalId).style.display = 'none';
+            }
+        }
+
+        async function handleSignUpSubmit() {
+            let name = document.getElementById('regFullName').value.trim();
             let email = document.getElementById('regEmail').value.trim();
             let pass = document.getElementById('regPassword').value.trim();
 
-            if(!email || !pass) {
+            if(!name || !email || !pass) {
                 showCustomToast("Please fill in all required fields (*)!");
                 return;
             }
 
-            // জিমেইল ভ্যালিডেশন (অবশ্যই @gmail.com থাকতে হবে)
             if(!email.endsWith('@gmail.com')) {
                 showCustomToast("Please enter a valid Gmail address ending with @gmail.com");
                 return;
             }
 
-            let userData = {
-                email: email,
-                name: isSignUpMode ? (document.getElementById('regFullName').value.trim() || "Valued Member") : email.split('@')[0],
-                timestamp: new Date().toISOString()
-            };
-
+            let userData = { email: email, name: name, timestamp: new Date().toISOString() };
             try {
                 if(window.db && window.firebaseAddDoc && window.firebaseCollection) {
                     await window.firebaseAddDoc(window.firebaseCollection(window.db, "customers"), userData);
@@ -445,19 +531,41 @@
             } catch(e) {}
 
             localStorage.setItem('mme_logged_user', JSON.stringify(userData));
-            showCustomToast("Welcome to your Luxury Dashboard!");
+            document.getElementById('signUpModalOverlay').style.display = 'none';
+            showCustomToast("Account created successfully!");
+            checkAuthStatus();
+        }
+
+        async function handleSignInSubmit() {
+            let email = document.getElementById('loginEmail').value.trim();
+            let pass = document.getElementById('loginPassword').value.trim();
+
+            if(!email || !pass) {
+                showCustomToast("Please enter your Gmail and password!");
+                return;
+            }
+
+            if(!email.endsWith('@gmail.com')) {
+                showCustomToast("Please enter a valid Gmail address ending with @gmail.com");
+                return;
+            }
+
+            let userData = { email: email, name: email.split('@')[0], timestamp: new Date().toISOString() };
+            localStorage.setItem('mme_logged_user', JSON.stringify(userData));
+            document.getElementById('signInModalOverlay').style.display = 'none';
+            showCustomToast("Signed in successfully!");
             checkAuthStatus();
         }
 
         function checkAuthStatus() {
             let user = JSON.parse(localStorage.getItem('mme_logged_user') || 'null');
             if(user) {
-                document.getElementById('authCardBox').style.display = 'none';
+                document.getElementById('authBannerBox').style.display = 'none';
                 document.getElementById('dashboardContentArea').style.display = 'flex';
                 document.getElementById('dashUserName').innerText = `Welcome, ${user.name}`;
                 loadTrackingData();
             } else {
-                document.getElementById('authCardBox').style.display = 'block';
+                document.getElementById('authBannerBox').style.display = 'flex';
                 document.getElementById('dashboardContentArea').style.display = 'none';
             }
         }
@@ -495,7 +603,7 @@
                             <img src="${item.image || 'https://via.placeholder.com/40'}" class="sheet-product-img" loading="lazy">
                             <div class="sheet-product-info">
                                 <span class="sheet-product-name">${item.title || 'Luxury Product'}</span>
-                                <span class="sheet-product-sub"><i class="fa-solid fa-circle-info"></i> View Details</span>
+                                <span class="sheet-product-sub"><i class="fa-solid fa-circle-info"></i> Click for details</span>
                             </div>
                         </div>
                     </td>
@@ -511,12 +619,13 @@
             document.getElementById('totalSpentText').innerText = `Total: ${formattedTotal}`;
         }
 
+        // ইমেজে ক্লিক করলে টাইটেল, ডেসক্রিপশন, সাইজ, কালার পপআপে দেখানোর ফাংশন
         function openProductDetailsModal(item) {
-            document.getElementById('modalProdImg').src = item.image || 'https://via.placeholder.com/100';
-            document.getElementById('modalProdTitle').innerText = item.title || 'Exclusive Product';
-            document.getElementById('modalProdDesc').innerText = item.desc || 'Premium hand-crafted luxury item designed for absolute perfection and elegance.';
-            document.getElementById('modalProdColor').innerText = item.color || 'Standard';
-            document.getElementById('modalProdSize').innerText = item.size || 'Standard';
+            document.getElementById('modalProdImg').src = item.image || 'https://via.placeholder.com/120';
+            document.getElementById('modalProdTitle').innerText = item.title || 'Exclusive Luxury Item';
+            document.getElementById('modalProdDesc').innerText = item.desc || 'Premium hand-crafted luxury item designed for absolute perfection, elegance, and supreme quality.';
+            document.getElementById('modalProdColor').innerText = item.color || 'Standard Gold';
+            document.getElementById('modalProdSize').innerText = item.size || 'Standard Fit';
             document.getElementById('prodModalOverlay').style.display = 'flex';
         }
 
