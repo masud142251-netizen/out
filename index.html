@@ -88,9 +88,9 @@
 
         .checkout-main-container { width: 100%; max-width: 920px; margin: 0 auto; padding: 12px; display: flex; flex-direction: column; gap: 14px; }
         .section-box { background: var(--card-bg); border: 1.5px solid rgba(212,175,55,0.4); border-radius: 14px; padding: 14px; }
-        .section-title { font-size: 0.82rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .section-title { font-size: 0.82rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
 
-        /* প্রোডাক্ট টেবিল (স্ক্রিনশটের হুবহু ডিজাইন) */
+        /* প্রোডাক্ট টেবিল */
         .luxury-sheet-table { width: 100%; border-collapse: collapse; margin-top: 4px; }
         .luxury-sheet-table th { background: rgba(212, 175, 55, 0.15); color: var(--gold-solid); font-size: 0.65rem; font-weight: 800; text-transform: uppercase; padding: 7px 8px; border: 1px solid rgba(212,175,55,0.3); text-align: left; font-family: var(--font-luxury); }
         .luxury-sheet-table td { padding: 6px 8px; border: 1px solid rgba(212,175,55,0.2); font-size: 0.7rem; color: #fff; vertical-align: middle; text-align: center; }
@@ -102,7 +102,7 @@
         .sheet-info-badge { font-size: 0.58rem; color: var(--gold-solid); font-weight: 700; background: rgba(212,175,55,0.1); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(212,175,55,0.3); display: inline-flex; align-items: center; gap: 4px; }
         .sheet-delete-btn { background: transparent; border: none; color: #ff2d55; font-size: 0.85rem; cursor: pointer; padding: 4px; }
 
-        /* স্ক্রিনশট অনুযায়ী টেবিলের নিচের সাইন আপ / সাইন ইন সেকশন */
+        /* সাইন আপ / সাইন ইন সেকশন */
         .table-auth-footer { margin-top: 14px; border-top: 1px solid rgba(212,175,55,0.3); padding-top: 14px; display: flex; flex-direction: column; gap: 8px; text-align: center; }
         .table-auth-title { font-size: 0.85rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-family: var(--font-luxury); }
         .table-auth-sub { font-size: 0.64rem; color: var(--text-gray); font-family: var(--font-body); font-weight: 500; }
@@ -111,7 +111,7 @@
         .table-auth-btn.alt { background: transparent; border: 1.5px solid var(--gold-solid); color: var(--gold-solid); box-shadow: none; }
         .table-auth-btn:hover { transform: scale(1.01); }
 
-        /* পপআপ মোডাল */
+        /* পপআপ মোডাল জেনারেল */
         .auth-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 6000; backdrop-filter: blur(6px); padding: 15px; }
         .auth-modal-box { background: #141414; border: 1.5px solid var(--gold-solid); width: 100%; max-width: 380px; border-radius: 16px; padding: 22px 16px; text-align: center; position: relative; box-shadow: 0 0 30px rgba(212,175,55,0.3); font-family: var(--font-body); max-height: 90vh; overflow-y: auto; }
         .auth-modal-title { font-size: 1rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 12px; font-family: var(--font-luxury); }
@@ -127,23 +127,20 @@
         .auth-submit-btn { width: 100%; background: var(--gold-gradient); border: none; padding: 10px; border-radius: 8px; color: #000; font-weight: 900; font-size: 0.78rem; cursor: pointer; text-transform: uppercase; margin-top: 10px; font-family: var(--font-luxury); transition: 0.3s; }
         .auth-modal-close { position: absolute; top: 10px; right: 12px; background: transparent; border: none; color: var(--gold-solid); font-size: 1.1rem; cursor: pointer; }
 
-        /* ড্যাশবোর্ড স্টাইল */
+        /* ড্যাশবোর্ড লেআউট */
         .dashboard-content-area { display: none; flex-direction: column; gap: 14px; }
-        .dash-top-bar { display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); border: 1.5px solid var(--gold-solid); padding: 14px 18px; border-radius: 14px; box-shadow: 0 0 15px rgba(212,175,55,0.2); }
-        .dash-welcome { font-size: 1rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 0.5px; }
+        .dash-top-bar { display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); border: 1.5px solid var(--gold-solid); padding: 12px 16px; border-radius: 12px; box-shadow: 0 0 12px rgba(212,175,55,0.15); }
+        .dash-welcome { font-size: 0.95rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; }
+        
         .logout-btn { background: transparent; border: 1.5px solid #ff2d55; color: #ff2d55; padding: 8px 16px; border-radius: 8px; font-size: 0.68rem; font-weight: 800; cursor: pointer; transition: 0.3s; font-family: var(--font-luxury); }
         .logout-btn:hover { background: #ff2d55; color: #fff; }
 
-        .analytics-card { background: var(--card-bg); border: 1.5px solid rgba(212,175,55,0.5); border-radius: 14px; padding: 14px; }
-        .analytics-title { font-size: 0.78rem; font-weight: 800; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-luxury); }
+        /* ক্লিন ডেলিভারি ডিসপ্লে কার্ড */
+        .delivery-display-card { background: #181818; border: 1px solid rgba(212,175,55,0.3); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 6px; font-size: 0.72rem; color: var(--text-gray); }
+        .delivery-display-card strong { color: #fff; }
 
-        .payment-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
-        .full-span { grid-column: span 2; }
-        .phone-input-row { display: flex; gap: 8px; }
-        .country-code-select { background: #000; border: 1.5px solid rgba(212,175,55,0.4); padding: 9px 6px; border-radius: 8px; color: #fff; font-size: 0.7rem; font-weight: 600; outline: none; width: 170px; font-family: var(--font-body); }
-        .country-code-select option { background: #121212; color: #fff; }
-
-        .payment-methods-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 8px; }
+        /* পেমেন্ট অপশন গ্রিড */
+        .payment-methods-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 10px; }
         .pay-option-card { background: #181818; border: 1.5px solid rgba(212,175,55,0.4); padding: 10px; border-radius: 10px; cursor: pointer; text-align: center; transition: 0.3s; display: flex; flex-direction: column; align-items: center; gap: 4px; }
         .pay-option-card.selected, .pay-option-card:hover { border-color: var(--gold-solid); background: rgba(212,175,55,0.1); }
         .pay-option-card i { font-size: 1.1rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -152,19 +149,25 @@
         .lux-btn { background: var(--gold-gradient); border: none; padding: 11px 14px; border-radius: 10px; color: #000; font-weight: 900; font-size: 0.78rem; cursor: pointer; text-transform: uppercase; display: inline-flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 0 12px rgba(212,175,55,0.3); width: 100%; margin-top: 12px; font-family: var(--font-luxury); }
         .lux-btn:hover { transform: scale(1.01); }
 
+        /* ট্র্যাকিং বক্স */
         .tracking-status-box { background: #161616; border: 1px solid var(--gold-solid); border-radius: 10px; padding: 10px; margin-top: 6px; font-size: 0.7rem; font-weight: 600; display: flex; flex-direction: column; gap: 5px; font-family: var(--font-body); }
         .tracking-link { color: var(--gold-solid); text-decoration: underline; font-weight: 800; word-break: break-all; }
 
-        .support-chat-box { background: #0f0f0f; border: 1.5px solid rgba(212,175,55,0.4); border-radius: 10px; height: 150px; display: flex; flex-direction: column; overflow: hidden; margin-top: 8px; }
+        /* সাপোর্ট চ্যাট */
+        .support-chat-box { background: #0f0f0f; border: 1.5px solid rgba(212,175,55,0.4); border-radius: 10px; height: 140px; display: flex; flex-direction: column; overflow: hidden; margin-top: 6px; }
         .chat-messages-area { flex: 1; padding: 8px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; font-size: 0.68rem; font-family: var(--font-body); }
         .chat-msg { max-width: 80%; padding: 6px 10px; border-radius: 8px; font-weight: 600; line-height: 1.3; }
         .chat-msg.customer { background: rgba(212,175,55,0.2); border: 1px solid var(--gold-solid); align-self: flex-end; color: #fff; }
         .chat-msg.admin { background: #222; border: 1px solid #444; align-self: flex-start; color: var(--text-gray); }
-        .chat-input-bar { display: flex; border-top: 1.5px solid rgba(212,175,55,0.3); background: #141414; padding: 5px; }
+        .chat-input-bar { display: flex; border-top: 1.5px solid rgba(212,175,55,0.3); background: #141414; padding: 4px; }
         .chat-input-bar input { flex: 1; background: transparent; border: none; outline: none; color: #fff; font-size: 0.68rem; padding: 4px 6px; font-weight: 600; font-family: var(--font-body); }
-        .chat-send-btn { background: var(--gold-gradient); border: none; width: 30px; border-radius: 6px; color: #000; font-weight: 900; cursor: pointer; }
+        .chat-send-btn { background: var(--gold-gradient); border: none; width: 28px; border-radius: 6px; color: #000; font-weight: 900; cursor: pointer; }
 
-        /* প্রোডাক্ট ডিটেইলস পপআপ মোডাল */
+        /* অ্যানালিটিক্স কার্ড */
+        .analytics-card { background: var(--card-bg); border: 1.5px solid rgba(212,175,55,0.5); border-radius: 14px; padding: 14px; }
+        .analytics-title { font-size: 0.78rem; font-weight: 800; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-luxury); }
+
+        /* প্রোডাক্ট ডিটেইলস পপআপ */
         .prod-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 5000; backdrop-filter: blur(6px); padding: 15px; }
         .prod-modal-box { background: #141414; border: 1.5px solid var(--gold-solid); width: 100%; max-width: 360px; border-radius: 16px; padding: 22px 16px; text-align: center; position: relative; box-shadow: 0 0 25px rgba(212,175,55,0.3); font-family: var(--font-body); }
         .prod-modal-img { width: 110px; height: 110px; border-radius: 10px; object-fit: cover; border: 1.5px solid var(--gold-solid); margin-bottom: 10px; }
@@ -193,6 +196,30 @@
         </div>
     </div>
 
+    <!-- ডেলিভারি ইনফরমেশন আপডেট পপআপ মোডাল -->
+    <div class="auth-modal-overlay" id="deliveryModalOverlay" onclick="closeDeliveryModal(event)">
+        <div class="auth-modal-box">
+            <button class="auth-modal-close" onclick="document.getElementById('deliveryModalOverlay').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
+            <h2 class="auth-modal-title">Delivery Information</h2>
+            <div class="auth-input-group">
+                <label>WhatsApp Number <span>*</span></label>
+                <div class="phone-input-row">
+                    <select class="modal-country-select" id="popupCountryCode"></select>
+                    <input type="text" class="auth-input" id="popupWhatsapp" placeholder="1712345678" required>
+                </div>
+            </div>
+            <div class="auth-input-group">
+                <label>Country / Region <span>*</span></label>
+                <select class="auth-input" id="popupCountry" style="background:#000; color:#fff;" required></select>
+            </div>
+            <div class="auth-input-group">
+                <label>Detailed Address (City, Road, Postal) <span>*</span></label>
+                <input type="text" class="auth-input" id="popupAddress" placeholder="House, Road, City, Postal Code" required>
+            </div>
+            <button class="auth-submit-btn" onclick="saveDeliveryInfoFromModal()">Save & Proceed</button>
+        </div>
+    </div>
+
     <!-- সাইন আপ পপআপ মোডাল -->
     <div class="auth-modal-overlay" id="signUpModalOverlay" onclick="closeAuthModal(event, 'signUpModalOverlay')">
         <div class="auth-modal-box">
@@ -217,7 +244,7 @@
                     <input type="text" class="auth-input" id="regWhatsapp" placeholder="1712345678" required>
                 </div>
             </div>
-            <button class="auth-submit-btn" onclick="handleSignUpSubmit()">Create Account & Enter Dashboard</button>
+            <button class="auth-submit-btn" onclick="handleSignUpSubmit()">Create Account & Dashboard</button>
         </div>
     </div>
 
@@ -253,9 +280,9 @@
 
     <div class="checkout-main-container">
 
-        <!-- ১. প্রোডাক্ট টেবিল ও সাইন আপ/সাইন ইন বক্স (স্ক্রিনশটের হুবহু ডিজাইন) -->
+        <!-- ১. প্রোডাক্ট টেবিল ও সাইন আপ/সাইন ইন (লগআউট থাকা অবস্থায় দৃশ্যমান) -->
         <div class="section-box" id="tableAuthCardBox">
-            <div class="section-title"><i class="fa-solid fa-gem"></i> Luxury Product</div>
+            <div class="section-title"><span><i class="fa-solid fa-gem"></i> Luxury Product</span></div>
             <div style="overflow-x: auto;">
                 <table class="luxury-sheet-table">
                     <thead>
@@ -286,10 +313,10 @@
             </div>
         </div>
 
-        <!-- ২. ড্যাশবোর্ড এরিয়া (লগইন করার পর দৃশ্যমান হবে) -->
+        <!-- ২. ড্যাশবোর্ড এরিয়া (লগইন করার পর দৃশ্যমান) -->
         <div class="dashboard-content-area" id="dashboardContentArea">
             
-            <!-- ওয়েলকাম ও কাস্টমার আইডি -->
+            <!-- ওয়েলকাম ও কাস্টমার আইডি কার্ড -->
             <div class="dash-top-bar">
                 <div>
                     <span class="dash-welcome" id="dashUserName">Welcome, User</span>
@@ -297,58 +324,47 @@
                 </div>
             </div>
 
-            <!-- ডেলিভারি ইনফরমেশন -->
+            <!-- ডেলিভারি ইনফরমেশন (ক্লিন ডিসপ্লে ও এডিট বাটন) -->
             <div class="section-box">
                 <div class="section-title">
                     <span><i class="fa-solid fa-address-card"></i> Delivery Information</span>
-                    <button onclick="editDeliveryInfo()" style="background:transparent; border:1px solid var(--gold-solid); color:var(--gold-solid); padding:2px 8px; border-radius:4px; font-size:0.6rem; cursor:pointer;"><i class="fa-solid fa-pen"></i> Edit</button>
+                    <button onclick="openDeliveryModal()" style="background:transparent; border:1px solid var(--gold-solid); color:var(--gold-solid); padding:3px 10px; border-radius:6px; font-size:0.6rem; cursor:pointer; font-weight:700;"><i class="fa-solid fa-pen"></i> Edit Info</button>
                 </div>
-                <div class="payment-info-grid">
-                    <div class="auth-input-group">
-                        <label>WhatsApp Number <span>*</span></label>
-                        <div class="phone-input-row">
-                            <select class="country-code-select" id="payCountryCode"></select>
-                            <input type="text" class="auth-input" id="payWhatsapp" placeholder="1712345678" required>
-                        </div>
-                    </div>
-                    <div class="auth-input-group">
-                        <label>Country / Region <span>*</span></label>
-                        <select class="auth-input" id="payCountry" style="background:#000; color:#fff;" required></select>
-                    </div>
-                    <div class="auth-input-group full-span">
-                        <label>Detailed Shipping Address <span>*</span></label>
-                        <input type="text" class="auth-input" id="payAddress" placeholder="House, Road, City, Postal Code" required>
-                    </div>
+                <div class="delivery-display-card" id="deliveryDisplayCard">
+                    <span><strong>Gmail:</strong> <span id="dispEmail">--</span></span>
+                    <span><strong>WhatsApp:</strong> <span id="dispWhatsapp">--</span></span>
+                    <span><strong>Country:</strong> <span id="dispCountry">--</span></span>
+                    <span><strong>Address:</strong> <span id="dispAddress">Not provided yet. Click Edit to add.</span></span>
                 </div>
+            </div>
 
-                <div style="margin-top: 10px;">
-                    <label style="font-size:0.62rem; font-weight:700; color:var(--text-gray); text-transform:uppercase; display:block; margin-bottom:6px; font-family:var(--font-body);">Select Secure Payment Gateway</label>
-                    <div class="payment-methods-grid">
-                        <div class="pay-option-card selected" onclick="selectPaymentMethod('Payoneer Global', this)">
-                            <i class="fa-solid fa-globe"></i>
-                            <span>Payoneer Global</span>
-                        </div>
-                        <div class="pay-option-card" onclick="selectPaymentMethod('PayPal Checkout', this)">
-                            <i class="fa-brands fa-paypal"></i>
-                            <span>PayPal Checkout</span>
-                        </div>
-                        <div class="pay-option-card" onclick="selectPaymentMethod('Visa / Mastercard', this)">
-                            <i class="fa-solid fa-credit-card"></i>
-                            <span>Visa / Mastercard</span>
-                        </div>
-                        <div class="pay-option-card" onclick="selectPaymentMethod('bKash / Nagad', this)">
-                            <i class="fa-solid fa-mobile-screen-button"></i>
-                            <span>bKash / Nagad (BD)</span>
-                        </div>
+            <!-- পেমেন্ট অপশন ও চেকআউট -->
+            <div class="section-box">
+                <div class="section-title"><span><i class="fa-solid fa-credit-card"></i> Select Payment Method</span></div>
+                <div class="payment-methods-grid">
+                    <div class="pay-option-card selected" onclick="selectPaymentMethod('Payoneer Global', this)">
+                        <i class="fa-solid fa-globe"></i>
+                        <span>Payoneer Global</span>
+                    </div>
+                    <div class="pay-option-card" onclick="selectPaymentMethod('PayPal Checkout', this)">
+                        <i class="fa-brands fa-paypal"></i>
+                        <span>PayPal Checkout</span>
+                    </div>
+                    <div class="pay-option-card" onclick="selectPaymentMethod('Visa / Mastercard', this)">
+                        <i class="fa-solid fa-credit-card"></i>
+                        <span>Visa / Mastercard</span>
+                    </div>
+                    <div class="pay-option-card" onclick="selectPaymentMethod('bKash / Nagad', this)">
+                        <i class="fa-solid fa-mobile-screen-button"></i>
+                        <span>bKash / Nagad (BD)</span>
                     </div>
                 </div>
-
-                <button class="lux-btn" onclick="processOneClickPayment()"><i class="fa-solid fa-shield-halved"></i> Confirm Paid Order</button>
+                <button class="lux-btn" onclick="processOneClickPayment()"><i class="fa-solid fa-shield-halved"></i> Confirm & Pay Now</button>
             </div>
 
             <!-- লাইভ পার্সেল কুরিয়ার ট্র্যাকিং -->
             <div class="section-box">
-                <div class="section-title"><i class="fa-solid fa-truck-fast"></i> Live Parcel Courier Tracking</div>
+                <div class="section-title"><span><i class="fa-solid fa-truck-fast"></i> Live Parcel Tracking</span></div>
                 <div class="tracking-status-box" id="trackingStatusBox">
                     <span>Status: <strong style="color:var(--gold-solid);">Order Confirmed & Preparing</strong></span>
                     <span>Courier Service: <span id="trackCourierName">Pending Seller Dispatch</span></span>
@@ -357,33 +373,33 @@
                 </div>
             </div>
 
-            <!-- কাস্টমার কেয়ার -->
+            <!-- কাস্টমার কেয়ার (ছোট ও পরিপাটি) -->
             <div class="section-box">
-                <div class="section-title"><i class="fa-solid fa-headset"></i> Customer Care</div>
+                <div class="section-title"><span><i class="fa-solid fa-headset"></i> Customer Care Support</span></div>
                 <div class="support-chat-box">
                     <div class="chat-messages-area" id="chatMessagesArea">
-                        <div class="chat-msg admin">Welcome to MRMASUDAR.COM Support! How can we assist your luxury order today?</div>
+                        <div class="chat-msg admin">Welcome! How can we assist your order today?</div>
                     </div>
                     <div class="chat-input-bar">
-                        <input type="text" id="chatInputMsg" placeholder="Type your message..." onkeypress="handleChatKey(event)">
+                        <input type="text" id="chatInputMsg" placeholder="Type message..." onkeypress="handleChatKey(event)">
                         <button class="chat-send-btn" onclick="sendSupportMessage()"><i class="fa-solid fa-paper-plane"></i></button>
                     </div>
                 </div>
             </div>
 
-            <!-- ৩. সবার নিচে গ্রাফ ও অ্যানালিটিক্স -->
+            <!-- সবার নিচে গ্রাফ ও অ্যানালিটিক্স -->
             <div class="analytics-card">
                 <div class="analytics-title">
                     <span><i class="fa-solid fa-chart-line"></i> Monthly Spending & Order Analytics</span>
                     <span style="font-size:0.62rem; color:#fff; font-family:var(--font-body);" id="totalSpentText">Spent: $0.00</span>
                 </div>
-                <div style="width:100%; height:140px;">
+                <div style="width:100%; height:130px;">
                     <canvas id="spendingChart"></canvas>
                 </div>
             </div>
 
-            <!-- ৪. একদম সবার নিচে লগআউট বাটন -->
-            <div style="text-align:center; margin-top: 5px;">
+            <!-- সবার নিচে লগআউট বাটন -->
+            <div style="text-align:center; margin-top: 4px;">
                 <button class="logout-btn" onclick="handleLogout()"><i class="fa-solid fa-power-off"></i> Logout from Dashboard</button>
             </div>
 
@@ -399,84 +415,38 @@
             { name: "Afghanistan", code: "+93", flag: "🇦🇫", zone: "Kabul" },
             { name: "Albania", code: "+355", flag: "🇦🇱", zone: "Tirane" },
             { name: "Algeria", code: "+213", flag: "🇩🇿", zone: "Algiers" },
-            { name: "Andorra", code: "+376", flag: "🇦🇩", zone: "Andorra" },
-            { name: "Angola", code: "+244", flag: "🇦🇴", zone: "Luanda" },
             { name: "Argentina", code: "+54", flag: "🇦🇷", zone: "Buenos_Aires" },
-            { name: "Armenia", code: "+374", flag: "🇦🇲", zone: "Yerevan" },
             { name: "Australia", code: "+61", flag: "🇦🇺", zone: "Sydney" },
             { name: "Austria", code: "+43", flag: "🇦🇹", zone: "Vienna" },
-            { name: "Azerbaijan", code: "+994", flag: "🇦🇿", zone: "Baku" },
-            { name: "Bahrain", code: "+973", flag: "🇧🇭", zone: "Bahrain" },
             { name: "Bangladesh", code: "+880", flag: "🇧🇩", zone: "Dhaka" },
-            { name: "Belarus", code: "+375", flag: "🇧🇾", zone: "Minsk" },
             { name: "Belgium", code: "+32", flag: "🇧🇪", zone: "Brussels" },
-            { name: "Bhutan", code: "+975", flag: "🇧🇹", zone: "Thimphu" },
             { name: "Brazil", code: "+55", flag: "🇧🇷", zone: "Sao_Paulo" },
-            { name: "Brunei", code: "+673", flag: "🇧🇳", zone: "Brunei" },
-            { name: "Bulgaria", code: "+359", flag: "🇧🇬", zone: "Sofia" },
-            { name: "Cambodia", code: "+855", flag: "🇰🇭", zone: "Phnom_Penh" },
             { name: "Canada", code: "+1", flag: "🇨🇦", zone: "Toronto" },
             { name: "China", code: "+86", flag: "🇨🇳", zone: "Shanghai" },
-            { name: "Denmark", code: "+45", flag: "🇩🇰", zone: "Copenhagen" },
             { name: "Egypt", code: "+20", flag: "🇪🇬", zone: "Cairo" },
-            { name: "Finland", code: "+358", flag: "🇫🇮", zone: "Helsinki" },
             { name: "France", code: "+33", flag: "🇫🇷", zone: "Paris" },
             { name: "Germany", code: "+49", flag: "🇩🇪", zone: "Berlin" },
-            { name: "Greece", code: "+30", flag: "🇬🇷", zone: "Athens" },
-            { name: "Hong Kong", code: "+852", flag: "🇭🇰", zone: "Hong_Kong" },
-            { name: "Hungary", code: "+36", flag: "🇭🇺", zone: "Budapest" },
             { name: "India", code: "+91", flag: "🇮🇳", zone: "Calcutta" },
-            { name: "Indonesia", code: "+62", flag: "🇮🇩", zone: "Jakarta" },
-            { name: "Iran", code: "+98", flag: "🇮🇷", zone: "Tehran" },
-            { name: "Iraq", code: "+964", flag: "🇮🇶", zone: "Baghdad" },
-            { name: "Ireland", code: "+353", flag: "🇮🇪", zone: "Dublin" },
             { name: "Italy", code: "+39", flag: "🇮🇹", zone: "Rome" },
             { name: "Japan", code: "+81", flag: "🇯🇵", zone: "Tokyo" },
-            { name: "Jordan", code: "+962", flag: "🇯🇴", zone: "Amman" },
-            { name: "Kazakhstan", code: "+7", flag: "🇰🇿", zone: "Almaty" },
-            { name: "Kenya", code: "+254", flag: "🇰🇪", zone: "Nairobi" },
-            { name: "Kuwait", code: "+965", flag: "🇰🇼", zone: "Kuwait" },
-            { name: "Lebanon", code: "+961", flag: "🇱🇧", zone: "Beirut" },
             { name: "Malaysia", code: "+60", flag: "🇲🇾", zone: "Kuala_Lumpur" },
-            { name: "Maldives", code: "+960", flag: "🇲🇻", zone: "Maldives" },
-            { name: "Mexico", code: "+52", flag: "🇲🇽", zone: "Mexico_City" },
-            { name: "Morocco", code: "+212", flag: "🇲🇦", zone: "Casablanca" },
-            { name: "Myanmar", code: "+95", flag: "🇲🇲", zone: "Rangoon" },
-            { name: "Nepal", code: "+977", flag: "🇳🇵", zone: "Katmandu" },
             { name: "Netherlands", code: "+31", flag: "🇳🇱", zone: "Amsterdam" },
-            { name: "New Zealand", code: "+64", flag: "🇳🇿", zone: "Auckland" },
-            { name: "Nigeria", code: "+234", flag: "🇳🇬", zone: "Lagos" },
-            { name: "Norway", code: "+47", flag: "🇳🇴", zone: "Oslo" },
-            { name: "Oman", code: "+968", flag: "🇴🇲", zone: "Muscat" },
             { name: "Pakistan", code: "+92", flag: "🇵🇰", zone: "Karachi" },
-            { name: "Palestine", code: "+970", flag: "🇵🇸", zone: "Hebron" },
-            { name: "Philippines", code: "+63", flag: "🇵🇭", zone: "Manila" },
-            { name: "Poland", code: "+48", flag: "🇵🇱", zone: "Warsaw" },
-            { name: "Portugal", code: "+351", flag: "🇵🇹", zone: "Lisbon" },
-            { name: "Qatar", code: "+974", flag: "🇶🇦", zone: "Qatar" },
-            { name: "Romania", code: "+40", flag: "🇷🇴", zone: "Bucharest" },
-            { name: "Russia", code: "+7", flag: "🇷🇺", zone: "Moscow" },
             { name: "Saudi Arabia", code: "+966", flag: "🇸🇦", zone: "Riyadh" },
             { name: "Singapore", code: "+65", flag: "🇸🇬", zone: "Singapore" },
-            { name: "South Africa", code: "+27", flag: "🇿🇦", zone: "Johannesburg" },
             { name: "South Korea", code: "+82", flag: "🇰🇷", zone: "Seoul" },
             { name: "Spain", code: "+34", flag: "🇪🇸", zone: "Madrid" },
-            { name: "Sri Lanka", code: "+94", flag: "🇱🇰", zone: "Colombo" },
             { name: "Sweden", code: "+46", flag: "🇸🇪", zone: "Stockholm" },
             { name: "Switzerland", code: "+41", flag: "🇨🇭", zone: "Zurich" },
-            { name: "Syria", code: "+963", flag: "🇸🇾", zone: "Damascus" },
-            { name: "Taiwan", code: "+886", flag: "🇹🇼", zone: "Taipei" },
-            { name: "Thailand", code: "+66", flag: "🇹🇭", zone: "Bangkok" },
             { name: "Turkey", code: "+90", flag: "🇹🇷", zone: "Istanbul" },
-            { name: "Ukraine", code: "+380", flag: "🇺🇦", zone: "Kiev" },
             { name: "United Arab Emirates", code: "+971", flag: "🇦🇪", zone: "Dubai" },
             { name: "United Kingdom", code: "+44", flag: "🇬🇧", zone: "London" },
-            { name: "United States", code: "+1", flag: "🇺🇸", zone: "New_York" },
-            { name: "Vietnam", code: "+84", flag: "🇻🇳", zone: "Ho_Chi_Minh" },
-            { name: "Yemen", code: "+967", flag: "🇾🇪", zone: "Aden" }
+            { name: "United States", code: "+1", flag: "🇺🇸", zone: "New_York" }
         ];
 
         window.addEventListener('DOMContentLoaded', () => {
+            loadSubdomainCartFromFirebase();
+            populateAllCountryCodes();
             checkAuthStatus();
             initSpendingChart();
             loadSavedShippingInfo();
@@ -490,9 +460,9 @@
         }
 
         function populateAllCountryCodes() {
-            let paySelect = document.getElementById('payCountryCode');
+            let paySelect = document.getElementById('popupCountryCode');
             let regSelect = document.getElementById('regCountryCode');
-            let countrySelect = document.getElementById('payCountry');
+            let countrySelect = document.getElementById('popupCountry');
 
             let optionsHtml = "";
             let countryOptionsHtml = "";
@@ -514,10 +484,7 @@
                 if(paySelect) paySelect.value = targetCode;
                 if(regSelect) regSelect.value = targetCode;
                 if(countrySelect) countrySelect.value = targetCountry;
-            } catch(e) {
-                if(paySelect) paySelect.value = "+880";
-                if(regSelect) regSelect.value = "+880";
-            }
+            } catch(e) {}
         }
 
         function openAuthModal(type) {
@@ -534,6 +501,16 @@
             }
         }
 
+        function openDeliveryModal() {
+            document.getElementById('deliveryModalOverlay').style.display = 'flex';
+        }
+
+        function closeDeliveryModal(e) {
+            if(e.target.id === 'deliveryModalOverlay') {
+                document.getElementById('deliveryModalOverlay').style.display = 'none';
+            }
+        }
+
         async function handleSignUpSubmit() {
             let name = document.getElementById('regFullName').value.trim();
             let email = document.getElementById('regEmail').value.trim();
@@ -547,7 +524,7 @@
             }
 
             if(!email.endsWith('@gmail.com')) {
-                showCustomToast("Please enter a valid Gmail address ending with @gmail.com");
+                showCustomToast("Please use a valid Gmail address ending with @gmail.com");
                 return;
             }
 
@@ -555,15 +532,9 @@
             let fullWhatsapp = whtCode + whtNum;
             let userData = { email: email, name: name, customerId: custId, whatsapp: fullWhatsapp, timestamp: new Date().toISOString() };
             
-            try {
-                if(window.db && window.firebaseAddDoc && window.firebaseCollection) {
-                    await window.firebaseAddDoc(window.firebaseCollection(window.db, "customers"), userData);
-                }
-            } catch(e) {}
-
             localStorage.setItem('mme_logged_user', JSON.stringify(userData));
             
-            let shippingInfo = { code: whtCode, whatsapp: whtNum, country: document.getElementById('payCountry') ? document.getElementById('payCountry').value : 'Bangladesh', address: '' };
+            let shippingInfo = { code: whtCode, whatsapp: whtNum, country: "Bangladesh", address: "" };
             localStorage.setItem('mme_saved_shipping', JSON.stringify(shippingInfo));
 
             document.getElementById('signUpModalOverlay').style.display = 'none';
@@ -576,7 +547,7 @@
             let pass = document.getElementById('loginPassword').value.trim();
 
             if(!email || !pass) {
-                showCustomToast("Please enter your Gmail and password!");
+                showCustomToast("Please enter Gmail and password!");
                 return;
             }
 
@@ -600,7 +571,9 @@
                 document.getElementById('dashboardContentArea').style.display = 'flex';
                 document.getElementById('dashUserName').innerText = `Welcome, ${user.name}`;
                 document.getElementById('dashCustomerId').innerText = `Customer ID: ${user.customerId || 'CUST-8821X'}`;
+                document.getElementById('dispEmail').innerText = user.email;
                 loadTrackingData();
+                loadSavedShippingInfo();
             } else {
                 document.getElementById('tableAuthCardBox').style.display = 'block';
                 document.getElementById('dashboardContentArea').style.display = 'none';
@@ -613,15 +586,91 @@
             showCustomToast("Logged out successfully.");
         }
 
+        function saveDeliveryInfoFromModal() {
+            let code = document.getElementById('popupCountryCode').value;
+            let num = document.getElementById('popupWhatsapp').value.trim();
+            let country = document.getElementById('popupCountry').value;
+            let address = document.getElementById('popupAddress').value.trim();
+
+            if(!num || !address) {
+                showCustomToast("Please fill in WhatsApp and Address!");
+                return;
+            }
+
+            let shippingInfo = { code: code, whatsapp: num, country: country, address: address };
+            localStorage.setItem('mme_saved_shipping', JSON.stringify(shippingInfo));
+            document.getElementById('deliveryModalOverlay').style.display = 'none';
+            loadSavedShippingInfo();
+            showCustomToast("Delivery Information updated successfully!");
+        }
+
+        function loadSavedShippingInfo() {
+            let savedInfo = JSON.parse(localStorage.getItem('mme_saved_shipping') || 'null');
+            let user = JSON.parse(localStorage.getItem('mme_logged_user') || 'null');
+
+            if(user && user.email) {
+                document.getElementById('dispEmail').innerText = user.email;
+            }
+
+            if(savedInfo) {
+                document.getElementById('dispWhatsapp').innerText = (savedInfo.code || '') + ' ' + (savedInfo.whatsapp || '');
+                document.getElementById('dispCountry').innerText = savedInfo.country || 'Bangladesh';
+                document.getElementById('dispAddress').innerText = savedInfo.address || 'Not provided yet.';
+
+                if(document.getElementById('popupCountryCode')) document.getElementById('popupCountryCode').value = savedInfo.code || '+880';
+                if(document.getElementById('popupWhatsapp')) document.getElementById('popupWhatsapp').value = savedInfo.whatsapp || '';
+                if(document.getElementById('popupCountry')) document.getElementById('popupCountry').value = savedInfo.country || 'Bangladesh';
+                if(document.getElementById('popupAddress')) document.getElementById('popupAddress').value = savedInfo.address || '';
+            }
+        }
+
+        function selectPaymentMethod(methodName, el) {
+            selectedPaymentGateway = methodName;
+            document.querySelectorAll('.pay-option-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+
+        async function processOneClickPayment() {
+            let savedInfo = JSON.parse(localStorage.getItem('mme_saved_shipping') || 'null');
+            if(!savedInfo || !savedInfo.address) {
+                showCustomToast("Please update your Delivery Information first!");
+                openDeliveryModal();
+                return;
+            }
+
+            let cartItems = window.subdomainCartItems || [];
+            if(cartItems.length === 0) {
+                showCustomToast("No items found in cart!");
+                return;
+            }
+
+            let orderData = {
+                items: cartItems,
+                shipping: savedInfo,
+                gateway: selectedPaymentGateway,
+                user: JSON.parse(localStorage.getItem('mme_logged_user') || '{}'),
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                if(window.db && window.firebaseAddDoc && window.firebaseCollection) {
+                    await window.firebaseAddDoc(window.firebaseCollection(window.db, "orders"), orderData);
+                }
+            } catch(e) {}
+
+            showCustomToast(`Payment via ${selectedPaymentGateway} successful! Order placed.`);
+            window.subdomainCartItems = [];
+            renderCartSheet();
+        }
+
         function renderCartSheet() {
             const tbody = document.getElementById('cartSheetTableBody');
             if(!tbody) return;
             tbody.innerHTML = "";
-
             let cartItems = window.subdomainCartItems || [];
 
             if(cartItems.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-gray); padding:12px; font-weight:600;">Your luxury product list is currently empty.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-gray); padding:12px; font-weight:600;">Your luxury product list is empty.</td></tr>`;
                 document.getElementById('sheetTotalPrice').innerText = "$0.00";
                 document.getElementById('totalSpentText').innerText = "Spent: $0.00";
                 return;
@@ -656,7 +705,7 @@
         function openProductDetailsModal(item) {
             document.getElementById('modalProdImg').src = item.image || 'https://via.placeholder.com/110';
             document.getElementById('modalProdTitle').innerText = item.title || 'Exclusive Luxury Item';
-            document.getElementById('modalProdDesc').innerText = item.desc || 'Premium hand-crafted luxury item designed for absolute perfection, elegance, and supreme quality.';
+            document.getElementById('modalProdDesc').innerText = item.desc || 'Premium hand-crafted luxury item designed for absolute perfection.';
             document.getElementById('modalProdColor').innerText = item.color || 'Standard Gold';
             document.getElementById('modalProdSize').innerText = item.size || 'Standard Fit';
             document.getElementById('prodModalOverlay').style.display = 'flex';
@@ -673,77 +722,7 @@
             cartItems.splice(index, 1);
             window.subdomainCartItems = cartItems;
             renderCartSheet();
-
-            try {
-                if(window.db && docId) {
-                    import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js").then(async ({ doc, deleteDoc }) => {
-                        await deleteDoc(doc(window.db, "global_carts", docId));
-                    });
-                }
-            } catch(e) {}
-
             showCustomToast("Product removed successfully.");
-        }
-
-        function loadSavedShippingInfo() {
-            let savedInfo = JSON.parse(localStorage.getItem('mme_saved_shipping') || 'null');
-            if(savedInfo) {
-                if(savedInfo.code) document.getElementById('payCountryCode').value = savedInfo.code;
-                if(savedInfo.whatsapp) document.getElementById('payWhatsapp').value = savedInfo.whatsapp;
-                if(savedInfo.country) document.getElementById('payCountry').value = savedInfo.country;
-                if(savedInfo.address) document.getElementById('payAddress').value = savedInfo.address;
-            }
-        }
-
-        function editDeliveryInfo() {
-            showCustomToast("Delivery Information is now editable.");
-            document.getElementById('payWhatsapp').focus();
-        }
-
-        function selectPaymentMethod(methodName, el) {
-            selectedPaymentGateway = methodName;
-            document.querySelectorAll('.pay-option-card').forEach(c => c.classList.remove('selected'));
-            el.classList.add('selected');
-        }
-
-        async function processOneClickPayment() {
-            let cartItems = window.subdomainCartItems || [];
-            if(cartItems.length === 0) {
-                showCustomToast("No items in product list to checkout!");
-                return;
-            }
-
-            let shippingInfo = {
-                code: document.getElementById('payCountryCode').value,
-                whatsapp: document.getElementById('payWhatsapp').value.trim(),
-                country: document.getElementById('payCountry').value,
-                address: document.getElementById('payAddress').value.trim()
-            };
-
-            if(!shippingInfo.whatsapp || !shippingInfo.address) {
-                showCustomToast("Please provide your WhatsApp number and shipping address!");
-                return;
-            }
-
-            localStorage.setItem('mme_saved_shipping', JSON.stringify(shippingInfo));
-
-            let orderData = {
-                items: cartItems,
-                shipping: shippingInfo,
-                gateway: selectedPaymentGateway,
-                user: JSON.parse(localStorage.getItem('mme_logged_user') || '{}'),
-                timestamp: new Date().toISOString()
-            };
-
-            try {
-                if(window.db && window.firebaseAddDoc && window.firebaseCollection) {
-                    await window.firebaseAddDoc(window.firebaseCollection(window.db, "orders"), orderData);
-                }
-            } catch(e) {}
-
-            showCustomToast(`Payment via ${selectedPaymentGateway} successful! Order placed.`);
-            window.subdomainCartItems = [];
-            renderCartSheet();
         }
 
         function loadTrackingData() {
@@ -774,7 +753,7 @@
             setTimeout(() => {
                 let adminMsg = document.createElement('div');
                 adminMsg.className = 'chat-msg admin';
-                adminMsg.innerText = "Thank you for reaching out. Our support team has received your order info and will assist you shortly.";
+                adminMsg.innerText = "Thank you! Our support team will assist you shortly.";
                 area.appendChild(adminMsg);
                 area.scrollTop = area.scrollHeight;
             }, 1200);
@@ -803,8 +782,8 @@
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
-                        x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#cfcfcf', font: { size: 10 } } },
-                        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#cfcfcf', font: { size: 10 } } }
+                        x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#cfcfcf', font: { size: 9 } } },
+                        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#cfcfcf', font: { size: 9 } } }
                     }
                 }
             });
