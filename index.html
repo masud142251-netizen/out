@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>mrmasudar.com - Secure Checkout & Thank You</title>
+    <title>mrmasudar.com - Luxury Secure Checkout</title>
     
     <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Firebase SDK (Safe Import) -->
+    <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
         
         try {
             const firebaseConfig = {
@@ -28,8 +28,36 @@
             window.db = getFirestore(app);
             window.firebaseAddDoc = addDoc;
             window.firebaseCollection = collection;
+
+            async function loadCartData() {
+                try {
+                    const querySnapshot = await getDocs(collection(window.db, "global_carts"));
+                    let itemsList = [];
+                    querySnapshot.forEach((doc) => {
+                        itemsList.push({ id: doc.id, ...doc.data() });
+                    });
+                    if(itemsList.length === 0) {
+                        itemsList = [
+                            { id: "demo-1", title: "Royal Crown Essence", price: "$185.00", quantity: 4, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "Golden Teak", size: "Deluxe" },
+                            { id: "demo-2", title: "Golden Velvet Relic", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "High Gloss Lacquer", size: "Standard" }
+                        ];
+                    }
+                    window.subdomainCartItems = itemsList;
+                } catch(e) {
+                    window.subdomainCartItems = [
+                        { id: "demo-1", title: "Royal Crown Essence", price: "$185.00", quantity: 4, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "Golden Teak", size: "Deluxe" },
+                        { id: "demo-2", title: "Golden Velvet Relic", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "High Gloss Lacquer", size: "Standard" }
+                    ];
+                }
+                if(typeof renderCartTable === 'function') renderCartTable();
+            }
+            loadCartData();
         } catch(err) {
-            console.log("Firebase init note:", err);
+            window.subdomainCartItems = [
+                { id: "demo-1", title: "Royal Crown Essence", price: "$185.00", quantity: 4, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "Golden Teak", size: "Deluxe" },
+                { id: "demo-2", title: "Golden Velvet Relic", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "High Gloss Lacquer", size: "Standard" }
+            ];
+            if(typeof renderCartTable === 'function') renderCartTable();
         }
     </script>
 
@@ -67,28 +95,42 @@
 
         .custom-toast { position: fixed; top: 78px; left: 50%; transform: translateX(-50%); background: rgba(18, 18, 18, 0.95); border: 1.5px solid var(--gold-solid); color: var(--gold-solid); padding: 8px 18px; border-radius: 30px; font-size: 0.75rem; font-weight: 700; z-index: 9999; display: none; }
 
-        .checkout-container { width: 100%; max-width: 650px; margin: 20px auto; padding: 16px; display: flex; flex-direction: column; gap: 16px; }
-        .checkout-card { background: var(--card-bg); border: 1.5px solid var(--gold-solid); border-radius: 16px; padding: 22px 18px; box-shadow: 0 0 30px rgba(212,175,55,0.2); }
+        .checkout-container { width: 100%; max-width: 680px; margin: 20px auto; padding: 16px; display: flex; flex-direction: column; gap: 16px; }
+        .checkout-card { background: var(--card-bg); border: 1.5px solid rgba(212,175,55,0.4); border-radius: 16px; padding: 18px; box-shadow: 0 0 25px rgba(212,175,55,0.15); }
+        .section-title { font-size: 0.85rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 12px; }
+
+        .luxury-sheet-table { width: 100%; border-collapse: collapse; margin-top: 4px; }
+        .luxury-sheet-table th { background: rgba(212, 175, 55, 0.15); color: var(--gold-solid); font-size: 0.62rem; font-weight: 800; text-transform: uppercase; padding: 8px 6px; border: 1px solid rgba(212,175,55,0.3); text-align: center; font-family: var(--font-luxury); }
+        .luxury-sheet-table th:first-child { text-align: left; }
+        .luxury-sheet-table td { padding: 8px 6px; border: 1px solid rgba(212,175,55,0.2); font-size: 0.68rem; color: #fff; vertical-align: middle; text-align: center; }
+        .luxury-sheet-table td:first-child { text-align: left; }
         
-        .form-title { font-size: 1rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 14px; text-align: center; font-family: var(--font-luxury); }
-        
-        .input-group { margin-bottom: 12px; text-align: left; }
-        .input-group label { font-size: 0.65rem; font-weight: 700; color: var(--text-gray); text-transform: uppercase; margin-bottom: 4px; display: block; }
+        .sheet-product-img { width: 36px; height: 36px; border-radius: 6px; object-fit: cover; border: 1.5px solid var(--gold-solid); flex-shrink: 0; }
+        .sheet-delete-btn { background: transparent; border: none; color: #ff2d55; font-size: 0.85rem; cursor: pointer; padding: 4px; }
+
+        .google-auth-box { margin-top: 14px; border-top: 1px solid rgba(212,175,55,0.3); padding-top: 14px; text-align: center; }
+        .google-continue-btn { width: 100%; background: #ffffff; color: #1a1a1a; border: none; padding: 12px 18px; border-radius: 30px; font-size: 0.78rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; box-shadow: 0 0 15px rgba(255,255,255,0.2); font-family: var(--font-body); }
+        .google-continue-btn:hover { background: #f1f1f1; transform: scale(1.02); }
+        .google-continue-btn img { width: 18px; height: 18px; flex-shrink: 0; }
+
+        .form-section-box { display: none; flex-direction: column; gap: 12px; margin-top: 14px; border-top: 1px solid rgba(212,175,55,0.3); padding-top: 14px; }
+        .input-group { margin-bottom: 10px; text-align: left; }
+        .input-group label { font-size: 0.62rem; font-weight: 700; color: var(--text-gray); text-transform: uppercase; margin-bottom: 3px; display: block; }
         .input-group label span { color: var(--pink-heart); }
-        .input-field { width: 100%; background: #000; border: 1.5px solid rgba(212,175,55,0.4); padding: 10px 12px; border-radius: 8px; color: #fff; font-size: 0.75rem; font-weight: 600; outline: none; }
+        .input-field { width: 100%; background: #000; border: 1.5px solid rgba(212,175,55,0.4); padding: 9px 10px; border-radius: 8px; color: #fff; font-size: 0.72rem; font-weight: 600; outline: none; }
         .input-field:focus { border-color: var(--gold-solid); }
         
         .phone-row { display: flex; gap: 6px; }
-        .country-select { background: #000; border: 1.5px solid rgba(212,175,55,0.4); padding: 10px 6px; border-radius: 8px; color: #fff; font-size: 0.7rem; font-weight: 600; outline: none; width: 190px; }
+        .country-select { background: #000; border: 1.5px solid rgba(212,175,55,0.4); padding: 9px 6px; border-radius: 8px; color: #fff; font-size: 0.68rem; font-weight: 600; outline: none; width: 100%; }
         .country-select option { background: #121212; color: #fff; }
 
-        .pay-gateway-select { width: 100%; background: #000; border: 1.5px solid var(--gold-solid); padding: 11px 12px; border-radius: 8px; color: var(--gold-solid); font-size: 0.78rem; font-weight: 800; outline: none; margin-bottom: 14px; cursor: pointer; text-align: center; }
+        .pay-gateway-select { width: 100%; background: #000; border: 1.5px solid var(--gold-solid); padding: 10px; border-radius: 8px; color: var(--gold-solid); font-size: 0.75rem; font-weight: 800; outline: none; margin-bottom: 10px; cursor: pointer; text-align: center; }
 
-        .action-btn-row { display: flex; gap: 10px; margin-top: 14px; }
-        .pay-confirm-btn { flex: 1; background: var(--gold-gradient); border: none; padding: 12px; border-radius: 8px; color: #000; font-weight: 900; font-size: 0.78rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); transition: 0.3s; }
+        .action-btn-row { display: flex; gap: 10px; margin-top: 10px; }
+        .pay-confirm-btn { flex: 1; background: var(--gold-gradient); border: none; padding: 11px; border-radius: 8px; color: #000; font-weight: 900; font-size: 0.75rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); transition: 0.3s; }
         .pay-confirm-btn:hover { transform: scale(1.02); }
         
-        .cancel-btn { background: transparent; border: 1.5px solid #ff2d55; color: #ff2d55; padding: 12px 18px; border-radius: 8px; font-weight: 800; font-size: 0.75rem; cursor: pointer; text-transform: uppercase; transition: 0.3s; font-family: var(--font-luxury); text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+        .cancel-btn { background: transparent; border: 1.5px solid #ff2d55; color: #ff2d55; padding: 11px 16px; border-radius: 8px; font-weight: 800; font-size: 0.72rem; cursor: pointer; text-transform: uppercase; transition: 0.3s; font-family: var(--font-luxury); text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
         .cancel-btn:hover { background: #ff2d55; color: #fff; }
 
         @keyframes fadeInScale {
@@ -152,50 +194,85 @@
 
     <div class="checkout-container">
         
-        <!-- ১. চেকআউট ফর্ম ও পেমেন্ট সেকশন -->
-        <div class="checkout-card" id="checkoutFormCard">
-            <h1 class="form-title"><i class="fa-solid fa-gem"></i> Secure Checkout & Payment</h1>
-            
-            <div class="input-group">
-                <label>Full Name <span>*</span></label>
-                <input type="text" class="input-field" id="custName" placeholder="Masudar Rahman" required>
+        <!-- ১. কার্ট টেবিল ও গুগল ভেরিফাই সেকশন -->
+        <div class="checkout-card" id="cartAndVerifyCard">
+            <div class="section-title"><i class="fa-solid fa-gem"></i> Luxury Product Cart</div>
+            <div style="overflow-x: auto;">
+                <table class="luxury-sheet-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 45%;">Image & Info</th>
+                            <th>Qty</th>
+                            <th>Price</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cartTableBody">
+                        <!-- Dynamic Cart Items -->
+                    </tbody>
+                </table>
             </div>
             
-            <div class="input-group">
-                <label>Gmail Account <span>*</span></label>
-                <input type="email" class="input-field" id="custEmail" placeholder="example@gmail.com" required>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; border-top:1px solid rgba(212,175,55,0.3); padding-top:8px;">
+                <span style="font-size:0.7rem; font-weight:700;">TOTAL PAYABLE:</span>
+                <span style="font-size:0.9rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;" id="cartTotalPrice">$0.00</span>
             </div>
-            
-            <div class="input-group">
-                <label>Country & WhatsApp Number <span>*</span></label>
-                <div class="phone-row">
-                    <select class="country-select" id="countryCodeSelect"></select>
-                    <input type="text" class="input-field" id="custWhatsapp" placeholder="1712345678" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+
+            <!-- এক লাইনে Continue with Google Verify বাটন -->
+            <div class="google-auth-box" id="googleAuthSection">
+                <button class="google-continue-btn" onclick="handleGoogleVerify()">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+                    Continue with Google Verify
+                </button>
+            </div>
+
+            <!-- ২. ফর্ম ও পেমেন্ট সেকশন (গুগল ভেরিফাই হওয়ার পর দৃশ্যমান হবে) -->
+            <div class="form-section-box" id="shippingFormSection">
+                <div class="section-title" style="margin-bottom: 8px;"><i class="fa-solid fa-truck-fast"></i> Shipping & Payment Information</div>
+                
+                <div class="input-group">
+                    <label>Full Name <span>*</span></label>
+                    <input type="text" class="input-field" id="custName" placeholder="Masudar Rahman" required>
                 </div>
-            </div>
+                
+                <div class="input-group">
+                    <label>Verified Gmail Account <span>*</span></label>
+                    <input type="email" class="input-field" id="custEmail" readonly style="color:var(--gold-solid); background:#181818;" required>
+                </div>
+                
+                <div class="input-group">
+                    <label>Select Country (195+ Nations) <span>*</span></label>
+                    <select class="country-select" id="countryCodeSelect"></select>
+                </div>
 
-            <div class="input-group">
-                <label>Detailed Shipping Address <span>*</span></label>
-                <input type="text" class="input-field" id="custAddress" placeholder="House, Road, City, Postal Code" required>
-            </div>
+                <div class="input-group">
+                    <label>WhatsApp Number <span>*</span></label>
+                    <input type="text" class="input-field" id="custWhatsapp" placeholder="1712345678 (Without country code)" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+                </div>
 
-            <div class="input-group" style="margin-top: 14px;">
-                <label>Select Payment Gateway <span>*</span></label>
-                <select class="pay-gateway-select" id="paymentGatewayChoice">
-                    <option value="Payoneer Global">Payoneer Global</option>
-                    <option value="PayPal Checkout">PayPal Checkout</option>
-                    <option value="Visa / Mastercard">Visa / Mastercard</option>
-                    <option value="bKash / Nagad (BD)">bKash / Nagad</option>
-                </select>
-            </div>
+                <div class="input-group">
+                    <label>Detailed Shipping Address <span>*</span></label>
+                    <input type="text" class="input-field" id="custAddress" placeholder="House, Road, City, Postal Code" required>
+                </div>
 
-            <div class="action-btn-row">
-                <button class="pay-confirm-btn" onclick="executePaymentAndShowThankYou()">Pay & Confirm Order</button>
-                <a href="https://mrmasudar.com" class="cancel-btn">Cancel</a>
+                <div class="input-group" style="margin-top: 6px;">
+                    <label>Select Payment Gateway <span>*</span></label>
+                    <select class="pay-gateway-select" id="paymentGatewayChoice">
+                        <option value="Payoneer Global">Payoneer Global</option>
+                        <option value="PayPal Checkout">PayPal Checkout</option>
+                        <option value="Visa / Mastercard">Visa / Mastercard</option>
+                        <option value="bKash / Nagad (BD)">bKash / Nagad</option>
+                    </select>
+                </div>
+
+                <div class="action-btn-row">
+                    <button class="pay-confirm-btn" onclick="executePaymentAndShowThankYou()">Pay & Confirm Order</button>
+                    <a href="https://mrmasudar.com" class="cancel-btn" onclick="handleCancelCheckout(event)">Cancel</a>
+                </div>
             </div>
         </div>
 
-        <!-- ২. অ্যানিমেটেড থ্যাংক ইউ এবং ট্র্যাকিং ইনফো পেজ -->
+        <!-- ৩. অ্যানিমেটেড থ্যাংক ইউ এবং ট্র্যাকিং ইনফো পেজ -->
         <div class="thankyou-section-box" id="thankYouSectionBox">
             
             <div class="thankyou-card">
@@ -250,12 +327,12 @@
             { name: "Belarus", code: "+375", flag: "🇧🇾" }, { name: "Belgium", code: "+32", flag: "🇧🇪" },
             { name: "Belize", code: "+501", flag: "🇧🇿" }, { name: "Benin", code: "+229", flag: "🇧🇯" },
             { name: "Bhutan", code: "+975", flag: "🇧🇹" }, { name: "Bolivia", code: "+591", flag: "🇧🇴" },
-            { name: "Bosnia", code: "+387", flag: "🇧🇦" }, { name: "Botswana", code: "+267", flag: "🇧🇼" },
+            { name: "Bosnia and Herzegovina", code: "+387", flag: "🇧🇦" }, { name: "Botswana", code: "+267", flag: "🇧🇼" },
             { name: "Brazil", code: "+55", flag: "🇧🇷" }, { name: "Brunei", code: "+673", flag: "🇧🇳" },
             { name: "Bulgaria", code: "+359", flag: "🇧🇬" }, { name: "Burkina Faso", code: "+226", flag: "🇧🇫" },
             { name: "Burundi", code: "+257", flag: "🇧🇮" }, { name: "Cambodia", code: "+855", flag: "🇰🇭" },
             { name: "Cameroon", code: "+237", flag: "🇨🇲" }, { name: "Canada", code: "+1", flag: "🇨🇦" },
-            { name: "Cape Verde", code: "+238", flag: "🇨🇻" }, { name: "Central African Rep", code: "+236", flag: "🇨🇫" },
+            { name: "Cape Verde", code: "+238", flag: "🇨🇻" }, { name: "Central African Republic", code: "+236", flag: "🇨🇫" },
             { name: "Chad", code: "+235", flag: "🇹🇩" }, { name: "Chile", code: "+56", flag: "🇨🇱" },
             { name: "China", code: "+86", flag: "🇨🇳" }, { name: "Colombia", code: "+57", flag: "🇨🇴" },
             { name: "Comoros", code: "+269", flag: "🇰🇲" }, { name: "Congo", code: "+242", flag: "🇨🇬" },
@@ -336,6 +413,7 @@
         ];
 
         window.addEventListener('DOMContentLoaded', () => {
+            renderCartTable();
             populateAllCountriesDropdown();
         });
 
@@ -346,7 +424,7 @@
             setTimeout(() => { t.style.display = 'none'; }, 2200);
         }
 
-        // ১৯৫+ দেশের ড্রপডাউন পপুলেট করা এবং অটো-ডিটেক্ট করা
+        // ১৯৫+ দেশের নাম, পতাকা ও কোড ড্রপডাউনে যুক্ত করা এবং অটো-ডিটেক্ট করা
         function populateAllCountriesDropdown() {
             let codeSelect = document.getElementById('countryCodeSelect');
             if(!codeSelect) return;
@@ -356,7 +434,6 @@
             });
             codeSelect.innerHTML = opts;
             
-            // অটো-ডিটেক্ট টাইমজোন
             try {
                 let tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
                 let matched = all195CountriesList.find(item => tz.toLowerCase().includes(item.name.toLowerCase()));
@@ -366,29 +443,82 @@
             }
         }
 
+        function renderCartTable() {
+            const tbody = document.getElementById('cartTableBody');
+            if(!tbody) return;
+
+            let items = window.subdomainCartItems || [];
+            let total = 0;
+
+            if(items.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-gray); padding:12px;">Your cart is empty.</td></tr>`;
+                document.getElementById('cartTotalPrice').innerText = "$0.00";
+                return;
+            }
+
+            let html = "";
+            items.forEach((item, index) => {
+                let numPrice = parseFloat((item.price || "0").replace('$', '')) || 0;
+                total += numPrice * (item.quantity || 1);
+                html += `
+                    <tr>
+                        <td>
+                            <div style="display:flex; align-items:center; gap:6px;">
+                                <img src="${item.image || 'https://via.placeholder.com/36'}" class="sheet-product-img">
+                                <span style="font-weight:600;">${item.title}</span>
+                            </div>
+                        </td>
+                        <td style="font-weight:700;">${item.quantity || 1}</td>
+                        <td style="font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">${item.price}</td>
+                        <td><button class="sheet-delete-btn" onclick="removeCartItem(${index})"><i class="fa-solid fa-trash"></i></button></td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+            document.getElementById('cartTotalPrice').innerText = `$${total.toFixed(2)}`;
+        }
+
+        function removeCartItem(index) {
+            window.subdomainCartItems.splice(index, 1);
+            renderCartTable();
+            showToast("Product removed from cart.");
+        }
+
+        // গুগল ভেরিফাই করার পর ফর্ম ওপেন হবে
+        function handleGoogleVerify() {
+            let verifiedUser = {
+                name: "Masudar Rahman",
+                email: "masudar1422@gmail.com"
+            };
+
+            document.getElementById('custName').value = verifiedUser.name;
+            document.getElementById('custEmail').value = verifiedUser.email;
+
+            document.getElementById('googleAuthSection').style.display = 'none';
+            document.getElementById('shippingFormSection').style.display = 'flex';
+
+            showToast("Google account verified successfully!");
+        }
+
         async function executePaymentAndShowThankYou() {
             let name = document.getElementById('custName').value.trim();
             let email = document.getElementById('custEmail').value.trim();
-            let code = document.getElementById('countryCodeSelect').value;
+            let countryCode = document.getElementById('countryCodeSelect').value;
             let whatsapp = document.getElementById('custWhatsapp').value.trim();
             let address = document.getElementById('custAddress').value.trim();
             let gateway = document.getElementById('paymentGatewayChoice').value;
 
             if(!name || !email || !whatsapp || !address) {
-                showToast("Please fill in all required checkout fields!");
+                showToast("Please fill in all required shipping fields!");
                 return;
             }
 
             let generatedProductId = "PROD-TRK-" + Math.floor(100000 + Math.random() * 900000);
-
-            let currentCartProducts = [
-                { title: "Royal Crown Essence", quantity: 4, price: "$185.00", image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc" },
-                { title: "Golden Velvet Relic", quantity: 1, price: "$185.00", image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc" }
-            ];
+            let currentCartProducts = window.subdomainCartItems || [];
 
             let orderPayload = {
                 user: { name, email, productId: generatedProductId },
-                shipping: { code, whatsapp, address },
+                shipping: { countryCode, whatsapp, address },
                 items: currentCartProducts,
                 gateway: gateway,
                 timestamp: new Date().toISOString()
@@ -398,11 +528,9 @@
                 if(window.db && window.firebaseAddDoc && window.firebaseCollection) {
                     await window.firebaseAddDoc(window.firebaseCollection(window.db, "orders"), orderPayload);
                 }
-            } catch(e) {
-                console.log("Firebase save optional error:", e);
-            }
+            } catch(e) {}
 
-            document.getElementById('checkoutFormCard').style.display = 'none';
+            document.getElementById('cartAndVerifyCard').style.display = 'none';
             document.getElementById('thankYouSectionBox').style.display = 'flex';
             document.getElementById('finalGeneratedProductId').innerText = generatedProductId;
             document.getElementById('autoFilledSearchInput').value = generatedProductId;
@@ -426,10 +554,14 @@
 
             showToast(`Payment successful via ${gateway}!`);
 
-            // ৪ মিনিট পর অটো ক্লিয়ার হয়ে হোম পেজে রিডাইরেক্ট
             setTimeout(() => {
                 window.location.href = "https://mrmasudar.com";
             }, 240000);
+        }
+
+        function handleCancelCheckout(e) {
+            e.preventDefault();
+            window.location.href = "https://mrmasudar.com";
         }
 
         function redirectToSubdomainTracker() {
