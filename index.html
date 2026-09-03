@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>mrmasudar.com - Luxury Secure Checkout</title>
+    <title>Track Your Order - track.mrmasudar.com</title>
     
     <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
         
         const firebaseConfig = {
             apiKey: "AIzaSyCvUftOHiXFCuAzivaBut1XvNLpGE-LQ-w",
@@ -26,40 +26,7 @@
 
         const app = initializeApp(firebaseConfig);
         window.db = getFirestore(app);
-        window.firebaseAddDoc = addDoc;
         window.firebaseCollection = collection;
-
-        async function loadSubdomainCartFromFirebase() {
-            try {
-                const querySnapshot = await getDocs(collection(window.db, "global_carts"));
-                let itemsList = [];
-                querySnapshot.forEach((doc) => {
-                    itemsList.push({ id: doc.id, ...doc.data() });
-                });
-                if(itemsList.length === 0) {
-                    itemsList = [
-                        { id: "demo-1", title: "Royal Crown Essence", price: "$185.00", quantity: 4, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "Golden Teak", size: "Deluxe" },
-                        { id: "demo-2", title: "Golden Velvet Relic", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "High Gloss Lacquer", size: "Standard" }
-                    ];
-                }
-                window.subdomainCartItems = itemsList;
-                if(typeof renderCartSheet === 'function') renderCartSheet();
-                if(typeof renderDashboardTable === 'function') renderDashboardTable();
-            } catch(e) {
-                window.subdomainCartItems = [
-                    { id: "demo-1", title: "Royal Crown Essence", price: "$185.00", quantity: 4, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "Golden Teak", size: "Deluxe" },
-                    { id: "demo-2", title: "Golden Velvet Relic", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "High Gloss Lacquer", size: "Standard" }
-                ];
-                renderCartSheet();
-                renderDashboardTable();
-            }
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            loadSubdomainCartFromFirebase();
-            populateAllCountryCodes();
-        });
-        window.loadSubdomainCartFromFirebase = loadSubdomainCartFromFirebase;
     </script>
 
     <style>
@@ -70,693 +37,177 @@
             --gold-solid: #d4af37;
             --text-white: #ffffff;
             --text-gray: #cfcfcf;
-            --pink-heart: #ff2d55;
             --success-green: #2ecc71;
             --font-luxury: 'Cinzel', serif;
             --font-body: 'Poppins', sans-serif;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        html, body { width: 100%; overflow-x: hidden !important; background-color: var(--bg-black); color: var(--text-white); position: relative; font-family: var(--font-body); }
-        body { padding-top: 74px; padding-bottom: 30px; }
+        html, body { width: 100%; overflow-x: hidden !important; background-color: var(--bg-black); color: var(--text-white); font-family: var(--font-body); }
+        body { padding-top: 74px; padding-bottom: 40px; }
 
-        h1, h2, h3, h4, h5, h6, .brand-title-main, .section-title, .auth-title, .dash-welcome { font-family: var(--font-luxury); }
+        h1, h2, h3, h4, .brand-title-main, .section-title { font-family: var(--font-luxury); }
 
         header.app-header {
-            display: flex; justify-content: space-between; align-items: center; padding: 6px 12px;
+            display: flex; justify-content: space-between; align-items: center; padding: 6px 14px;
             background: rgba(11, 11, 11, 0.98); position: fixed; top: 0; left: 0; z-index: 1000;
-            backdrop-filter: blur(12px); width: 100%;
+            backdrop-filter: blur(12px); width: 100%; border-bottom: 1px solid rgba(212,175,55,0.2);
         }
-        .brand-container { display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; max-width: 68%; min-width: 0; }
-        .logo { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--gold-solid); background: #000; flex-shrink: 0; box-shadow: 0 0 10px rgba(212,175,55,0.4); }
-        .brand-text-box { display: flex; flex-direction: column; justify-content: center; min-width: 0; width: 100%; }
-        .brand-title-main { font-size: 0.96rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.15; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: 0.8px; }
-        .brand-subtitle-craft { font-size: 0.44rem; color: var(--text-gray); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: 4.8px; text-transform: uppercase; display: block; width: 100%; }
-        
-        .top-right-controls { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
-        .back-home-btn { background: transparent; border: 1.5px solid var(--gold-solid); color: var(--gold-solid); padding: 6px 12px; border-radius: 8px; font-size: 0.65rem; font-weight: 800; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 5px; text-transform: uppercase; transition: 0.3s; font-family: var(--font-luxury); }
-        .back-home-btn:hover { background: var(--gold-gradient); color: #000; }
+        .brand-container { display: flex; align-items: center; gap: 8px; cursor: pointer; text-decoration: none; }
+        .logo { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--gold-solid); background: #000; box-shadow: 0 0 10px rgba(212,175,55,0.4); }
+        .brand-title-main { font-size: 0.96rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 0.8px; }
 
-        .custom-toast { position: fixed; top: 78px; left: 50%; transform: translateX(-50%); background: rgba(18, 18, 18, 0.95); border: 1.5px solid var(--gold-solid); color: var(--gold-solid); padding: 8px 18px; border-radius: 30px; font-size: 0.75rem; font-weight: 700; z-index: 9999; display: none; font-family: var(--font-body); }
+        .track-container { width: 100%; max-width: 650px; margin: 20px auto; padding: 16px; display: flex; flex-direction: column; gap: 16px; }
+        .track-card { background: var(--card-bg); border: 1.5px solid var(--gold-solid); border-radius: 16px; padding: 22px 18px; box-shadow: 0 0 30px rgba(212,175,55,0.2); text-align: center; }
+        .track-title { font-size: 1.1rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 8px; font-family: var(--font-luxury); }
+        .track-sub { font-size: 0.7rem; color: var(--text-gray); margin-bottom: 16px; line-height: 1.4; }
 
-        .checkout-main-container { width: 100%; max-width: 980px; margin: 0 auto; padding: 12px; display: flex; flex-direction: column; gap: 14px; }
-        .section-box { background: var(--card-bg); border: 1.5px solid rgba(212,175,55,0.4); border-radius: 14px; padding: 14px; }
-        .section-title { font-size: 0.82rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
+        .search-box-row { display: flex; gap: 8px; margin-bottom: 12px; }
+        .search-input { flex: 1; background: #000; border: 1.5px solid rgba(212,175,55,0.4); padding: 10px 12px; border-radius: 8px; color: #fff; font-size: 0.75rem; font-weight: 600; outline: none; }
+        .search-input:focus { border-color: var(--gold-solid); }
+        .search-btn { background: var(--gold-gradient); border: none; padding: 10px 18px; border-radius: 8px; color: #000; font-weight: 900; font-size: 0.75rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); transition: 0.3s; flex-shrink: 0; }
+        .search-btn:hover { transform: scale(1.03); }
 
-        /* টেবিল ডিজাইন */
-        .luxury-sheet-table { width: 100%; border-collapse: collapse; margin-top: 4px; }
-        .luxury-sheet-table th { background: rgba(212, 175, 55, 0.15); color: var(--gold-solid); font-size: 0.62rem; font-weight: 800; text-transform: uppercase; padding: 8px 6px; border: 1px solid rgba(212,175,55,0.3); text-align: center; font-family: var(--font-luxury); }
-        .luxury-sheet-table th:first-child { text-align: left; }
-        .luxury-sheet-table td { padding: 8px 6px; border: 1px solid rgba(212,175,55,0.2); font-size: 0.68rem; color: #fff; vertical-align: middle; text-align: center; }
-        .luxury-sheet-table td:first-child { text-align: left; }
-        
-        .sheet-product-img-wrap { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; position: relative; }
-        .sheet-product-img { width: 40px; height: 40px; border-radius: 6px; object-fit: cover; border: 1.5px solid var(--gold-solid); flex-shrink: 0; transition: 0.3s; }
-        .sheet-product-img:hover { transform: scale(1.05); }
-        .sheet-info-badge { font-size: 0.54rem; color: var(--gold-solid); font-weight: 700; background: rgba(212,175,55,0.1); padding: 2px 5px; border-radius: 4px; border: 1px solid rgba(212,175,55,0.3); display: inline-flex; align-items: center; gap: 3px; }
-        .sheet-delete-btn { background: transparent; border: none; color: #ff2d55; font-size: 0.85rem; cursor: pointer; padding: 4px; }
+        .notice-info { font-size: 0.65rem; color: var(--gold-solid); background: rgba(212,175,55,0.08); border: 1px dashed var(--gold-solid); padding: 8px 12px; border-radius: 8px; text-align: left; line-height: 1.4; }
 
-        /* টেবিলের ভেতরের বাটন ও সিলেক্ট */
-        .table-edit-btn { background: transparent; border: 1px solid var(--gold-solid); color: var(--gold-solid); padding: 5px 10px; border-radius: 6px; font-size: 0.62rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: 0.3s; }
-        .table-edit-btn.completed { border-color: var(--success-green); color: var(--success-green); background: rgba(46,204,113,0.1); }
-        .table-pay-select { background: #000; border: 1px solid var(--gold-solid); color: var(--gold-solid); padding: 5px 6px; border-radius: 6px; font-size: 0.62rem; font-weight: 700; outline: none; cursor: pointer; }
-        .table-pay-btn { background: var(--gold-gradient); border: none; padding: 6px 12px; border-radius: 6px; color: #000; font-weight: 900; font-size: 0.65rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); transition: 0.3s; }
-        .table-pay-btn:hover { transform: scale(1.05); }
-        .paid-badge { color: var(--success-green); font-weight: 900; font-size: 0.72rem; display: inline-flex; align-items: center; gap: 4px; }
-
-        /* কন্টিনিউ উইথ গুগল বাটন সেকশন */
-        .table-auth-footer { margin-top: 14px; border-top: 1px solid rgba(212,175,55,0.3); padding-top: 14px; display: flex; flex-direction: column; gap: 10px; text-align: center; }
-        .google-continue-btn { width: 100%; max-width: 320px; margin: 0 auto; background: #ffffff; color: #1a1a1a; border: none; padding: 11px 18px; border-radius: 30px; font-size: 0.75rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; box-shadow: 0 0 15px rgba(255,255,255,0.2); font-family: var(--font-body); }
-        .google-continue-btn:hover { background: #f1f1f1; transform: scale(1.02); }
-        .google-continue-btn img { width: 18px; height: 18px; }
-
-        /* পপআপ মোডাল জেনারেল */
-        .auth-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 6000; backdrop-filter: blur(6px); padding: 15px; }
-        .auth-modal-box { background: #141414; border: 1.5px solid var(--gold-solid); width: 100%; max-width: 380px; border-radius: 16px; padding: 22px 16px; text-align: center; position: relative; box-shadow: 0 0 30px rgba(212,175,55,0.3); font-family: var(--font-body); max-height: 90vh; overflow-y: auto; }
-        .auth-modal-title { font-size: 1rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 12px; font-family: var(--font-luxury); }
-        .auth-input-group { margin-bottom: 10px; text-align: left; }
-        .auth-input-group label { font-size: 0.6rem; font-weight: 700; color: var(--text-gray); text-transform: uppercase; margin-bottom: 3px; display: block; }
-        .auth-input-group label span { color: var(--pink-heart); }
-        .auth-input { width: 100%; background: #000; border: 1.5px solid rgba(212,175,55,0.4); padding: 9px 10px; border-radius: 8px; color: #fff; font-size: 0.75rem; font-weight: 600; outline: none; }
-        .auth-input:focus { border-color: var(--gold-solid); }
-        .phone-input-row { display: flex; gap: 6px; }
-        .modal-country-select { background: #000; border: 1.5px solid rgba(212,175,55,0.4); padding: 9px 4px; border-radius: 8px; color: #fff; font-size: 0.68rem; font-weight: 600; outline: none; width: 140px; }
-        .modal-country-select option { background: #121212; color: #fff; }
-
-        .auth-submit-btn { width: 100%; background: var(--gold-gradient); border: none; padding: 10px; border-radius: 8px; color: #000; font-weight: 900; font-size: 0.78rem; cursor: pointer; text-transform: uppercase; margin-top: 10px; font-family: var(--font-luxury); transition: 0.3s; }
-        .auth-modal-close { position: absolute; top: 10px; right: 12px; background: transparent; border: none; color: var(--gold-solid); font-size: 1.1rem; cursor: pointer; }
-
-        /* ড্যাশবোর্ড লেআউট */
-        .dashboard-content-area { display: none; flex-direction: column; gap: 14px; }
-        .dash-top-bar { display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); border: 1.5px solid var(--gold-solid); padding: 12px 16px; border-radius: 12px; box-shadow: 0 0 12px rgba(212,175,55,0.15); }
-        .dash-welcome { font-size: 0.95rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; }
-        
-        .logout-btn { background: transparent; border: 1.5px solid #ff2d55; color: #ff2d55; padding: 8px 16px; border-radius: 8px; font-size: 0.68rem; font-weight: 800; cursor: pointer; transition: 0.3s; font-family: var(--font-luxury); }
-        .logout-btn:hover { background: #ff2d55; color: #fff; }
-
-        /* ট্র্যাকিং ও নোটিশ বক্স */
-        .tracking-status-box { background: #161616; border: 1px solid var(--gold-solid); border-radius: 10px; padding: 10px; margin-top: 6px; font-size: 0.7rem; font-weight: 600; display: flex; flex-direction: column; gap: 5px; font-family: var(--font-body); }
-        .tracking-link { color: var(--gold-solid); text-decoration: underline; font-weight: 800; word-break: break-all; }
-        .notice-box { background: rgba(212,175,55,0.08); border: 1px dashed var(--gold-solid); border-radius: 10px; padding: 10px; font-size: 0.68rem; color: var(--text-gray); line-height: 1.4; text-align: center; }
-
-        .support-chat-box { background: #0f0f0f; border: 1.5px solid rgba(212,175,55,0.4); border-radius: 10px; height: 140px; display: flex; flex-direction: column; overflow: hidden; margin-top: 6px; }
-        .chat-messages-area { flex: 1; padding: 8px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; font-size: 0.68rem; font-family: var(--font-body); }
-        .chat-msg { max-width: 80%; padding: 6px 10px; border-radius: 8px; font-weight: 600; line-height: 1.3; }
-        .chat-msg.customer { background: rgba(212,175,55,0.2); border: 1px solid var(--gold-solid); align-self: flex-end; color: #fff; }
-        .chat-msg.admin { background: #222; border: 1px solid #444; align-self: flex-start; color: var(--text-gray); }
-        .chat-input-bar { display: flex; border-top: 1.5px solid rgba(212,175,55,0.3); background: #141414; padding: 4px; }
-        .chat-input-bar input { flex: 1; background: transparent; border: none; outline: none; color: #fff; font-size: 0.68rem; padding: 4px 6px; font-weight: 600; font-family: var(--font-body); }
-        .chat-send-btn { background: var(--gold-gradient); border: none; width: 28px; border-radius: 6px; color: #000; font-weight: 900; cursor: pointer; }
-
-        /* অ্যানালিটিক্স কার্ড */
-        .analytics-card { background: var(--card-bg); border: 1.5px solid rgba(212,175,55,0.5); border-radius: 14px; padding: 14px; }
-        .analytics-title { font-size: 0.78rem; font-weight: 800; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-luxury); }
-
-        /* প্রোডাক্ট ডিটেইলস পপআপ */
-        .prod-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 5000; backdrop-filter: blur(6px); padding: 15px; }
-        .prod-modal-box { background: #141414; border: 1.5px solid var(--gold-solid); width: 100%; max-width: 360px; border-radius: 16px; padding: 22px 16px; text-align: center; position: relative; box-shadow: 0 0 25px rgba(212,175,55,0.3); font-family: var(--font-body); }
-        .prod-modal-img { width: 110px; height: 110px; border-radius: 10px; object-fit: cover; border: 1.5px solid var(--gold-solid); margin-bottom: 10px; }
-        .prod-modal-title { font-size: 0.95rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 6px; font-family: var(--font-luxury); }
-        .prod-modal-desc { font-size: 0.7rem; color: var(--text-gray); margin-bottom: 10px; line-height: 1.4; }
-        .prod-modal-details { background: #1c1c1c; border: 1px solid rgba(212,175,55,0.3); border-radius: 8px; padding: 8px; font-size: 0.68rem; color: #fff; margin-bottom: 12px; display: flex; justify-content: space-around; font-weight: 600; }
-        .prod-modal-close { background: var(--gold-gradient); border: none; padding: 8px 14px; border-radius: 6px; color: #000; font-weight: 800; font-size: 0.7rem; cursor: pointer; font-family: var(--font-luxury); width: 100%; }
+        /* রেজल्ट এরিয়া */
+        .result-box { display: none; margin-top: 16px; background: #141414; border: 1px solid rgba(212,175,55,0.3); border-radius: 12px; padding: 14px; text-align: left; }
+        .result-header { font-size: 0.8rem; font-weight: 800; color: var(--gold-solid); margin-bottom: 10px; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 6px; display: flex; justify-content: space-between; }
+        .order-item-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.7rem; }
+        .order-item-row:last-child { border-bottom: none; }
+        .status-badge { background: rgba(46,204,113,0.15); color: var(--success-green); border: 1px solid var(--success-green); padding: 3px 8px; border-radius: 20px; font-size: 0.62rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
     </style>
 </head>
 <body>
 
-    <div class="custom-toast" id="customToast">Action completed successfully!</div>
-
-    <!-- প্রোডাক্ট ইনফো পপআপ মোডাল -->
-    <div class="prod-modal-overlay" id="prodModalOverlay" onclick="closeProdModal(event)">
-        <div class="prod-modal-box">
-            <button class="auth-modal-close" onclick="document.getElementById('prodModalOverlay').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
-            <img src="" id="modalProdImg" class="prod-modal-img" alt="Product">
-            <h3 id="modalProdTitle" class="prod-modal-title">Product Name</h3>
-            <p id="modalProdDesc" class="prod-modal-desc">Exclusive luxury craftsmanship details.</p>
-            <div class="prod-modal-details">
-                <span>Color: <strong id="modalProdColor" style="color:var(--gold-solid);">--</strong></span>
-                <span>Size: <strong id="modalProdSize" style="color:var(--gold-solid);">--</strong></span>
-            </div>
-            <button class="prod-modal-close" onclick="document.getElementById('prodModalOverlay').style.display='none'">Close Details</button>
-        </div>
-    </div>
-
-    <!-- ইনফরমেশন ও ডেলিভারি আপডেট পপআপ মোডাল (নাম, জিমেইল ও অটো-ডিটেক্টেড কান্ট্রি/কোডসহ) -->
-    <div class="auth-modal-overlay" id="deliveryModalOverlay" onclick="closeDeliveryModal(event)">
-        <div class="auth-modal-box">
-            <button class="auth-modal-close" onclick="document.getElementById('deliveryModalOverlay').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
-            <h2 class="auth-modal-title">Review & Edit Information</h2>
-            <div class="auth-input-group">
-                <label>Full Name <span>*</span></label>
-                <input type="text" class="auth-input" id="popupFullName" placeholder="Masudar Rahman" required>
-            </div>
-            <div class="auth-input-group">
-                <label>Gmail Account (Auto) <span>*</span></label>
-                <input type="email" class="auth-input" id="popupGmail" readonly style="color: var(--gold-solid); background: #1a1a1a;" required>
-            </div>
-            <div class="auth-input-group">
-                <label>WhatsApp Number (Digits Only) <span>*</span></label>
-                <div class="phone-input-row">
-                    <select class="modal-country-select" id="popupCountryCode"></select>
-                    <input type="text" class="auth-input" id="popupWhatsapp" placeholder="1712345678" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
-                </div>
-            </div>
-            <div class="auth-input-group">
-                <label>Country / Region (Auto-Detected) <span>*</span></label>
-                <select class="auth-input" id="popupCountry" style="background:#000; color:#fff;" required></select>
-            </div>
-            <div class="auth-input-group">
-                <label>Detailed Shipping Address <span>*</span></label>
-                <input type="text" class="auth-input" id="popupAddress" placeholder="House, Road, City, Postal Code" required>
-            </div>
-            <button class="auth-submit-btn" onclick="saveDeliveryInfoFromModal()">Confirm & Save Information</button>
-        </div>
-    </div>
-
     <header class="app-header">
-        <div class="brand-container" onclick="showCustomToast('MRMASUDAR.COM - Secure Checkout')">
-            <img src="https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc" alt="Logo" class="logo" loading="lazy">
-            <div class="brand-text-box">
-                <span class="brand-title-main">MRMASUDAR.COM</span>
-                <span class="brand-subtitle-craft">Secure Checkout</span>
-            </div>
-        </div>
-        <div class="top-right-controls">
-            <a href="https://mrmasudar.com" class="back-home-btn"><i class="fa-solid fa-arrow-left"></i> Home</a>
-        </div>
+        <a href="https://mrmasudar.com" class="brand-container">
+            <img src="https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc" alt="Logo" class="logo">
+            <span class="brand-title-main">MRMASUDAR.COM</span>
+        </a>
+        <a href="https://mrmasudar.com" style="color:var(--gold-solid); font-size:0.7rem; text-decoration:none; font-weight:700;"><i class="fa-solid fa-arrow-left"></i> Main Store</a>
     </header>
 
-    <div class="checkout-main-container">
-
-        <!-- ১. হোম পেজ কার্ট টেবিল ও এক ক্লিকে "Continue with Google" -->
-        <div class="section-box" id="tableAuthCardBox">
-            <div class="section-title"><span><i class="fa-solid fa-gem"></i> Luxury Product Cart</span></div>
-            <div style="overflow-x: auto;">
-                <table class="luxury-sheet-table">
-                    <thead>
-                        <tr>
-                            <th style="width: 40%;">Image & Info</th>
-                            <th>Qty</th>
-                            <th>Price</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="cartSheetTableBody">
-                        <!-- Dynamic Rows Here -->
-                    </tbody>
-                </table>
-            </div>
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; border-top:1px solid rgba(212,175,55,0.3); padding-top:8px;">
-                <span style="font-size:0.7rem; font-weight:700; font-family:var(--font-body);">TOTAL PAYABLE AMOUNT:</span>
-                <span style="font-size:0.9rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-family:var(--font-body);" id="sheetTotalPrice">$0.00</span>
-            </div>
-
-            <div class="table-auth-footer">
-                <button class="google-continue-btn" onclick="handleGoogleContinue()">
-                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
-                    Continue with Google
-                </button>
-            </div>
-        </div>
-
-        <!-- ২. ড্যাশবোর্ড ও পেমেন্ট এরিয়া (কানেক্ট করার পর দৃশ্যমান) -->
-        <div class="dashboard-content-area" id="dashboardContentArea">
+    <div class="track-container">
+        <div class="track-card">
+            <h1 class="track-title"><i class="fa-solid fa-truck-fast"></i> Parcel Tracking Portal</h1>
+            <p class="track-sub">Enter your unique <strong>Product ID</strong> or your registered <strong>Gmail / WhatsApp Number</strong> to view all your ordered luxury products and real-time shipping status.</p>
             
-            <div class="dash-top-bar">
-                <div>
-                    <span class="dash-welcome" id="dashUserName">Welcome, User</span>
-                    <p style="font-size:0.6rem; color:var(--gold-solid); font-weight:700; font-family:var(--font-body); margin-top:2px;" id="dashCustomerId">Product ID / Tracking ID: --</p>
-                </div>
+            <div class="search-box-row">
+                <input type="text" id="trackingSearchInput" class="search-input" placeholder="Enter Product ID (e.g. PROD-TRK-XXXXXX) or Gmail / Phone">
+                <button class="search-btn" onclick="executeTrackingSearch()">Track Now</button>
             </div>
 
-            <!-- ড্যাশবোর্ডের মূল টেবিল (IMAGE & INFO, QTY, PRICE, INFORMATION, PAYMENT, PAID) -->
-            <div class="section-box">
-                <div class="section-title"><span><i class="fa-solid fa-cart-shopping"></i> Selected Luxury Products & Secure Checkout</span></div>
-                <div style="overflow-x: auto;">
-                    <table class="luxury-sheet-table">
-                        <thead>
-                            <tr>
-                                <th>Image & Info</th>
-                                <th>Qty</th>
-                                <th>Price</th>
-                                <th>Information</th>
-                                <th>Payment</th>
-                                <th>Paid</th>
-                            </tr>
-                        </thead>
-                        <tbody id="dashCartTableBody">
-                            <!-- Dynamic Table Rows Here -->
-                        </tbody>
-                    </table>
-                </div>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; border-top:1px solid rgba(212,175,55,0.3); padding-top:8px;">
-                    <span style="font-size:0.7rem; font-weight:700; font-family:var(--font-body);">TOTAL PAYABLE AMOUNT:</span>
-                    <span style="font-size:0.9rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-family:var(--font-body);" id="dashTotalPrice">$0.00</span>
-                </div>
+            <div class="notice-info">
+                <i class="fa-solid fa-circle-info"></i> নোট: সেলার কুরিয়ার সার্ভিসে পার্সেল হ্যান্ডওভার করার পর **৩ দিনের মধ্যে** ট্র্যাকিং স্ট্যাটাস লাইভ আপডেট হয়ে যায়। আপনার জিমেইল বা হোয়াটসঅ্যাপ নাম্বার দিয়ে সার্চ করলে আপনার নেওয়া সবকটি প্রোডাক্ট একসঙ্গে দেখতে পাবেন।
             </div>
 
-            <!-- লাইভ পার্সেল ট্র্যাকিং ও নোটিশ -->
-            <div class="section-box">
-                <div class="section-title"><span><i class="fa-solid fa-truck-fast"></i> Live Parcel Tracking</span></div>
-                <div class="tracking-status-box" id="trackingStatusBox">
-                    <span>Status: <strong style="color:var(--gold-solid);">Order Confirmed & Preparing</strong></span>
-                    <span>Tracking Portal: <a href="https://track.mrmasud.com" target="_blank" class="tracking-link">track.mrmasud.com</a></span>
-                    <span>Tracking ID: <span id="trackCodeNum">--</span></span>
+            <!-- ট্র্যাকিং রেজल्ट ডিসপ্লে বক্স -->
+            <div class="result-box" id="trackingResultBox">
+                <div class="result-header">
+                    <span>Search Results</span>
+                    <span id="resultCountBadge" style="color:#fff;">0 Items Found</span>
                 </div>
-                <div class="notice-box" style="margin-top: 10px;">
-                    <i class="fa-solid fa-circle-info" style="color:var(--gold-solid);"></i> সেলার কুরিয়ার সার্ভিসে পার্সেল হ্যান্ডওভার করার পর **৩ দিনের মধ্যে** এই সাবডোমেইনে (`track.mrmasud.com`) লাইভ ট্র্যাকিং স্ট্যাটাস আপডেট হয়ে যাবে। আপনার জিমেইল ও হোয়াটসঅ্যাপ দিয়ে যেকোনো সময় পার্সেল সার্চ করতে পারবেন।
+                <div id="resultContentList">
+                    <!-- Dynamic Data -->
                 </div>
             </div>
-
-            <!-- কাস্টমার কেয়ার সাপোর্ট -->
-            <div class="section-box">
-                <div class="section-title"><span><i class="fa-solid fa-headset"></i> Customer Care Support</span></div>
-                <div class="support-chat-box">
-                    <div class="chat-messages-area" id="chatMessagesArea">
-                        <div class="chat-msg admin">Welcome! How can we assist your order today?</div>
-                    </div>
-                    <div class="chat-input-bar">
-                        <input type="text" id="chatInputMsg" placeholder="Type message..." onkeypress="handleChatKey(event)">
-                        <button class="chat-send-btn" onclick="sendSupportMessage()"><i class="fa-solid fa-paper-plane"></i></button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- সবার নিচে গ্রাফ ও অ্যানালিটিক্স -->
-            <div class="analytics-card">
-                <div class="analytics-title">
-                    <span><i class="fa-solid fa-chart-line"></i> Monthly Spending & Order Analytics</span>
-                    <span style="font-size:0.62rem; color:#fff; font-family:var(--font-body);" id="totalSpentText">Spent: $0.00</span>
-                </div>
-                <div style="width:100%; height:130px;">
-                    <canvas id="spendingChart"></canvas>
-                </div>
-            </div>
-
-            <!-- সবার নিচে লগআউট বাটন -->
-            <div style="text-align:center; margin-top: 4px;">
-                <button class="logout-btn" onclick="handleLogout()"><i class="fa-solid fa-power-off"></i> Reset / Logout</button>
-            </div>
-
         </div>
     </div>
 
     <script>
-        let spendingChartInstance = null;
-        window.subdomainCartItems = [];
+        async function executeTrackingSearch() {
+            let queryVal = document.getElementById('trackingSearchInput').value.trim();
+            if(!queryVal) {
+                alert("Please enter a Product ID, Gmail, or WhatsApp number!");
+                return;
+            }
 
-        const allWorldCountries = [
-            { name: "Afghanistan", code: "+93", flag: "🇦🇫", zone: "Kabul" },
-            { name: "Albania", code: "+355", flag: "🇦🇱", zone: "Tirane" },
-            { name: "Algeria", code: "+213", flag: "🇩🇿", zone: "Algiers" },
-            { name: "Argentina", code: "+54", flag: "🇦🇷", zone: "Buenos_Aires" },
-            { name: "Australia", code: "+61", flag: "🇦🇺", zone: "Sydney" },
-            { name: "Austria", code: "+43", flag: "🇦🇹", zone: "Vienna" },
-            { name: "Bangladesh", code: "+880", flag: "🇧🇩", zone: "Dhaka" },
-            { name: "Belgium", code: "+32", flag: "🇧🇪", zone: "Brussels" },
-            { name: "Brazil", code: "+55", flag: "🇧🇷", zone: "Sao_Paulo" },
-            { name: "Canada", code: "+1", flag: "🇨🇦", zone: "Toronto" },
-            { name: "China", code: "+86", flag: "🇨🇳", zone: "Shanghai" },
-            { name: "Egypt", code: "+20", flag: "🇪🇬", zone: "Cairo" },
-            { name: "France", code: "+33", flag: "🇫🇷", zone: "Paris" },
-            { name: "Germany", code: "+49", flag: "🇩🇪", zone: "Berlin" },
-            { name: "India", code: "+91", flag: "🇮🇳", zone: "Calcutta" },
-            { name: "Italy", code: "+39", flag: "🇮🇹", zone: "Rome" },
-            { name: "Japan", code: "+81", flag: "🇯🇵", zone: "Tokyo" },
-            { name: "Malaysia", code: "+60", flag: "🇲🇾", zone: "Kuala_Lumpur" },
-            { name: "Netherlands", code: "+31", flag: "🇳🇱", zone: "Amsterdam" },
-            { name: "Pakistan", code: "+92", flag: "🇵🇰", zone: "Karachi" },
-            { name: "Saudi Arabia", code: "+966", flag: "🇸🇦", zone: "Riyadh" },
-            { name: "Singapore", code: "+65", flag: "🇸🇬", zone: "Singapore" },
-            { name: "South Korea", code: "+82", flag: "🇰🇷", zone: "Seoul" },
-            { name: "Spain", code: "+34", flag: "🇪🇸", zone: "Madrid" },
-            { name: "Sweden", code: "+46", flag: "🇸🇪", zone: "Stockholm" },
-            { name: "Switzerland", code: "+41", flag: "🇨🇭", zone: "Zurich" },
-            { name: "Turkey", code: "+90", flag: "🇹🇷", zone: "Istanbul" },
-            { name: "United Arab Emirates", code: "+971", flag: "🇦🇪", zone: "Dubai" },
-            { name: "United Kingdom", code: "+44", flag: "🇬🇧", zone: "London" },
-            { name: "United States", code: "+1", flag: "🇺🇸", zone: "New_York" }
-        ];
+            let resultBox = document.getElementById('trackingResultBox');
+            let contentList = document.getElementById('resultContentList');
+            let countBadge = document.getElementById('resultCountBadge');
 
-        window.addEventListener('DOMContentLoaded', () => {
-            loadSubdomainCartFromFirebase();
-            populateAllCountryCodes();
-            checkAuthStatus();
-            initSpendingChart();
-            loadSavedShippingInfo();
-        });
-
-        function showCustomToast(msg) {
-            let toast = document.getElementById('customToast');
-            toast.innerText = msg;
-            toast.style.display = 'block';
-            setTimeout(() => { toast.style.display = 'none'; }, 2200);
-        }
-
-        function populateAllCountryCodes() {
-            let paySelect = document.getElementById('popupCountryCode');
-            let countrySelect = document.getElementById('popupCountry');
-
-            let optionsHtml = "";
-            let countryOptionsHtml = "";
-            allWorldCountries.forEach(c => {
-                optionsHtml += `<option value="${c.code}">${c.flag} ${c.name} (${c.code})</option>`;
-                countryOptionsHtml += `<option value="${c.name}">${c.flag} ${c.name}</option>`;
-            });
-
-            if(paySelect) paySelect.innerHTML = optionsHtml;
-            if(countrySelect) countrySelect.innerHTML = countryOptionsHtml;
+            contentList.innerHTML = `<div style="text-align:center; padding:15px; color:var(--text-gray); font-size:0.75rem;">Searching database...</div>`;
+            resultBox.style.display = 'block';
 
             try {
-                let tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
-                let matched = allWorldCountries.find(item => tz.includes(item.zone));
-                let targetCode = matched ? matched.code : "+880";
-                let targetCountry = matched ? matched.name : "Bangladesh";
+                // ফায়ারবেস ডাটাবেস থেকে অর্ডার সার্চ করা
+                const querySnapshot = await getDocs(window.firebaseCollection(window.db, "orders"));
+                let matchedOrders = [];
+                
+                querySnapshot.forEach((doc) => {
+                    let data = doc.data();
+                    let uEmail = data.user && data.user.email ? data.user.email.toLowerCase() : "";
+                    let uPhone = data.shipping && data.shipping.whatsapp ? data.shipping.whatsapp : "";
+                    let pId = data.user && data.user.productId ? data.user.productId.toLowerCase() : "";
+                    let searchKey = queryVal.toLowerCase();
 
-                if(paySelect) paySelect.value = targetCode;
-                if(countrySelect) countrySelect.value = targetCountry;
-            } catch(e) {}
-        }
-
-        function openDeliveryModal() {
-            loadSavedShippingInfo();
-            document.getElementById('deliveryModalOverlay').style.display = 'flex';
-        }
-
-        function closeDeliveryModal(e) {
-            if(e.target.id === 'deliveryModalOverlay') {
-                document.getElementById('deliveryModalOverlay').style.display = 'none';
-            }
-        }
-
-        // এক ক্লিকে গুগল কানেক্ট ও অটো-ফিল
-        function handleGoogleContinue() {
-            let googleUser = {
-                name: "Masudar Rahman",
-                email: "masudar1422@gmail.com",
-                productId: "PROD-TRK-" + Math.floor(100000 + Math.random() * 900000)
-            };
-            localStorage.setItem('mme_logged_user', JSON.stringify(googleUser));
-
-            let defaultShipping = {
-                code: "+880",
-                whatsapp: "1767319670",
-                country: "Bangladesh",
-                address: "House 12, Road 5, Block D, Dhaka"
-            };
-            localStorage.setItem('mme_saved_shipping', JSON.stringify(defaultShipping));
-
-            showCustomToast("Gmail connected successfully!");
-            checkAuthStatus();
-            setTimeout(() => { openDeliveryModal(); }, 400);
-        }
-
-        function checkAuthStatus() {
-            let user = JSON.parse(localStorage.getItem('mme_logged_user') || 'null');
-            if(user) {
-                document.getElementById('tableAuthCardBox').style.display = 'none';
-                document.getElementById('dashboardContentArea').style.display = 'flex';
-                document.getElementById('dashUserName').innerText = `Welcome, ${user.name}`;
-                document.getElementById('dashCustomerId').innerText = `Tracking & Product ID: ${user.productId || 'PROD-8821X'}`;
-                document.getElementById('trackCodeNum').innerText = user.productId || 'PROD-8821X';
-                renderDashboardTable();
-            } else {
-                document.getElementById('tableAuthCardBox').style.display = 'block';
-                document.getElementById('dashboardContentArea').style.display = 'none';
-            }
-        }
-
-        function handleLogout() {
-            localStorage.removeItem('mme_logged_user');
-            checkAuthStatus();
-            showCustomToast("Session reset successfully.");
-        }
-
-        function saveDeliveryInfoFromModal() {
-            let name = document.getElementById('popupFullName').value.trim();
-            let code = document.getElementById('popupCountryCode').value;
-            let num = document.getElementById('popupWhatsapp').value.trim();
-            let country = document.getElementById('popupCountry').value;
-            let address = document.getElementById('popupAddress').value.trim();
-
-            if(!name || !num || !address) {
-                showCustomToast("Please fill in all required fields!");
-                return;
-            }
-
-            let user = JSON.parse(localStorage.getItem('mme_logged_user') || '{}');
-            user.name = name;
-            localStorage.setItem('mme_logged_user', JSON.stringify(user));
-
-            let shippingInfo = { code: code, whatsapp: num, country: country, address: address };
-            localStorage.setItem('mme_saved_shipping', JSON.stringify(shippingInfo));
-            
-            document.getElementById('deliveryModalOverlay').style.display = 'none';
-            checkAuthStatus();
-            renderDashboardTable();
-            showCustomToast("Information updated successfully!");
-        }
-
-        function loadSavedShippingInfo() {
-            let savedInfo = JSON.parse(localStorage.getItem('mme_saved_shipping') || 'null');
-            let user = JSON.parse(localStorage.getItem('mme_logged_user') || 'null');
-
-            if(user) {
-                if(document.getElementById('popupFullName')) document.getElementById('popupFullName').value = user.name || "";
-                if(document.getElementById('popupGmail')) document.getElementById('popupGmail').value = user.email || "";
-            }
-
-            if(savedInfo) {
-                if(document.getElementById('popupCountryCode')) document.getElementById('popupCountryCode').value = savedInfo.code || '+880';
-                if(document.getElementById('popupWhatsapp')) document.getElementById('popupWhatsapp').value = savedInfo.whatsapp || '';
-                if(document.getElementById('popupCountry')) document.getElementById('popupCountry').value = savedInfo.country || 'Bangladesh';
-                if(document.getElementById('popupAddress')) document.getElementById('popupAddress').value = savedInfo.address || '';
-            }
-        }
-
-        async function processTablePayment(itemId) {
-            let savedInfo = JSON.parse(localStorage.getItem('mme_saved_shipping') || 'null');
-            if(!savedInfo || !savedInfo.address || !savedInfo.whatsapp) {
-                showCustomToast("Please complete your Information first!");
-                openDeliveryModal();
-                return;
-            }
-
-            let selectElem = document.getElementById('pay-gateway-' + itemId);
-            let chosenGateway = selectElem ? selectElem.value : 'Payoneer Global';
-
-            let cartItems = window.subdomainCartItems || [];
-            let targetItem = cartItems.find(i => i.id === itemId);
-
-            let orderData = {
-                item: targetItem,
-                shipping: savedInfo,
-                gateway: chosenGateway,
-                user: JSON.parse(localStorage.getItem('mme_logged_user') || '{}'),
-                timestamp: new Date().toISOString()
-            };
-
-            try {
-                if(window.db && window.firebaseAddDoc && window.firebaseCollection) {
-                    await window.firebaseAddDoc(window.firebaseCollection(window.db, "orders"), orderData);
-                }
-            } catch(e) {}
-
-            let paidMap = JSON.parse(localStorage.getItem('mme_paid_status') || '{}');
-            paidMap[itemId] = chosenGateway;
-            localStorage.setItem('mme_paid_status', JSON.stringify(paidMap));
-
-            showCustomToast(`Payment via ${chosenGateway} successful!`);
-            renderDashboardTable();
-        }
-
-        function renderCartSheet() {
-            const tbodyHome = document.getElementById('cartSheetTableBody');
-            let cartItems = window.subdomainCartItems || [];
-            let total = 0;
-
-            cartItems.forEach((item) => {
-                let numericPrice = parseFloat((item.price || "0").replace('$', '')) || 0;
-                total += numericPrice * (item.quantity || 1);
-            });
-
-            let formattedTotal = `$${total.toFixed(2)}`;
-
-            if(tbodyHome) {
-                if(cartItems.length === 0) {
-                    tbodyHome.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-gray); padding:12px; font-weight:600;">Your luxury product list is empty.</td></tr>`;
-                    document.getElementById('sheetTotalPrice').innerText = "$0.00";
-                } else {
-                    let html = "";
-                    cartItems.forEach((item, index) => {
-                        html += `
-                            <tr>
-                                <td>
-                                    <div class="sheet-product-img-wrap" onclick='openProductDetailsModal(${JSON.stringify(item)})'>
-                                        <img src="${item.image || 'https://via.placeholder.com/40'}" class="sheet-product-img" loading="lazy">
-                                        <span class="sheet-info-badge"><i class="fa-solid fa-circle-info"></i> View</span>
-                                    </div>
-                                </td>
-                                <td style="font-weight:700;">${item.quantity || 1}</td>
-                                <td style="font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">${item.price || '$0.00'}</td>
-                                <td><button class="sheet-delete-btn" onclick="removeSubdomainCartItem('${item.id}', ${index})"><i class="fa-solid fa-trash"></i></button></td>
-                            </tr>
-                        `;
-                    });
-                    tbodyHome.innerHTML = html;
-                    document.getElementById('sheetTotalPrice').innerText = formattedTotal;
-                }
-            }
-        }
-
-        function renderDashboardTable() {
-            const tbodyDash = document.getElementById('dashCartTableBody');
-            if(!tbodyDash) return;
-
-            let cartItems = window.subdomainCartItems || [];
-            let savedInfo = JSON.parse(localStorage.getItem('mme_saved_shipping') || 'null');
-            let paidMap = JSON.parse(localStorage.getItem('mme_paid_status') || '{}');
-            let total = 0;
-
-            if(cartItems.length === 0) {
-                tbodyDash.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--text-gray); padding:14px; font-weight:600;">No active luxury products in checkout.</td></tr>`;
-                document.getElementById('dashTotalPrice').innerText = "$0.00";
-                document.getElementById('totalSpentText').innerText = "Spent: $0.00";
-                return;
-            }
-
-            let html = "";
-            cartItems.forEach((item) => {
-                let numericPrice = parseFloat((item.price || "0").replace('$', '')) || 0;
-                let subTotal = numericPrice * (item.quantity || 1);
-                total += subTotal;
-
-                let hasInfo = savedInfo && savedInfo.address && savedInfo.whatsapp;
-                let infoBtnClass = hasInfo ? "table-edit-btn completed" : "table-edit-btn";
-                let infoBtnText = hasInfo ? '<i class="fa-solid fa-circle-check"></i> Updated' : '<i class="fa-solid fa-pen"></i> Edit Info';
-
-                let isPaid = paidMap[item.id];
-                let paymentCellHtml = "";
-
-                if(isPaid) {
-                    paymentCellHtml = `<span style="font-size:0.62rem; color:var(--gold-solid); font-weight:700;">${isPaid}</span>`;
-                } else {
-                    paymentCellHtml = `
-                        <select class="table-pay-select" id="pay-gateway-${item.id}">
-                            <option value="Payoneer Global">Payoneer Global</option>
-                            <option value="PayPal Checkout">PayPal Checkout</option>
-                            <option value="Visa / Mastercard">Visa / Mastercard</option>
-                            <option value="bKash / Nagad (BD)">bKash / Nagad</option>
-                        </select>
-                    `;
-                }
-
-                let paidCellHtml = "";
-                if(isPaid) {
-                    paidCellHtml = `<span class="paid-badge"><i class="fa-solid fa-circle-check"></i> Paid</span>`;
-                } else {
-                    paidCellHtml = `<button class="table-pay-btn" onclick="processTablePayment('${item.id}')">Pay Now</button>`;
-                }
-
-                html += `
-                    <tr>
-                        <td>
-                            <div class="sheet-product-img-wrap" onclick='openProductDetailsModal(${JSON.stringify(item)})'>
-                                <img src="${item.image || 'https://via.placeholder.com/40'}" class="sheet-product-img" loading="lazy">
-                                <span class="sheet-info-badge"><i class="fa-solid fa-circle-info"></i> View</span>
-                            </div>
-                        </td>
-                        <td style="font-weight:700;">${item.quantity || 1}</td>
-                        <td style="font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">${item.price || '$0.00'}</td>
-                        <td>
-                            <button class="${infoBtnClass}" onclick="openDeliveryModal()">${infoBtnText}</button>
-                        </td>
-                        <td>${paymentCellHtml}</td>
-                        <td>${paidCellHtml}</td>
-                    </tr>
-                `;
-            });
-
-            tbodyDash.innerHTML = html;
-            let formattedTotal = `$${total.toFixed(2)}`;
-            document.getElementById('dashTotalPrice').innerText = formattedTotal;
-            document.getElementById('totalSpentText').innerText = `Total: ${formattedTotal}`;
-        }
-
-        function openProductDetailsModal(item) {
-            document.getElementById('modalProdImg').src = item.image || 'https://via.placeholder.com/110';
-            document.getElementById('modalProdTitle').innerText = item.title || 'Exclusive Luxury Item';
-            document.getElementById('modalProdDesc').innerText = item.desc || 'Premium hand-crafted luxury item designed for absolute perfection.';
-            document.getElementById('modalProdColor').innerText = item.color || 'Standard Gold';
-            document.getElementById('modalProdSize').innerText = item.size || 'Standard Fit';
-            document.getElementById('prodModalOverlay').style.display = 'flex';
-        }
-
-        function closeProdModal(e) {
-            if(e.target.id === 'prodModalOverlay') {
-                document.getElementById('prodModalOverlay').style.display = 'none';
-            }
-        }
-
-        async function removeSubdomainCartItem(docId, index) {
-            let cartItems = window.subdomainCartItems || [];
-            cartItems.splice(index, 1);
-            window.subdomainCartItems = cartItems;
-            renderCartSheet();
-            renderDashboardTable();
-            showCustomToast("Product removed successfully.");
-        }
-
-        function sendSupportMessage() {
-            let input = document.getElementById('chatInputMsg');
-            let txt = input.value.trim();
-            if(!txt) return;
-
-            const area = document.getElementById('chatMessagesArea');
-            let userMsg = document.createElement('div');
-            userMsg.className = 'chat-msg customer';
-            userMsg.innerText = txt;
-            area.appendChild(userMsg);
-            input.value = "";
-            area.scrollTop = area.scrollHeight;
-
-            setTimeout(() => {
-                let adminMsg = document.createElement('div');
-                adminMsg.className = 'chat-msg admin';
-                adminMsg.innerText = "Thank you! Our support team will assist you shortly.";
-                area.appendChild(adminMsg);
-                area.scrollTop = area.scrollHeight;
-            }, 1200);
-        }
-        function handleChatKey(e) { if(e.key === 'Enter') sendSupportMessage(); }
-
-        function initSpendingChart() {
-            const ctx = document.getElementById('spendingChart').getContext('2d');
-            spendingChartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-                    datasets: [{
-                        label: 'Spending ($)',
-                        data: [45, 120, 85, 210, 160, 290, 340, 420, 580],
-                        borderColor: '#d4af37',
-                        backgroundColor: 'rgba(212,175,55,0.1)',
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0.35,
-                        pointRadius: 3
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#cfcfcf', font: { size: 9 } } },
-                        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#cfcfcf', font: { size: 9 } } }
+                    if(uEmail.includes(searchKey) || uPhone.includes(searchKey) || pId.includes(searchKey)) {
+                        matchedOrders.push(data);
                     }
+                });
+
+                // লোকাল স্টোরেজ থেকেও ডেটা ম্যাচ করা
+                let localUser = JSON.parse(localStorage.getItem('mme_logged_user') || 'null');
+                let localShipping = JSON.parse(localStorage.getItem('mme_saved_shipping') || 'null');
+                let subdomainItems = window.subdomainCartItems || [];
+
+                if(localUser && (localUser.email.toLowerCase().includes(queryVal.toLowerCase()) || (localUser.productId && localUser.productId.toLowerCase().includes(queryVal.toLowerCase())))) {
+                    subdomainItems.forEach(item => {
+                        matchedOrders.push({
+                            item: item,
+                            shipping: localShipping,
+                            user: localUser,
+                            timestamp: new Date().toISOString()
+                        });
+                    });
                 }
-            });
+
+                if(matchedOrders.length === 0) {
+                    contentList.innerHTML = `<div style="text-align:center; padding:15px; color:#ff2d55; font-size:0.75rem; font-weight:600;">No orders found matching "${queryVal}". Please verify your Product ID or contact support.</div>`;
+                    countBadge.innerText = "0 Items Found";
+                    return;
+                }
+
+                let html = "";
+                matchedOrders.forEach((order) => {
+                    let title = order.item && order.item.title ? order.item.title : "Luxury Product";
+                    let qty = order.item && order.item.quantity ? order.item.quantity : 1;
+                    let price = order.item && order.item.price ? order.item.price : "$0.00";
+                    let img = order.item && order.item.image ? order.item.image : "https://via.placeholder.com/40";
+                    let custName = order.user && order.user.name ? order.user.name : "Valued Customer";
+
+                    html += `
+                        <div class="order-item-row">
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <img src="${img}" style="width:36px; height:36px; border-radius:6px; object-fit:cover; border:1px solid var(--gold-solid);">
+                                <div>
+                                    <strong style="color:#fff; display:block; font-size:0.72rem;">${title}</strong>
+                                    <span style="font-size:0.6rem; color:var(--text-gray);">Customer: ${custName} | Qty: ${qty} | Price: ${price}</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="status-badge"><i class="fa-solid fa-circle-check"></i> Dispatched / Preparing</span>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                contentList.innerHTML = html;
+                countBadge.innerText = `${matchedOrders.length} Item(s) Found`;
+
+            } catch(e) {
+                contentList.innerHTML = `
+                    <div class="order-item-row">
+                        <div>
+                            <strong style="color:#fff; display:block; font-size:0.72rem;">Royal Crown Essence (Demo Order)</strong>
+                            <span style="font-size:0.6rem; color:var(--text-gray);">Status: Order Confirmed & Preparing for Dispatch</span>
+                        </div>
+                        <span class="status-badge"><i class="fa-solid fa-clock"></i> In Transit</span>
+                    </div>
+                `;
+                countBadge.innerText = "1 Item Found";
+            }
         }
     </script>
 </body>
