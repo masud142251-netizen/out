@@ -9,9 +9,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <!-- Firebase SDK & Real-time Firestore Cart Integration with URL Tracker for Seller & Affiliate -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
         
         try {
             const firebaseConfig = {
@@ -38,33 +39,30 @@
             if(refSeller) localStorage.setItem('mrmasudar_seller_id', refSeller);
             if(refAffiliate) localStorage.setItem('mrmasudar_affiliate_id', refAffiliate);
 
-            async function loadCartFromFirebase() {
+            // রিয়েল-টাইম ফায়ারস্টোর লিসener (হোম পেজ থেকে অ্যাড করা মাত্র সাবডোমেইনে চলে আসবে)
+            function listenCartFromFirebase() {
                 try {
-                    const querySnapshot = await getDocs(collection(window.db, "global_carts"));
-                    let itemsList = [];
-                    querySnapshot.forEach((documentSnap) => {
-                        itemsList.push({ docId: documentSnap.id, ...documentSnap.data() });
+                    onSnapshot(collection(window.db, "global_carts"), (querySnapshot) => {
+                        let itemsList = [];
+                        querySnapshot.forEach((documentSnap) => {
+                            itemsList.push({ docId: documentSnap.id, ...documentSnap.data() });
+                        });
+                        
+                        if(itemsList.length === 0) {
+                            window.subdomainCartItems = [];
+                        } else {
+                            window.subdomainCartItems = itemsList;
+                        }
+                        if(typeof renderCartTable === 'function') renderCartTable();
                     });
-                    
-                    if(itemsList.length === 0) {
-                        window.subdomainCartItems = [
-                            { docId: "demo-1", title: "Luxury Silk Designer Evening Gown", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc" }
-                        ];
-                    } else {
-                        window.subdomainCartItems = itemsList;
-                    }
                 } catch(e) {
-                    window.subdomainCartItems = [
-                        { docId: "demo-1", title: "Luxury Silk Designer Evening Gown", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc" }
-                    ];
+                    window.subdomainCartItems = [];
+                    if(typeof renderCartTable === 'function') renderCartTable();
                 }
-                if(typeof renderCartTable === 'function') renderCartTable();
             }
-            loadCartFromFirebase();
+            listenCartFromFirebase();
         } catch(err) {
-            window.subdomainCartItems = [
-                { docId: "demo-1", title: "Luxury Silk Designer Evening Gown", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc" }
-            ];
+            window.subdomainCartItems = [];
             if(typeof renderCartTable === 'function') renderCartTable();
         }
     </script>
@@ -85,7 +83,7 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         html, body { width: 100%; overflow-x: hidden !important; background-color: var(--bg-black); color: var(--text-white); font-family: var(--font-body); }
-        body { padding-top: 68px; padding-bottom: 40px; }
+        body { padding-top: 68px; padding-bottom: 90px; }
 
         h1, h2, h3, h4, .brand-title-main, .section-title { font-family: var(--font-luxury); }
 
@@ -98,9 +96,9 @@
         .logo { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--gold-solid); background: #000; box-shadow: 0 0 10px rgba(212,175,55,0.3); }
         .brand-title-main { font-size: 0.92rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 0.8px; }
 
-        /* হেডার ডানদিকের ক্রস বাটন */
-        .header-cross-btn { background: transparent; border: 1.5px solid var(--gold-solid); color: var(--gold-solid); width: 30px; height: 30px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; font-size: 0.95rem; font-weight: bold; text-decoration: none; transition: 0.3s; }
-        .header-cross-btn:hover { background: var(--gold-gradient); color: #000; }
+        /* ক্রস বাটন: একদম বামদিকের নিচের অংশে ফিক্সড */
+        .golden-cross-btn-bottom-left { background: rgba(10,10,10,0.95); border: 1.5px solid var(--gold-solid); color: var(--gold-solid); width: 42px; height: 42px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.15rem; font-weight: bold; position: fixed; bottom: 20px; left: 20px; z-index: 5000; box-shadow: 0 0 15px rgba(212,175,55,0.4); text-decoration: none; transition: 0.3s; }
+        .golden-cross-btn-bottom-left:hover { background: var(--gold-gradient); color: #000; transform: scale(1.1); }
 
         .custom-toast { position: fixed; top: 76px; left: 50%; transform: translateX(-50%); background: rgba(16, 16, 16, 0.96); border: 1.5px solid var(--gold-solid); color: var(--gold-solid); padding: 7px 18px; border-radius: 30px; font-size: 0.72rem; font-weight: 700; z-index: 9999; display: none; box-shadow: 0 0 15px rgba(212,175,55,0.3); }
 
@@ -175,11 +173,14 @@
             <img src="https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc" alt="Logo" class="logo">
             <span class="brand-title-main">MRMASUDAR.COM</span>
         </a>
-        <a href="https://mrmasudar.com" class="header-cross-btn" title="Return to Home"><i class="fa-solid fa-xmark"></i></a>
     </header>
+
+    <!-- বাম দিকের নিচে হোম পেজে যাওয়ার ক্রস বাটন -->
+    <a href="https://mrmasudar.com" class="golden-cross-btn-bottom-left" title="Return to Home"><i class="fa-solid fa-xmark"></i></a>
 
     <div class="checkout-container">
         
+        <!-- ১. কার্ট টেবিল ও গুগল ভেরিফাই সেকশন -->
         <div class="checkout-card" id="cartAndVerifyCard">
             <div class="section-title"><i class="fa-solid fa-gem"></i> Luxury Product Cart</div>
             <div style="overflow-x: auto;">
@@ -193,7 +194,8 @@
                         </tr>
                     </thead>
                     <tbody id="cartTableBody">
-                        </tbody>
+                        <!-- Dynamic Cart Items from Firebase -->
+                    </tbody>
                 </table>
             </div>
             
@@ -202,6 +204,7 @@
                 <span style="font-size:0.85rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;" id="cartTotalPrice">$0.00</span>
             </div>
 
+            <!-- Continue with Google Verify বাটন -->
             <div class="google-auth-box" id="googleAuthSection">
                 <button class="google-continue-btn" onclick="openShippingModal()">
                     <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
@@ -210,6 +213,7 @@
             </div>
         </div>
 
+        <!-- ২. থ্যাংক ইউ এবং ট্র্যাকিং ইনফো পেজ -->
         <div class="thankyou-section-box" id="thankYouSectionBox">
             
             <div class="thankyou-card">
@@ -222,11 +226,13 @@
                 <div class="product-id-badge" id="finalGeneratedProductId">PROD-TRK-000000</div>
 
                 <div class="ordered-items-list" id="orderedItemsSummaryList">
-                    </div>
+                    <!-- Dynamic Ordered Items Here -->
+                </div>
 
                 <a href="https://mrmasudar.com" class="return-home-center-btn"><i class="fa-solid fa-arrow-left"></i> Return to Home Page</a>
             </div>
 
+            <!-- ট্র্যাকিং নোটিশ পোর্টাল -->
             <div class="tracking-notice-card">
                 <div class="notice-header">
                     <i class="fa-solid fa-truck-fast"></i> Parcel Tracking Information
@@ -244,6 +250,7 @@
 
     </div>
 
+    <!-- ৩. পপআপ ফরম মোডাল -->
     <div class="auth-modal-overlay" id="shippingModalOverlay" onclick="closeShippingModalOutside(event)">
         <div class="auth-modal-box">
             <button class="auth-modal-close" onclick="document.getElementById('shippingModalOverlay').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
@@ -251,4 +258,368 @@
             
             <div class="input-group">
                 <label>Full Name <span>*</span></label>
-                <input type="text" class="input-field" id="custName" placeholder="Masudar
+                <input type="text" class="input-field" id="custName" placeholder="Masudar Rahman" required>
+            </div>
+            
+            <div class="input-group">
+                <label>Verified Gmail Account <span>*</span></label>
+                <input type="email" class="input-field" id="custEmail" readonly style="color:var(--gold-solid); background:#0a0a0a;" required>
+            </div>
+            
+            <div class="input-group">
+                <label>Country Code & WhatsApp Number <span>*</span></label>
+                <div class="phone-row-two-col">
+                    <div class="country-col">
+                        <select class="country-select" id="countryCodeSelect"></select>
+                    </div>
+                    <div class="number-col">
+                        <input type="text" class="input-field" id="custWhatsapp" placeholder="1712345678" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Detailed Shipping Address <span>*</span></label>
+                <input type="text" class="input-field" id="custAddress" placeholder="House, Road, City, Postal Code" required>
+            </div>
+
+            <div class="input-group" style="margin-top: 6px;">
+                <label>Select Payment Method <span>*</span></label>
+                <select class="pay-gateway-select" id="paymentGatewayChoice" onchange="handlePaymentMethodChange()">
+                    <option value="Payoneer Global">Payoneer Global (USD / EUR)</option>
+                    <option value="PayPal Checkout">PayPal Checkout</option>
+                    <option value="Visa Credit/Debit Card">Visa Credit / Debit Card</option>
+                    <option value="Mastercard SecureCode">Mastercard SecureCode</option>
+                    <option value="American Express">American Express (Amex)</option>
+                    <option value="Discover Global Network">Discover Global Network</option>
+                    <option value="Apple Pay">Apple Pay</option>
+                    <option value="Google Pay">Google Pay</option>
+                    <option value="Stripe Global Gateway">Stripe Global Gateway</option>
+                    <option value="Direct Bank Wire Transfer">Direct Bank Wire Transfer</option>
+                    <option value="bKash Personal / Merchant">bKash (Mobile Banking)</option>
+                    <option value="Nagad Personal / Merchant">Nagad (Mobile Banking)</option>
+                    <option value="Other International Cards">Other International Cards</option>
+                </select>
+            </div>
+
+            <div class="bkash-notice-box" id="bkashNoticeBox">
+                <i class="fa-solid fa-circle-info"></i> <span id="bkashDynamicText">Please send money to our merchant number (01767319670) and enter your TrxID below.</span>
+            </div>
+
+            <div class="input-group" id="trxIdInputGroup" style="display:none;">
+                <label>Transaction ID (TrxID) <span>*</span></label>
+                <input type="text" class="input-field" id="custTrxId" placeholder="e.g. 9N87B6V5C4" style="border-color:var(--gold-solid); color:var(--gold-solid);">
+            </div>
+
+            <div class="action-btn-row">
+                <button class="pay-confirm-btn" onclick="executePaymentAndShowThankYou()">Pay & Confirm Order</button>
+                <a href="https://mrmasudar.com" class="cancel-btn">Cancel</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const all195CountriesList = [
+            { name: "Afghanistan", code: "+93", flag: "🇦🇫" }, { name: "Albania", code: "+355", flag: "🇦🇱" },
+            { name: "Algeria", code: "+213", flag: "🇩🇿" }, { name: "Andorra", code: "+376", flag: "🇦🇩" },
+            { name: "Angola", code: "+244", flag: "🇦🇴" }, { name: "Argentina", code: "+54", flag: "🇦🇷" },
+            { name: "Armenia", code: "+374", flag: "🇦🇲" }, { name: "Australia", code: "+61", flag: "🇦🇺" },
+            { name: "Austria", code: "+43", flag: "🇦🇹" }, { name: "Azerbaijan", code: "+994", flag: "🇦🇿" },
+            { name: "Bahamas", code: "+1", flag: "🇧🇸" }, { name: "Bahrain", code: "+973", flag: "🇧🇭" },
+            { name: "Bangladesh", code: "+880", flag: "🇧🇩" }, { name: "Barbados", code: "+1", flag: "🇧🇧" },
+            { name: "Belarus", code: "+375", flag: "🇧🇾" }, { name: "Belgium", code: "+32", flag: "🇧🇪" },
+            { name: "Belize", code: "+501", flag: "🇧🇿" }, { name: "Benin", code: "+229", flag: "🇧🇯" },
+            { name: "Bhutan", code: "+975", flag: "🇧🇹" }, { name: "Bolivia", code: "+591", flag: "🇧🇴" },
+            { name: "Bosnia and Herzegovina", code: "+387", flag: "🇧🇦" }, { name: "Botswana", code: "+267", flag: "🇧🇼" },
+            { name: "Brazil", code: "+55", flag: "🇧🇷" }, { name: "Brunei", code: "+673", flag: "🇧🇳" },
+            { name: "Bulgaria", code: "+359", flag: "🇧🇬" }, { name: "Burkina Faso", code: "+226", flag: "🇧🇫" },
+            { name: "Burundi", code: "+257", flag: "🇧🇮" }, { name: "Cambodia", code: "+855", flag: "🇰🇭" },
+            { name: "Cameroon", code: "+237", flag: "🇨🇲" }, { name: "Canada", code: "+1", flag: "🇨🇦" },
+            { name: "Cape Verde", code: "+238", flag: "🇨🇻" }, { name: "Central African Republic", code: "+236", flag: "🇨🇫" },
+            { name: "Chad", code: "+235", flag: "🇹🇩" }, { name: "Chile", code: "+56", flag: "🇨🇱" },
+            { name: "China", code: "+86", flag: "🇨🇳" }, { name: "Colombia", code: "+57", flag: "🇨🇴" },
+            { name: "Comoros", code: "+269", flag: "🇰🇲" }, { name: "Congo", code: "+242", flag: "🇨🇬" },
+            { name: "Costa Rica", code: "+506", flag: "🇨🇷" }, { name: "Croatia", code: "+385", flag: "🇭🇷" },
+            { name: "Cuba", code: "+53", flag: "🇨🇺" }, { name: "Cyprus", code: "+357", flag: "🇨🇾" },
+            { name: "Czech Republic", code: "+420", flag: "🇨🇿" }, { name: "Denmark", code: "+45", flag: "🇩🇰" },
+            { name: "Djibouti", code: "+253", flag: "🇩🇯" }, { name: "Dominica", code: "+1", flag: "🇩🇲" },
+            { name: "Dominican Republic", code: "+1", flag: "🇩🇴" }, { name: "Ecuador", code: "+593", flag: "🇪🇨" },
+            { name: "Egypt", code: "+20", flag: "🇪🇬" }, { name: "El Salvador", code: "+503", flag: "🇸🇻" },
+            { name: "Equatorial Guinea", code: "+240", flag: "🇬🇶" }, { name: "Eritrea", code: "+291", flag: "🇪🇷" },
+            { name: "Estonia", code: "+372", flag: "🇪🇪" }, { name: "Eswatini", code: "+268", flag: "🇸🇿" },
+            { name: "Ethiopia", code: "+251", flag: "🇪🇹" }, { name: "Fiji", code: "+679", flag: "🇫🇯" },
+            { name: "Finland", code: "+358", flag: "🇫🇮" }, { name: "France", code: "+33", flag: "🇫🇷" },
+            { name: "Gabon", code: "+241", flag: "🇬🇦" }, { name: "Gambia", code: "+220", flag: "🇬🇲" },
+            { name: "Georgia", code: "+995", flag: "🇬🇪" }, { name: "Germany", code: "+49", flag: "🇩🇪" },
+            { name: "Ghana", code: "+233", flag: "🇬🇭" }, { name: "Greece", code: "+30", flag: "🇬🇷" },
+            { name: "Grenada", code: "+1", flag: "🇬🇩" }, { name: "Guatemala", code: "+502", flag: "🇬🇹" },
+            { name: "Guinea", code: "+224", flag: "🇬🇳" }, { name: "Guinea-Bissau", code: "+245", flag: "🇬🇼" },
+            { name: "Guyana", code: "+592", flag: "🇬🇾" }, { name: "Haiti", code: "+509", flag: "🇭🇹" },
+            { name: "Honduras", code: "+504", flag: "🇭🇳" }, { name: "Hungary", code: "+36", flag: "🇭🇺" },
+            { name: "Iceland", code: "+354", flag: "🇮🇸" }, { name: "India", code: "+91", flag: "🇮🇳" },
+            { name: "Indonesia", code: "+62", flag: "🇮🇩" }, { name: "Iran", code: "+98", flag: "🇮🇷" },
+            { name: "Iraq", code: "+964", flag: "🇮🇶" }, { name: "Ireland", code: "+353", flag: "🇮🇪" },
+            { name: "Israel", code: "+972", flag: "🇮🇱" }, { name: "Italy", code: "+39", flag: "🇮🇹" },
+            { name: "Jamaica", code: "+1", flag: "🇯🇲" }, { name: "Japan", code: "+81", flag: "🇯🇵" },
+            { name: "Jordan", code: "+962", flag: "🇯🇴" }, { name: "Kazakhstan", code: "+7", flag: "🇰🇿" },
+            { name: "Kenya", code: "+254", flag: "🇰🇪" }, { name: "Kiribati", code: "+686", flag: "🇰🇮" },
+            { name: "Kuwait", code: "+965", flag: "🇰🇼" }, { name: "Kyrgyzstan", code: "+996", flag: "🇰🇬" },
+            { name: "Laos", code: "+856", flag: "🇱🇦" }, { name: "Latvia", code: "+371", flag: "🇱🇻" },
+            { name: "Lebanon", code: "+961", flag: "🇱🇧" }, { name: "Lesotho", code: "+266", flag: "🇱🇸" },
+            { name: "Liberia", code: "+231", flag: "🇱🇷" }, { name: "Libya", code: "+218", flag: "🇱🇾" },
+            { name: "Liechtenstein", code: "+423", flag: "🇱🇮" }, { name: "Lithuania", code: "+370", flag: "🇱🇹" },
+            { name: "Luxembourg", code: "+352", flag: "🇱🇺" }, { name: "Madagascar", code: "+261", flag: "🇲🇬" },
+            { name: "Malawi", code: "+265", flag: "🇲🇼" }, { name: "Malaysia", code: "+60", flag: "🇲🇾" },
+            { name: "Maldives", code: "+960", flag: "🇲🇻" }, { name: "Mali", code: "+223", flag: "🇲🇱" },
+            { name: "Malta", code: "+356", flag: "🇲🇹" }, { name: "Mauritania", code: "+222", flag: "🇲🇷" },
+            { name: "Mauritius", code: "+230", flag: "🇲🇺" }, { name: "Mexico", code: "+52", flag: "🇲🇽" },
+            { name: "Micronesia", code: "+691", flag: "🇫🇲" }, { name: "Moldova", code: "+373", flag: "🇲🇩" },
+            { name: "Monaco", code: "+377", flag: "🇲🇨" }, { name: "Mongolia", code: "+976", flag: "🇲🇳" },
+            { name: "Montenegro", code: "+382", flag: "🇲🇪" }, { name: "Morocco", code: "+212", flag: "🇲🇦" },
+            { name: "Mozambique", code: "+258", flag: "🇲🇿" }, { name: "Myanmar", code: "+95", flag: "🇲🇲" },
+            { name: "Namibia", code: "+264", flag: "🇳🇦" }, { name: "Nauru", code: "+674", flag: "🇳🇷" },
+            { name: "Nepal", code: "+977", flag: "🇳🇵" }, { name: "Netherlands", code: "+31", flag: "🇳🇱" },
+            { name: "New Zealand", code: "+64", flag: "🇳🇿" }, { name: "Nicaragua", code: "+505", flag: "🇳🇮" },
+            { name: "Niger", code: "+227", flag: "🇳🇪" }, { name: "Nigeria", code: "+234", flag: "🇳🇬" },
+            { name: "North Korea", code: "+850", flag: "🇰🇵" }, { name: "North Macedonia", code: "+389", flag: "🇲🇰" },
+            { name: "Norway", code: "+47", flag: "🇳🇴" }, { name: "Oman", code: "+968", flag: "🇴🇲" },
+            { name: "Pakistan", code: "+92", flag: "🇵🇰" }, { name: "Palau", code: "+680", flag: "🇵🇼" },
+            { name: "Palestine", code: "+970", flag: "🇵🇸" }, { name: "Panama", code: "+507", flag: "🇵🇦" },
+            { name: "Papua New Guinea", code: "+675", flag: "🇵🇬" }, { name: "Paraguay", code: "+595", flag: "🇵🇾" },
+            { name: "Peru", code: "+51", flag: "🇵🇪" }, { name: "Philippines", code: "+63", flag: "🇵🇭" },
+            { name: "Poland", code: "+48", flag: "🇵🇱" }, { name: "Portugal", code: "+351", flag: "🇵🇹" },
+            { name: "Qatar", code: "+974", flag: "🇶🇦" }, { name: "Romania", code: "+40", flag: "🇷🇴" },
+            { name: "Russia", code: "+7", flag: "🇷🇺" }, { name: "Rwanda", code: "+250", flag: "🇷🇼" },
+            { name: "Saint Lucia", code: "+1", flag: "🇱🇨" }, { name: "Samoa", code: "+685", flag: "🇼🇸" },
+            { name: "San Marino", code: "+378", flag: "🇸🇲" }, { name: "Saudi Arabia", code: "+966", flag: "🇸🇦" },
+            { name: "Senegal", code: "+221", flag: "🇸🇳" }, { name: "Serbia", code: "+381", flag: "🇷🇸" },
+            { name: "Seychelles", code: "+248", flag: "🇸🇨" }, { name: "Sierra Leone", code: "+232", flag: "🇸🇱" },
+            { name: "Singapore", code: "+65", flag: "🇸🇬" }, { name: "Slovakia", code: "+421", flag: "🇸🇰" },
+            { name: "Slovenia", code: "+386", flag: "🇸🇮" }, { name: "Somalia", code: "+252", flag: "🇸🇴" },
+            { name: "South Africa", code: "+27", flag: "🇿🇦" }, { name: "South Korea", code: "+82", flag: "🇰🇷" },
+            { name: "South Sudan", code: "+211", flag: "🇸🇸" }, { name: "Spain", code: "+34", flag: "🇪🇸" },
+            { name: "Sri Lanka", code: "+94", flag: "🇱🇰" }, { name: "Sudan", code: "+249", flag: "🇸🇩" },
+            { name: "Suriname", code: "+597", flag: "🇸🇷" }, { name: "Sweden", code: "+46", flag: "🇸🇪" },
+            { name: "Switzerland", code: "+41", flag: "🇨🇭" }, { name: "Syria", code: "+963", flag: "🇸🇾" },
+            { name: "Taiwan", code: "+886", flag: "🇹🇼" }, { name: "Tajikistan", code: "+992", flag: "🇹🇯" },
+            { name: "Tanzania", code: "+255", flag: "🇹🇿" }, { name: "Thailand", code: "+66", flag: "🇹🇭" },
+            { name: "Togo", code: "+228", flag: "🇹🇬" }, { name: "Tonga", code: "+676", flag: "🇹🇴" },
+            { name: "Trinidad and Tobago", code: "+1", flag: "🇹🇹" }, { name: "Tunisia", code: "+216", flag: "🇹🇳" },
+            { name: "Turkey", code: "+90", flag: "🇹🇷" }, { name: "Turkmenistan", code: "+993", flag: "🇹🇲" },
+            { name: "Uganda", code: "+256", flag: "🇺🇬" }, { name: "Ukraine", code: "+380", flag: "🇺🇦" },
+            { name: "United Arab Emirates", code: "+971", flag: "🇦🇪" }, { name: "United Kingdom", code: "+44", flag: "🇬🇧" },
+            { name: "United States", code: "+1", flag: "🇺🇸" }, { name: "Uruguay", code: "+598", flag: "🇺🇾" },
+            { name: "Uzbekistan", code: "+998", flag: "🇺🇿" }, { name: "Vanuatu", code: "+678", flag: "🇻🇺" },
+            { name: "Vatican City", code: "+379", flag: "🇻🇦" }, { name: "Venezuela", code: "+58", flag: "🇻🇪" },
+            { name: "Vietnam", code: "+84", flag: "🇻🇳" }, { name: "Yemen", code: "+967", flag: "🇾🇪" },
+            { name: "Zambia", code: "+260", flag: "🇿🇲" }, { name: "Zimbabwe", code: "+263", flag: "🇿🇼" }
+        ];
+
+        window.addEventListener('DOMContentLoaded', () => {
+            populateAllCountriesDropdown();
+        });
+
+        function showToast(msg) {
+            let t = document.getElementById('customToast');
+            t.innerText = msg;
+            t.style.display = 'block';
+            setTimeout(() => { t.style.display = 'none'; }, 2000);
+        }
+
+        function populateAllCountriesDropdown() {
+            let codeSelect = document.getElementById('countryCodeSelect');
+            if(!codeSelect) return;
+            let opts = "";
+            all195CountriesList.forEach(c => {
+                opts += `<option value="${c.code}">${c.flag} ${c.name} (${c.code})</option>`;
+            });
+            codeSelect.innerHTML = opts;
+            
+            try {
+                let tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+                let matched = all195CountriesList.find(item => tz.toLowerCase().includes(item.name.toLowerCase()));
+                codeSelect.value = matched ? matched.code : "+880";
+            } catch(e) {
+                codeSelect.value = "+880";
+            }
+        }
+
+        function renderCartTable() {
+            const tbody = document.getElementById('cartTableBody');
+            if(!tbody) return;
+
+            let items = window.subdomainCartItems || [];
+            let total = 0;
+
+            if(items.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-gray); padding:12px;">Your cart is empty. Please add items from home page.</td></tr>`;
+                document.getElementById('cartTotalPrice').innerText = "$0.00";
+                return;
+            }
+
+            let html = "";
+            items.forEach((item, index) => {
+                let numPrice = parseFloat((item.price || "0").replace('$', '')) || 0;
+                let qty = parseInt(item.quantity || 1);
+                total += numPrice * qty;
+                html += `
+                    <tr>
+                        <td>
+                            <div style="display:flex; align-items:center; gap:6px;">
+                                <img src="${item.image || 'https://via.placeholder.com/34'}" class="sheet-product-img">
+                                <span style="font-weight:600;">${item.title}</span>
+                            </div>
+                        </td>
+                        <td style="font-weight:700;">${qty}</td>
+                        <td style="font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">${item.price}</td>
+                        <td><button class="sheet-delete-btn" onclick="removeCartItem('${item.docId}', ${index})"><i class="fa-solid fa-trash"></i></button></td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+            document.getElementById('cartTotalPrice').innerText = `$${total.toFixed(2)}`;
+        }
+
+        async function removeCartItem(docId, index) {
+            try {
+                if(window.db && window.firebaseDeleteDoc && window.firebaseDoc && docId && !docId.startsWith('demo-')) {
+                    await window.firebaseDeleteDoc(window.firebaseDoc(window.db, "global_carts", docId));
+                }
+            } catch(e) {}
+
+            window.subdomainCartItems.splice(index, 1);
+            renderCartTable();
+            showToast("Product removed successfully.");
+        }
+
+        function openShippingModal() {
+            let items = window.subdomainCartItems || [];
+            if(items.length === 0) {
+                showToast("Your cart is empty!");
+                return;
+            }
+
+            let verifiedUser = {
+                name: "Masudar Rahman",
+                email: "masudar1422@gmail.com"
+            };
+
+            document.getElementById('custName').value = verifiedUser.name;
+            document.getElementById('custEmail').value = verifiedUser.email;
+
+            document.getElementById('shippingModalOverlay').style.display = 'flex';
+            showToast("Google account verified!");
+        }
+
+        function closeShippingModalOutside(e) {
+            if(e.target.id === 'shippingModalOverlay') {
+                document.getElementById('shippingModalOverlay').style.display = 'none';
+            }
+        }
+
+        function handlePaymentMethodChange() {
+            let val = document.getElementById('paymentGatewayChoice').value;
+            let noticeBox = document.getElementById('bkashNoticeBox');
+            let trxGroup = document.getElementById('trxIdInputGroup');
+            let dynamicText = document.getElementById('bkashDynamicText');
+
+            if(val.includes('bKash') || val.includes('Nagad')) {
+                let items = window.subdomainCartItems || [];
+                let totalUSD = 0;
+                items.forEach(i => {
+                    let p = parseFloat((i.price || "0").replace('$', '')) || 0;
+                    totalUSD += p * (parseInt(i.quantity) || 1);
+                });
+                let totalBDT = Math.round(totalUSD * 120);
+
+                dynamicText.innerHTML = `Please send <b>$${totalUSD.toFixed(2)} USD</b> (<b>${totalBDT} BDT</b>) to our merchant number (<b>01767319670</b>) and enter your <b>TrxID</b> below.`;
+                noticeBox.style.display = 'block';
+                trxGroup.style.display = 'block';
+            } else {
+                noticeBox.style.display = 'none';
+                trxGroup.style.display = 'none';
+            }
+        }
+
+        async function executePaymentAndShowThankYou() {
+            let name = document.getElementById('custName').value.trim();
+            let email = document.getElementById('custEmail').value.trim();
+            let countryCode = document.getElementById('countryCodeSelect').value;
+            let whatsapp = document.getElementById('custWhatsapp').value.trim();
+            let address = document.getElementById('custAddress').value.trim();
+            let gateway = document.getElementById('paymentGatewayChoice').value;
+            let trxId = document.getElementById('custTrxId').value.trim();
+
+            if(!name || !email || !whatsapp || !address) {
+                showToast("Please fill in all required shipping fields!");
+                return;
+            }
+
+            if((gateway.includes('bKash') || gateway.includes('Nagad')) && !trxId) {
+                showToast("Please enter your Transaction ID (TrxID)!");
+                return;
+            }
+
+            let generatedProductId = "PROD-TRK-" + Math.floor(100000 + Math.random() * 900000);
+            let currentCartProducts = window.subdomainCartItems || [];
+
+            let finalSellerId = localStorage.getItem('mrmasudar_seller_id') || "SELLER-MR-DEFAULT";
+            let finalAffiliateId = localStorage.getItem('mrmasudar_affiliate_id') || "DIRECT";
+
+            let orderPayload = {
+                user: { name, email, productId: generatedProductId },
+                shipping: { countryCode, whatsapp, address },
+                items: currentCartProducts,
+                gateway: gateway,
+                trxId: trxId || "N/A",
+                sellerId: finalSellerId,
+                affiliateId: finalAffiliateId,
+                paymentStatus: "Paid",
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                if(window.db && window.firebaseAddDoc && window.firebaseCollection) {
+                    await window.firebaseAddDoc(window.firebaseCollection(window.db, "orders"), orderPayload);
+
+                    for(let prod of currentCartProducts) {
+                        if(prod.docId && !prod.docId.startsWith('demo-')) {
+                            await window.firebaseDeleteDoc(window.firebaseDoc(window.db, "global_carts", prod.docId));
+                        }
+                    }
+                }
+            } catch(e) {}
+
+            window.subdomainCartItems = [];
+
+            document.getElementById('shippingModalOverlay').style.display = 'none';
+            document.getElementById('cartAndVerifyCard').style.display = 'none';
+            document.getElementById('thankYouSectionBox').style.display = 'flex';
+            document.getElementById('finalGeneratedProductId').innerText = generatedProductId;
+
+            let summaryHtml = "";
+            currentCartProducts.forEach(prod => {
+                summaryHtml += `
+                    <div class="ordered-item-row">
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <img src="${prod.image}" style="width:28px; height:28px; border-radius:4px; object-fit:cover; border:1px solid var(--gold-solid);">
+                            <div>
+                                <strong style="color:#fff; font-size:0.66rem;">${prod.title}</strong>
+                                <span style="font-size:0.56rem; color:var(--text-gray); display:block;">Qty: ${prod.quantity || 1} | Price: ${prod.price}</span>
+                            </div>
+                        </div>
+                        <span style="color:var(--success-green); font-weight:700; font-size:0.62rem;"><i class="fa-solid fa-circle-check"></i> Confirmed</span>
+                    </div>
+                `;
+            });
+            document.getElementById('orderedItemsSummaryList').innerHTML = summaryHtml;
+
+            showToast(`Payment successful via ${gateway}!`);
+
+            setTimeout(() => {
+                window.location.href = "https://mrmasudar.com";
+            }, 240000);
+        }
+    </script>
+</body>
+</html>
