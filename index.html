@@ -9,10 +9,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Firebase & Fresh Cart State Management -->
+    <!-- Firebase SDK & Real-time Firestore Cart Integration -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
         
         try {
             const firebaseConfig = {
@@ -28,45 +28,36 @@
             window.db = getFirestore(app);
             window.firebaseAddDoc = addDoc;
             window.firebaseCollection = collection;
+            window.firebaseDeleteDoc = deleteDoc;
+            window.firebaseDoc = doc;
 
-            async function loadCartData() {
-                let checkoutStatus = localStorage.getItem('mrmasudar_order_completed');
-                if(checkoutStatus === 'true') {
-                    window.subdomainCartItems = [];
-                } else {
-                    let savedCart = localStorage.getItem('mrmasudar_active_cart');
-                    if(savedCart !== null) {
-                        window.subdomainCartItems = JSON.parse(savedCart);
+            async function loadCartFromFirebase() {
+                try {
+                    const querySnapshot = await getDocs(collection(window.db, "global_carts"));
+                    let itemsList = [];
+                    querySnapshot.forEach((documentSnap) => {
+                        itemsList.push({ docId: documentSnap.id, ...documentSnap.data() });
+                    });
+                    
+                    // যদি ফায়ারবেসে কার্ট খালি থাকে তবে ডিফল্ট ডেমো আইটেম দেখাবে, অন্য 
+                    if(itemsList.length === 0) {
+                        window.subdomainCartItems = [
+                            { docId: "demo-1", title: "Luxury Silk Designer Evening Gown", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc" }
+                        ];
                     } else {
-                        try {
-                            const querySnapshot = await getDocs(collection(window.db, "global_carts"));
-                            let itemsList = [];
-                            querySnapshot.forEach((doc) => {
-                                itemsList.push({ id: doc.id, ...doc.data() });
-                            });
-                            if(itemsList.length === 0) {
-                                itemsList = [
-                                    { id: "demo-1", title: "Luxury Silk Designer Evening Gown", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "Golden Teak", size: "Deluxe" },
-                                    { id: "demo-2", title: "Luxury Silk Designer Evening Gown", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "High Gloss Lacquer", size: "Standard" }
-                                ];
-                            }
-                            window.subdomainCartItems = itemsList;
-                            localStorage.setItem('mrmasudar_active_cart', JSON.stringify(itemsList));
-                        } catch(e) {
-                            window.subdomainCartItems = [
-                                { id: "demo-1", title: "Luxury Silk Designer Evening Gown", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "Golden Teak", size: "Deluxe" },
-                                { id: "demo-2", title: "Luxury Silk Designer Evening Gown", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "High Gloss Lacquer", size: "Standard" }
-                            ];
-                        }
+                        window.subdomainCartItems = itemsList;
                     }
+                } catch(e) {
+                    window.subdomainCartItems = [
+                        { docId: "demo-1", title: "Luxury Silk Designer Evening Gown", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc" }
+                    ];
                 }
                 if(typeof renderCartTable === 'function') renderCartTable();
             }
-            loadCartData();
+            loadCartFromFirebase();
         } catch(err) {
             window.subdomainCartItems = [
-                { id: "demo-1", title: "Luxury Silk Designer Evening Gown", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "Golden Teak", size: "Deluxe" },
-                { id: "demo-2", title: "Luxury Silk Designer Evening Gown", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "High Gloss Lacquer", size: "Standard" }
+                { docId: "demo-1", title: "Luxury Silk Designer Evening Gown", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc" }
             ];
             if(typeof renderCartTable === 'function') renderCartTable();
         }
@@ -231,7 +222,7 @@
                         </tr>
                     </thead>
                     <tbody id="cartTableBody">
-                        <!-- Dynamic Cart Items -->
+                        <!-- Dynamic Cart Items from Firebase -->
                     </tbody>
                 </table>
             </div>
@@ -453,7 +444,6 @@
         ];
 
         window.addEventListener('DOMContentLoaded', () => {
-            renderCartTable();
             populateAllCountriesDropdown();
         });
 
@@ -498,7 +488,8 @@
             let html = "";
             items.forEach((item, index) => {
                 let numPrice = parseFloat((item.price || "0").replace('$', '')) || 0;
-                total += numPrice * (item.quantity || 1);
+                let qty = parseInt(item.quantity || 1);
+                total += numPrice * qty;
                 html += `
                     <tr>
                         <td>
@@ -507,9 +498,9 @@
                                 <span style="font-weight:600;">${item.title}</span>
                             </div>
                         </td>
-                        <td style="font-weight:700;">${item.quantity || 1}</td>
+                        <td style="font-weight:700;">${qty}</td>
                         <td style="font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">${item.price}</td>
-                        <td><button class="sheet-delete-btn" onclick="removeCartItem(${index})"><i class="fa-solid fa-trash"></i></button></td>
+                        <td><button class="sheet-delete-btn" onclick="removeCartItem('${item.docId}', ${index})"><i class="fa-solid fa-trash"></i></button></td>
                     </tr>
                 `;
             });
@@ -517,14 +508,26 @@
             document.getElementById('cartTotalPrice').innerText = `$${total.toFixed(2)}`;
         }
 
-        function removeCartItem(index) {
+        // ফায়ারবেস থেকে নির্দিষ্ট প্রোডাক্ট ডিলিট এবং কার্ট রেন্ডার আপডেট করা
+        async function removeCartItem(docId, index) {
+            try {
+                if(window.db && window.firebaseDeleteDoc && window.firebaseDoc && docId && !docId.startsWith('demo-')) {
+                    await window.firebaseDeleteDoc(window.firebaseDoc(window.db, "global_carts", docId));
+                }
+            } catch(e) {}
+
             window.subdomainCartItems.splice(index, 1);
-            localStorage.setItem('mrmasudar_active_cart', JSON.stringify(window.subdomainCartItems));
             renderCartTable();
             showToast("Product removed successfully.");
         }
 
         function openShippingModal() {
+            let items = window.subdomainCartItems || [];
+            if(items.length === 0 || (items.length === 1 && items[0].docId === 'demo-1')) {
+                showToast("Your cart is empty!");
+                return;
+            }
+
             let verifiedUser = {
                 name: "Masudar Rahman",
                 email: "masudar1422@gmail.com"
@@ -554,7 +557,7 @@
                 let totalUSD = 0;
                 items.forEach(i => {
                     let p = parseFloat((i.price || "0").replace('$', '')) || 0;
-                    totalUSD += p * (i.quantity || 1);
+                    totalUSD += p * (parseInt(i.quantity) || 1);
                 });
                 let totalBDT = Math.round(totalUSD * 120);
 
@@ -601,13 +604,18 @@
             try {
                 if(window.db && window.firebaseAddDoc && window.firebaseCollection) {
                     await window.firebaseAddDoc(window.firebaseCollection(window.db, "orders"), orderPayload);
+
+                    // পেমেন্ট সফল হওয়ার পর ফায়ারবেসের গ্লোবাল কার্ট থেকে সমস্ত আইটেম ডিলিট করা
+                    for(let prod of currentCartProducts) {
+                        if(prod.docId && !prod.docId.startsWith('demo-')) {
+                            await window.firebaseDeleteDoc(window.firebaseDoc(window.db, "global_carts", prod.docId));
+                        }
+                    }
                 }
             } catch(e) {}
 
-            // কার্ট পুরোপুরি খালি করে লোকালস্টোরেজ এবং অর্ডার কমপ্লিটেড ফ্ল্যাগ সেট করা
+            // কার্ট জিরো করা
             window.subdomainCartItems = [];
-            localStorage.setItem('mrmasudar_active_cart', JSON.stringify([]));
-            localStorage.setItem('mrmasudar_order_completed', 'true');
 
             document.getElementById('shippingModalOverlay').style.display = 'none';
             document.getElementById('cartAndVerifyCard').style.display = 'none';
@@ -622,7 +630,7 @@
                             <img src="${prod.image}" style="width:28px; height:28px; border-radius:4px; object-fit:cover; border:1px solid var(--gold-solid);">
                             <div>
                                 <strong style="color:#fff; font-size:0.66rem;">${prod.title}</strong>
-                                <span style="font-size:0.56rem; color:var(--text-gray); display:block;">Qty: ${prod.quantity} | Price: ${prod.price}</span>
+                                <span style="font-size:0.56rem; color:var(--text-gray); display:block;">Qty: ${prod.quantity || 1} | Price: ${prod.price}</span>
                             </div>
                         </div>
                         <span style="color:var(--success-green); font-weight:700; font-size:0.62rem;"><i class="fa-solid fa-circle-check"></i> Confirmed</span>
@@ -634,7 +642,6 @@
             showToast(`Payment successful via ${gateway}!`);
 
             setTimeout(() => {
-                localStorage.removeItem('mrmasudar_order_completed');
                 window.location.href = "https://mrmasudar.com";
             }, 240000);
         }
