@@ -9,24 +9,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <!-- Firebase SDK (Safe Import) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
         
-        const firebaseConfig = {
-            apiKey: "AIzaSyCvUftOHiXFCuAzivaBut1XvNLpGE-LQ-w",
-            authDomain: "mr-masudar.firebaseapp.com",
-            projectId: "mr-masudar",
-            storageBucket: "mr-masudar.firebasestorage.app",
-            messagingSenderId: "644110210393",
-            appId: "1:644110210393:web:dc756217266f0af039e848",
-            measurementId: "G-BZBCMZQ87M"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        window.db = getFirestore(app);
-        window.firebaseAddDoc = addDoc;
-        window.firebaseCollection = collection;
+        try {
+            const firebaseConfig = {
+                apiKey: "AIzaSyCvUftOHiXFCuAzivaBut1XvNLpGE-LQ-w",
+                authDomain: "mr-masudar.firebaseapp.com",
+                projectId: "mr-masudar",
+                storageBucket: "mr-masudar.firebasestorage.app",
+                messagingSenderId: "644110210393",
+                appId: "1:644110210393:web:dc756217266f0af039e848",
+                measurementId: "G-BZBCMZQ87M"
+            };
+            const app = initializeApp(firebaseConfig);
+            window.db = getFirestore(app);
+            window.firebaseAddDoc = addDoc;
+            window.firebaseCollection = collection;
+        } catch(err) {
+            console.log("Firebase init note:", err);
+        }
     </script>
 
     <style>
@@ -87,7 +91,6 @@
         .cancel-btn { background: transparent; border: 1.5px solid #ff2d55; color: #ff2d55; padding: 12px 18px; border-radius: 8px; font-weight: 800; font-size: 0.75rem; cursor: pointer; text-transform: uppercase; transition: 0.3s; font-family: var(--font-luxury); text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
         .cancel-btn:hover { background: #ff2d55; color: #fff; }
 
-        /* অ্যানিমেটেড লাক্সারি থ্যাংক ইউ ও ট্র্যাকিং সেকশন */
         @keyframes fadeInScale {
             0% { opacity: 0; transform: scale(0.95); }
             100% { opacity: 1; transform: scale(1); }
@@ -116,7 +119,6 @@
         .ordered-item-row { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 0.7rem; }
         .ordered-item-row:last-child { border-bottom: none; }
 
-        /* ট্র্যাকিং নোটিশ কার্ড */
         .tracking-notice-card {
             background: #121212;
             border: 1.5px solid var(--gold-solid);
@@ -396,7 +398,9 @@
                 if(window.db && window.firebaseAddDoc && window.firebaseCollection) {
                     await window.firebaseAddDoc(window.firebaseCollection(window.db, "orders"), orderPayload);
                 }
-            } catch(e) {}
+            } catch(e) {
+                console.log("Firebase save optional error:", e);
+            }
 
             document.getElementById('checkoutFormCard').style.display = 'none';
             document.getElementById('thankYouSectionBox').style.display = 'flex';
