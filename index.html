@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Firebase SDK & Real-time Firestore Cart Integration -->
+    <!-- Firebase SDK & Real-time Firestore Cart Integration with URL Tracker for Seller & Affiliate -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -31,6 +31,14 @@
             window.firebaseDeleteDoc = deleteDoc;
             window.firebaseDoc = doc;
 
+            // URL থেকে অটোমেটিক Seller ID এবং Affiliate ID ক্যাপচার করে লোকাল স্টোরেজে সংরক্ষণ
+            const urlParams = new URLSearchParams(window.location.search);
+            const refSeller = urlParams.get('seller');
+            const refAffiliate = urlParams.get('ref') || urlParams.get('affiliate');
+
+            if(refSeller) localStorage.setItem('mrmasudar_seller_id', refSeller);
+            if(refAffiliate) localStorage.setItem('mrmasudar_affiliate_id', refAffiliate);
+
             async function loadCartFromFirebase() {
                 try {
                     const querySnapshot = await getDocs(collection(window.db, "global_carts"));
@@ -39,7 +47,6 @@
                         itemsList.push({ docId: documentSnap.id, ...documentSnap.data() });
                     });
                     
-                    // যদি ফায়ারবেসে কার্ট খালি থাকে তবে ডিফল্ট ডেমো আইটেম দেখাবে, অন্য 
                     if(itemsList.length === 0) {
                         window.subdomainCartItems = [
                             { docId: "demo-1", title: "Luxury Silk Designer Evening Gown", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc" }
@@ -112,7 +119,6 @@
         .google-continue-btn:hover { background: #f1f1f1; transform: scale(1.01); }
         .google-continue-btn img { width: 18px; height: 18px; flex-shrink: 0; }
 
-        /* পপআপ মোডাল ফরম সেকশন */
         .auth-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 6000; backdrop-filter: blur(6px); padding: 10px; }
         .auth-modal-box { background: #0e0e0e; border: 1.5px solid var(--gold-solid); width: 100%; max-width: 420px; border-radius: 14px; padding: 18px 14px; text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.8); font-family: var(--font-body); max-height: 90vh; overflow-y: auto; }
         .auth-modal-title { font-size: 0.9rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 10px; font-family: var(--font-luxury); }
@@ -131,65 +137,27 @@
         .country-select option { background: #111; color: #fff; }
 
         .pay-gateway-select { width: 100%; background: #050505; border: 1.5px solid var(--gold-solid); padding: 9px; border-radius: 6px; color: var(--gold-solid); font-size: 0.72rem; font-weight: 800; outline: none; margin-bottom: 8px; cursor: pointer; text-align: center; }
-
         .bkash-notice-box { background: rgba(212,175,55,0.06); border: 1.5px dashed var(--gold-solid); padding: 8px; border-radius: 6px; margin-bottom: 8px; text-align: left; display: none; font-size: 0.62rem; color: var(--gold-solid); line-height: 1.3; }
 
         .action-btn-row { display: flex; gap: 8px; margin-top: 10px; }
         .pay-confirm-btn { flex: 1; background: var(--gold-gradient); border: none; padding: 11px; border-radius: 6px; color: #000; font-weight: 900; font-size: 0.72rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); transition: 0.3s; }
         .pay-confirm-btn:hover { opacity: 0.9; }
-        
         .cancel-btn { background: transparent; border: 1.5px solid #ff2d55; color: #ff2d55; padding: 11px 14px; border-radius: 6px; font-weight: 800; font-size: 0.7rem; cursor: pointer; text-transform: uppercase; transition: 0.3s; font-family: var(--font-luxury); text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
         .cancel-btn:hover { background: #ff2d55; color: #fff; }
 
-        /* থ্যাংক ইউ পেজ */
         .thankyou-section-box { display: none; flex-direction: column; gap: 14px; }
-
-        .thankyou-card {
-            background: var(--card-bg);
-            border: 1.5px solid var(--gold-solid);
-            border-radius: 14px;
-            padding: 22px 16px;
-            text-align: center;
-            box-shadow: 0 4px 25px rgba(212,175,55,0.15);
-        }
+        .thankyou-card { background: var(--card-bg); border: 1.5px solid var(--gold-solid); border-radius: 14px; padding: 22px 16px; text-align: center; box-shadow: 0 4px 25px rgba(212,175,55,0.15); }
         .thankyou-title { font-size: 1.1rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 6px; font-family: var(--font-luxury); letter-spacing: 0.5px; }
         .thankyou-sub { font-size: 0.68rem; color: var(--text-gray); line-height: 1.4; margin-bottom: 12px; }
         .product-id-badge { display: inline-block; background: rgba(212,175,55,0.1); border: 1.5px solid var(--gold-solid); padding: 7px 18px; border-radius: 20px; font-size: 0.78rem; font-weight: 900; color: var(--gold-solid); letter-spacing: 1px; margin-bottom: 10px; }
-
         .ordered-items-list { background: #050505; border: 1px solid rgba(212,175,55,0.3); border-radius: 8px; padding: 10px; margin-bottom: 12px; text-align: left; }
         .ordered-item-row { display: flex; align-items: center; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.68rem; }
         .ordered-item-row:last-child { border-bottom: none; }
 
-        .return-home-center-btn {
-            background: var(--gold-gradient);
-            color: #000;
-            border: none;
-            padding: 11px 18px;
-            border-radius: 8px;
-            font-size: 0.72rem;
-            font-weight: 900;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            text-transform: uppercase;
-            font-family: var(--font-luxury);
-            width: 100%;
-            transition: 0.3s;
-            box-shadow: 0 0 15px rgba(212,175,55,0.25);
-        }
+        .return-home-center-btn { background: var(--gold-gradient); color: #000; border: none; padding: 11px 18px; border-radius: 8px; font-size: 0.72rem; font-weight: 900; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 6px; text-transform: uppercase; font-family: var(--font-luxury); width: 100%; transition: 0.3s; box-shadow: 0 0 15px rgba(212,175,55,0.25); }
         .return-home-center-btn:hover { opacity: 0.9; }
 
-        .tracking-notice-card {
-            background: var(--card-bg);
-            border: 1.5px solid var(--gold-solid);
-            border-radius: 14px;
-            padding: 18px 14px;
-            text-align: center;
-            box-shadow: 0 4px 25px rgba(212,175,55,0.15);
-        }
+        .tracking-notice-card { background: var(--card-bg); border: 1.5px solid var(--gold-solid); border-radius: 14px; padding: 18px 14px; text-align: center; box-shadow: 0 4px 25px rgba(212,175,55,0.15); }
         .notice-header { font-size: 0.88rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-family: var(--font-luxury); margin-bottom: 6px; display: flex; align-items: center; justify-content: center; gap: 6px; }
         .notice-sub { font-size: 0.65rem; color: var(--text-gray); line-height: 1.35; margin-bottom: 8px; }
         .notice-dashed { font-size: 0.62rem; color: var(--gold-solid); background: rgba(212,175,55,0.04); border: 1.5px dashed var(--gold-solid); padding: 8px 10px; border-radius: 6px; text-align: left; line-height: 1.35; }
@@ -508,7 +476,6 @@
             document.getElementById('cartTotalPrice').innerText = `$${total.toFixed(2)}`;
         }
 
-        // ফায়ারবেস থেকে নির্দিষ্ট প্রোডাক্ট ডিলিট এবং কার্ট রেন্ডার আপডেট করা
         async function removeCartItem(docId, index) {
             try {
                 if(window.db && window.firebaseDeleteDoc && window.firebaseDoc && docId && !docId.startsWith('demo-')) {
@@ -592,12 +559,19 @@
             let generatedProductId = "PROD-TRK-" + Math.floor(100000 + Math.random() * 900000);
             let currentCartProducts = window.subdomainCartItems || [];
 
+            // লোকালস্টোরেজ বা URL থেকে Seller ID ও Affiliate ID পিক করা (অ্যাফিলিয়েট না থাকলে স্বয়ংক্রিয়ভাবে DIRECT হয়ে যাবে)
+            let finalSellerId = localStorage.getItem('mrmasudar_seller_id') || "SELLER-MR-DEFAULT";
+            let finalAffiliateId = localStorage.getItem('mrmasudar_affiliate_id') || "DIRECT";
+
             let orderPayload = {
                 user: { name, email, productId: generatedProductId },
                 shipping: { countryCode, whatsapp, address },
                 items: currentCartProducts,
                 gateway: gateway,
                 trxId: trxId || "N/A",
+                sellerId: finalSellerId,
+                affiliateId: finalAffiliateId,
+                paymentStatus: "Paid",
                 timestamp: new Date().toISOString()
             };
 
@@ -605,7 +579,6 @@
                 if(window.db && window.firebaseAddDoc && window.firebaseCollection) {
                     await window.firebaseAddDoc(window.firebaseCollection(window.db, "orders"), orderPayload);
 
-                    // পেমেন্ট সফল হওয়ার পর ফায়ারবেসের গ্লোবাল কার্ট থেকে সমস্ত আইটেম ডিলিট করা
                     for(let prod of currentCartProducts) {
                         if(prod.docId && !prod.docId.startsWith('demo-')) {
                             await window.firebaseDeleteDoc(window.firebaseDoc(window.db, "global_carts", prod.docId));
@@ -614,7 +587,6 @@
                 }
             } catch(e) {}
 
-            // কার্ট জিরো করা
             window.subdomainCartItems = [];
 
             document.getElementById('shippingModalOverlay').style.display = 'none';
