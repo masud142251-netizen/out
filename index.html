@@ -43,21 +43,22 @@
                     ];
                 }
                 window.subdomainCartItems = itemsList;
-                if(typeof renderCartSheet === 'function') renderCartSheet();
-                if(typeof renderDashboardTable === 'function') renderDashboardTable();
             } catch(e) {
                 window.subdomainCartItems = [
                     { id: "demo-1", title: "Royal Crown Essence", price: "$185.00", quantity: 4, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "Golden Teak", size: "Deluxe" },
                     { id: "demo-2", title: "Golden Velvet Relic", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "High Gloss Lacquer", size: "Standard" }
                 ];
-                renderCartSheet();
-                renderDashboardTable();
             }
+            if(typeof renderCartSheet === 'function') renderCartSheet();
+            if(typeof renderDashboardTable === 'function') renderDashboardTable();
         }
 
         window.addEventListener('DOMContentLoaded', () => {
             loadSubdomainCartFromFirebase();
             populateAll195Countries();
+            checkAuthStatus();
+            initSpendingChart();
+            loadSavedShippingInfo();
         });
         window.loadSubdomainCartFromFirebase = loadSubdomainCartFromFirebase;
     </script>
@@ -103,7 +104,6 @@
         .section-box { background: var(--card-bg); border: 1.5px solid rgba(212,175,55,0.4); border-radius: 14px; padding: 14px; }
         .section-title { font-size: 0.82rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
 
-        /* টেবিল ডিজাইন */
         .luxury-sheet-table { width: 100%; border-collapse: collapse; margin-top: 4px; }
         .luxury-sheet-table th { background: rgba(212, 175, 55, 0.15); color: var(--gold-solid); font-size: 0.62rem; font-weight: 800; text-transform: uppercase; padding: 8px 6px; border: 1px solid rgba(212,175,55,0.3); text-align: center; font-family: var(--font-luxury); }
         .luxury-sheet-table th:first-child { text-align: left; }
@@ -128,7 +128,6 @@
         .google-continue-btn:hover { background: #f1f1f1; transform: scale(1.02); }
         .google-continue-btn img { width: 18px; height: 18px; flex-shrink: 0; }
 
-        /* পপআপ মোডাল জেনারেল */
         .auth-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 6000; backdrop-filter: blur(6px); padding: 15px; }
         .auth-modal-box { background: #141414; border: 1.5px solid var(--gold-solid); width: 100%; max-width: 380px; border-radius: 16px; padding: 22px 16px; text-align: center; position: relative; box-shadow: 0 0 30px rgba(212,175,55,0.3); font-family: var(--font-body); max-height: 90vh; overflow-y: auto; }
         .auth-modal-title { font-size: 1rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 12px; font-family: var(--font-luxury); }
@@ -144,7 +143,6 @@
         .auth-submit-btn { width: 100%; background: var(--gold-gradient); border: none; padding: 10px; border-radius: 8px; color: #000; font-weight: 900; font-size: 0.78rem; cursor: pointer; text-transform: uppercase; margin-top: 10px; font-family: var(--font-luxury); transition: 0.3s; }
         .auth-modal-close { position: absolute; top: 10px; right: 12px; background: transparent; border: none; color: var(--gold-solid); font-size: 1.1rem; cursor: pointer; }
 
-        /* ড্যাশবোর্ড ও অ্যানিমেটেড লাক্সারি থ্যাংক ইউ কার্ড */
         .dashboard-content-area { display: none; flex-direction: column; gap: 14px; }
         .dash-top-bar { display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); border: 1.5px solid var(--gold-solid); padding: 12px 16px; border-radius: 12px; box-shadow: 0 0 12px rgba(212,175,55,0.15); }
         .dash-welcome { font-size: 0.95rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; }
@@ -172,7 +170,6 @@
         .thankyou-sub { font-size: 0.72rem; color: var(--text-gray); line-height: 1.5; margin-bottom: 12px; }
         .product-id-badge { display: inline-block; background: rgba(212,175,55,0.15); border: 1.5px solid var(--gold-solid); padding: 8px 18px; border-radius: 30px; font-size: 0.82rem; font-weight: 900; color: var(--gold-solid); letter-spacing: 1.2px; margin-bottom: 8px; box-shadow: inset 0 0 10px rgba(212,175,55,0.2); }
 
-        /* ট্র্যাকিং নোটিশ কার্ড (আপনার দেওয়া ছবির সাথে হুবহু মিল রেখে) */
         .parcel-tracking-notice-card {
             background: #121212;
             border: 1.5px solid var(--gold-solid);
@@ -196,55 +193,13 @@
             justify-content: center;
             gap: 8px;
         }
-        .notice-card-sub {
-            font-size: 0.68rem;
-            color: var(--text-gray);
-            line-height: 1.4;
-            margin-bottom: 14px;
-        }
-        .notice-search-row {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 14px;
-        }
-        .notice-search-input {
-            flex: 1;
-            background: #000;
-            border: 1.5px solid rgba(212,175,55,0.4);
-            padding: 10px 12px;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 0.72rem;
-            font-weight: 600;
-            outline: none;
-        }
+        .notice-card-sub { font-size: 0.68rem; color: var(--text-gray); line-height: 1.4; margin-bottom: 14px; }
+        .notice-search-row { display: flex; gap: 8px; margin-bottom: 14px; }
+        .notice-search-input { flex: 1; background: #000; border: 1.5px solid rgba(212,175,55,0.4); padding: 10px 12px; border-radius: 8px; color: #fff; font-size: 0.72rem; font-weight: 600; outline: none; }
         .notice-search-input:focus { border-color: var(--gold-solid); }
-        .notice-track-btn {
-            background: var(--gold-gradient);
-            border: none;
-            padding: 10px 16px;
-            border-radius: 8px;
-            color: #000;
-            font-weight: 900;
-            font-size: 0.72rem;
-            cursor: pointer;
-            text-transform: uppercase;
-            font-family: var(--font-luxury);
-            flex-shrink: 0;
-            transition: 0.3s;
-        }
+        .notice-track-btn { background: var(--gold-gradient); border: none; padding: 10px 16px; border-radius: 8px; color: #000; font-weight: 900; font-size: 0.72rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); flex-shrink: 0; transition: 0.3s; }
         .notice-track-btn:hover { transform: scale(1.03); }
-
-        .notice-dashed-box {
-            font-size: 0.65rem;
-            color: var(--gold-solid);
-            background: rgba(212,175,55,0.06);
-            border: 1.5px dashed var(--gold-solid);
-            padding: 10px 12px;
-            border-radius: 10px;
-            text-align: left;
-            line-height: 1.4;
-        }
+        .notice-dashed-box { font-size: 0.65rem; color: var(--gold-solid); background: rgba(212,175,55,0.06); border: 1.5px dashed var(--gold-solid); padding: 10px 12px; border-radius: 10px; text-align: left; line-height: 1.4; }
 
         .support-chat-box { background: #0f0f0f; border: 1.5px solid rgba(212,175,55,0.4); border-radius: 10px; height: 140px; display: flex; flex-direction: column; overflow: hidden; margin-top: 6px; }
         .chat-messages-area { flex: 1; padding: 8px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; font-size: 0.68rem; font-family: var(--font-body); }
@@ -255,11 +210,9 @@
         .chat-input-bar input { flex: 1; background: transparent; border: none; outline: none; color: #fff; font-size: 0.68rem; padding: 4px 6px; font-weight: 600; font-family: var(--font-body); }
         .chat-send-btn { background: var(--gold-gradient); border: none; width: 28px; border-radius: 6px; color: #000; font-weight: 900; cursor: pointer; }
 
-        /* অ্যানালিটিক্স কার্ড */
         .analytics-card { background: var(--card-bg); border: 1.5px solid rgba(212,175,55,0.5); border-radius: 14px; padding: 14px; }
         .analytics-title { font-size: 0.78rem; font-weight: 800; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-luxury); }
 
-        /* প্রোডাক্ট ডিটেইলস পপআপ */
         .prod-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 5000; backdrop-filter: blur(6px); padding: 15px; }
         .prod-modal-box { background: #141414; border: 1.5px solid var(--gold-solid); width: 100%; max-width: 360px; border-radius: 16px; padding: 22px 16px; text-align: center; position: relative; box-shadow: 0 0 25px rgba(212,175,55,0.3); font-family: var(--font-body); }
         .prod-modal-img { width: 110px; height: 110px; border-radius: 10px; object-fit: cover; border: 1.5px solid var(--gold-solid); margin-bottom: 10px; }
@@ -273,7 +226,6 @@
 
     <div class="custom-toast" id="customToast">Action completed successfully!</div>
 
-    <!-- প্রোডাক্ট ইনফো পপআপ মোডাল -->
     <div class="prod-modal-overlay" id="prodModalOverlay" onclick="closeProdModal(event)">
         <div class="prod-modal-box">
             <button class="auth-modal-close" onclick="document.getElementById('prodModalOverlay').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
@@ -288,7 +240,6 @@
         </div>
     </div>
 
-    <!-- ইনফরমেশন ও ডেলিভারি আপডেট পপআপ মোডাল (১৯৫+ দেশের ড্রপডাউন ও অটো-ডিটেক্টসহ) -->
     <div class="auth-modal-overlay" id="deliveryModalOverlay" onclick="closeDeliveryModal(event)">
         <div class="auth-modal-box">
             <button class="auth-modal-close" onclick="document.getElementById('deliveryModalOverlay').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
@@ -335,7 +286,6 @@
 
     <div class="checkout-main-container">
 
-        <!-- ১. হোম পেজ কার্ট টেবিল ও এক লাইনে Continue with Google Verify বাটন -->
         <div class="section-box" id="tableAuthCardBox">
             <div class="section-title"><span><i class="fa-solid fa-gem"></i> Luxury Product Cart</span></div>
             <div style="overflow-x: auto;">
@@ -348,9 +298,7 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody id="cartSheetTableBody">
-                        <!-- Dynamic Rows Here -->
-                    </tbody>
+                    <tbody id="cartSheetTableBody"></tbody>
                 </table>
             </div>
             <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; border-top:1px solid rgba(212,175,55,0.3); padding-top:8px;">
@@ -366,7 +314,6 @@
             </div>
         </div>
 
-        <!-- ২. ড্যাশবোর্ড ও পেমেন্ট এরিয়া (ভেরিফাই করার পর দৃশ্যমান) -->
         <div class="dashboard-content-area" id="dashboardContentArea">
             
             <div class="dash-top-bar">
@@ -376,7 +323,6 @@
                 </div>
             </div>
 
-            <!-- অ্যানিমেটেড লাক্সারি থ্যাংক ইউ কার্ড (সব পেমেন্ট সম্পন্ন হলে ফায়ার করবে) -->
             <div class="thankyou-luxury-card" id="thankYouCardBox">
                 <div style="font-size: 1.8rem; color: var(--gold-solid); margin-bottom: 6px;"><i class="fa-solid fa-award"></i></div>
                 <h2 class="thankyou-title">Thank You For Your Luxury Order!</h2>
@@ -384,7 +330,6 @@
                 <div class="product-id-badge" id="displayUniqueProdId">PROD-TRK-000000</div>
             </div>
 
-            <!-- ড্যাশবোর্ডের মূল টেবিল -->
             <div class="section-box">
                 <div class="section-title"><span><i class="fa-solid fa-cart-shopping"></i> Selected Luxury Products & Checkout Flow</span></div>
                 <div style="overflow-x: auto;">
@@ -399,9 +344,7 @@
                                 <th>Paid</th>
                             </tr>
                         </thead>
-                        <tbody id="dashCartTableBody">
-                            <!-- Dynamic Table Rows Here -->
-                        </tbody>
+                        <tbody id="dashCartTableBody"></tbody>
                     </table>
                 </div>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; border-top:1px solid rgba(212,175,55,0.3); padding-top:8px;">
@@ -410,7 +353,6 @@
                 </div>
             </div>
 
-            <!-- আপনার দেওয়া ছবির সাথে হুবহু মিল রেখে ট্র্যাকিং নোটিশ পোর্টাল -->
             <div class="parcel-tracking-notice-card">
                 <div class="notice-card-header">
                     <i class="fa-solid fa-truck-fast"></i> Parcel Tracking Portal
@@ -429,7 +371,6 @@
                 </div>
             </div>
 
-            <!-- কাস্টমার কেয়ার সাপোর্ট -->
             <div class="section-box">
                 <div class="section-title"><span><i class="fa-solid fa-headset"></i> Customer Care Support</span></div>
                 <div class="support-chat-box">
@@ -443,7 +384,6 @@
                 </div>
             </div>
 
-            <!-- সবার নিচে গ্রাফ ও অ্যানালিটিক্স -->
             <div class="analytics-card">
                 <div class="analytics-title">
                     <span><i class="fa-solid fa-chart-line"></i> Monthly Spending & Order Analytics</span>
@@ -454,7 +394,6 @@
                 </div>
             </div>
 
-            <!-- সবার নিচে রিসেট / লগআউট বাটন -->
             <div style="text-align:center; margin-top: 4px;">
                 <button class="logout-btn" onclick="handleLogout()"><i class="fa-solid fa-power-off"></i> Reset / Logout</button>
             </div>
@@ -466,7 +405,6 @@
         let spendingChartInstance = null;
         window.subdomainCartItems = [];
 
-        // ১৯৫+ দেশের সম্পূর্ণ তালিকা (পতাকা, নাম ও কোডসহ)
         const all195Countries = [
             { name: "Afghanistan", code: "+93", flag: "🇦🇫", zone: "Kabul" },
             { name: "Albania", code: "+355", flag: "🇦🇱", zone: "Tirane" },
@@ -506,16 +444,7 @@
             { name: "United Arab Emirates", code: "+971", flag: "🇦🇪", zone: "Dubai" },
             { name: "United Kingdom", code: "+44", flag: "🇬🇧", zone: "London" },
             { name: "United States", code: "+1", flag: "🇺🇸", zone: "New_York" }
-            // Note: Full list extended to encompass global support
         ];
-
-        window.addEventListener('DOMContentLoaded', () => {
-            loadSubdomainCartFromFirebase();
-            populateAll195Countries();
-            checkAuthStatus();
-            initSpendingChart();
-            loadSavedShippingInfo();
-        });
 
         function showCustomToast(msg) {
             let toast = document.getElementById('customToast');
@@ -524,10 +453,10 @@
             setTimeout(() => { toast.style.display = 'none'; }, 2200);
         }
 
-        // ১৯৫+ দেশের ড্রপডাউন পপুলেট করা এবং আইপি/টাইমজোন অনুযায়ী অটো-ডিটেক্ট করা
         function populateAll195Countries() {
             let codeSelect = document.getElementById('popupCountryCode');
             let countrySelect = document.getElementById('popupCountry');
+            if(!codeSelect || !countrySelect) return;
 
             let codeOpts = "";
             let countryOpts = "";
@@ -536,17 +465,14 @@
                 countryOpts += `<option value="${c.name}">${c.flag} ${c.name}</option>`;
             });
 
-            if(codeSelect) codeSelect.innerHTML = codeOpts;
-            if(countrySelect) countrySelect.innerHTML = countryOpts;
+            codeSelect.innerHTML = codeOpts;
+            countrySelect.innerHTML = countryOpts;
 
             try {
                 let tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
                 let matched = all195Countries.find(item => tz.includes(item.zone));
-                let targetCode = matched ? matched.code : "+880";
-                let targetCountry = matched ? matched.name : "Bangladesh";
-
-                if(codeSelect) codeSelect.value = targetCode;
-                if(countrySelect) countrySelect.value = targetCountry;
+                codeSelect.value = matched ? matched.code : "+880";
+                countrySelect.value = matched ? matched.name : "Bangladesh";
             } catch(e) {}
         }
 
@@ -561,7 +487,6 @@
             }
         }
 
-        // এক লাইনে Continue with Google Verify
         function handleGoogleContinue() {
             let googleUser = {
                 name: "Masudar Rahman",
@@ -595,6 +520,7 @@
             } else {
                 document.getElementById('tableAuthCardBox').style.display = 'block';
                 document.getElementById('dashboardContentArea').style.display = 'none';
+                renderCartSheet();
             }
         }
 
@@ -703,6 +629,8 @@
 
         function renderCartSheet() {
             const tbodyHome = document.getElementById('cartSheetTableBody');
+            if(!tbodyHome) return;
+
             let cartItems = window.subdomainCartItems || [];
             let total = 0;
 
@@ -713,30 +641,28 @@
 
             let formattedTotal = `$${total.toFixed(2)}`;
 
-            if(tbodyHome) {
-                if(cartItems.length === 0) {
-                    tbodyHome.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-gray); padding:12px; font-weight:600;">Your luxury product list is empty.</td></tr>`;
-                    document.getElementById('sheetTotalPrice').innerText = "$0.00";
-                } else {
-                    let html = "";
-                    cartItems.forEach((item, index) => {
-                        html += `
-                            <tr>
-                                <td>
-                                    <div class="sheet-product-img-wrap" onclick='openProductDetailsModal(${JSON.stringify(item)})'>
-                                        <img src="${item.image || 'https://via.placeholder.com/40'}" class="sheet-product-img" loading="lazy">
-                                        <span class="sheet-info-badge"><i class="fa-solid fa-circle-info"></i> View</span>
-                                    </div>
-                                </td>
-                                <td style="font-weight:700;">${item.quantity || 1}</td>
-                                <td style="font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">${item.price || '$0.00'}</td>
-                                <td><button class="sheet-delete-btn" onclick="removeSubdomainCartItem('${item.id}', ${index})"><i class="fa-solid fa-trash"></i></button></td>
-                            </tr>
-                        `;
-                    });
-                    tbodyHome.innerHTML = html;
-                    document.getElementById('sheetTotalPrice').innerText = formattedTotal;
-                }
+            if(cartItems.length === 0) {
+                tbodyHome.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-gray); padding:12px; font-weight:600;">Your luxury product list is empty.</td></tr>`;
+                document.getElementById('sheetTotalPrice').innerText = "$0.00";
+            } else {
+                let html = "";
+                cartItems.forEach((item, index) => {
+                    html += `
+                        <tr>
+                            <td>
+                                <div class="sheet-product-img-wrap" onclick='openProductDetailsModal(${JSON.stringify(item)})'>
+                                    <img src="${item.image || 'https://via.placeholder.com/40'}" class="sheet-product-img" loading="lazy">
+                                    <span class="sheet-info-badge"><i class="fa-solid fa-circle-info"></i> View</span>
+                                </div>
+                            </td>
+                            <td style="font-weight:700;">${item.quantity || 1}</td>
+                            <td style="font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">${item.price || '$0.00'}</td>
+                            <td><button class="sheet-delete-btn" onclick="removeSubdomainCartItem('${item.id}', ${index})"><i class="fa-solid fa-trash"></i></button></td>
+                        </tr>
+                    `;
+                });
+                tbodyHome.innerHTML = html;
+                document.getElementById('sheetTotalPrice').innerText = formattedTotal;
             }
         }
 
