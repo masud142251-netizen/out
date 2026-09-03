@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -38,15 +38,15 @@
                     });
                     if(itemsList.length === 0) {
                         itemsList = [
-                            { id: "demo-1", title: "Royal Crown Essence", price: "$185.00", quantity: 4, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "Golden Teak", size: "Deluxe" },
-                            { id: "demo-2", title: "Golden Velvet Relic", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "High Gloss Lacquer", size: "Standard" }
+                            { id: "demo-1", title: "Luxury Silk Designer Evening Gown", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "Golden Teak", size: "Deluxe" },
+                            { id: "demo-2", title: "Luxury Silk Designer Evening Gown", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "High Gloss Lacquer", size: "Standard" }
                         ];
                     }
                     window.subdomainCartItems = itemsList;
                 } catch(e) {
                     window.subdomainCartItems = [
-                        { id: "demo-1", title: "Royal Crown Essence", price: "$185.00", quantity: 4, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "Golden Teak", size: "Deluxe" },
-                        { id: "demo-2", title: "Golden Velvet Relic", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "High Gloss Lacquer", size: "Standard" }
+                        { id: "demo-1", title: "Luxury Silk Designer Evening Gown", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "Golden Teak", size: "Deluxe" },
+                        { id: "demo-2", title: "Luxury Silk Designer Evening Gown", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "High Gloss Lacquer", size: "Standard" }
                     ];
                 }
                 if(typeof renderCartTable === 'function') renderCartTable();
@@ -54,8 +54,8 @@
             loadCartData();
         } catch(err) {
             window.subdomainCartItems = [
-                { id: "demo-1", title: "Royal Crown Essence", price: "$185.00", quantity: 4, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "Golden Teak", size: "Deluxe" },
-                { id: "demo-2", title: "Golden Velvet Relic", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "High Gloss Lacquer", size: "Standard" }
+                { id: "demo-1", title: "Luxury Silk Designer Evening Gown", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "Golden Teak", size: "Deluxe" },
+                { id: "demo-2", title: "Luxury Silk Designer Evening Gown", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "High Gloss Lacquer", size: "Standard" }
             ];
             if(typeof renderCartTable === 'function') renderCartTable();
         }
@@ -134,7 +134,7 @@
 
         .pay-gateway-select { width: 100%; background: #000; border: 1.5px solid var(--gold-solid); padding: 10px; border-radius: 8px; color: var(--gold-solid); font-size: 0.75rem; font-weight: 800; outline: none; margin-bottom: 10px; cursor: pointer; text-align: center; }
 
-        /* বিকাশ/নগদ ডায়নামিক ইনফো বক্স */
+        /* বিকাশ/নগদ ডায়নামিক ইনফো বক্স (বাংলা ও ইংরেজি মিশ্রিত অ্যামাউন্ট কনভার্শনসহ) */
         .bkash-notice-box { background: rgba(212,175,55,0.08); border: 1px dashed var(--gold-solid); padding: 10px; border-radius: 8px; margin-bottom: 10px; text-align: left; display: none; font-size: 0.65rem; color: var(--gold-solid); line-height: 1.4; }
 
         .action-btn-row { display: flex; gap: 10px; margin-top: 12px; }
@@ -144,29 +144,30 @@
         .cancel-btn { background: transparent; border: 1.5px solid #ff2d55; color: #ff2d55; padding: 11px 16px; border-radius: 8px; font-weight: 800; font-size: 0.72rem; cursor: pointer; text-transform: uppercase; transition: 0.3s; font-family: var(--font-luxury); text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
         .cancel-btn:hover { background: #ff2d55; color: #fff; }
 
-        @keyframes fadeInScale {
-            0% { opacity: 0; transform: scale(0.95); }
-            100% { opacity: 1; transform: scale(1); }
+        @keyframes luxuryGlowPulse {
+            0% { transform: scale(0.96); opacity: 0; box-shadow: 0 0 0px rgba(212,175,55,0); }
+            50% { transform: scale(1.02); opacity: 1; box-shadow: 0 0 45px rgba(212,175,55,0.6); }
+            100% { transform: scale(1); opacity: 1; box-shadow: 0 0 30px rgba(212,175,55,0.4); }
         }
 
         .thankyou-section-box {
             display: none;
             flex-direction: column;
             gap: 16px;
-            animation: fadeInScale 0.6s ease-in-out forwards;
         }
 
         .thankyou-card {
-            background: linear-gradient(145deg, #161616, #0a0a0a);
+            background: linear-gradient(145deg, #181818, #0c0c0c);
             border: 2px solid var(--gold-solid);
-            border-radius: 16px;
-            padding: 22px 18px;
+            border-radius: 18px;
+            padding: 26px 18px;
             text-align: center;
             box-shadow: 0 0 35px rgba(212,175,55,0.3);
+            animation: luxuryGlowPulse 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
         }
-        .thankyou-title { font-size: 1.15rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 8px; font-family: var(--font-luxury); }
-        .thankyou-sub { font-size: 0.72rem; color: var(--text-gray); line-height: 1.5; margin-bottom: 12px; }
-        .product-id-badge { display: inline-block; background: rgba(212,175,55,0.15); border: 1.5px solid var(--gold-solid); padding: 8px 18px; border-radius: 30px; font-size: 0.82rem; font-weight: 900; color: var(--gold-solid); letter-spacing: 1px; margin-bottom: 10px; }
+        .thankyou-title { font-size: 1.2rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 8px; font-family: var(--font-luxury); letter-spacing: 0.5px; }
+        .thankyou-sub { font-size: 0.72rem; color: var(--text-gray); line-height: 1.5; margin-bottom: 14px; }
+        .product-id-badge { display: inline-block; background: rgba(212,175,55,0.15); border: 1.5px solid var(--gold-solid); padding: 8px 18px; border-radius: 30px; font-size: 0.82rem; font-weight: 900; color: var(--gold-solid); letter-spacing: 1.2px; margin-bottom: 12px; box-shadow: inset 0 0 10px rgba(212,175,55,0.2); }
 
         .ordered-items-list { background: #141414; border: 1px solid rgba(212,175,55,0.3); border-radius: 10px; padding: 12px; margin-bottom: 14px; text-align: left; }
         .ordered-item-row { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 0.7rem; }
@@ -181,13 +182,7 @@
             text-align: center;
         }
         .notice-header { font-size: 0.95rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-family: var(--font-luxury); margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .notice-sub { font-size: 0.68rem; color: var(--text-gray); line-height: 1.4; margin-bottom: 14px; }
-        
-        .notice-search-row { display: flex; gap: 8px; margin-bottom: 14px; }
-        .notice-input { flex: 1; background: #000; border: 1.5px solid rgba(212,175,55,0.4); padding: 10px 12px; border-radius: 8px; color: #fff; font-size: 0.72rem; font-weight: 600; outline: none; }
-        .notice-track-btn { background: var(--gold-gradient); border: none; padding: 10px 16px; border-radius: 8px; color: #000; font-weight: 900; font-size: 0.72rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); flex-shrink: 0; transition: 0.3s; }
-        .notice-track-btn:hover { transform: scale(1.03); }
-
+        .notice-sub { font-size: 0.68rem; color: var(--text-gray); line-height: 1.4; margin-bottom: 10px; }
         .notice-dashed { font-size: 0.65rem; color: var(--gold-solid); background: rgba(212,175,55,0.06); border: 1.5px dashed var(--gold-solid); padding: 10px 12px; border-radius: 10px; text-align: left; line-height: 1.4; }
     </style>
 </head>
@@ -242,10 +237,10 @@
         <div class="thankyou-section-box" id="thankYouSectionBox">
             
             <div class="thankyou-card">
-                <div style="font-size: 1.8rem; color: var(--gold-solid); margin-bottom: 6px;"><i class="fa-solid fa-award"></i></div>
+                <div style="font-size: 2rem; color: var(--gold-solid); margin-bottom: 6px;"><i class="fa-solid fa-award"></i></div>
                 <h2 class="thankyou-title">Thank You For Your Luxury Order!</h2>
                 <p class="thankyou-sub">
-                    আপনার পেমেন্ট সফলভাবে সম্পন্ন হয়েছে! MRMASUDAR.COM এর পক্ষ থেকে আপনাকে জানাই আন্তরিক অভিনন্দন। আপনার অত্যন্ত শখের এবং প্রিমিয়াম লাক্সারি প্রোডাক্টগুলো আমাদের সিকিউরড প্যাকেজিং টিমের কাছে পাঠানো হয়েছে। খুব শীঘ্রই আপনার ঠিকানায় পার্সেলটি পৌঁছে যাবে, শতভাগ আত্মবিশ্বাসী থাকুন!
+                    Your payment has been successfully completed! Warmest congratulations from <strong>MRMASUDAR.COM</strong>. Your exquisite luxury items have been securely handed over to our premium packaging team. Rest assured, your parcel will reach your doorstep very soon!
                 </p>
                 
                 <div class="product-id-badge" id="finalGeneratedProductId">PROD-TRK-000000</div>
@@ -257,22 +252,17 @@
                 <a href="https://mrmasudar.com" class="back-home-btn" style="display:inline-flex; justify-content:center; width:100%; padding:10px;"><i class="fa-solid fa-arrow-left"></i> Return to Home Page</a>
             </div>
 
-            <!-- ট্র্যাকিং নোটিশ পোর্টাল -->
+            <!-- ট্র্যাকিং নোটিশ পোর্টাল (বিনা বাটনে শুধু টেক্সট গাইডলাইন) -->
             <div class="tracking-notice-card">
                 <div class="notice-header">
-                    <i class="fa-solid fa-truck-fast"></i> Parcel Tracking Portal
+                    <i class="fa-solid fa-truck-fast"></i> Parcel Tracking Information
                 </div>
                 <p class="notice-sub">
-                    Enter your unique <strong>Product ID</strong> or your registered <strong>Gmail / WhatsApp Number</strong> to view all your ordered luxury products and real-time shipping status on our tracking portal.
+                    To check your real-time shipping status, please visit our home page and click on <strong>Track</strong>, or directly navigate to <strong style="color:var(--gold-solid);">track.mrmasudar.com</strong>. You can easily search using your unique Product ID, registered Gmail, or WhatsApp number to view all your ordered luxury products together.
                 </p>
                 
-                <div class="notice-search-row">
-                    <input type="text" id="autoFilledSearchInput" class="notice-input" placeholder="Enter Product ID or Gmail / Phone">
-                    <button class="notice-track-btn" onclick="redirectToSubdomainTracker()">Track Now</button>
-                </div>
-
                 <div class="notice-dashed">
-                    <i class="fa-solid fa-circle-info" style="color:var(--gold-solid);"></i> নোট: সেলার কুরিয়ার সার্ভিসে পার্সেল হ্যান্ডওভার করার পর **৩ দিনের মধ্যে** ট্র্যাকিং স্ট্যাটাস লাইভ আপডেট হয়ে যায়। আপনার জিমেইল বা হোয়াটসঅ্যাপ নাম্বার দিয়ে সার্চ করলে আপনার নেওয়া সবকটি প্রোডাক্ট একসঙ্গে দেখতে পারেন।
+                    <i class="fa-solid fa-circle-info" style="color:var(--gold-solid);"></i> Note: Tracking status becomes live within **3 days** after the seller hands over the parcel to the courier service.
                 </div>
             </div>
 
@@ -284,7 +274,7 @@
     <div class="auth-modal-overlay" id="shippingModalOverlay" onclick="closeShippingModalOutside(event)">
         <div class="auth-modal-box">
             <button class="auth-modal-close" onclick="document.getElementById('shippingModalOverlay').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
-            <h2 class="auth-modal-title"><i class="fa-solid fa-truck-fast"></i> Shipping & Payment Info</h2>
+            <h2 class="auth-modal-title"><i class="fa-solid fa-truck-fast"></i> Shipping & Payment Information</h2>
             
             <div class="input-group">
                 <label>Full Name <span>*</span></label>
@@ -315,9 +305,9 @@
             </div>
 
             <div class="input-group" style="margin-top: 6px;">
-                <label>Select International Payment Gateway <span>*</span></label>
+                <label>Select Payment Gateway <span>*</span></label>
                 <select class="pay-gateway-select" id="paymentGatewayChoice" onchange="handlePaymentMethodChange()">
-                    <option value="Payoneer Global">1. Payoneer Global (USD/EUR)</option>
+                    <option value="Payoneer Global">1. Payoneer Global (USD / EUR)</option>
                     <option value="PayPal Checkout">2. PayPal Checkout</option>
                     <option value="Visa Credit/Debit Card">3. Visa Credit / Debit Card</option>
                     <option value="Mastercard SecureCode">4. Mastercard SecureCode</option>
@@ -332,9 +322,9 @@
                 </select>
             </div>
 
-            <!-- বিকাশ/নগদ সিলেক্ট করলে এই বক্সটি এবং ট্রানজেকশন আইডি ঘরটি শো করবে -->
+            <!-- বিকাশ/নগদ সিলেক্ট করলে অটো কারেন্সি কনভার্শনসহ নোটিশ ও ট্রানজেকশন আইডি ঘর -->
             <div class="bkash-notice-box" id="bkashNoticeBox">
-                <i class="fa-solid fa-circle-info"></i> অনুগ্রহ করে আমাদের মার্চেন্ট/পার্সোনাল নাম্বারে **(`01767319670`)** টাকা পাঠিয়ে নিচের ঘরে আপনার **TrxID** টি দিন।
+                <i class="fa-solid fa-circle-info"></i> <span id="bkashDynamicText">অনুগ্রহ করে আমাদের মার্চেন্ট নাম্বারে (01767319670) টাকা পাঠিয়ে নিচের ঘরে TrxID দিন।</span>
             </div>
 
             <div class="input-group" id="trxIdInputGroup" style="display:none;">
@@ -350,7 +340,6 @@
     </div>
 
     <script>
-        // বিশ্বের ১৯৫+টি স্বাধীন দেশের সম্পূর্ণ পতাকা, নাম ও কান্ট্রি কোডের তালিকা
         const all195CountriesList = [
             { name: "Afghanistan", code: "+93", flag: "🇦🇫" }, { name: "Albania", code: "+355", flag: "🇦🇱" },
             { name: "Algeria", code: "+213", flag: "🇩🇿" }, { name: "Andorra", code: "+376", flag: "🇦🇩" },
@@ -459,7 +448,6 @@
             setTimeout(() => { t.style.display = 'none'; }, 2200);
         }
 
-        // ১৯৫+ দেশের নাম, পতাকা ও কোড ড্রপডাউনে যুক্ত করা এবং অটো-ডিটেক্ট করা
         function populateAllCountriesDropdown() {
             let codeSelect = document.getElementById('countryCodeSelect');
             if(!codeSelect) return;
@@ -519,7 +507,6 @@
             showToast("Product removed from cart.");
         }
 
-        // গুগল ভেরিফাই করার পর পপআপ ফরম ওপেন হবে
         function openShippingModal() {
             let verifiedUser = {
                 name: "Masudar Rahman",
@@ -539,13 +526,23 @@
             }
         }
 
-        // বিকাশ বা নগদ সিলেক্ট করলে নাম্বার ও ট্রানজেকশন আইডি ফিল্ড দেখানো
+        // বিকাশ বা নগদ সিলেক্ট করলে ডলারে থাকা মোট দামকে বাংলায় টাকায় কনভার্ট করে দেখানো (১ ডলার = ১২০ টাকা ধরে)
         function handlePaymentMethodChange() {
             let val = document.getElementById('paymentGatewayChoice').value;
             let noticeBox = document.getElementById('bkashNoticeBox');
             let trxGroup = document.getElementById('trxIdInputGroup');
+            let dynamicText = document.getElementById('bkashDynamicText');
 
-            if(val.includes('bKash') || val.includes('Nagad') || val.includes('Rocket')) {
+            if(val.includes('bKash') || val.includes('Nagad')) {
+                let items = window.subdomainCartItems || [];
+                let totalUSD = 0;
+                items.forEach(i => {
+                    let p = parseFloat((i.price || "0").replace('$', '')) || 0;
+                    totalUSD += p * (i.quantity || 1);
+                });
+                let totalBDT = Math.round(totalUSD * 120); // Conversion rate
+
+                dynamicText.innerHTML = `অনুগ্রহ করে আমাদের মার্চেন্ট নাম্বারে (<b>01767319670</b>) মোট <b>$${totalUSD.toFixed(2)} USD</b> অর্থাৎ <b>${totalBDT} BDT</b> টাকা পাঠিয়ে নিচের ঘরে আপনার <b>TrxID</b> দিন।`;
                 noticeBox.style.display = 'block';
                 trxGroup.style.display = 'block';
             } else {
@@ -568,7 +565,7 @@
                 return;
             }
 
-            if((gateway.includes('bKash') || gateway.includes('Nagad') || gateway.includes('Rocket')) && !trxId) {
+            if((gateway.includes('bKash') || gateway.includes('Nagad')) && !trxId) {
                 showToast("Please enter your Transaction ID (TrxID)!");
                 return;
             }
@@ -595,7 +592,6 @@
             document.getElementById('cartAndVerifyCard').style.display = 'none';
             document.getElementById('thankYouSectionBox').style.display = 'flex';
             document.getElementById('finalGeneratedProductId').innerText = generatedProductId;
-            document.getElementById('autoFilledSearchInput').value = generatedProductId;
 
             let summaryHtml = "";
             currentCartProducts.forEach(prod => {
@@ -619,15 +615,6 @@
             setTimeout(() => {
                 window.location.href = "https://mrmasudar.com";
             }, 240000);
-        }
-
-        function redirectToSubdomainTracker() {
-            let queryVal = document.getElementById('autoFilledSearchInput').value.trim();
-            if(!queryVal) {
-                showToast("Please enter Product ID or Gmail/Phone!");
-                return;
-            }
-            window.open(`https://track.mrmasudar.com?search=${encodeURIComponent(queryVal)}`, '_blank');
         }
     </script>
 </body>
