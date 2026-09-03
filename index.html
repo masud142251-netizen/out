@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Firebase & Local Storage Safe Cart Management -->
+    <!-- Firebase & Fresh Cart State Management -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -30,29 +30,34 @@
             window.firebaseCollection = collection;
 
             async function loadCartData() {
-                let savedCart = localStorage.getItem('mrmasudar_active_cart');
-                if(savedCart) {
-                    window.subdomainCartItems = JSON.parse(savedCart);
+                let checkoutStatus = localStorage.getItem('mrmasudar_order_completed');
+                if(checkoutStatus === 'true') {
+                    window.subdomainCartItems = [];
                 } else {
-                    try {
-                        const querySnapshot = await getDocs(collection(window.db, "global_carts"));
-                        let itemsList = [];
-                        querySnapshot.forEach((doc) => {
-                            itemsList.push({ id: doc.id, ...doc.data() });
-                        });
-                        if(itemsList.length === 0) {
-                            itemsList = [
+                    let savedCart = localStorage.getItem('mrmasudar_active_cart');
+                    if(savedCart !== null) {
+                        window.subdomainCartItems = JSON.parse(savedCart);
+                    } else {
+                        try {
+                            const querySnapshot = await getDocs(collection(window.db, "global_carts"));
+                            let itemsList = [];
+                            querySnapshot.forEach((doc) => {
+                                itemsList.push({ id: doc.id, ...doc.data() });
+                            });
+                            if(itemsList.length === 0) {
+                                itemsList = [
+                                    { id: "demo-1", title: "Luxury Silk Designer Evening Gown", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "Golden Teak", size: "Deluxe" },
+                                    { id: "demo-2", title: "Luxury Silk Designer Evening Gown", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "High Gloss Lacquer", size: "Standard" }
+                                ];
+                            }
+                            window.subdomainCartItems = itemsList;
+                            localStorage.setItem('mrmasudar_active_cart', JSON.stringify(itemsList));
+                        } catch(e) {
+                            window.subdomainCartItems = [
                                 { id: "demo-1", title: "Luxury Silk Designer Evening Gown", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "Golden Teak", size: "Deluxe" },
                                 { id: "demo-2", title: "Luxury Silk Designer Evening Gown", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "High Gloss Lacquer", size: "Standard" }
                             ];
                         }
-                        window.subdomainCartItems = itemsList;
-                        localStorage.setItem('mrmasudar_active_cart', JSON.stringify(itemsList));
-                    } catch(e) {
-                        window.subdomainCartItems = [
-                            { id: "demo-1", title: "Luxury Silk Designer Evening Gown", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "Golden Teak", size: "Deluxe" },
-                            { id: "demo-2", title: "Luxury Silk Designer Evening Gown", price: "$185.00", quantity: 1, image: "https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc", color: "High Gloss Lacquer", size: "Standard" }
-                        ];
                     }
                 }
                 if(typeof renderCartTable === 'function') renderCartTable();
@@ -70,11 +75,11 @@
     <style>
         :root {
             --bg-black: #060606;
-            --card-bg: #101010;
-            --gold-gradient: linear-gradient(135deg, #d4af37, #f3e5ab, #aa771c);
+            --card-bg: #0e0e0e;
+            --gold-gradient: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
             --gold-solid: #d4af37;
             --text-white: #ffffff;
-            --text-gray: #b0b0b0;
+            --text-gray: #b8b8b8;
             --pink-heart: #ff2d55;
             --success-green: #2ecc71;
             --font-luxury: 'Cinzel', serif;
@@ -83,100 +88,120 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         html, body { width: 100%; overflow-x: hidden !important; background-color: var(--bg-black); color: var(--text-white); font-family: var(--font-body); }
-        body { padding-top: 74px; padding-bottom: 40px; }
+        body { padding-top: 68px; padding-bottom: 40px; }
 
         h1, h2, h3, h4, .brand-title-main, .section-title { font-family: var(--font-luxury); }
 
         header.app-header {
-            display: flex; justify-content: space-between; align-items: center; padding: 6px 14px;
+            display: flex; justify-content: space-between; align-items: center; padding: 8px 16px;
             background: rgba(10, 10, 10, 0.98); position: fixed; top: 0; left: 0; z-index: 1000;
-            backdrop-filter: blur(12px); width: 100%; border-bottom: 1px solid rgba(212,175,55,0.25);
+            backdrop-filter: blur(12px); width: 100%; border-bottom: 1px solid rgba(212,175,55,0.3);
         }
         .brand-container { display: flex; align-items: center; gap: 8px; cursor: pointer; text-decoration: none; }
         .logo { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--gold-solid); background: #000; box-shadow: 0 0 10px rgba(212,175,55,0.3); }
         .brand-title-main { font-size: 0.92rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 0.8px; }
-        
-        .back-home-btn { background: transparent; border: 1.5px solid var(--gold-solid); color: var(--gold-solid); padding: 5px 10px; border-radius: 6px; font-size: 0.62rem; font-weight: 800; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 5px; text-transform: uppercase; transition: 0.3s; font-family: var(--font-luxury); }
-        .back-home-btn:hover { background: var(--gold-gradient); color: #000; }
 
-        .custom-toast { position: fixed; top: 78px; left: 50%; transform: translateX(-50%); background: rgba(18, 18, 18, 0.95); border: 1.5px solid var(--gold-solid); color: var(--gold-solid); padding: 7px 16px; border-radius: 30px; font-size: 0.72rem; font-weight: 700; z-index: 9999; display: none; }
+        .custom-toast { position: fixed; top: 76px; left: 50%; transform: translateX(-50%); background: rgba(16, 16, 16, 0.96); border: 1.5px solid var(--gold-solid); color: var(--gold-solid); padding: 7px 18px; border-radius: 30px; font-size: 0.72rem; font-weight: 700; z-index: 9999; display: none; box-shadow: 0 0 15px rgba(212,175,55,0.3); }
 
-        .checkout-container { width: 100%; max-width: 650px; margin: 16px auto; padding: 12px; display: flex; flex-direction: column; gap: 14px; }
-        .checkout-card { background: var(--card-bg); border: 1px solid rgba(212,175,55,0.35); border-radius: 12px; padding: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        .checkout-container { width: 100%; max-width: 620px; margin: 14px auto; padding: 12px; display: flex; flex-direction: column; gap: 14px; }
+        .checkout-card { background: var(--card-bg); border: 1.5px solid var(--gold-solid); border-radius: 14px; padding: 16px; box-shadow: 0 4px 25px rgba(212,175,55,0.12); }
         .section-title { font-size: 0.82rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 10px; }
 
         .luxury-sheet-table { width: 100%; border-collapse: collapse; margin-top: 4px; }
-        .luxury-sheet-table th { background: rgba(212, 175, 55, 0.1); color: var(--gold-solid); font-size: 0.6rem; font-weight: 800; text-transform: uppercase; padding: 7px 6px; border: 1px solid rgba(212,175,55,0.2); text-align: center; font-family: var(--font-luxury); }
+        .luxury-sheet-table th { background: rgba(212, 175, 55, 0.12); color: var(--gold-solid); font-size: 0.6rem; font-weight: 800; text-transform: uppercase; padding: 7px 6px; border: 1px solid rgba(212,175,55,0.25); text-align: center; font-family: var(--font-luxury); }
         .luxury-sheet-table th:first-child { text-align: left; }
-        .luxury-sheet-table td { padding: 7px 6px; border: 1px solid rgba(212,175,55,0.15); font-size: 0.66rem; color: #fff; vertical-align: middle; text-align: center; }
+        .luxury-sheet-table td { padding: 7px 6px; border: 1px solid rgba(212,175,55,0.18); font-size: 0.66rem; color: #fff; vertical-align: middle; text-align: center; }
         .luxury-sheet-table td:first-child { text-align: left; }
         
         .sheet-product-img { width: 34px; height: 34px; border-radius: 5px; object-fit: cover; border: 1px solid var(--gold-solid); flex-shrink: 0; }
         .sheet-delete-btn { background: transparent; border: none; color: #ff2d55; font-size: 0.8rem; cursor: pointer; padding: 4px; }
 
         .google-auth-box { margin-top: 12px; border-top: 1px solid rgba(212,175,55,0.25); padding-top: 12px; text-align: center; }
-        .google-continue-btn { width: 100%; background: #ffffff; color: #1a1a1a; border: none; padding: 11px 16px; border-radius: 30px; font-size: 0.75rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; box-shadow: 0 0 12px rgba(255,255,255,0.15); font-family: var(--font-body); }
+        .google-continue-btn { width: 100%; background: #ffffff; color: #1a1a1a; border: none; padding: 12px 18px; border-radius: 30px; font-size: 0.76rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; box-shadow: 0 0 15px rgba(255,255,255,0.2); font-family: var(--font-body); }
         .google-continue-btn:hover { background: #f1f1f1; transform: scale(1.01); }
-        .google-continue-btn img { width: 17px; height: 17px; flex-shrink: 0; }
+        .google-continue-btn img { width: 18px; height: 18px; flex-shrink: 0; }
 
-        /* ক্লিন ও ঝকঝকে পপআপ মোডাল ফরম সেকশন */
+        /* পপআপ মোডাল ফরম সেকশন */
         .auth-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 6000; backdrop-filter: blur(6px); padding: 10px; }
-        .auth-modal-box { background: #111111; border: 1px solid var(--gold-solid); width: 100%; max-width: 420px; border-radius: 14px; padding: 18px 14px; text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.8); font-family: var(--font-body); max-height: 90vh; overflow-y: auto; }
+        .auth-modal-box { background: #0e0e0e; border: 1.5px solid var(--gold-solid); width: 100%; max-width: 420px; border-radius: 14px; padding: 18px 14px; text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.8); font-family: var(--font-body); max-height: 90vh; overflow-y: auto; }
         .auth-modal-title { font-size: 0.9rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 10px; font-family: var(--font-luxury); }
         .auth-modal-close { position: absolute; top: 8px; right: 10px; background: transparent; border: none; color: var(--gold-solid); font-size: 1rem; cursor: pointer; }
 
         .input-group { margin-bottom: 9px; text-align: left; }
         .input-group label { font-size: 0.6rem; font-weight: 700; color: var(--text-gray); text-transform: uppercase; margin-bottom: 3px; display: block; }
         .input-group label span { color: var(--pink-heart); }
-        .input-field { width: 100%; background: #050505; border: 1px solid rgba(212,175,55,0.3); padding: 8px 10px; border-radius: 6px; color: #fff; font-size: 0.7rem; font-weight: 600; outline: none; }
+        .input-field { width: 100%; background: #050505; border: 1.5px solid rgba(212,175,55,0.35); padding: 8px 10px; border-radius: 6px; color: #fff; font-size: 0.7rem; font-weight: 600; outline: none; }
         .input-field:focus { border-color: var(--gold-solid); background: #000; }
         
         .phone-row-two-col { display: flex; gap: 6px; align-items: center; }
         .country-col { flex: 1.3; }
         .number-col { flex: 1.7; }
-        .country-select { background: #050505; border: 1px solid rgba(212,175,55,0.3); padding: 8px 4px; border-radius: 6px; color: #fff; font-size: 0.62rem; font-weight: 600; outline: none; width: 100%; height: 35px; }
+        .country-select { background: #050505; border: 1.5px solid rgba(212,175,55,0.35); padding: 8px 4px; border-radius: 6px; color: #fff; font-size: 0.62rem; font-weight: 600; outline: none; width: 100%; height: 35px; }
         .country-select option { background: #111; color: #fff; }
 
-        .pay-gateway-select { width: 100%; background: #050505; border: 1px solid var(--gold-solid); padding: 9px; border-radius: 6px; color: var(--gold-solid); font-size: 0.72rem; font-weight: 800; outline: none; margin-bottom: 8px; cursor: pointer; text-align: center; }
+        .pay-gateway-select { width: 100%; background: #050505; border: 1.5px solid var(--gold-solid); padding: 9px; border-radius: 6px; color: var(--gold-solid); font-size: 0.72rem; font-weight: 800; outline: none; margin-bottom: 8px; cursor: pointer; text-align: center; }
 
-        .bkash-notice-box { background: rgba(212,175,55,0.06); border: 1px dashed var(--gold-solid); padding: 8px; border-radius: 6px; margin-bottom: 8px; text-align: left; display: none; font-size: 0.62rem; color: var(--gold-solid); line-height: 1.3; }
+        .bkash-notice-box { background: rgba(212,175,55,0.06); border: 1.5px dashed var(--gold-solid); padding: 8px; border-radius: 6px; margin-bottom: 8px; text-align: left; display: none; font-size: 0.62rem; color: var(--gold-solid); line-height: 1.3; }
 
         .action-btn-row { display: flex; gap: 8px; margin-top: 10px; }
-        .pay-confirm-btn { flex: 1; background: var(--gold-gradient); border: none; padding: 10px; border-radius: 6px; color: #000; font-weight: 900; font-size: 0.72rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); transition: 0.3s; }
+        .pay-confirm-btn { flex: 1; background: var(--gold-gradient); border: none; padding: 11px; border-radius: 6px; color: #000; font-weight: 900; font-size: 0.72rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); transition: 0.3s; }
         .pay-confirm-btn:hover { opacity: 0.9; }
         
-        .cancel-btn { background: transparent; border: 1px solid #ff2d55; color: #ff2d55; padding: 10px 14px; border-radius: 6px; font-weight: 800; font-size: 0.7rem; cursor: pointer; text-transform: uppercase; transition: 0.3s; font-family: var(--font-luxury); text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+        .cancel-btn { background: transparent; border: 1.5px solid #ff2d55; color: #ff2d55; padding: 11px 14px; border-radius: 6px; font-weight: 800; font-size: 0.7rem; cursor: pointer; text-transform: uppercase; transition: 0.3s; font-family: var(--font-luxury); text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
         .cancel-btn:hover { background: #ff2d55; color: #fff; }
 
-        /* ঝকঝকে ও ক্লিন থ্যাংক ইউ পেজ (অতিরিক্ত ইফেক্ট ও গ্লো বাদ দেওয়া হয়েছে) */
+        /* থ্যাংক ইউ পেজ */
         .thankyou-section-box { display: none; flex-direction: column; gap: 14px; }
 
         .thankyou-card {
-            background: #0d0d0d;
+            background: var(--card-bg);
             border: 1.5px solid var(--gold-solid);
             border-radius: 14px;
-            padding: 20px 16px;
+            padding: 22px 16px;
             text-align: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+            box-shadow: 0 4px 25px rgba(212,175,55,0.15);
         }
         .thankyou-title { font-size: 1.1rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 6px; font-family: var(--font-luxury); letter-spacing: 0.5px; }
         .thankyou-sub { font-size: 0.68rem; color: var(--text-gray); line-height: 1.4; margin-bottom: 12px; }
-        .product-id-badge { display: inline-block; background: rgba(212,175,55,0.1); border: 1px solid var(--gold-solid); padding: 6px 16px; border-radius: 20px; font-size: 0.78rem; font-weight: 900; color: var(--gold-solid); letter-spacing: 1px; margin-bottom: 10px; }
+        .product-id-badge { display: inline-block; background: rgba(212,175,55,0.1); border: 1.5px solid var(--gold-solid); padding: 7px 18px; border-radius: 20px; font-size: 0.78rem; font-weight: 900; color: var(--gold-solid); letter-spacing: 1px; margin-bottom: 10px; }
 
-        .ordered-items-list { background: #050505; border: 1px solid rgba(212,175,55,0.25); border-radius: 8px; padding: 10px; margin-bottom: 12px; text-align: left; }
+        .ordered-items-list { background: #050505; border: 1px solid rgba(212,175,55,0.3); border-radius: 8px; padding: 10px; margin-bottom: 12px; text-align: left; }
         .ordered-item-row { display: flex; align-items: center; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.68rem; }
         .ordered-item-row:last-child { border-bottom: none; }
 
+        .return-home-center-btn {
+            background: var(--gold-gradient);
+            color: #000;
+            border: none;
+            padding: 11px 18px;
+            border-radius: 8px;
+            font-size: 0.72rem;
+            font-weight: 900;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            text-transform: uppercase;
+            font-family: var(--font-luxury);
+            width: 100%;
+            transition: 0.3s;
+            box-shadow: 0 0 15px rgba(212,175,55,0.25);
+        }
+        .return-home-center-btn:hover { opacity: 0.9; }
+
         .tracking-notice-card {
-            background: #0d0d0d;
-            border: 1px solid var(--gold-solid);
-            border-radius: 12px;
-            padding: 16px 14px;
+            background: var(--card-bg);
+            border: 1.5px solid var(--gold-solid);
+            border-radius: 14px;
+            padding: 18px 14px;
             text-align: center;
+            box-shadow: 0 4px 25px rgba(212,175,55,0.15);
         }
         .notice-header { font-size: 0.88rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-family: var(--font-luxury); margin-bottom: 6px; display: flex; align-items: center; justify-content: center; gap: 6px; }
         .notice-sub { font-size: 0.65rem; color: var(--text-gray); line-height: 1.35; margin-bottom: 8px; }
-        .notice-dashed { font-size: 0.62rem; color: var(--gold-solid); background: rgba(212,175,55,0.04); border: 1px dashed var(--gold-solid); padding: 8px 10px; border-radius: 6px; text-align: left; line-height: 1.35; }
+        .notice-dashed { font-size: 0.62rem; color: var(--gold-solid); background: rgba(212,175,55,0.04); border: 1.5px dashed var(--gold-solid); padding: 8px 10px; border-radius: 6px; text-align: left; line-height: 1.35; }
     </style>
 </head>
 <body>
@@ -188,7 +213,6 @@
             <img src="https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc" alt="Logo" class="logo">
             <span class="brand-title-main">MRMASUDAR.COM</span>
         </a>
-        <a href="https://mrmasudar.com" class="back-home-btn"><i class="fa-solid fa-arrow-left"></i> Home</a>
     </header>
 
     <div class="checkout-container">
@@ -212,12 +236,12 @@
                 </table>
             </div>
             
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; border-top:1px solid rgba(212,175,55,0.25); padding-top:6px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; border-top:1px solid rgba(212,175,55,0.3); padding-top:6px;">
                 <span style="font-size:0.68rem; font-weight:700;">TOTAL PAYABLE:</span>
                 <span style="font-size:0.85rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;" id="cartTotalPrice">$0.00</span>
             </div>
 
-            <!-- এক লাইনে Continue with Google Verify বাটন -->
+            <!-- Continue with Google Verify বাটন -->
             <div class="google-auth-box" id="googleAuthSection">
                 <button class="google-continue-btn" onclick="openShippingModal()">
                     <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
@@ -226,7 +250,7 @@
             </div>
         </div>
 
-        <!-- ২. ক্লিন ও ঝকঝকে থ্যাংক ইউ এবং ট্র্যাকিং ইনফো পেজ -->
+        <!-- ২. থ্যাংক ইউ এবং ট্র্যাকিং ইনফো পেজ -->
         <div class="thankyou-section-box" id="thankYouSectionBox">
             
             <div class="thankyou-card">
@@ -242,7 +266,7 @@
                     <!-- Dynamic Ordered Items Here -->
                 </div>
 
-                <a href="https://mrmasudar.com" class="back-home-btn" style="display:inline-flex; justify-content:center; width:100%; padding:9px;"><i class="fa-solid fa-arrow-left"></i> Return to Home Page</a>
+                <a href="https://mrmasudar.com" class="return-home-center-btn"><i class="fa-solid fa-arrow-left"></i> Return to Home Page</a>
             </div>
 
             <!-- ট্র্যাকিং নোটিশ পোর্টাল -->
@@ -263,7 +287,7 @@
 
     </div>
 
-    <!-- ৩. ক্লিন পপআপ ফরম মোডাল (১৯৫+ কান্ট্রি ও সিরিয়াল মুক্ত পেমেন্ট অপশনসহ) -->
+    <!-- ৩. পপআপ ফরম মোডাল -->
     <div class="auth-modal-overlay" id="shippingModalOverlay" onclick="closeShippingModalOutside(event)">
         <div class="auth-modal-box">
             <button class="auth-modal-close" onclick="document.getElementById('shippingModalOverlay').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
@@ -279,7 +303,6 @@
                 <input type="email" class="input-field" id="custEmail" readonly style="color:var(--gold-solid); background:#0a0a0a;" required>
             </div>
             
-            <!-- ১৯৫+ কান্ট্রি কোড ও হোয়াটসঅ্যাপ নম্বর দুই কলাম ফরম্যাট -->
             <div class="input-group">
                 <label>Country Code & WhatsApp Number <span>*</span></label>
                 <div class="phone-row-two-col">
@@ -316,9 +339,8 @@
                 </select>
             </div>
 
-            <!-- বিকাশ/নগদ সিলেক্ট করলে অটো কারেন্সি কনভার্শনসহ নোটিশ ও ট্রানজেকশন আইডি ঘর -->
             <div class="bkash-notice-box" id="bkashNoticeBox">
-                <i class="fa-solid fa-circle-info"></i> <span id="bkashDynamicText">অনুগ্রহ করে আমাদের মার্চেন্ট নাম্বারে (01767319670) টাকা পাঠিয়ে নিচের ঘরে TrxID দিন।</span>
+                <i class="fa-solid fa-circle-info"></i> <span id="bkashDynamicText">Please send money to our merchant number (01767319670) and enter your TrxID below.</span>
             </div>
 
             <div class="input-group" id="trxIdInputGroup" style="display:none;">
@@ -536,7 +558,7 @@
                 });
                 let totalBDT = Math.round(totalUSD * 120);
 
-                dynamicText.innerHTML = `Please send <b>$${totalUSD.toFixed(2)} USD</b> (<b>${totalBDT} BDT</b>) to our Merchant number (<b>01767319670</b>) and enter your <b>TrxID</b> below.`;
+                dynamicText.innerHTML = `Please send <b>$${totalUSD.toFixed(2)} USD</b> (<b>${totalBDT} BDT</b>) to our merchant number (<b>01767319670</b>) and enter your <b>TrxID</b> below.`;
                 noticeBox.style.display = 'block';
                 trxGroup.style.display = 'block';
             } else {
@@ -582,7 +604,11 @@
                 }
             } catch(e) {}
 
-            localStorage.removeItem('mrmasudar_active_cart');
+            // কার্ট পুরোপুরি খালি করে লোকালস্টোরেজ এবং অর্ডার কমপ্লিটেড ফ্ল্যাগ সেট করা
+            window.subdomainCartItems = [];
+            localStorage.setItem('mrmasudar_active_cart', JSON.stringify([]));
+            localStorage.setItem('mrmasudar_order_completed', 'true');
+
             document.getElementById('shippingModalOverlay').style.display = 'none';
             document.getElementById('cartAndVerifyCard').style.display = 'none';
             document.getElementById('thankYouSectionBox').style.display = 'flex';
@@ -608,6 +634,7 @@
             showToast(`Payment successful via ${gateway}!`);
 
             setTimeout(() => {
+                localStorage.removeItem('mrmasudar_order_completed');
                 window.location.href = "https://mrmasudar.com";
             }, 240000);
         }
