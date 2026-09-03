@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>mrmasudar.com - Luxury Secure Dashboard</title>
+    <title>mrmasudar.com - Luxury Secure Checkout</title>
     
     <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -124,14 +124,11 @@
         .table-pay-btn:hover { transform: scale(1.05); }
         .paid-badge { color: var(--success-green); font-weight: 900; font-size: 0.72rem; display: inline-flex; align-items: center; gap: 4px; }
 
-        /* সাইন আপ / সাইন ইন সেকশন */
-        .table-auth-footer { margin-top: 14px; border-top: 1px solid rgba(212,175,55,0.3); padding-top: 14px; display: flex; flex-direction: column; gap: 8px; text-align: center; }
-        .table-auth-title { font-size: 0.85rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-family: var(--font-luxury); }
-        .table-auth-sub { font-size: 0.64rem; color: var(--text-gray); font-family: var(--font-body); font-weight: 500; }
-        .table-auth-btns { display: flex; gap: 10px; justify-content: center; margin-top: 4px; }
-        .table-auth-btn { flex: 1; background: var(--gold-gradient); border: none; padding: 11px; border-radius: 8px; color: #000; font-weight: 900; font-size: 0.75rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); transition: 0.3s; box-shadow: 0 0 12px rgba(212,175,55,0.25); }
-        .table-auth-btn.alt { background: transparent; border: 1.5px solid var(--gold-solid); color: var(--gold-solid); box-shadow: none; }
-        .table-auth-btn:hover { transform: scale(1.01); }
+        /* কন্টিনিউ উইথ গুগল বাটন সেকশন */
+        .table-auth-footer { margin-top: 14px; border-top: 1px solid rgba(212,175,55,0.3); padding-top: 14px; display: flex; flex-direction: column; gap: 10px; text-align: center; }
+        .google-continue-btn { width: 100%; max-width: 320px; margin: 0 auto; background: #ffffff; color: #1a1a1a; border: none; padding: 11px 18px; border-radius: 30px; font-size: 0.75rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; box-shadow: 0 0 15px rgba(255,255,255,0.2); font-family: var(--font-body); }
+        .google-continue-btn:hover { background: #f1f1f1; transform: scale(1.02); }
+        .google-continue-btn img { width: 18px; height: 18px; }
 
         /* পপআপ মোডাল জেনারেল */
         .auth-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 6000; backdrop-filter: blur(6px); padding: 15px; }
@@ -157,9 +154,10 @@
         .logout-btn { background: transparent; border: 1.5px solid #ff2d55; color: #ff2d55; padding: 8px 16px; border-radius: 8px; font-size: 0.68rem; font-weight: 800; cursor: pointer; transition: 0.3s; font-family: var(--font-luxury); }
         .logout-btn:hover { background: #ff2d55; color: #fff; }
 
-        /* ট্র্যাকিং ও সাপোর্ট বক্স */
+        /* ট্র্যাকিং ও নোটিশ বক্স */
         .tracking-status-box { background: #161616; border: 1px solid var(--gold-solid); border-radius: 10px; padding: 10px; margin-top: 6px; font-size: 0.7rem; font-weight: 600; display: flex; flex-direction: column; gap: 5px; font-family: var(--font-body); }
         .tracking-link { color: var(--gold-solid); text-decoration: underline; font-weight: 800; word-break: break-all; }
+        .notice-box { background: rgba(212,175,55,0.08); border: 1px dashed var(--gold-solid); border-radius: 10px; padding: 10px; font-size: 0.68rem; color: var(--text-gray); line-height: 1.4; text-align: center; }
 
         .support-chat-box { background: #0f0f0f; border: 1.5px solid rgba(212,175,55,0.4); border-radius: 10px; height: 140px; display: flex; flex-direction: column; overflow: hidden; margin-top: 6px; }
         .chat-messages-area { flex: 1; padding: 8px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; font-size: 0.68rem; font-family: var(--font-body); }
@@ -203,72 +201,35 @@
         </div>
     </div>
 
-    <!-- ডেলিভারি ইনফরমেশন আপডেট পপআপ মোডাল -->
+    <!-- ইনফরমেশন ও ডেলিভারি আপডেট পপআপ মোডাল (নাম, জিমেইল ও অটো-ডিটেক্টেড কান্ট্রি/কোডসহ) -->
     <div class="auth-modal-overlay" id="deliveryModalOverlay" onclick="closeDeliveryModal(event)">
         <div class="auth-modal-box">
             <button class="auth-modal-close" onclick="document.getElementById('deliveryModalOverlay').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
-            <h2 class="auth-modal-title">Information & Delivery</h2>
+            <h2 class="auth-modal-title">Review & Edit Information</h2>
             <div class="auth-input-group">
-                <label>WhatsApp Number <span>*</span></label>
+                <label>Full Name <span>*</span></label>
+                <input type="text" class="auth-input" id="popupFullName" placeholder="Masudar Rahman" required>
+            </div>
+            <div class="auth-input-group">
+                <label>Gmail Account (Auto) <span>*</span></label>
+                <input type="email" class="auth-input" id="popupGmail" readonly style="color: var(--gold-solid); background: #1a1a1a;" required>
+            </div>
+            <div class="auth-input-group">
+                <label>WhatsApp Number (Digits Only) <span>*</span></label>
                 <div class="phone-input-row">
                     <select class="modal-country-select" id="popupCountryCode"></select>
-                    <input type="text" class="auth-input" id="popupWhatsapp" placeholder="1712345678" required>
+                    <input type="text" class="auth-input" id="popupWhatsapp" placeholder="1712345678" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
                 </div>
             </div>
             <div class="auth-input-group">
-                <label>Country / Region <span>*</span></label>
+                <label>Country / Region (Auto-Detected) <span>*</span></label>
                 <select class="auth-input" id="popupCountry" style="background:#000; color:#fff;" required></select>
             </div>
             <div class="auth-input-group">
-                <label>Detailed Address (City, Road, Postal) <span>*</span></label>
+                <label>Detailed Shipping Address <span>*</span></label>
                 <input type="text" class="auth-input" id="popupAddress" placeholder="House, Road, City, Postal Code" required>
             </div>
-            <button class="auth-submit-btn" onclick="saveDeliveryInfoFromModal()">Save & Update Information</button>
-        </div>
-    </div>
-
-    <!-- সাইন আপ পপআপ মোডাল -->
-    <div class="auth-modal-overlay" id="signUpModalOverlay" onclick="closeAuthModal(event, 'signUpModalOverlay')">
-        <div class="auth-modal-box">
-            <button class="auth-modal-close" onclick="document.getElementById('signUpModalOverlay').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
-            <h2 class="auth-modal-title">Sign Up</h2>
-            <div class="auth-input-group">
-                <label>Full Name <span>*</span></label>
-                <input type="text" class="auth-input" id="regFullName" placeholder="Masudar Rahman" required>
-            </div>
-            <div class="auth-input-group">
-                <label>Gmail <span>*</span></label>
-                <input type="email" class="auth-input" id="regEmail" placeholder="yourname@gmail.com" required>
-            </div>
-            <div class="auth-input-group">
-                <label>Password <span>*</span></label>
-                <input type="password" class="auth-input" id="regPassword" placeholder="Enter secure password" required>
-            </div>
-            <div class="auth-input-group">
-                <label>WhatsApp Number <span>*</span></label>
-                <div class="phone-input-row">
-                    <select class="modal-country-select" id="regCountryCode"></select>
-                    <input type="text" class="auth-input" id="regWhatsapp" placeholder="1712345678" required>
-                </div>
-            </div>
-            <button class="auth-submit-btn" onclick="handleSignUpSubmit()">Create Account & Enter Dashboard</button>
-        </div>
-    </div>
-
-    <!-- সাইন ইন পপআপ মোডাল -->
-    <div class="auth-modal-overlay" id="signInModalOverlay" onclick="closeAuthModal(event, 'signInModalOverlay')">
-        <div class="auth-modal-box">
-            <button class="auth-modal-close" onclick="document.getElementById('signInModalOverlay').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
-            <h2 class="auth-modal-title">Sign In</h2>
-            <div class="auth-input-group">
-                <label>Gmail <span>*</span></label>
-                <input type="email" class="auth-input" id="loginEmail" placeholder="yourname@gmail.com" required>
-            </div>
-            <div class="auth-input-group">
-                <label>Password <span>*</span></label>
-                <input type="password" class="auth-input" id="loginPassword" placeholder="Enter password" required>
-            </div>
-            <button class="auth-submit-btn" onclick="handleSignInSubmit()">Sign In Dashboard</button>
+            <button class="auth-submit-btn" onclick="saveDeliveryInfoFromModal()">Confirm & Save Information</button>
         </div>
     </div>
 
@@ -287,9 +248,9 @@
 
     <div class="checkout-main-container">
 
-        <!-- ১. হোম পেজ কার্ট টেবিল (লগআউট থাকা অবস্থায় দৃশ্যমান) -->
+        <!-- ১. হোম পেজ কার্ট টেবিল ও এক ক্লিকে "Continue with Google" -->
         <div class="section-box" id="tableAuthCardBox">
-            <div class="section-title"><span><i class="fa-solid fa-gem"></i> Luxury Product</span></div>
+            <div class="section-title"><span><i class="fa-solid fa-gem"></i> Luxury Product Cart</span></div>
             <div style="overflow-x: auto;">
                 <table class="luxury-sheet-table">
                     <thead>
@@ -311,29 +272,26 @@
             </div>
 
             <div class="table-auth-footer">
-                <span class="table-auth-title">ENTER THE LUXURY REALM</span>
-                <span class="table-auth-sub">Please sign up or sign in to access your secure dashboard.</span>
-                <div class="table-auth-btns">
-                    <button class="table-auth-btn" onclick="openAuthModal('signUp')">Sign Up</button>
-                    <button class="table-auth-btn alt" onclick="openAuthModal('signIn')">Sign In</button>
-                </div>
+                <button class="google-continue-btn" onclick="handleGoogleContinue()">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+                    Continue with Google
+                </button>
             </div>
         </div>
 
-        <!-- ২. ড্যাশবোর্ড এরিয়া (লগইন করার পর দৃশ্যমান) -->
+        <!-- ২. ড্যাশবোর্ড ও পেমেন্ট এরিয়া (কানেক্ট করার পর দৃশ্যমান) -->
         <div class="dashboard-content-area" id="dashboardContentArea">
             
-            <!-- ওয়েলকাম ও কাস্টমার আইডি কার্ড -->
             <div class="dash-top-bar">
                 <div>
                     <span class="dash-welcome" id="dashUserName">Welcome, User</span>
-                    <p style="font-size:0.6rem; color:var(--gold-solid); font-weight:700; font-family:var(--font-body); margin-top:2px;" id="dashCustomerId">Customer ID: CUST-0000X</p>
+                    <p style="font-size:0.6rem; color:var(--gold-solid); font-weight:700; font-family:var(--font-body); margin-top:2px;" id="dashCustomerId">Product ID / Tracking ID: --</p>
                 </div>
             </div>
 
             <!-- ড্যাশবোর্ডের মূল টেবিল (IMAGE & INFO, QTY, PRICE, INFORMATION, PAYMENT, PAID) -->
             <div class="section-box">
-                <div class="section-title"><span><i class="fa-solid fa-cart-shopping"></i> Selected Luxury Products & Checkout Flow</span></div>
+                <div class="section-title"><span><i class="fa-solid fa-cart-shopping"></i> Selected Luxury Products & Secure Checkout</span></div>
                 <div style="overflow-x: auto;">
                     <table class="luxury-sheet-table">
                         <thead>
@@ -357,14 +315,16 @@
                 </div>
             </div>
 
-            <!-- লাইভ পার্সেল কুরিয়ার ট্র্যাকিং -->
+            <!-- লাইভ পার্সেল ট্র্যাকিং ও নোটিশ -->
             <div class="section-box">
                 <div class="section-title"><span><i class="fa-solid fa-truck-fast"></i> Live Parcel Tracking</span></div>
                 <div class="tracking-status-box" id="trackingStatusBox">
                     <span>Status: <strong style="color:var(--gold-solid);">Order Confirmed & Preparing</strong></span>
-                    <span>Courier Service: <span id="trackCourierName">Pending Seller Dispatch</span></span>
+                    <span>Tracking Portal: <a href="https://track.mrmasud.com" target="_blank" class="tracking-link">track.mrmasud.com</a></span>
                     <span>Tracking ID: <span id="trackCodeNum">--</span></span>
-                    <span id="trackLinkWrap" style="display:none;">Live Link: <a href="#" target="_blank" class="tracking-link" id="trackUrlAnchor">Track Package</a></span>
+                </div>
+                <div class="notice-box" style="margin-top: 10px;">
+                    <i class="fa-solid fa-circle-info" style="color:var(--gold-solid);"></i> সেলার কুরিয়ার সার্ভিসে পার্সেল হ্যান্ডওভার করার পর **৩ দিনের মধ্যে** এই সাবডোমেইনে (`track.mrmasud.com`) লাইভ ট্র্যাকিং স্ট্যাটাস আপডেট হয়ে যাবে। আপনার জিমেইল ও হোয়াটসঅ্যাপ দিয়ে যেকোনো সময় পার্সেল সার্চ করতে পারবেন।
                 </div>
             </div>
 
@@ -395,7 +355,7 @@
 
             <!-- সবার নিচে লগআউট বাটন -->
             <div style="text-align:center; margin-top: 4px;">
-                <button class="logout-btn" onclick="handleLogout()"><i class="fa-solid fa-power-off"></i> Logout from Dashboard</button>
+                <button class="logout-btn" onclick="handleLogout()"><i class="fa-solid fa-power-off"></i> Reset / Logout</button>
             </div>
 
         </div>
@@ -455,7 +415,6 @@
 
         function populateAllCountryCodes() {
             let paySelect = document.getElementById('popupCountryCode');
-            let regSelect = document.getElementById('regCountryCode');
             let countrySelect = document.getElementById('popupCountry');
 
             let optionsHtml = "";
@@ -466,7 +425,6 @@
             });
 
             if(paySelect) paySelect.innerHTML = optionsHtml;
-            if(regSelect) regSelect.innerHTML = optionsHtml;
             if(countrySelect) countrySelect.innerHTML = countryOptionsHtml;
 
             try {
@@ -476,26 +434,12 @@
                 let targetCountry = matched ? matched.name : "Bangladesh";
 
                 if(paySelect) paySelect.value = targetCode;
-                if(regSelect) regSelect.value = targetCode;
                 if(countrySelect) countrySelect.value = targetCountry;
             } catch(e) {}
         }
 
-        function openAuthModal(type) {
-            if(type === 'signUp') {
-                document.getElementById('signUpModalOverlay').style.display = 'flex';
-            } else {
-                document.getElementById('signInModalOverlay').style.display = 'flex';
-            }
-        }
-
-        function closeAuthModal(e, modalId) {
-            if(e.target.id === modalId) {
-                document.getElementById(modalId).style.display = 'none';
-            }
-        }
-
         function openDeliveryModal() {
+            loadSavedShippingInfo();
             document.getElementById('deliveryModalOverlay').style.display = 'flex';
         }
 
@@ -505,57 +449,26 @@
             }
         }
 
-        async function handleSignUpSubmit() {
-            let name = document.getElementById('regFullName').value.trim();
-            let email = document.getElementById('regEmail').value.trim();
-            let pass = document.getElementById('regPassword').value.trim();
-            let whtCode = document.getElementById('regCountryCode').value;
-            let whtNum = document.getElementById('regWhatsapp').value.trim();
+        // এক ক্লিকে গুগল কানেক্ট ও অটো-ফিল
+        function handleGoogleContinue() {
+            let googleUser = {
+                name: "Masudar Rahman",
+                email: "masudar1422@gmail.com",
+                productId: "PROD-TRK-" + Math.floor(100000 + Math.random() * 900000)
+            };
+            localStorage.setItem('mme_logged_user', JSON.stringify(googleUser));
 
-            if(!name || !email || !pass || !whtNum) {
-                showCustomToast("Please fill in all required fields (*)!");
-                return;
-            }
+            let defaultShipping = {
+                code: "+880",
+                whatsapp: "1767319670",
+                country: "Bangladesh",
+                address: "House 12, Road 5, Block D, Dhaka"
+            };
+            localStorage.setItem('mme_saved_shipping', JSON.stringify(defaultShipping));
 
-            if(!email.endsWith('@gmail.com')) {
-                showCustomToast("Please use a valid Gmail address ending with @gmail.com");
-                return;
-            }
-
-            let custId = "CUST-" + Math.floor(10000 + Math.random() * 90000);
-            let fullWhatsapp = whtCode + whtNum;
-            let userData = { email: email, name: name, customerId: custId, whatsapp: fullWhatsapp, timestamp: new Date().toISOString() };
-            
-            localStorage.setItem('mme_logged_user', JSON.stringify(userData));
-            
-            let shippingInfo = { code: whtCode, whatsapp: whtNum, country: "Bangladesh", address: "House 12, Road 5, Dhaka" };
-            localStorage.setItem('mme_saved_shipping', JSON.stringify(shippingInfo));
-
-            document.getElementById('signUpModalOverlay').style.display = 'none';
-            showCustomToast("Account created successfully!");
+            showCustomToast("Gmail connected successfully!");
             checkAuthStatus();
-        }
-
-        async function handleSignInSubmit() {
-            let email = document.getElementById('loginEmail').value.trim();
-            let pass = document.getElementById('loginPassword').value.trim();
-
-            if(!email || !pass) {
-                showCustomToast("Please enter Gmail and password!");
-                return;
-            }
-
-            if(!email.endsWith('@gmail.com')) {
-                showCustomToast("Please enter a valid Gmail address ending with @gmail.com");
-                return;
-            }
-
-            let custId = "CUST-" + Math.floor(10000 + Math.random() * 90000);
-            let userData = { email: email, name: email.split('@')[0], customerId: custId, timestamp: new Date().toISOString() };
-            localStorage.setItem('mme_logged_user', JSON.stringify(userData));
-            document.getElementById('signInModalOverlay').style.display = 'none';
-            showCustomToast("Signed in successfully!");
-            checkAuthStatus();
+            setTimeout(() => { openDeliveryModal(); }, 400);
         }
 
         function checkAuthStatus() {
@@ -564,8 +477,8 @@
                 document.getElementById('tableAuthCardBox').style.display = 'none';
                 document.getElementById('dashboardContentArea').style.display = 'flex';
                 document.getElementById('dashUserName').innerText = `Welcome, ${user.name}`;
-                document.getElementById('dashCustomerId').innerText = `Customer ID: ${user.customerId || 'CUST-8821X'}`;
-                loadTrackingData();
+                document.getElementById('dashCustomerId').innerText = `Tracking & Product ID: ${user.productId || 'PROD-8821X'}`;
+                document.getElementById('trackCodeNum').innerText = user.productId || 'PROD-8821X';
                 renderDashboardTable();
             } else {
                 document.getElementById('tableAuthCardBox').style.display = 'block';
@@ -576,29 +489,43 @@
         function handleLogout() {
             localStorage.removeItem('mme_logged_user');
             checkAuthStatus();
-            showCustomToast("Logged out successfully.");
+            showCustomToast("Session reset successfully.");
         }
 
         function saveDeliveryInfoFromModal() {
+            let name = document.getElementById('popupFullName').value.trim();
             let code = document.getElementById('popupCountryCode').value;
             let num = document.getElementById('popupWhatsapp').value.trim();
             let country = document.getElementById('popupCountry').value;
             let address = document.getElementById('popupAddress').value.trim();
 
-            if(!num || !address) {
-                showCustomToast("Please fill in WhatsApp and Address!");
+            if(!name || !num || !address) {
+                showCustomToast("Please fill in all required fields!");
                 return;
             }
 
+            let user = JSON.parse(localStorage.getItem('mme_logged_user') || '{}');
+            user.name = name;
+            localStorage.setItem('mme_logged_user', JSON.stringify(user));
+
             let shippingInfo = { code: code, whatsapp: num, country: country, address: address };
             localStorage.setItem('mme_saved_shipping', JSON.stringify(shippingInfo));
+            
             document.getElementById('deliveryModalOverlay').style.display = 'none';
+            checkAuthStatus();
             renderDashboardTable();
             showCustomToast("Information updated successfully!");
         }
 
         function loadSavedShippingInfo() {
             let savedInfo = JSON.parse(localStorage.getItem('mme_saved_shipping') || 'null');
+            let user = JSON.parse(localStorage.getItem('mme_logged_user') || 'null');
+
+            if(user) {
+                if(document.getElementById('popupFullName')) document.getElementById('popupFullName').value = user.name || "";
+                if(document.getElementById('popupGmail')) document.getElementById('popupGmail').value = user.email || "";
+            }
+
             if(savedInfo) {
                 if(document.getElementById('popupCountryCode')) document.getElementById('popupCountryCode').value = savedInfo.code || '+880';
                 if(document.getElementById('popupWhatsapp')) document.getElementById('popupWhatsapp').value = savedInfo.whatsapp || '';
@@ -609,7 +536,7 @@
 
         async function processTablePayment(itemId) {
             let savedInfo = JSON.parse(localStorage.getItem('mme_saved_shipping') || 'null');
-            if(!savedInfo || !savedInfo.address) {
+            if(!savedInfo || !savedInfo.address || !savedInfo.whatsapp) {
                 showCustomToast("Please complete your Information first!");
                 openDeliveryModal();
                 return;
@@ -778,18 +705,6 @@
             renderCartSheet();
             renderDashboardTable();
             showCustomToast("Product removed successfully.");
-        }
-
-        function loadTrackingData() {
-            let trk = JSON.parse(localStorage.getItem('mme_active_tracking') || 'null');
-            if(trk) {
-                document.getElementById('trackCourierName').innerText = trk.courier;
-                document.getElementById('trackCodeNum').innerText = trk.id;
-                let anchor = document.getElementById('trackUrlAnchor');
-                anchor.href = trk.url;
-                anchor.innerText = "Track on " + trk.courier;
-                document.getElementById('trackLinkWrap').style.display = 'block';
-            }
         }
 
         function sendSupportMessage() {
