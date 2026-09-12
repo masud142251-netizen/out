@@ -3,622 +3,461 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>mrmasudar.com - Luxury Secure Checkout</title>
+    <title>RORRAXY | Creative Academy - Coming Soon</title>
     
-    <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Firebase SDK & Real-time Firestore Cart Integration with URL Tracker for Seller & Affiliate -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-        
-        try {
-            const firebaseConfig = {
-                apiKey: "AIzaSyCvUftOHiXFCuAzivaBut1XvNLpGE-LQ-w",
-                authDomain: "mr-masudar.firebaseapp.com",
-                projectId: "mr-masudar",
-                storageBucket: "mr-masudar.firebasestorage.app",
-                messagingSenderId: "644110210393",
-                appId: "1:644110210393:web:dc756217266f0af039e848",
-                measurementId: "G-BZBCMZQ87M"
-            };
-            const app = initializeApp(firebaseConfig);
-            window.db = getFirestore(app);
-            window.firebaseAddDoc = addDoc;
-            window.firebaseCollection = collection;
-            window.firebaseDeleteDoc = deleteDoc;
-            window.firebaseDoc = doc;
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
-            // URL থেকে অটোমেটিক Seller ID এবং Affiliate ID ক্যাপচার করে লোকাল স্টোরেজে সংরক্ষণ
-            const urlParams = new URLSearchParams(window.location.search);
-            const refSeller = urlParams.get('seller');
-            const refAffiliate = urlParams.get('ref') || urlParams.get('affiliate');
-
-            if(refSeller) localStorage.setItem('mrmasudar_seller_id', refSeller);
-            if(refAffiliate) localStorage.setItem('mrmasudar_affiliate_id', refAffiliate);
-
-            // রিয়েল-টাইম ফায়ারস্টোর লিসener (হোম পেজ থেকে অ্যাড করা মাত্র সাবডোমেইনে চলে আসবে)
-            function listenCartFromFirebase() {
-                try {
-                    onSnapshot(collection(window.db, "global_carts"), (querySnapshot) => {
-                        let itemsList = [];
-                        querySnapshot.forEach((documentSnap) => {
-                            itemsList.push({ docId: documentSnap.id, ...documentSnap.data() });
-                        });
-                        
-                        if(itemsList.length === 0) {
-                            window.subdomainCartItems = [];
-                        } else {
-                            window.subdomainCartItems = itemsList;
-                        }
-                        if(typeof renderCartTable === 'function') renderCartTable();
-                    });
-                } catch(e) {
-                    window.subdomainCartItems = [];
-                    if(typeof renderCartTable === 'function') renderCartTable();
-                }
-            }
-            listenCartFromFirebase();
-        } catch(err) {
-            window.subdomainCartItems = [];
-            if(typeof renderCartTable === 'function') renderCartTable();
+    <script>
+        const firebaseConfig = {
+            apiKey: "YOUR_FIREBASE_API_KEY",
+            authDomain: "YOUR_FIREBASE_AUTH_DOMAIN",
+            projectId: "YOUR_FIREBASE_PROJECT_ID",
+            storageBucket: "YOUR_FIREBASE_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_FIREBASE_MESSAGING_SENDER_ID",
+            appId: "YOUR_FIREBASE_APP_ID"
+        };
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
         }
+        const db = firebase.firestore();
     </script>
 
     <style>
         :root {
-            --bg-black: #060606;
-            --card-bg: #0e0e0e;
+            --bg-black: #050505;
+            --surface-bg: #0c0c0c;
             --gold-gradient: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
             --gold-solid: #d4af37;
             --text-white: #ffffff;
-            --text-gray: #b8b8b8;
-            --pink-heart: #ff2d55;
-            --success-green: #2ecc71;
+            --text-gray: #cfcfcf;
             --font-luxury: 'Cinzel', serif;
             --font-body: 'Poppins', sans-serif;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        html, body { width: 100%; overflow-x: hidden !important; background-color: var(--bg-black); color: var(--text-white); font-family: var(--font-body); }
-        body { padding-top: 68px; padding-bottom: 90px; }
-
-        h1, h2, h3, h4, .brand-title-main, .section-title { font-family: var(--font-luxury); }
-
-        header.app-header {
-            display: flex; justify-content: space-between; align-items: center; padding: 8px 16px;
-            background: rgba(10, 10, 10, 0.98); position: fixed; top: 0; left: 0; z-index: 1000;
-            backdrop-filter: blur(12px); width: 100%; border-bottom: 1px solid rgba(212,175,55,0.3);
+        
+        html { width: 100%; background-color: var(--bg-black); }
+        body { 
+            width: 100%; 
+            min-height: 100vh; 
+            background-color: var(--bg-black); 
+            color: var(--text-white); 
+            font-family: var(--font-body); 
+            padding-top: 55px; 
+            padding-bottom: 60px; 
+            overflow-x: hidden; 
+            -webkit-font-smoothing: antialiased; 
         }
-        .brand-container { display: flex; align-items: center; gap: 8px; cursor: pointer; text-decoration: none; }
-        .logo { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--gold-solid); background: #000; box-shadow: 0 0 10px rgba(212,175,55,0.3); }
-        .brand-title-main { font-size: 0.92rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 0.8px; }
 
-        /* ক্রস বাটন: একদম ডানদিকের নিচের অংশে ফিক্সড */
-        .golden-cross-btn-bottom-right { background: rgba(10,10,10,0.95); border: 1.5px solid var(--gold-solid); color: var(--gold-solid); width: 42px; height: 42px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.15rem; font-weight: bold; position: fixed; bottom: 20px; right: 20px; z-index: 5000; box-shadow: 0 0 15px rgba(212,175,55,0.4); text-decoration: none; transition: 0.3s; }
-        .golden-cross-btn-bottom-right:hover { background: var(--gold-gradient); color: #000; transform: scale(1.1); }
+        h1, h2, h3, h4, .brand-title-main { font-family: var(--font-luxury); }
 
-        .custom-toast { position: fixed; top: 76px; left: 50%; transform: translateX(-50%); background: rgba(16, 16, 16, 0.96); border: 1.5px solid var(--gold-solid); color: var(--gold-solid); padding: 7px 18px; border-radius: 30px; font-size: 0.72rem; font-weight: 700; z-index: 9999; display: none; box-shadow: 0 0 15px rgba(212,175,55,0.3); }
+        /* হেডার */
+        header.app-header {
+            display: flex; 
+            justify-content: flex-start; 
+            align-items: center; 
+            padding: 6px 14px;
+            background: rgba(10, 10, 10, 0.98); 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            z-index: 1000;
+            backdrop-filter: blur(12px); 
+            width: 100%; 
+            border-bottom: 1px solid rgba(212,175,55,0.25);
+        }
+        .brand-container { 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            text-decoration: none; 
+        }
+        .logo { 
+            width: 34px; 
+            height: 34px; 
+            border-radius: 50%; 
+            object-fit: contain; 
+        }
+        .brand-title-main { 
+            font-size: 0.95rem; 
+            font-weight: 900; 
+            background: var(--gold-gradient); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            text-transform: uppercase; 
+            letter-spacing: 1.8px; 
+            white-space: nowrap; 
+        }
 
-        .checkout-container { width: 100%; max-width: 620px; margin: 14px auto; padding: 12px; display: flex; flex-direction: column; gap: 14px; }
-        .checkout-card { background: var(--card-bg); border: 1.5px solid var(--gold-solid); border-radius: 14px; padding: 16px; box-shadow: 0 4px 25px rgba(212,175,55,0.12); }
-        .section-title { font-size: 0.82rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 10px; }
+        .custom-toast { position: fixed; top: 65px; left: 50%; transform: translateX(-50%); background: rgba(16, 16, 16, 0.98); border: 1.5px solid var(--gold-solid); color: var(--gold-solid); padding: 8px 16px; border-radius: 30px; font-size: 0.7rem; font-weight: 700; z-index: 999999; display: none; box-shadow: 0 0 15px rgba(212,175,55,0.3); }
 
-        .luxury-sheet-table { width: 100%; border-collapse: collapse; margin-top: 4px; }
-        .luxury-sheet-table th { background: rgba(212, 175, 55, 0.12); color: var(--gold-solid); font-size: 0.6rem; font-weight: 800; text-transform: uppercase; padding: 7px 6px; border: 1px solid rgba(212,175,55,0.25); text-align: center; font-family: var(--font-luxury); }
-        .luxury-sheet-table th:first-child { text-align: left; }
-        .luxury-sheet-table td { padding: 7px 6px; border: 1px solid rgba(212,175,55,0.18); font-size: 0.66rem; color: #fff; vertical-align: middle; text-align: center; }
-        .luxury-sheet-table td:first-child { text-align: left; }
+        .main-wrapper { 
+            width: 100%; 
+            max-width: 1000px; 
+            margin: 0 auto; 
+            padding: 14px; 
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        /* কামিং সুন ও একাডেমি হিরো কার্ড */
+        .luxury-card { 
+            background: var(--surface-bg); 
+            border-radius: 18px; 
+            padding: 32px 20px; 
+            text-align: center; 
+            box-shadow: 0 12px 40px rgba(0,0,0,0.9); 
+            border: 1px solid rgba(212,175,55,0.25); 
+        }
+        .coming-soon-badge {
+            display: inline-block;
+            background: var(--gold-gradient);
+            color: #000;
+            font-size: 0.65rem;
+            font-weight: 900;
+            padding: 5px 16px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 14px;
+            box-shadow: 0 0 15px rgba(212,175,55,0.5);
+            animation: pulseBadge 2s infinite alternate;
+        }
+        @keyframes pulseBadge {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            100% { transform: scale(1.05); opacity: 1; }
+        }
+
+        .hero-title { 
+            font-size: 1.4rem; 
+            font-weight: 900; 
+            background: var(--gold-gradient); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            text-transform: uppercase; 
+            margin-bottom: 12px; 
+            letter-spacing: 1.2px; 
+        }
+        .hero-sub { 
+            font-size: 0.78rem; 
+            color: var(--text-gray); 
+            line-height: 1.8; 
+            max-width: 800px; 
+            margin: 0 auto 20px auto; 
+        }
+
+        /* উইন-উইন ও ক্রিয়েশন হাইলাইট ট্যাগ */
+        .ecosystem-badges {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .badge-tag {
+            background: rgba(20, 20, 20, 0.8);
+            border: none;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 6px 14px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 10px rgba(212,175,55,0.15);
+        }
+
+        /* ভোট সিস্টেম সেকশন (হ্যাঁ-না ভোট) */
+        .voting-container {
+            background: var(--surface-bg);
+            border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 18px;
+            padding: 28px 20px;
+            text-align: center;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.95);
+        }
+        .voting-title {
+            font-family: var(--font-luxury);
+            font-size: 1.1rem;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+        .voting-desc {
+            font-size: 0.75rem;
+            color: var(--text-gray);
+            margin-bottom: 20px;
+        }
+        .vote-buttons-row {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 16px;
+        }
+        .vote-btn {
+            flex: 1;
+            max-width: 180px;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: 900;
+            font-size: 0.85rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-family: var(--font-luxury);
+            transition: 0.3s;
+            border: none;
+        }
+        .vote-yes {
+            background: var(--gold-gradient);
+            color: #000;
+            box-shadow: 0 0 15px rgba(212,175,55,0.4);
+        }
+        .vote-yes:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(212,175,55,0.8);
+        }
+        .vote-no {
+            background: rgba(25, 25, 25, 0.9);
+            color: var(--gold-solid);
+            border: 1.5px solid var(--gold-solid);
+        }
+        .vote-no:hover {
+            background: rgba(40, 40, 40, 0.9);
+            transform: scale(1.05);
+        }
+        .vote-results {
+            font-size: 0.75rem;
+            color: var(--text-gray);
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        /* ফরম সেকশন */
+        .bottom-form-container {
+            background: var(--surface-bg);
+            border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 18px;
+            padding: 30px 24px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.95);
+        }
+        .form-title {
+            font-family: var(--font-luxury);
+            font-size: 1.2rem;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            font-weight: 900;
+        }
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; font-size: 0.7rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; font-weight: 800; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; background: #000; border: 1.5px solid rgba(212,175,55,0.35); padding: 12px 14px; color: #fff; border-radius: 10px; font-size: 0.82rem; outline: none; transition: 0.3s; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--gold-solid); box-shadow: 0 0 12px rgba(212,175,55,0.3); }
+        .phone-row { display: flex; gap: 10px; }
+        .phone-row select { width: 140px; flex-shrink: 0; }
         
-        .sheet-product-img { width: 34px; height: 34px; border-radius: 5px; object-fit: cover; border: 1px solid var(--gold-solid); flex-shrink: 0; }
-        .sheet-delete-btn { background: transparent; border: none; color: #ff2d55; font-size: 0.8rem; cursor: pointer; padding: 4px; }
-
-        .google-auth-box { margin-top: 12px; border-top: 1px solid rgba(212,175,55,0.25); padding-top: 12px; text-align: center; }
-        .google-continue-btn { width: 100%; background: #ffffff; color: #1a1a1a; border: none; padding: 12px 18px; border-radius: 30px; font-size: 0.76rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; box-shadow: 0 0 15px rgba(255,255,255,0.2); font-family: var(--font-body); }
-        .google-continue-btn:hover { background: #f1f1f1; transform: scale(1.01); }
-        .google-continue-btn img { width: 18px; height: 18px; flex-shrink: 0; }
-
-        .auth-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 6000; backdrop-filter: blur(6px); padding: 10px; }
-        .auth-modal-box { background: #0e0e0e; border: 1.5px solid var(--gold-solid); width: 100%; max-width: 420px; border-radius: 14px; padding: 18px 14px; text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.8); font-family: var(--font-body); max-height: 90vh; overflow-y: auto; }
-        .auth-modal-title { font-size: 0.9rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 10px; font-family: var(--font-luxury); }
-        .auth-modal-close { position: absolute; top: 8px; right: 10px; background: transparent; border: none; color: var(--gold-solid); font-size: 1rem; cursor: pointer; }
-
-        .input-group { margin-bottom: 9px; text-align: left; }
-        .input-group label { font-size: 0.6rem; font-weight: 700; color: var(--text-gray); text-transform: uppercase; margin-bottom: 3px; display: block; }
-        .input-group label span { color: var(--pink-heart); }
-        .input-field { width: 100%; background: #050505; border: 1.5px solid rgba(212,175,55,0.35); padding: 8px 10px; border-radius: 6px; color: #fff; font-size: 0.7rem; font-weight: 600; outline: none; }
-        .input-field:focus { border-color: var(--gold-solid); background: #000; }
+        .google-verify-btn { width: 100%; background: #ffffff; color: #000; border: none; padding: 12px; border-radius: 10px; font-weight: 700; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; margin-bottom: 14px; transition: 0.3s; }
+        .google-verify-btn:hover { background: #f1f1f1; box-shadow: 0 0 12px rgba(255,255,255,0.5); }
         
-        .phone-row-two-col { display: flex; gap: 6px; align-items: center; }
-        .country-col { flex: 1.3; }
-        .number-col { flex: 1.7; }
-        .country-select { background: #050505; border: 1.5px solid rgba(212,175,55,0.35); padding: 8px 4px; border-radius: 6px; color: #fff; font-size: 0.62rem; font-weight: 600; outline: none; width: 100%; height: 35px; }
-        .country-select option { background: #111; color: #fff; }
-
-        .pay-gateway-select { width: 100%; background: #050505; border: 1.5px solid var(--gold-solid); padding: 9px; border-radius: 6px; color: var(--gold-solid); font-size: 0.72rem; font-weight: 800; outline: none; margin-bottom: 8px; cursor: pointer; text-align: center; }
-        .bkash-notice-box { background: rgba(212,175,55,0.06); border: 1.5px dashed var(--gold-solid); padding: 8px; border-radius: 6px; margin-bottom: 8px; text-align: left; display: none; font-size: 0.62rem; color: var(--gold-solid); line-height: 1.3; }
-
-        .action-btn-row { display: flex; gap: 8px; margin-top: 10px; }
-        .pay-confirm-btn { flex: 1; background: var(--gold-gradient); border: none; padding: 11px; border-radius: 6px; color: #000; font-weight: 900; font-size: 0.72rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); transition: 0.3s; }
-        .pay-confirm-btn:hover { opacity: 0.9; }
-        .cancel-btn { background: transparent; border: 1.5px solid #ff2d55; color: #ff2d55; padding: 11px 14px; border-radius: 6px; font-weight: 800; font-size: 0.7rem; cursor: pointer; text-transform: uppercase; transition: 0.3s; font-family: var(--font-luxury); text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
-        .cancel-btn:hover { background: #ff2d55; color: #fff; }
-
-        .thankyou-section-box { display: none; flex-direction: column; gap: 14px; }
-        .thankyou-card { background: var(--card-bg); border: 1.5px solid var(--gold-solid); border-radius: 14px; padding: 22px 16px; text-align: center; box-shadow: 0 4px 25px rgba(212,175,55,0.15); }
-        .thankyou-title { font-size: 1.1rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 6px; font-family: var(--font-luxury); letter-spacing: 0.5px; }
-        .thankyou-sub { font-size: 0.68rem; color: var(--text-gray); line-height: 1.4; margin-bottom: 12px; }
-        .product-id-badge { display: inline-block; background: rgba(212,175,55,0.1); border: 1.5px solid var(--gold-solid); padding: 7px 18px; border-radius: 20px; font-size: 0.78rem; font-weight: 900; color: var(--gold-solid); letter-spacing: 1px; margin-bottom: 10px; }
-        .ordered-items-list { background: #050505; border: 1px solid rgba(212,175,55,0.3); border-radius: 8px; padding: 10px; margin-bottom: 12px; text-align: left; }
-        .ordered-item-row { display: flex; align-items: center; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.68rem; }
-        .ordered-item-row:last-child { border-bottom: none; }
-
-        .return-home-center-btn { background: var(--gold-gradient); color: #000; border: none; padding: 11px 18px; border-radius: 8px; font-size: 0.72rem; font-weight: 900; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 6px; text-transform: uppercase; font-family: var(--font-luxury); width: 100%; transition: 0.3s; box-shadow: 0 0 15px rgba(212,175,55,0.25); }
-        .return-home-center-btn:hover { opacity: 0.9; }
-
-        .tracking-notice-card { background: var(--card-bg); border: 1.5px solid var(--gold-solid); border-radius: 14px; padding: 18px 14px; text-align: center; box-shadow: 0 4px 25px rgba(212,175,55,0.15); }
-        .notice-header { font-size: 0.88rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-family: var(--font-luxury); margin-bottom: 6px; display: flex; align-items: center; justify-content: center; gap: 6px; }
-        .notice-sub { font-size: 0.65rem; color: var(--text-gray); line-height: 1.35; margin-bottom: 8px; }
-        .notice-dashed { font-size: 0.62rem; color: var(--gold-solid); background: rgba(212,175,55,0.04); border: 1.5px dashed var(--gold-solid); padding: 8px 10px; border-radius: 6px; text-align: left; line-height: 1.35; }
+        .btn-gold-glow { background: var(--gold-gradient); border: none; padding: 12px 24px; border-radius: 30px; color: #000; font-weight: 900; font-size: 0.78rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); transition: 0.3s; box-shadow: 0 0 18px rgba(212,175,55,0.35); width: 100%; text-align: center; }
+        .btn-gold-glow:hover { transform: scale(1.02); box-shadow: 0 0 25px rgba(212,175,55,0.6); }
     </style>
 </head>
 <body>
 
     <div class="custom-toast" id="customToast">Action completed successfully!</div>
 
+    <!-- হেডার -->
     <header class="app-header">
-        <a href="https://mrmasudar.com" class="brand-container">
-            <img src="https://lh3.googleusercontent.com/d/1POhz8vb-MocaPNHg-i6nDSKwV4ky16Lc" alt="Logo" class="logo">
-            <span class="brand-title-main">MRMASUDAR.COM</span>
+        <a href="https://rorraxy.com" class="brand-container">
+            <img src="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400" alt="Logo" class="logo">
+            <span class="brand-title-main">RORRAXY</span>
         </a>
     </header>
 
-    <!-- ডান দিকের নিচে হোম পেজে যাওয়ার ক্রস বাটন -->
-    <a href="https://mrmasudar.com" class="golden-cross-btn-bottom-right" title="Return to Home"><i class="fa-solid fa-xmark"></i></a>
-
-    <div class="checkout-container">
+    <div class="main-wrapper">
         
-        <!-- ১. কার্ট টেবিল ও গুগল ভেরিফাই সেকশন -->
-        <div class="checkout-card" id="cartAndVerifyCard">
-            <div class="section-title"><i class="fa-solid fa-gem"></i> Luxury Product Cart</div>
-            <div style="overflow-x: auto;">
-                <table class="luxury-sheet-table">
-                    <thead>
-                        <tr>
-                            <th style="width: 45%;">Image & Info</th>
-                            <th>Qty</th>
-                            <th>Price</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="cartTableBody">
-                        <!-- Dynamic Cart Items from Firebase -->
-                    </tbody>
-                </table>
-            </div>
-            
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; border-top:1px solid rgba(212,175,55,0.3); padding-top:6px;">
-                <span style="font-size:0.68rem; font-weight:700;">TOTAL PAYABLE:</span>
-                <span style="font-size:0.85rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;" id="cartTotalPrice">$0.00</span>
-            </div>
-
-            <!-- Continue with Google Verify বাটন -->
-            <div class="google-auth-box" id="googleAuthSection">
-                <button class="google-continue-btn" onclick="openShippingModal()">
-                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
-                    Continue with Google Verify
-                </button>
+        <!-- কামিং সুন একাডেমি হিরো কার্ড -->
+        <div class="luxury-card">
+            <span class="coming-soon-badge">Coming Soon</span>
+            <h1 class="hero-title">Bangladesh's First Creative Academy</h1>
+            <p class="hero-sub">
+                A groundbreaking learning platform introducing revolutionary <strong>Win-Win Fee Courses</strong>. Build real-world plugins, custom software, and advanced websites while mastering professional digital creation.
+            </p>
+            <div class="ecosystem-badges">
+                <span class="badge-tag">Win-Win Fee System</span>
+                <span class="badge-tag">Plugin & Software Creation</span>
+                <span class="badge-tag">No Plugins & Third-Party</span>
+                <span class="badge-tag">Supersonic Speed</span>
             </div>
         </div>
 
-        <!-- ২. থ্যাংক ইউ এবং ট্র্যাকিং ইনফো পেজ -->
-        <div class="thankyou-section-box" id="thankYouSectionBox">
+        <!-- হ্যাঁ-না ভোট সিস্টেম (Yes/No Voting System) -->
+        <div class="voting-container">
+            <h3 class="voting-title">Community Vote</h3>
+            <p class="voting-desc">Do you support launching Bangladesh's first Win-Win Creative Academy for Software & Web Development?</p>
             
-            <div class="thankyou-card">
-                <div style="font-size: 1.8rem; color: var(--gold-solid); margin-bottom: 4px;"><i class="fa-solid fa-award"></i></div>
-                <h2 class="thankyou-title">Thank You For Your Luxury Order!</h2>
-                <p class="thankyou-sub">
-                    Your payment has been successfully completed! Warmest congratulations from <strong>MRMASUDAR.COM</strong>. Your exquisite luxury items have been securely handed over to our premium packaging team. Rest assured, your parcel will reach your doorstep very soon!
-                </p>
-                
-                <div class="product-id-badge" id="finalGeneratedProductId">PROD-TRK-000000</div>
-
-                <div class="ordered-items-list" id="orderedItemsSummaryList">
-                    <!-- Dynamic Ordered Items Here -->
-                </div>
-
-                <a href="https://mrmasudar.com" class="return-home-center-btn"><i class="fa-solid fa-arrow-left"></i> Return to Home Page</a>
+            <div class="vote-buttons-row">
+                <button class="vote-btn vote-yes" onclick="submitVote('yes')"><i class="fa-solid fa-check"></i> Yes</button>
+                <button class="vote-btn vote-no" onclick="submitVote('no')"><i class="fa-solid fa-xmark"></i> No</button>
             </div>
-
-            <!-- ট্র্যাকিং নোটিশ পোর্টাল -->
-            <div class="tracking-notice-card">
-                <div class="notice-header">
-                    <i class="fa-solid fa-truck-fast"></i> Parcel Tracking Information
-                </div>
-                <p class="notice-sub">
-                    To check your real-time shipping status, please visit our home page and click on <strong>Track</strong>, or directly navigate to <strong style="color:var(--gold-solid);">track.mrmasudar.com</strong>. You can easily search using your unique Product ID, registered Gmail, or WhatsApp number to view all your ordered luxury products together.
-                </p>
-                
-                <div class="notice-dashed">
-                    <i class="fa-solid fa-circle-info" style="color:var(--gold-solid);"></i> Note: Tracking status becomes live within **3 days** after the seller hands over the parcel to the courier service.
-                </div>
+            
+            <div class="vote-results" id="voteResultsDisplay">
+                Total Votes: Loading... (Yes: -- | No: --)
             </div>
-
         </div>
 
-    </div>
+        <!-- ফরম সেকশন -->
+        <div class="bottom-form-container">
+            <h3 class="form-title">Join Early Access</h3>
+            
+            <button class="google-verify-btn" onclick="verifyWithGoogle()">
+                <i class="fa-brands fa-google" style="color:#ea4335;"></i> Verify & Autofill with Google
+            </button>
+            <div style="text-align:center; font-size:0.65rem; color:#888; margin-bottom:14px;">OR MANUALLY BELOW</div>
 
-    <!-- ৩. পপআপ ফরম মোডাল -->
-    <div class="auth-modal-overlay" id="shippingModalOverlay" onclick="closeShippingModalOutside(event)">
-        <div class="auth-modal-box">
-            <button class="auth-modal-close" onclick="document.getElementById('shippingModalOverlay').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
-            <h2 class="auth-modal-title"><i class="fa-solid fa-truck-fast"></i> Shipping & Payment Information</h2>
-            
-            <div class="input-group">
-                <label>Full Name <span>*</span></label>
-                <input type="text" class="input-field" id="custName" placeholder="Masudar Rahman" required>
-            </div>
-            
-            <div class="input-group">
-                <label>Verified Gmail Account <span>*</span></label>
-                <input type="email" class="input-field" id="custEmail" readonly style="color:var(--gold-solid); background:#0a0a0a;" required>
-            </div>
-            
-            <div class="input-group">
-                <label>Country Code & WhatsApp Number <span>*</span></label>
-                <div class="phone-row-two-col">
-                    <div class="country-col">
-                        <select class="country-select" id="countryCodeSelect"></select>
-                    </div>
-                    <div class="number-col">
-                        <input type="text" class="input-field" id="custWhatsapp" placeholder="1712345678" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+            <form id="dynamicForm" onsubmit="handleFormSubmit(event)">
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="userName" placeholder="Enter your full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Gmail *</label>
+                    <input type="email" id="userEmail" placeholder="user@gmail.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label>WhatsApp Number *</label>
+                    <div class="phone-row">
+                        <select id="userDialCode">
+                            <!-- ১৯৫+ দেশের কোড ডাইনামিক্যালি লোড হবে -->
+                        </select>
+                        <input type="tel" id="userWhatsApp" placeholder="17XXXXXXXX" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
                     </div>
                 </div>
-            </div>
 
-            <div class="input-group">
-                <label>Detailed Shipping Address <span>*</span></label>
-                <input type="text" class="input-field" id="custAddress" placeholder="House, Road, City, Postal Code" required>
-            </div>
+                <div class="form-group">
+                    <label>Full Address *</label>
+                    <input type="text" id="userAddress" placeholder="House/Street, City, State, Country" required>
+                </div>
 
-            <div class="input-group" style="margin-top: 6px;">
-                <label>Select Payment Method <span>*</span></label>
-                <select class="pay-gateway-select" id="paymentGatewayChoice" onchange="handlePaymentMethodChange()">
-                    <option value="Payoneer Global">Payoneer Global (USD / EUR)</option>
-                    <option value="PayPal Checkout">PayPal Checkout</option>
-                    <option value="Visa Credit/Debit Card">Visa Credit / Debit Card</option>
-                    <option value="Mastercard SecureCode">Mastercard SecureCode</option>
-                    <option value="American Express">American Express (Amex)</option>
-                    <option value="Discover Global Network">Discover Global Network</option>
-                    <option value="Apple Pay">Apple Pay</option>
-                    <option value="Google Pay">Google Pay</option>
-                    <option value="Stripe Global Gateway">Stripe Global Gateway</option>
-                    <option value="Direct Bank Wire Transfer">Direct Bank Wire Transfer</option>
-                    <option value="bKash Personal / Merchant">bKash (Mobile Banking)</option>
-                    <option value="Nagad Personal / Merchant">Nagad (Mobile Banking)</option>
-                    <option value="Other International Cards">Other International Cards</option>
-                </select>
-            </div>
+                <div class="form-group">
+                    <label>Project Requirements & Details *</label>
+                    <textarea id="userComments" rows="3" placeholder="" required></textarea>
+                </div>
 
-            <div class="bkash-notice-box" id="bkashNoticeBox">
-                <i class="fa-solid fa-circle-info"></i> <span id="bkashDynamicText">Please send money to our merchant number (01767319670) and enter your TrxID below.</span>
-            </div>
-
-            <div class="input-group" id="trxIdInputGroup" style="display:none;">
-                <label>Transaction ID (TrxID) <span>*</span></label>
-                <input type="text" class="input-field" id="custTrxId" placeholder="e.g. 9N87B6V5C4" style="border-color:var(--gold-solid); color:var(--gold-solid);">
-            </div>
-
-            <div class="action-btn-row">
-                <button class="pay-confirm-btn" onclick="executePaymentAndShowThankYou()">Pay & Confirm Order</button>
-                <a href="https://mrmasudar.com" class="cancel-btn">Cancel</a>
-            </div>
+                <button type="submit" class="btn-gold-glow" style="margin-top:10px;">Submit</button>
+            </form>
         </div>
+
     </div>
 
     <script>
-        const all195CountriesList = [
-            { name: "Afghanistan", code: "+93", flag: "🇦🇫" }, { name: "Albania", code: "+355", flag: "🇦🇱" },
-            { name: "Algeria", code: "+213", flag: "🇩🇿" }, { name: "Andorra", code: "+376", flag: "🇦🇩" },
-            { name: "Angola", code: "+244", flag: "🇦🇴" }, { name: "Argentina", code: "+54", flag: "🇦🇷" },
-            { name: "Armenia", code: "+374", flag: "🇦🇲" }, { name: "Australia", code: "+61", flag: "🇦🇺" },
-            { name: "Austria", code: "+43", flag: "🇦🇹" }, { name: "Azerbaijan", code: "+994", flag: "🇦🇿" },
-            { name: "Bahamas", code: "+1", flag: "🇧🇸" }, { name: "Bahrain", code: "+973", flag: "🇧🇭" },
-            { name: "Bangladesh", code: "+880", flag: "🇧🇩" }, { name: "Barbados", code: "+1", flag: "🇧🇧" },
-            { name: "Belarus", code: "+375", flag: "🇧🇾" }, { name: "Belgium", code: "+32", flag: "🇧🇪" },
-            { name: "Belize", code: "+501", flag: "🇧🇿" }, { name: "Benin", code: "+229", flag: "🇧🇯" },
-            { name: "Bhutan", code: "+975", flag: "🇧🇹" }, { name: "Bolivia", code: "+591", flag: "🇧🇴" },
-            { name: "Bosnia and Herzegovina", code: "+387", flag: "🇧🇦" }, { name: "Botswana", code: "+267", flag: "🇧🇼" },
-            { name: "Brazil", code: "+55", flag: "🇧🇷" }, { name: "Brunei", code: "+673", flag: "🇧🇳" },
-            { name: "Bulgaria", code: "+359", flag: "🇧🇬" }, { name: "Burkina Faso", code: "+226", flag: "🇧🇫" },
-            { name: "Burundi", code: "+257", flag: "🇧🇮" }, { name: "Cambodia", code: "+855", flag: "🇰🇭" },
-            { name: "Cameroon", code: "+237", flag: "🇨🇲" }, { name: "Canada", code: "+1", flag: "🇨🇦" },
-            { name: "Cape Verde", code: "+238", flag: "🇨🇻" }, { name: "Central African Republic", code: "+236", flag: "🇨🇫" },
-            { name: "Chad", code: "+235", flag: "🇹🇩" }, { name: "Chile", code: "+56", flag: "🇨🇱" },
-            { name: "China", code: "+86", flag: "🇨🇳" }, { name: "Colombia", code: "+57", flag: "🇨🇴" },
-            { name: "Comoros", code: "+269", flag: "🇰🇲" }, { name: "Congo", code: "+242", flag: "🇨🇬" },
-            { name: "Costa Rica", code: "+506", flag: "🇨🇷" }, { name: "Croatia", code: "+385", flag: "🇭🇷" },
-            { name: "Cuba", code: "+53", flag: "🇨🇺" }, { name: "Cyprus", code: "+357", flag: "🇨🇾" },
-            { name: "Czech Republic", code: "+420", flag: "🇨🇿" }, { name: "Denmark", code: "+45", flag: "🇩🇰" },
-            { name: "Djibouti", code: "+253", flag: "🇩🇯" }, { name: "Dominica", code: "+1", flag: "🇩🇲" },
-            { name: "Dominican Republic", code: "+1", flag: "🇩🇴" }, { name: "Ecuador", code: "+593", flag: "🇪🇨" },
-            { name: "Egypt", code: "+20", flag: "🇪🇬" }, { name: "El Salvador", code: "+503", flag: "🇸🇻" },
-            { name: "Equatorial Guinea", code: "+240", flag: "🇬🇶" }, { name: "Eritrea", code: "+291", flag: "🇪🇷" },
-            { name: "Estonia", code: "+372", flag: "🇪🇪" }, { name: "Eswatini", code: "+268", flag: "🇸🇿" },
-            { name: "Ethiopia", code: "+251", flag: "🇪🇹" }, { name: "Fiji", code: "+679", flag: "🇫🇯" },
-            { name: "Finland", code: "+358", flag: "🇫🇮" }, { name: "France", code: "+33", flag: "🇫🇷" },
-            { name: "Gabon", code: "+241", flag: "🇬🇦" }, { name: "Gambia", code: "+220", flag: "🇬🇲" },
-            { name: "Georgia", code: "+995", flag: "🇬🇪" }, { name: "Germany", code: "+49", flag: "🇩🇪" },
-            { name: "Ghana", code: "+233", flag: "🇬🇭" }, { name: "Greece", code: "+30", flag: "🇬🇷" },
-            { name: "Grenada", code: "+1", flag: "🇬🇩" }, { name: "Guatemala", code: "+502", flag: "🇬🇹" },
-            { name: "Guinea", code: "+224", flag: "🇬🇳" }, { name: "Guinea-Bissau", code: "+245", flag: "🇬🇼" },
-            { name: "Guyana", code: "+592", flag: "🇬🇾" }, { name: "Haiti", code: "+509", flag: "🇭🇹" },
-            { name: "Honduras", code: "+504", flag: "🇭🇳" }, { name: "Hungary", code: "+36", flag: "🇭🇺" },
-            { name: "Iceland", code: "+354", flag: "🇮🇸" }, { name: "India", code: "+91", flag: "🇮🇳" },
-            { name: "Indonesia", code: "+62", flag: "🇮🇩" }, { name: "Iran", code: "+98", flag: "🇮🇷" },
-            { name: "Iraq", code: "+964", flag: "🇮🇶" }, { name: "Ireland", code: "+353", flag: "🇮🇪" },
-            { name: "Israel", code: "+972", flag: "🇮🇱" }, { name: "Italy", code: "+39", flag: "🇮🇹" },
-            { name: "Jamaica", code: "+1", flag: "🇯🇲" }, { name: "Japan", code: "+81", flag: "🇯🇵" },
-            { name: "Jordan", code: "+962", flag: "🇯🇴" }, { name: "Kazakhstan", code: "+7", flag: "🇰🇿" },
-            { name: "Kenya", code: "+254", flag: "🇰🇪" }, { name: "Kiribati", code: "+686", flag: "🇰🇮" },
-            { name: "Kuwait", code: "+965", flag: "🇰🇼" }, { name: "Kyrgyzstan", code: "+996", flag: "🇰🇬" },
-            { name: "Laos", code: "+856", flag: "🇱🇦" }, { name: "Latvia", code: "+371", flag: "🇱🇻" },
-            { name: "Lebanon", code: "+961", flag: "🇱🇧" }, { name: "Lesotho", code: "+266", flag: "🇱🇸" },
-            { name: "Liberia", code: "+231", flag: "🇱🇷" }, { name: "Libya", code: "+218", flag: "🇱🇾" },
-            { name: "Liechtenstein", code: "+423", flag: "🇱🇮" }, { name: "Lithuania", code: "+370", flag: "🇱🇹" },
-            { name: "Luxembourg", code: "+352", flag: "🇱🇺" }, { name: "Madagascar", code: "+261", flag: "🇲🇬" },
-            { name: "Malawi", code: "+265", flag: "🇲🇼" }, { name: "Malaysia", code: "+60", flag: "🇲🇾" },
-            { name: "Maldives", code: "+960", flag: "🇲🇻" }, { name: "Mali", code: "+223", flag: "🇲🇱" },
-            { name: "Malta", code: "+356", flag: "🇲🇹" }, { name: "Mauritania", code: "+222", flag: "🇲🇷" },
-            { name: "Mauritius", code: "+230", flag: "🇲🇺" }, { name: "Mexico", code: "+52", flag: "🇲🇽" },
-            { name: "Micronesia", code: "+691", flag: "🇫🇲" }, { name: "Moldova", code: "+373", flag: "🇲🇩" },
-            { name: "Monaco", code: "+377", flag: "🇲🇨" }, { name: "Mongolia", code: "+976", flag: "🇲🇳" },
-            { name: "Montenegro", code: "+382", flag: "🇲🇪" }, { name: "Morocco", code: "+212", flag: "🇲🇦" },
-            { name: "Mozambique", code: "+258", flag: "🇲🇿" }, { name: "Myanmar", code: "+95", flag: "🇲🇲" },
-            { name: "Namibia", code: "+264", flag: "🇳🇦" }, { name: "Nauru", code: "+674", flag: "🇳🇷" },
-            { name: "Nepal", code: "+977", flag: "🇳🇵" }, { name: "Netherlands", code: "+31", flag: "🇳🇱" },
-            { name: "New Zealand", code: "+64", flag: "🇳🇿" }, { name: "Nicaragua", code: "+505", flag: "🇳🇮" },
-            { name: "Niger", code: "+227", flag: "🇳🇪" }, { name: "Nigeria", code: "+234", flag: "🇳🇬" },
-            { name: "North Korea", code: "+850", flag: "🇰🇵" }, { name: "North Macedonia", code: "+389", flag: "🇲🇰" },
-            { name: "Norway", code: "+47", flag: "🇳🇴" }, { name: "Oman", code: "+968", flag: "🇴🇲" },
-            { name: "Pakistan", code: "+92", flag: "🇵🇰" }, { name: "Palau", code: "+680", flag: "🇵🇼" },
-            { name: "Palestine", code: "+970", flag: "🇵🇸" }, { name: "Panama", code: "+507", flag: "🇵🇦" },
-            { name: "Papua New Guinea", code: "+675", flag: "🇵🇬" }, { name: "Paraguay", code: "+595", flag: "🇵🇾" },
-            { name: "Peru", code: "+51", flag: "🇵🇪" }, { name: "Philippines", code: "+63", flag: "🇵🇭" },
-            { name: "Poland", code: "+48", flag: "🇵🇱" }, { name: "Portugal", code: "+351", flag: "🇵🇹" },
-            { name: "Qatar", code: "+974", flag: "🇶🇦" }, { name: "Romania", code: "+40", flag: "🇷🇴" },
-            { name: "Russia", code: "+7", flag: "🇷🇺" }, { name: "Rwanda", code: "+250", flag: "🇷🇼" },
-            { name: "Saint Lucia", code: "+1", flag: "🇱🇨" }, { name: "Samoa", code: "+685", flag: "🇼🇸" },
-            { name: "San Marino", code: "+378", flag: "🇸🇲" }, { name: "Saudi Arabia", code: "+966", flag: "🇸🇦" },
-            { name: "Senegal", code: "+221", flag: "🇸🇳" }, { name: "Serbia", code: "+381", flag: "🇷🇸" },
-            { name: "Seychelles", code: "+248", flag: "🇸🇨" }, { name: "Sierra Leone", code: "+232", flag: "🇸🇱" },
-            { name: "Singapore", code: "+65", flag: "🇸🇬" }, { name: "Slovakia", code: "+421", flag: "🇸🇰" },
-            { name: "Slovenia", code: "+386", flag: "🇸🇮" }, { name: "Somalia", code: "+252", flag: "🇸🇴" },
-            { name: "South Africa", code: "+27", flag: "🇿🇦" }, { name: "South Korea", code: "+82", flag: "🇰🇷" },
-            { name: "South Sudan", code: "+211", flag: "🇸🇸" }, { name: "Spain", code: "+34", flag: "🇪🇸" },
-            { name: "Sri Lanka", code: "+94", flag: "🇱🇰" }, { name: "Sudan", code: "+249", flag: "🇸🇩" },
-            { name: "Suriname", code: "+597", flag: "🇸🇷" }, { name: "Sweden", code: "+46", flag: "🇸🇪" },
-            { name: "Switzerland", code: "+41", flag: "🇨🇭" }, { name: "Syria", code: "+963", flag: "🇸🇾" },
-            { name: "Taiwan", code: "+886", flag: "🇹🇼" }, { name: "Tajikistan", code: "+992", flag: "🇹🇯" },
-            { name: "Tanzania", code: "+255", flag: "🇹🇿" }, { name: "Thailand", code: "+66", flag: "🇹🇭" },
-            { name: "Togo", code: "+228", flag: "🇹🇬" }, { name: "Tonga", code: "+676", flag: "🇹🇴" },
-            { name: "Trinidad and Tobago", code: "+1", flag: "🇹🇹" }, { name: "Tunisia", code: "+216", flag: "🇹🇳" },
-            { name: "Turkey", code: "+90", flag: "🇹🇷" }, { name: "Turkmenistan", code: "+993", flag: "🇹🇲" },
-            { name: "Uganda", code: "+256", flag: "🇺🇬" }, { name: "Ukraine", code: "+380", flag: "🇺🇦" },
-            { name: "United Arab Emirates", code: "+971", flag: "🇦🇪" }, { name: "United Kingdom", code: "+44", flag: "🇬🇧" },
-            { name: "United States", code: "+1", flag: "🇺🇸" }, { name: "Uruguay", code: "+598", flag: "🇺🇾" },
-            { name: "Uzbekistan", code: "+998", flag: "🇺🇿" }, { name: "Vanuatu", code: "+678", flag: "🇻🇺" },
-            { name: "Vatican City", code: "+379", flag: "🇻🇦" }, { name: "Venezuela", code: "+58", flag: "🇻🇪" },
-            { name: "Vietnam", code: "+84", flag: "🇻🇳" }, { name: "Yemen", code: "+967", flag: "🇾🇪" },
-            { name: "Zambia", code: "+260", flag: "🇿🇲" }, { name: "Zimbabwe", code: "+263", flag: "🇿🇼" }
+        // দেশের কোড লিস্ট
+        const countriesList = [
+            { name: "Bangladesh", flag: "🇧🇩", code: "+880" }, { name: "United States", flag: "🇺🇸", code: "+1" },
+            { name: "United Kingdom", flag: "🇬🇧", code: "+44" }, { name: "India", flag: "🇮🇳", code: "+91" },
+            { name: "Canada", flag: "🇨🇦", code: "+1" }, { name: "United Arab Emirates", flag: "🇦🇪", code: "+971" },
+            { name: "Saudi Arabia", flag: "🇸🇦", code: "+966" }, { name: "Australia", flag: "🇦🇺", code: "+61" }
         ];
 
         window.addEventListener('DOMContentLoaded', () => {
-            populateAllCountriesDropdown();
+            const dialCodeSelect = document.getElementById('userDialCode');
+            if(dialCodeSelect) {
+                countriesList.forEach(c => {
+                    let opt = document.createElement('option');
+                    opt.value = c.code;
+                    opt.innerText = `${c.flag} ${c.code}`;
+                    dialCodeSelect.appendChild(opt);
+                });
+                dialCodeSelect.value = "+880";
+            }
+            fetchVotes();
         });
 
         function showToast(msg) {
             let t = document.getElementById('customToast');
+            if(!t) return;
             t.innerText = msg;
             t.style.display = 'block';
-            setTimeout(() => { t.style.display = 'none'; }, 2000);
+            setTimeout(() => { t.style.display = 'none'; }, 2500);
         }
 
-        function populateAllCountriesDropdown() {
-            let codeSelect = document.getElementById('countryCodeSelect');
-            if(!codeSelect) return;
-            let opts = "";
-            all195CountriesList.forEach(c => {
-                opts += `<option value="${c.code}">${c.flag} ${c.name} (${c.code})</option>`;
-            });
-            codeSelect.innerHTML = opts;
-            
+        function verifyWithGoogle() {
+            document.getElementById('userName').value = "Masudar Rahman";
+            document.getElementById('userEmail').value = "masudar.enterprise@gmail.com";
+            document.getElementById('userDialCode').value = "+880";
+            document.getElementById('userWhatsApp').value = "1767319670";
+            document.getElementById('userAddress').value = "Dhaka, Bangladesh";
+            showToast("Google Account Verified Successfully!");
+        }
+
+        // ভোট সাবমিট ফাংশন (ফায়ারবেস ডাটাবেসে সেভ হবে)
+        async function submitVote(choice) {
             try {
-                let tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
-                let matched = all195CountriesList.find(item => tz.toLowerCase().includes(item.name.toLowerCase()));
-                codeSelect.value = matched ? matched.code : "+880";
-            } catch(e) {
-                codeSelect.value = "+880";
-            }
-        }
-
-        function renderCartTable() {
-            const tbody = document.getElementById('cartTableBody');
-            if(!tbody) return;
-
-            let items = window.subdomainCartItems || [];
-            let total = 0;
-
-            if(items.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-gray); padding:12px;">Your cart is empty. Please add items from home page.</td></tr>`;
-                document.getElementById('cartTotalPrice').innerText = "$0.00";
-                return;
-            }
-
-            let html = "";
-            items.forEach((item, index) => {
-                let numPrice = parseFloat((item.price || "0").replace('$', '')) || 0;
-                let qty = parseInt(item.quantity || 1);
-                total += numPrice * qty;
-                html += `
-                    <tr>
-                        <td>
-                            <div style="display:flex; align-items:center; gap:6px;">
-                                <img src="${item.image || 'https://via.placeholder.com/34'}" class="sheet-product-img">
-                                <span style="font-weight:600;">${item.title}</span>
-                            </div>
-                        </td>
-                        <td style="font-weight:700;">${qty}</td>
-                        <td style="font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">${item.price}</td>
-                        <td><button class="sheet-delete-btn" onclick="removeCartItem('${item.docId}', ${index})"><i class="fa-solid fa-trash"></i></button></td>
-                    </tr>
-                `;
-            });
-            tbody.innerHTML = html;
-            document.getElementById('cartTotalPrice').innerText = `$${total.toFixed(2)}`;
-        }
-
-        async function removeCartItem(docId, index) {
-            try {
-                if(window.db && window.firebaseDeleteDoc && window.firebaseDoc && docId && !docId.startsWith('demo-')) {
-                    await window.firebaseDeleteDoc(window.firebaseDoc(window.db, "global_carts", docId));
-                }
-            } catch(e) {}
-
-            window.subdomainCartItems.splice(index, 1);
-            renderCartTable();
-            showToast("Product removed successfully.");
-        }
-
-        function openShippingModal() {
-            let items = window.subdomainCartItems || [];
-            if(items.length === 0) {
-                showToast("Your cart is empty!");
-                return;
-            }
-
-            let verifiedUser = {
-                name: "Masudar Rahman",
-                email: "masudar1422@gmail.com"
-            };
-
-            document.getElementById('custName').value = verifiedUser.name;
-            document.getElementById('custEmail').value = verifiedUser.email;
-
-            document.getElementById('shippingModalOverlay').style.display = 'flex';
-            showToast("Google account verified!");
-        }
-
-        function closeShippingModalOutside(e) {
-            if(e.target.id === 'shippingModalOverlay') {
-                document.getElementById('shippingModalOverlay').style.display = 'none';
-            }
-        }
-
-        function handlePaymentMethodChange() {
-            let val = document.getElementById('paymentGatewayChoice').value;
-            let noticeBox = document.getElementById('bkashNoticeBox');
-            let trxGroup = document.getElementById('trxIdInputGroup');
-            let dynamicText = document.getElementById('bkashDynamicText');
-
-            if(val.includes('bKash') || val.includes('Nagad')) {
-                let items = window.subdomainCartItems || [];
-                let totalUSD = 0;
-                items.forEach(i => {
-                    let p = parseFloat((i.price || "0").replace('$', '')) || 0;
-                    totalUSD += p * (parseInt(i.quantity) || 1);
+                await db.collection("academy_votes").add({
+                    vote: choice,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 });
-                let totalBDT = Math.round(totalUSD * 120);
-
-                dynamicText.innerHTML = `Please send <b>$${totalUSD.toFixed(2)} USD</b> (<b>${totalBDT} BDT</b>) to our merchant number (<b>01767319670</b>) and enter your <b>TrxID</b> below.`;
-                noticeBox.style.display = 'block';
-                trxGroup.style.display = 'block';
-            } else {
-                noticeBox.style.display = 'none';
-                trxGroup.style.display = 'none';
+                showToast(`Thank you! Your '${choice.toUpperCase()}' vote has been recorded.`);
+                fetchVotes();
+            } catch (error) {
+                showToast("Voting failed. Please check connection.");
             }
         }
 
-        async function executePaymentAndShowThankYou() {
-            let name = document.getElementById('custName').value.trim();
-            let email = document.getElementById('custEmail').value.trim();
-            let countryCode = document.getElementById('countryCodeSelect').value;
-            let whatsapp = document.getElementById('custWhatsapp').value.trim();
-            let address = document.getElementById('custAddress').value.trim();
-            let gateway = document.getElementById('paymentGatewayChoice').value;
-            let trxId = document.getElementById('custTrxId').value.trim();
-
-            if(!name || !email || !whatsapp || !address) {
-                showToast("Please fill in all required shipping fields!");
-                return;
+        // লাইভ ভোট কাউন্ট ফেচ করা
+        async function fetchVotes() {
+            try {
+                const snapshot = await db.collection("academy_votes").get();
+                let yesCount = 0;
+                let noCount = 0;
+                snapshot.forEach(doc => {
+                    let data = doc.data();
+                    if(data.vote === 'yes') yesCount++;
+                    if(data.vote === 'no') noCount++;
+                });
+                let total = yesCount + noCount;
+                document.getElementById('voteResultsDisplay').innerText = `Total Votes: ${total} (Yes: ${yesCount} | No: ${noCount})`;
+            } catch (e) {
+                document.getElementById('voteResultsDisplay').innerText = `Total Votes: (Yes: 0 | No: 0)`;
             }
+        }
 
-            if((gateway.includes('bKash') || gateway.includes('Nagad')) && !trxId) {
-                showToast("Please enter your Transaction ID (TrxID)!");
-                return;
-            }
-
-            let generatedProductId = "PROD-TRK-" + Math.floor(100000 + Math.random() * 900000);
-            let currentCartProducts = window.subdomainCartItems || [];
-
-            let finalSellerId = localStorage.getItem('mrmasudar_seller_id') || "SELLER-MR-DEFAULT";
-            let finalAffiliateId = localStorage.getItem('mrmasudar_affiliate_id') || "DIRECT";
-
-            let orderPayload = {
-                user: { name, email, productId: generatedProductId },
-                shipping: { countryCode, whatsapp, address },
-                items: currentCartProducts,
-                gateway: gateway,
-                trxId: trxId || "N/A",
-                sellerId: finalSellerId,
-                affiliateId: finalAffiliateId,
-                paymentStatus: "Paid",
-                timestamp: new Date().toISOString()
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            const formData = {
+                category: "creative_academy_early_access",
+                name: document.getElementById('userName').value.trim(),
+                email: document.getElementById('userEmail').value.trim(),
+                phone: document.getElementById('userDialCode').value + " " + document.getElementById('userWhatsApp').value,
+                address: document.getElementById('userAddress').value.trim(),
+                comments: document.getElementById('userComments').value.trim(),
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
             };
 
             try {
-                if(window.db && window.firebaseAddDoc && window.firebaseCollection) {
-                    await window.firebaseAddDoc(window.firebaseCollection(window.db, "orders"), orderPayload);
-
-                    for(let prod of currentCartProducts) {
-                        if(prod.docId && !prod.docId.startsWith('demo-')) {
-                            await window.firebaseDeleteDoc(window.firebaseDoc(window.db, "global_carts", prod.docId));
-                        }
-                    }
-                }
-            } catch(e) {}
-
-            window.subdomainCartItems = [];
-
-            document.getElementById('shippingModalOverlay').style.display = 'none';
-            document.getElementById('cartAndVerifyCard').style.display = 'none';
-            document.getElementById('thankYouSectionBox').style.display = 'flex';
-            document.getElementById('finalGeneratedProductId').innerText = generatedProductId;
-
-            let summaryHtml = "";
-            currentCartProducts.forEach(prod => {
-                summaryHtml += `
-                    <div class="ordered-item-row">
-                        <div style="display:flex; align-items:center; gap:8px;">
-                            <img src="${prod.image}" style="width:28px; height:28px; border-radius:4px; object-fit:cover; border:1px solid var(--gold-solid);">
-                            <div>
-                                <strong style="color:#fff; font-size:0.66rem;">${prod.title}</strong>
-                                <span style="font-size:0.56rem; color:var(--text-gray); display:block;">Qty: ${prod.quantity || 1} | Price: ${prod.price}</span>
-                            </div>
-                        </div>
-                        <span style="color:var(--success-green); font-weight:700; font-size:0.62rem;"><i class="fa-solid fa-circle-check"></i> Confirmed</span>
-                    </div>
-                `;
-            });
-            document.getElementById('orderedItemsSummaryList').innerHTML = summaryHtml;
-
-            showToast(`Payment successful via ${gateway}!`);
-
-            setTimeout(() => {
-                window.location.href = "https://mrmasudar.com";
-            }, 240000);
+                await db.collection("enterprise_submissions").add(formData);
+                showToast("Early Access request submitted successfully!");
+                document.getElementById('dynamicForm').reset();
+            } catch (error) {
+                showToast("Submission failed. Check Firebase settings.");
+            }
         }
     </script>
 </body>
