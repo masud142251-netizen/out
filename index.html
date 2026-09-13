@@ -147,7 +147,7 @@
             background: #000000; z-index: 9000; flex-direction: column; overflow: hidden;
         }
 
-        /* ক্যাটাগরি, অ্যাফিলিয়েট, সেলার ও ইউ এর জন্য একই ক্যাটাগরি স্টাইল টগল ভিউ */
+        /* ক্যাটাগরি, অ্যাফিলিয়েট, সেলার ও ইউ এর জন্য ক্লিন ও বর্ডারবিহীন টগল ভিউ */
         .category-fullscreen-view {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg-retail); z-index: 4000; overflow-y: auto; padding: 25px 12px 90px 12px;
@@ -279,7 +279,7 @@
         <i class="fa-solid fa-comments"></i>
     </div>
 
-    <!-- হোমপেজ প্রোডাক্ট ফিড (লোগো কার্ড রিমুভ করে সঠিক প্রোডাক্ট ইমেজ যুক্ত করা হয়েছে) -->
+    <!-- হোমপেজ প্রোডাক্ট ফিড (সঠিক প্রোডাক্ট ইমেজ সহ) -->
     <main class="feed-container" id="productFeed">
         <div class="product-card" id="card-prod-1">
             <div class="product-media-box" onclick="openProductDetails('PREMIUM BRACELET', '$100.00', ['https://lh3.googleusercontent.com/d/1a6lFxluTSYUQjB8oqlVQYApRRSmCxEOW', 'https://lh3.googleusercontent.com/d/1qyOXxZ8s2cJMEo66NDE4BdoxiC4hy_sG'])">
@@ -314,13 +314,13 @@
         </div>
     </main>
 
-    <!-- ফুল-স্ক্রিন পোর্টাল ওভারলে (শুধু اcademy & Solutions এর জন্য) -->
+    <!-- ফুল-স্ক্রিন পোর্টাল ওভারলে (Academy ও Solutions এর জন্য) -->
     <div id="fullScreenPortal" class="fullscreen-portal-view">
         <div class="golden-close-btn" onclick="closeFullScreenPortal()"><i class="fa-solid fa-xmark"></i></div>
         <iframe id="fullScreenIframe" src="" style="width: 100vw; height: 100vh; border: none; background: #000;"></iframe>
     </div>
 
-    <!-- Category ওভারলে (ক্যাটাগরির টগল ভিউ) -->
+    <!-- Category ওভারলে -->
     <div id="categoryView" class="category-fullscreen-view">
         <div class="golden-close-btn" onclick="toggleCategoryView()"><i class="fa-solid fa-xmark"></i></div>
         <div style="margin-bottom: 25px; text-align: center;">
@@ -329,37 +329,22 @@
         <div id="dynamicCategoryContent"></div>
     </div>
 
-    <!-- Affiliate ওভারলে (ক্যাটাগরির মতো নিখুঁত টগল সিস্টেম এবং সাবডোমেন রিপোজিটরি কন্টেন্ট সহ) -->
-    <div id="affiliateView" class="category-fullscreen-view">
+    <!-- Affiliate ওভারলে (টাইটেল ও বড় শেপ রিমুভ করা ক্লিন আইফ্রেম ভিউ) -->
+    <div id="affiliateView" class="category-fullscreen-view" style="padding: 10px 0 0 0;">
         <div class="golden-close-btn" onclick="toggleAffiliateView()"><i class="fa-solid fa-xmark"></i></div>
-        <div style="margin-bottom: 25px; text-align: center;">
-            <span style="font-size:1.1rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-transform:uppercase; letter-spacing: 1px;">Affiliate Center (affiliate.rorraxy.com)</span>
-        </div>
-        <div style="width: 100%; max-height: 80vh; overflow: hidden; border-radius: 12px; border: 1px solid rgba(212,175,55,0.3);">
-            <iframe src="https://affiliate.rorraxy.com" style="width: 100%; height: 75vh; border: none; background: #000;"></iframe>
-        </div>
+        <iframe src="https://affiliate.rorraxy.com" style="width: 100vw; height: 100vh; border: none; background: #000; display: block;"></iframe>
     </div>
 
-    <!-- Seller ওভারলে (ক্যাটাগরির মতো নিখুঁত টগল সিস্টেম এবং সাবডোমেন রিপোজিটরি কন্টেন্ট সহ) -->
-    <div id="sellerView" class="category-fullscreen-view">
+    <!-- Seller ওভারলে (টাইটেল ও বড় শেপ রিমুভ করা ক্লিন আইফ্রেম ভিউ) -->
+    <div id="sellerView" class="category-fullscreen-view" style="padding: 10px 0 0 0;">
         <div class="golden-close-btn" onclick="toggleSellerView()"><i class="fa-solid fa-xmark"></i></div>
-        <div style="margin-bottom: 25px; text-align: center;">
-            <span style="font-size:1.1rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-transform:uppercase; letter-spacing: 1px;">Seller Dashboard (seller.rorraxy.com)</span>
-        </div>
-        <div style="width: 100%; max-height: 80vh; overflow: hidden; border-radius: 12px; border: 1px solid rgba(212,175,55,0.3);">
-            <iframe src="https://seller.rorraxy.com" style="width: 100%; height: 75vh; border: none; background: #000;"></iframe>
-        </div>
+        <iframe src="https://seller.rorraxy.com" style="width: 100vw; height: 100vh; border: none; background: #000; display: block;"></iframe>
     </div>
 
-    <!-- You ওভারলে (ক্যাটাগরির মতো নিখুঁত টগল সিস্টেম এবং ইউজার ড্যাশবোর্ড সহ) -->
-    <div id="youView" class="category-fullscreen-view">
+    <!-- You ওভারলে (টাইটেল ও বড় শেপ রিমুভ করা ক্লিন আইফ্রেম ভিউ) -->
+    <div id="youView" class="category-fullscreen-view" style="padding: 10px 0 0 0;">
         <div class="golden-close-btn" onclick="toggleYouView()"><i class="fa-solid fa-xmark"></i></div>
-        <div style="margin-bottom: 25px; text-align: center;">
-            <span style="font-size:1.1rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-transform:uppercase; letter-spacing: 1px;">User Account & Basket (you.rorraxy.com)</span>
-        </div>
-        <div style="width: 100%; max-height: 80vh; overflow: hidden; border-radius: 12px; border: 1px solid rgba(212,175,55,0.3);">
-            <iframe src="https://you.rorraxy.com" style="width: 100%; height: 75vh; border: none; background: #000;"></iframe>
-        </div>
+        <iframe src="https://you.rorraxy.com" style="width: 100vw; height: 100vh; border: none; background: #000; display: block;"></iframe>
     </div>
 
     <!-- সার্চ পপআপ -->
@@ -482,7 +467,7 @@
         </div>
     </div>
 
-    <!-- ফিক্সড বটম ন্যাভবার (ক্যাটাগরি ও সার্চের মতো নিখুঁত টগল সিস্টেম সহ Affiliate, Seller, You যুক্ত) -->
+    <!-- ফিক্সড বটম ন্যাভবার -->
     <nav class="bottom-nav">
         <div class="nav-item" onclick="toggleAffiliateView()">
             <i class="fa-solid fa-handshake"></i>
@@ -537,7 +522,6 @@
             document.getElementById('fullScreenIframe').src = '';
         }
 
-        // সব পপআপ/প্যানেল একযোগে বন্ধ করার ফাংশন
         function closeAllViews() {
             document.getElementById('categoryView').style.display = 'none';
             document.getElementById('affiliateView').style.display = 'none';
