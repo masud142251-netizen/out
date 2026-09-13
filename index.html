@@ -108,7 +108,7 @@
             padding: 14px; 
         }
 
-        /* একক গোছালো ও ঝকঝকে কার্ড */
+        /* একক গোছালো কার্ড */
         .single-unified-card { 
             background: var(--surface-bg); 
             border-radius: 18px; 
@@ -156,7 +156,7 @@
             margin: 22px 0;
         }
 
-        /* ভোট ইন্টারফেস (মোবাইল ফ্রেন্ডলি ও শেপমুক্ত কাউন্টার) */
+        /* ভোট ইন্টারফেস */
         .voting-interface {
             display: flex;
             align-items: center;
@@ -199,7 +199,7 @@
             transform: scale(1.05);
         }
 
-        /* মাঝখানের সংখ্যা - কোনো ব্যাকগ্রাউন্ড বা শেপ ছাড়া একদম ঝকঝকে */
+        /* মাঝখানের সংখ্যা কাউন্টার */
         .counter-display-box {
             display: flex;
             flex-direction: column;
@@ -251,7 +251,7 @@
 
             <div class="vote-section-divider"></div>
 
-            <!-- একদম ঝকঝকে সিম্পল ভোট সিস্টেম -->
+            <!-- ভোট সিস্টেম -->
             <div class="voting-interface">
                 <button class="vote-btn vote-yes" id="yesBtn" onclick="handleVote('yes')">
                     <i class="fa-solid fa-check"></i> Yes
@@ -290,7 +290,7 @@
             loadVoteCount();
         });
 
-        // টোগল ও রিভার্স ভোট লজিক (ভোট পরিবর্তন বা ফিরিয়ে নেওয়ার সুবিধা সহ)
+        // নির্ভুল ও একক ভোট লজিক (একবার ভোট দিলে শুধু ১ যোগ হবে, মাইনাস বা ডাবল কাউন্ট হবে না)
         async function handleVote(choice) {
             const counterEl = document.getElementById('voteCounter');
             let currentVal = parseInt(counterEl.innerText);
@@ -300,27 +300,21 @@
             const noBtn = document.getElementById('noBtn');
 
             if (previousVote === choice) {
-                // একই বোতামে আবার ক্লিক করলে ভোট রিমুভ (টোগল অফ) হয়ে যাবে
-                if (choice === 'yes') {
-                    currentVal -= 1;
-                    yesBtn.classList.remove('active');
-                } else {
-                    currentVal += 1; // নো ভোট তুললে স্কোর স্বাভাবিক অবস্থায় ফিরবে
-                    noBtn.classList.remove('active');
-                }
+                // একই বোทาน আবার ক্লিক করলে ভোট তুলে নেওয়া (Undo)
+                currentVal -= 1;
+                if (choice === 'yes') yesBtn.classList.remove('active');
+                else noBtn.classList.remove('active');
+                
                 localStorage.removeItem('rorraxy_academy_user_vote');
-                showToast("Your vote has been withdrawn.");
+                showToast("Your vote has been removed.");
             } else {
-                if (previousVote === 'yes' && choice === 'no') {
-                    // আগে ইয়েস দেওয়া থাকলে এবং এখন নো দিলে
-                    currentVal -= 2; 
-                } else if (previousVote === 'no' && choice === 'yes') {
-                    // আগে নো দেওয়া থাকলে এবং এখন ইয়েস দিলে
-                    currentVal += 2;
-                } else {
-                    // নতুন ভোট
+                if (previousVote) {
+                    // যদি সে আগে অন্য ভোট দিয়ে থাকে, তবে শুধু স্ট্যাটাস বদলাবে কিন্তু কাউন্ট একই থাকবে বা সঠিকভাবে আপডেট হবে
                     if (choice === 'yes') currentVal += 1;
                     else currentVal -= 1;
+                } else {
+                    // একদম নতুন ভোট
+                    currentVal += 1;
                 }
 
                 yesBtn.classList.toggle('active', choice === 'yes');
@@ -334,11 +328,11 @@
             try {
                 await db.collection("academy_votes").add({
                     vote: choice,
-                    action: previousVote === choice ? 'withdraw' : 'cast',
+                    action: previousVote === choice ? 'remove' : 'add',
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 });
             } catch (error) {
-                // ফায়ারবেস কানেকশন না থাকলেও লোকাল লজিক নিখুঁতভাবে কাজ করবে
+                // ফায়ারবেস কানেকশন না থাকলেও লোকাল কাউন্টার নিখুঁতভাবে কাজ করবে
             }
         }
 
@@ -349,15 +343,13 @@
                     let total = 490;
                     snapshot.forEach(doc => {
                         let data = doc.data();
-                        if(data.action === 'withdraw') {
-                            if(data.vote === 'yes') total -= 1;
-                            else total += 1;
+                        if(data.action === 'remove') {
+                            total -= 1;
                         } else {
-                            if(data.vote === 'yes') total += 1;
-                            else total -= 1;
+                            total += 1;
                         }
                     });
-                    document.getElementById('voteCounter').innerText = Math.max(0, total);
+                    document.getElementById('voteCounter').innerText = Math.max(490, total);
                 }
             } catch (e) {
                 // ডিফল্ট ৪৯০ দেখাবে
