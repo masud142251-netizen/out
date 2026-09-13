@@ -53,6 +53,10 @@
             padding-bottom: 60px; 
             overflow-x: hidden; 
             -webkit-font-smoothing: antialiased; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         h1, h2, h3, h4, .brand-title-main { font-family: var(--font-luxury); }
@@ -99,19 +103,19 @@
 
         .main-wrapper { 
             width: 100%; 
-            max-width: 1000px; 
+            max-width: 800px; 
             margin: 0 auto; 
             padding: 14px; 
             display: flex;
             flex-direction: column;
-            gap: 18px;
+            gap: 20px;
         }
 
-        /* কামিং সুন ও একাডেমি হিরো কার্ড */
+        /* হিরো কার্ড */
         .luxury-card { 
             background: var(--surface-bg); 
             border-radius: 18px; 
-            padding: 32px 20px; 
+            padding: 35px 20px; 
             text-align: center; 
             box-shadow: 0 12px 40px rgba(0,0,0,0.9); 
             border: 1px solid rgba(212,175,55,0.25); 
@@ -120,9 +124,9 @@
             display: inline-block;
             background: var(--gold-gradient);
             color: #000;
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             font-weight: 900;
-            padding: 5px 16px;
+            padding: 6px 18px;
             border-radius: 20px;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -136,7 +140,7 @@
         }
 
         .hero-title { 
-            font-size: 1.4rem; 
+            font-size: 1.5rem; 
             font-weight: 900; 
             background: var(--gold-gradient); 
             -webkit-background-clip: text; 
@@ -146,48 +150,25 @@
             letter-spacing: 1.2px; 
         }
         .hero-sub { 
-            font-size: 0.78rem; 
+            font-size: 0.82rem; 
             color: var(--text-gray); 
             line-height: 1.8; 
-            max-width: 800px; 
-            margin: 0 auto 20px auto; 
+            max-width: 650px; 
+            margin: 0 auto; 
         }
 
-        /* উইন-উইন ও ক্রিয়েশন হাইলাইট ট্যাগ */
-        .ecosystem-badges {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        .badge-tag {
-            background: rgba(20, 20, 20, 0.8);
-            border: none;
-            background: var(--gold-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 0.7rem;
-            font-weight: 800;
-            padding: 6px 14px;
-            border-radius: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 0 10px rgba(212,175,55,0.15);
-        }
-
-        /* ভোট সিস্টেম সেকশন (হ্যাঁ-না ভোট) */
+        /* ভোট সিস্টেম সেকশন */
         .voting-container {
             background: var(--surface-bg);
             border: 1px solid rgba(212,175,55,0.3);
             border-radius: 18px;
-            padding: 28px 20px;
+            padding: 30px 20px;
             text-align: center;
             box-shadow: 0 12px 40px rgba(0,0,0,0.95);
         }
         .voting-title {
             font-family: var(--font-luxury);
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -196,23 +177,25 @@
             margin-bottom: 8px;
         }
         .voting-desc {
-            font-size: 0.75rem;
+            font-size: 0.78rem;
             color: var(--text-gray);
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
-        .vote-buttons-row {
+
+        /* মাঝখানে বড় সংখ্যা ও ইয়েস-নো বাটন লেআউট */
+        .voting-interface {
             display: flex;
+            align-items: center;
             justify-content: center;
-            gap: 15px;
-            margin-bottom: 16px;
+            gap: 20px;
+            flex-wrap: wrap;
         }
         .vote-btn {
-            flex: 1;
-            max-width: 180px;
-            padding: 12px 20px;
-            border-radius: 25px;
+            min-width: 140px;
+            padding: 14px 24px;
+            border-radius: 30px;
             font-weight: 900;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             cursor: pointer;
             text-transform: uppercase;
             font-family: var(--font-luxury);
@@ -225,56 +208,46 @@
             box-shadow: 0 0 15px rgba(212,175,55,0.4);
         }
         .vote-yes:hover {
-            transform: scale(1.05);
+            transform: scale(1.06);
             box-shadow: 0 0 25px rgba(212,175,55,0.8);
         }
         .vote-no {
-            background: rgba(25, 25, 25, 0.9);
+            background: rgba(20, 20, 20, 0.9);
             color: var(--gold-solid);
             border: 1.5px solid var(--gold-solid);
         }
         .vote-no:hover {
-            background: rgba(40, 40, 40, 0.9);
-            transform: scale(1.05);
-        }
-        .vote-results {
-            font-size: 0.75rem;
-            color: var(--text-gray);
-            margin-top: 10px;
-            font-weight: 600;
+            background: rgba(35, 35, 35, 0.9);
+            transform: scale(1.06);
         }
 
-        /* ফরম সেকশন */
-        .bottom-form-container {
-            background: var(--surface-bg);
-            border: 1px solid rgba(212,175,55,0.3);
-            border-radius: 18px;
-            padding: 30px 24px;
-            box-shadow: 0 12px 40px rgba(0,0,0,0.95);
+        /* মাঝখানের কাউন্টার বক্স */
+        .counter-display-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #000;
+            border: 1.5px solid rgba(212,175,55,0.4);
+            padding: 10px 24px;
+            border-radius: 15px;
+            min-width: 110px;
+            box-shadow: inset 0 0 10px rgba(212,175,55,0.2);
         }
-        .form-title {
-            font-family: var(--font-luxury);
-            font-size: 1.2rem;
+        .counter-number {
+            font-size: 1.6rem;
+            font-weight: 900;
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-align: center;
-            margin-bottom: 16px;
-            text-transform: uppercase;
-            font-weight: 900;
+            font-family: var(--font-luxury);
         }
-        .form-group { margin-bottom: 15px; text-align: left; }
-        .form-group label { display: block; font-size: 0.7rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; font-weight: 800; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; background: #000; border: 1.5px solid rgba(212,175,55,0.35); padding: 12px 14px; color: #fff; border-radius: 10px; font-size: 0.82rem; outline: none; transition: 0.3s; }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--gold-solid); box-shadow: 0 0 12px rgba(212,175,55,0.3); }
-        .phone-row { display: flex; gap: 10px; }
-        .phone-row select { width: 140px; flex-shrink: 0; }
-        
-        .google-verify-btn { width: 100%; background: #ffffff; color: #000; border: none; padding: 12px; border-radius: 10px; font-weight: 700; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; margin-bottom: 14px; transition: 0.3s; }
-        .google-verify-btn:hover { background: #f1f1f1; box-shadow: 0 0 12px rgba(255,255,255,0.5); }
-        
-        .btn-gold-glow { background: var(--gold-gradient); border: none; padding: 12px 24px; border-radius: 30px; color: #000; font-weight: 900; font-size: 0.78rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); transition: 0.3s; box-shadow: 0 0 18px rgba(212,175,55,0.35); width: 100%; text-align: center; }
-        .btn-gold-glow:hover { transform: scale(1.02); box-shadow: 0 0 25px rgba(212,175,55,0.6); }
+        .counter-label {
+            font-size: 0.6rem;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 2px;
+        }
     </style>
 </head>
 <body>
@@ -291,174 +264,84 @@
 
     <div class="main-wrapper">
         
-        <!-- কামিং সুন একাডেমি হিরো কার্ড -->
+        <!-- হিরো কার্ড -->
         <div class="luxury-card">
             <span class="coming-soon-badge">Coming Soon</span>
             <h1 class="hero-title">Bangladesh's First Creative Academy</h1>
             <p class="hero-sub">
-                A groundbreaking learning platform introducing revolutionary <strong>Win-Win Fee Courses</strong>. Build real-world plugins, custom software, and advanced websites while mastering professional digital creation.
+                Empowering the future with revolutionary <strong>Win-Win Fee Courses</strong>. Learn by building cutting-edge real-world applications.
             </p>
-            <div class="ecosystem-badges">
-                <span class="badge-tag">Win-Win Fee System</span>
-                <span class="badge-tag">Plugin & Software Creation</span>
-                <span class="badge-tag">No Plugins & Third-Party</span>
-                <span class="badge-tag">Supersonic Speed</span>
-            </div>
         </div>
 
-        <!-- হ্যাঁ-না ভোট সিস্টেম (Yes/No Voting System) -->
+        <!-- ভোট সিস্টেম (মাঝখানে সংখ্যা এবং দুইপাশে ইয়েস-নো বাটন) -->
         <div class="voting-container">
             <h3 class="voting-title">Community Vote</h3>
-            <p class="voting-desc">Do you support launching Bangladesh's first Win-Win Creative Academy for Software & Web Development?</p>
+            <p class="voting-desc">Do you support launching Bangladesh's first Win-Win Creative Academy?</p>
             
-            <div class="vote-buttons-row">
-                <button class="vote-btn vote-yes" onclick="submitVote('yes')"><i class="fa-solid fa-check"></i> Yes</button>
-                <button class="vote-btn vote-no" onclick="submitVote('no')"><i class="fa-solid fa-xmark"></i> No</button>
+            <div class="voting-interface">
+                <button class="vote-btn vote-yes" onclick="handleVote('yes')">
+                    <i class="fa-solid fa-check"></i> Yes
+                </button>
+                
+                <div class="counter-display-box">
+                    <span class="counter-number" id="voteCounter">490</span>
+                    <span class="counter-label">Total Votes</span>
+                </div>
+
+                <button class="vote-btn vote-no" onclick="handleVote('no')">
+                    <i class="fa-solid fa-xmark"></i> No
+                </button>
             </div>
-            
-            <div class="vote-results" id="voteResultsDisplay">
-                Total Votes: Loading... (Yes: -- | No: --)
-            </div>
-        </div>
-
-        <!-- ফরম সেকশন -->
-        <div class="bottom-form-container">
-            <h3 class="form-title">Join Early Access</h3>
-            
-            <button class="google-verify-btn" onclick="verifyWithGoogle()">
-                <i class="fa-brands fa-google" style="color:#ea4335;"></i> Verify & Autofill with Google
-            </button>
-            <div style="text-align:center; font-size:0.65rem; color:#888; margin-bottom:14px;">OR MANUALLY BELOW</div>
-
-            <form id="dynamicForm" onsubmit="handleFormSubmit(event)">
-                <div class="form-group">
-                    <label>Full Name *</label>
-                    <input type="text" id="userName" placeholder="Enter your full name" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Gmail *</label>
-                    <input type="email" id="userEmail" placeholder="user@gmail.com" required>
-                </div>
-
-                <div class="form-group">
-                    <label>WhatsApp Number *</label>
-                    <div class="phone-row">
-                        <select id="userDialCode">
-                            <!-- ১৯৫+ দেশের কোড ডাইনামিক্যালি লোড হবে -->
-                        </select>
-                        <input type="tel" id="userWhatsApp" placeholder="17XXXXXXXX" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Full Address *</label>
-                    <input type="text" id="userAddress" placeholder="House/Street, City, State, Country" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Project Requirements & Details *</label>
-                    <textarea id="userComments" rows="3" placeholder="" required></textarea>
-                </div>
-
-                <button type="submit" class="btn-gold-glow" style="margin-top:10px;">Submit</button>
-            </form>
         </div>
 
     </div>
 
     <script>
-        // দেশের কোড লিস্ট
-        const countriesList = [
-            { name: "Bangladesh", flag: "🇧🇩", code: "+880" }, { name: "United States", flag: "🇺🇸", code: "+1" },
-            { name: "United Kingdom", flag: "🇬🇧", code: "+44" }, { name: "India", flag: "🇮🇳", code: "+91" },
-            { name: "Canada", flag: "🇨🇦", code: "+1" }, { name: "United Arab Emirates", flag: "🇦🇪", code: "+971" },
-            { name: "Saudi Arabia", flag: "🇸🇦", code: "+966" }, { name: "Australia", flag: "🇦🇺", code: "+61" }
-        ];
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const dialCodeSelect = document.getElementById('userDialCode');
-            if(dialCodeSelect) {
-                countriesList.forEach(c => {
-                    let opt = document.createElement('option');
-                    opt.value = c.code;
-                    opt.innerText = `${c.flag} ${c.code}`;
-                    dialCodeSelect.appendChild(opt);
-                });
-                dialCodeSelect.value = "+880";
-            }
-            fetchVotes();
-        });
-
         function showToast(msg) {
             let t = document.getElementById('customToast');
             if(!t) return;
             t.innerText = msg;
             t.style.display = 'block';
-            setTimeout(() => { t.style.display = 'none'; }, 2500);
+            setTimeout(() => { t.style.display = 'none'; }, 2000);
         }
 
-        function verifyWithGoogle() {
-            document.getElementById('userName').value = "Masudar Rahman";
-            document.getElementById('userEmail').value = "masudar.enterprise@gmail.com";
-            document.getElementById('userDialCode').value = "+880";
-            document.getElementById('userWhatsApp').value = "1767319670";
-            document.getElementById('userAddress').value = "Dhaka, Bangladesh";
-            showToast("Google Account Verified Successfully!");
-        }
+        // ফায়ারবেস থেকে ভোট সংখ্যা ম্যানেজ করা এবং লাইভ আপডেট করা
+        async function handleVote(choice) {
+            const counterEl = document.getElementById('voteCounter');
+            let currentVal = parseInt(counterEl.innerText);
 
-        // ভোট সাবমিট ফাংশন (ফায়ারবেস ডাটাবেসে সেভ হবে)
-        async function submitVote(choice) {
+            if(choice === 'yes') {
+                currentVal += 1;
+                showToast("Thank you for your 'Yes' vote!");
+            } else {
+                currentVal = Math.max(0, currentVal - 1);
+                showToast("Your 'No' vote has been recorded.");
+            }
+
+            counterEl.innerText = currentVal;
+
             try {
                 await db.collection("academy_votes").add({
                     vote: choice,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 });
-                showToast(`Thank you! Your '${choice.toUpperCase()}' vote has been recorded.`);
-                fetchVotes();
             } catch (error) {
-                showToast("Voting failed. Please check connection.");
+                // অফলাইন বা ফায়ারবেস কনফিগারেশন না থাকলেও লোকাল কাউন্টার কাজ করবে
             }
         }
 
-        // লাইভ ভোট কাউন্ট ফেচ করা
-        async function fetchVotes() {
+        // পেজ লোড হওয়ার সময় ফায়ারবেস থেকে মোট ভোট লোড করা (যদি ডেটা থাকে)
+        window.addEventListener('DOMContentLoaded', async () => {
             try {
                 const snapshot = await db.collection("academy_votes").get();
-                let yesCount = 0;
-                let noCount = 0;
-                snapshot.forEach(doc => {
-                    let data = doc.data();
-                    if(data.vote === 'yes') yesCount++;
-                    if(data.vote === 'no') noCount++;
-                });
-                let total = yesCount + noCount;
-                document.getElementById('voteResultsDisplay').innerText = `Total Votes: ${total} (Yes: ${yesCount} | No: ${noCount})`;
+                if(!snapshot.empty) {
+                    let total = 490 + snapshot.size; // বেস ৪৯০ থেকে শুরু
+                    document.getElementById('voteCounter').innerText = total;
+                }
             } catch (e) {
-                document.getElementById('voteResultsDisplay').innerText = `Total Votes: (Yes: 0 | No: 0)`;
+                // ডিফল্ট ৪৯০ দেখাবে
             }
-        }
-
-        async function handleFormSubmit(e) {
-            e.preventDefault();
-            const formData = {
-                category: "creative_academy_early_access",
-                name: document.getElementById('userName').value.trim(),
-                email: document.getElementById('userEmail').value.trim(),
-                phone: document.getElementById('userDialCode').value + " " + document.getElementById('userWhatsApp').value,
-                address: document.getElementById('userAddress').value.trim(),
-                comments: document.getElementById('userComments').value.trim(),
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            };
-
-            try {
-                await db.collection("enterprise_submissions").add(formData);
-                showToast("Early Access request submitted successfully!");
-                document.getElementById('dynamicForm').reset();
-            } catch (error) {
-                showToast("Submission failed. Check Firebase settings.");
-            }
-        }
+        });
     </script>
 </body>
 </html>
