@@ -234,6 +234,16 @@
 
         .add-to-cart-btn { background: var(--gold-gradient); color: #000; font-weight: 900; font-size: 0.72rem; padding: 10px; border-radius: 6px; border: none; text-transform: uppercase; cursor: pointer; width: 100%; margin-top: 2px; }
 
+        /* চেকআউট পপআপ স্টাইল */
+        #checkoutPopup {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); z-index: 8000; justify-content: center; align-items: center; padding: 12px;
+        }
+        .checkout-box {
+            background: #111; border: 1.5px solid rgba(212,175,55,0.4); border-radius: 14px; width: 100%; max-width: 380px;
+            padding: 20px; display: flex; flex-direction: column; gap: 12px; position: relative;
+        }
+
         /* সার্চ পপআপ বার */
         .search-popup-box { display: none; position: fixed; top: 80px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 520px; background: transparent; z-index: 4000; padding: 0; border: none; box-shadow: none; }
         .search-input-field-box { display: flex; align-items: center; background: #000000; border: 1px solid rgba(212,175,55,0.4); border-radius: 30px; padding: 6px 14px; gap: 10px; box-shadow: 0 8px 25px rgba(0,0,0,0.9); }
@@ -255,43 +265,23 @@
 
         /* ইউ ড্যাশবোর্ড স্টাইলস */
         .you-dashboard-container {
-            width: 100%;
-            max-width: 600px;
-            margin: 10px auto;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            padding-bottom: 40px;
+            width: 100%; max-width: 600px; margin: 10px auto; display: flex; flex-direction: column; gap: 12px; padding-bottom: 40px;
         }
 
         .dash-card {
-            background: #070707;
-            border-radius: 18px;
-            padding: 18px 14px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.9);
-            border: 1.5px solid rgba(212,175,55,0.2);
-            width: 100%;
+            background: #070707; border-radius: 18px; padding: 18px 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.9);
+            border: 1.5px solid rgba(212,175,55,0.2); width: 100%;
         }
 
         .home-top-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
-            position: relative;
+            display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; position: relative;
         }
 
-        .home-left-info {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            max-width: 78%;
-        }
+        .home-left-info { display: flex; flex-direction: column; align-items: flex-start; max-width: 78%; }
 
         .home-logo { width: 50px; height: 50px; object-fit: contain; margin-bottom: 4px; }
         .home-brand-name {
-            font-size: 0.82rem; font-weight: 900;
-            background: var(--gold-gradient);
+            font-size: 0.82rem; font-weight: 900; background: var(--gold-gradient);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             text-transform: uppercase; letter-spacing: 1px; font-family: var(--font-luxury);
         }
@@ -304,8 +294,7 @@
 
         .menu-container { position: relative; margin-top: 2px; display: flex; gap: 8px; align-items: center; }
         .notification-bell-btn, .menu-toggle-btn {
-            background: none; border: none;
-            background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background: none; border: none; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.1rem; position: relative;
         }
         .notif-badge {
@@ -360,7 +349,6 @@
         .support-btn { background: transparent; border: 1.5px solid rgba(255,255,255,0.25); color: #fff; }
         .withdraw-quick-btn { background: var(--gold-gradient); border: none; color: #000; font-weight: 800; }
 
-        /* কার্ট তালিকা ইউ ড্যাশবোর্ডে */
         .cart-section-box { background: #040404; border: 1.5px solid rgba(212,175,55,0.25); border-radius: 10px; padding: 12px; margin-bottom: 12px; }
         .cart-item-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.75rem; }
         .cart-item-row:last-child { border-bottom: none; }
@@ -450,7 +438,7 @@
         <iframe id="fullScreenIframe" src="" style="width: 100vw; height: 100vh; border: none; background: #000;"></iframe>
     </div>
 
-    <!-- Category ওভারলে -->
+    <!-- Category ওভারলে (পূর্ণাঙ্গ ক্যাটাগরি ডাটাযুক্ত) -->
     <div id="categoryView" class="category-fullscreen-view">
         <div class="golden-close-btn" onclick="toggleCategoryView()"><i class="fa-solid fa-xmark"></i></div>
         <div style="margin-bottom: 25px; text-align: center;">
@@ -471,7 +459,7 @@
         <iframe src="https://seller.rorraxy.com" style="width: 100vw; height: 100vh; border: none; background: #000; display: block;"></iframe>
     </div>
 
-    <!-- YOU / DASHBOARD ওভারলে (হোমপেজের সাথেই ইন-বিল্ট) -->
+    <!-- YOU / DASHBOARD ওভারলে -->
     <div id="youView" class="category-fullscreen-view" style="padding: 30px 10px 90px 10px;">
         <div class="golden-close-btn" onclick="toggleYouView()"><i class="fa-solid fa-xmark"></i></div>
         <div class="you-dashboard-container">
@@ -501,7 +489,7 @@
                 </div>
 
                 <div class="stats-grid-3">
-                    <div class="stat-card" onclick="showToast('Total Orders: 2')">
+                    <div class="stat-card" onclick="showToast('Total Orders')">
                         <div class="stat-lbl">Total Orders</div>
                         <div class="stat-val" id="totalOrdersVal">02</div>
                     </div>
@@ -509,13 +497,13 @@
                         <div class="stat-lbl">Tracking</div>
                         <div class="stat-val"><i class="fa-solid fa-location-arrow" style="font-size: 0.85rem;"></i> <span class="touch-hand-anim">👆</span></div>
                     </div>
-                    <div class="stat-card" onclick="showToast('Return Balance: $0.00')">
+                    <div class="stat-card" onclick="showToast('Return Balance')">
                         <div class="stat-lbl">Return Amt</div>
                         <div class="stat-val" id="returnAmountVal">$0.00</div>
                     </div>
                 </div>
 
-                <!-- কার্ট প্রোডাক্ট লিস্ট সেকশন -->
+                <!-- কার্ট প্রোডাক্ট তালিকা সেকশন -->
                 <div class="cart-section-box">
                     <div style="font-size: 0.7rem; font-weight: 800; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 8px;">My Shopping Cart</div>
                     <div id="dashCartList">
@@ -636,7 +624,30 @@
                 </div>
             </div>
 
-            <button class="add-to-cart-btn" onclick="triggerCoinAnimation(event)">Add To Cart & Order Now</button>
+            <!-- এখানে ক্লিক করলে চেকআউট পপআপ ওপেন হবে -->
+            <button class="add-to-cart-btn" onclick="openCheckoutPopup()">Proceed To Checkout</button>
+        </div>
+    </div>
+
+    <!-- চেকআউট পপআপ (চেকআউট ফর্ম ও অর্ডার নিশ্চিত করার জন্য) -->
+    <div id="checkoutPopup">
+        <div class="checkout-box">
+            <div class="golden-close-btn" onclick="closeCheckoutPopup()" style="position: absolute; top: 12px; right: 12px;"><i class="fa-solid fa-xmark"></i></div>
+            <span style="font-size:0.85rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-transform:uppercase; text-align:center;">Secure Checkout</span>
+            
+            <div style="display:flex; flex-direction:column; gap:8px; margin-top:5px;">
+                <label style="font-size:0.6rem; color:var(--text-gray); text-transform:uppercase;">Full Name</label>
+                <input type="text" id="chkName" value="Masudar Rahman" style="background:#0a0a0a; border:1px solid rgba(212,175,55,0.3); padding:8px; border-radius:6px; color:#fff; font-size:0.75rem; outline:none;">
+                
+                <label style="font-size:0.6rem; color:var(--text-gray); text-transform:uppercase;">Shipping Address</label>
+                <input type="text" id="chkAddress" placeholder="Enter delivery address..." style="background:#0a0a0a; border:1px solid rgba(212,175,55,0.3); padding:8px; border-radius:6px; color:#fff; font-size:0.75rem; outline:none;" value="Rajshahi, Bangladesh">
+                
+                <label style="font-size:0.6rem; color:var(--text-gray); text-transform:uppercase;">Phone Number</label>
+                <input type="text" id="chkPhone" placeholder="Enter phone number..." style="background:#0a0a0a; border:1px solid rgba(212,175,55,0.3); padding:8px; border-radius:6px; color:#fff; font-size:0.75rem; outline:none;" value="+8801700000000">
+            </div>
+
+            <!-- কয়েন অ্যানিমেশন ট্রিগারসহ কনফার্ম অর্ডার বাটন -->
+            <button class="add-to-cart-btn" onclick="triggerCoinAnimation(event)" style="margin-top:10px;">Confirm Order & Dashboard</button>
         </div>
     </div>
 
@@ -740,8 +751,10 @@
             document.getElementById('sellerView').style.display = 'none';
             document.getElementById('youView').style.display = 'none';
             document.getElementById('searchPopup').style.display = 'none';
+            document.getElementById('checkoutPopup').style.display = 'none';
         }
 
+        // পূর্ণাঙ্গ ক্যাটাগরি ডাটা (সবগুলো ক্যাটাগরি একসাথে অন্তর্ভুক্ত)
         function toggleCategoryView() {
             const view = document.getElementById('categoryView');
             if(view.style.display === 'block') {
@@ -761,6 +774,31 @@
                             <div class="app-card" onclick="filterCategory('Shoes')"><div class="app-card-icon"><i class="fa-solid fa-shoe-prints"></i></div><span class="app-card-name">Shoes</span></div>
                             <div class="app-card" onclick="filterCategory('Jewelry')"><div class="app-card-icon"><i class="fa-solid fa-gem"></i></div><span class="app-card-name">Jewelry</span></div>
                             <div class="app-card" onclick="filterCategory('Watches')"><div class="app-card-icon"><i class="fa-solid fa-clock"></i></div><span class="app-card-name">Watches</span></div>
+                        </div>
+                    </section>
+                    <section class="category-section">
+                        <div class="category-header-row"><h2 class="category-title">2. Men's Fashion</h2></div>
+                        <div class="app-store-grid">
+                            <div class="app-card" onclick="filterCategory('Men Shirts')"><div class="app-card-icon"><i class="fa-solid fa-user-tie"></i></div><span class="app-card-name">Shirts</span></div>
+                            <div class="app-card" onclick="filterCategory('Men Pants')"><div class="app-card-icon"><i class="fa-solid fa-person-walking"></i></div><span class="app-card-name">Pants</span></div>
+                            <div class="app-card" onclick="filterCategory('Men Footwear')"><div class="app-card-icon"><i class="fa-solid fa-shoe-prints"></i></div><span class="app-card-name">Footwear</span></div>
+                            <div class="app-card" onclick="filterCategory('Accessories')"><div class="app-card-icon"><i class="fa-solid fa-glasses"></i></div><span class="app-card-name">Accessories</span></div>
+                        </div>
+                    </section>
+                    <section class="category-section">
+                        <div class="category-header-row"><h2 class="category-title">3. Luxury Furniture & Wood</h2></div>
+                        <div class="app-store-grid">
+                            <div class="app-card" onclick="filterCategory('Gamar Wood')"><div class="app-card-icon"><i class="fa-solid fa-couch"></i></div><span class="app-card-name">Gamar Wood</span></div>
+                            <div class="app-card" onclick="filterCategory('Golden Teak')"><div class="app-card-icon"><i class="fa-solid fa-bed"></i></div><span class="app-card-name">Golden Teak</span></div>
+                            <div class="app-card" onclick="filterCategory('High Gloss')"><div class="app-card-icon"><i class="fa-solid fa-chair"></i></div><span class="app-card-name">High Gloss</span></div>
+                        </div>
+                    </section>
+                    <section class="category-section">
+                        <div class="category-header-row"><h2 class="category-title">4. Electronics & Gadgets</h2></div>
+                        <div class="app-store-grid">
+                            <div class="app-card" onclick="filterCategory('Smartphones')"><div class="app-card-icon"><i class="fa-solid fa-mobile-screen"></i></div><span class="app-card-name">Phones</span></div>
+                            <div class="app-card" onclick="filterCategory('Laptops')"><div class="app-card-icon"><i class="fa-solid fa-laptop"></i></div><span class="app-card-name">Laptops</span></div>
+                            <div class="app-card" onclick="filterCategory('Audio')"><div class="app-card-icon"><i class="fa-solid fa-headphones"></i></div><span class="app-card-name">Audio</span></div>
                         </div>
                     </section>
                 `;
@@ -835,7 +873,15 @@
 
         function chatWithSeller() { showToast("Connecting to seller..."); }
 
-        // কয়েন অ্যানিমেশন এবং ঝুড়ি থেকে ইউ (You) এ অর্ডার স্থানান্তরের আধুনিক সিস্টেম
+        // চেকআউট পপআপ ওপেন ও ক্লোজ ফাংশন
+        function openCheckoutPopup() {
+            document.getElementById('checkoutPopup').style.display = 'flex';
+        }
+        function closeCheckoutPopup() {
+            document.getElementById('checkoutPopup').style.display = 'none';
+        }
+
+        // কয়েন অ্যানিমেশন এবং চেকআউট থেকে সরাসরি ইউ (You) ড্যাশবোর্ডে অর্ডার স্থানান্তর
         function triggerCoinAnimation(event) {
             const rect = event.target.getBoundingClientRect();
             const coin = document.createElement('div');
@@ -857,7 +903,8 @@
 
             setTimeout(() => {
                 coin.remove();
-                showToast("Added to Cart & Verified in 'You' Dashboard!");
+                showToast("Order Confirmed! Added to Dashboard.");
+                closeCheckoutPopup();
                 closeProductDetails();
 
                 // ড্যাশবোর্ডের কার্ট লিস্টে যোগ করা
@@ -865,6 +912,9 @@
                 let price = document.getElementById('modalProductPrice').innerText;
                 cartListItems.push(`${title} (${price})`);
                 updateDashCartUI();
+
+                // সরাসরি ইউ ড্যাশবোর্ডে নিয়ে যাওয়া
+                toggleYouView();
             }, 850);
         }
 
