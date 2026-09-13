@@ -8,7 +8,7 @@
     <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Chart.js for Clicks Analytics -->
+    <!-- Chart.js for Analytics Graph -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
@@ -168,7 +168,6 @@
             gap: 12px;
         }
 
-        /* ড্যাশবোর্ড হোম কার্ড */
         .dash-card {
             background: var(--surface-bg);
             border-radius: 16px;
@@ -179,7 +178,7 @@
             display: block;
         }
 
-        /* হোম ড্যাশবোর্ড হেডার: বামপাশে লোগো, ব্র্যান্ড নাম, ইউজার নাম, এফিলিয়েট আইডি এবং ডানপাশে থ্রি-লাইন মেনু */
+        /* হোম ড্যাশবোর্ড হেডার */
         .home-top-section {
             display: flex;
             justify-content: space-between;
@@ -224,7 +223,6 @@
             margin-top: 1px;
         }
 
-        /* ডানপাশে থ্রি-লাইন মেনু বাটন */
         .menu-container { position: relative; margin-top: 4px; }
         .menu-toggle-btn {
             background: none;
@@ -241,7 +239,6 @@
         }
         .menu-toggle-btn:hover { color: #fff; }
 
-        /* ডানপাশ থেকে ভাসমান মেনু ড্রপডাউন */
         .dropdown-menu {
             position: absolute;
             top: 38px;
@@ -274,7 +271,7 @@
         .menu-item i { color: var(--gold-solid); width: 16px; text-align: center; }
         .menu-item:hover { background: rgba(212,175,55,0.1); color: var(--gold-solid); }
 
-        /* টোটাল ইনকাম ও পেআউট গ্রিড ($0.00 ও ১০% কমিশন নোট) */
+        /* স্ট্যাটস গ্রিড ও ১০% কমিশন নোট */
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -287,15 +284,21 @@
             padding: 12px;
             border-radius: 12px;
             text-align: center;
+            position: relative;
         }
         .stat-lbl { font-size: 0.58rem; color: var(--gold-solid); text-transform: uppercase; font-weight: 700; margin-bottom: 3px; }
         .stat-val { font-size: 1.15rem; font-weight: 900; color: #fff; font-family: var(--font-luxury); }
-        .commission-note { font-size: 0.52rem; color: var(--text-gray); margin-top: 2px; font-weight: 500; }
-
-        /* প্রোডাক্ট আইডি শিট ওপেন করার বাটন */
-        .sheet-btn-wrapper {
-            margin-bottom: 12px;
+        .commission-badge {
+            font-size: 0.55rem;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            margin-top: 2px;
+            text-transform: uppercase;
         }
+
+        .sheet-btn-wrapper { margin-bottom: 12px; }
         .sheet-trigger-btn {
             background: #050505;
             border: 1px solid rgba(212,175,55,0.3);
@@ -314,7 +317,7 @@
         }
         .sheet-trigger-btn:hover { background: rgba(212,175,55,0.08); }
 
-        /* ক্লিক এনালাইসিস গ্রাফ কার্ড */
+        /* ক্লিক এনালাইসিস গ্রাফ */
         .chart-box {
             background: #050505;
             border: 1px solid rgba(212,175,55,0.2);
@@ -323,15 +326,19 @@
             margin-bottom: 12px;
         }
 
-        /* এফিলিয়েট সাপোর্ট বাটন (সাদা রঙ) */
+        /* এফিলিয়েট সাপোর্ট (সাদা রঙ) ও উইথড্র বাটন */
+        .action-row {
+            display: flex;
+            gap: 8px;
+        }
         .support-btn {
             background: transparent;
-            border: none;
+            border: 1px solid rgba(255,255,255,0.2);
             color: #ffffff;
-            width: 100%;
+            flex: 1;
             padding: 10px;
             font-weight: 700;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             cursor: pointer;
             text-transform: uppercase;
             font-family: var(--font-luxury);
@@ -339,13 +346,33 @@
             align-items: center;
             justify-content: center;
             gap: 6px;
+            border-radius: 12px;
             transition: 0.3s;
             text-decoration: none;
-            letter-spacing: 1px;
         }
-        .support-btn:hover { color: var(--gold-solid); text-shadow: 0 0 10px var(--gold-solid); }
+        .support-btn:hover { border-color: var(--gold-solid); color: var(--gold-solid); }
 
-        /* শিট পপআপ টেবিল স্টাইল (স্ক্রোলএবল) */
+        .withdraw-quick-btn {
+            background: var(--gold-gradient);
+            border: none;
+            color: #000;
+            flex: 1;
+            padding: 10px;
+            font-weight: 800;
+            font-size: 0.7rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-family: var(--font-luxury);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            border-radius: 12px;
+            transition: 0.3s;
+        }
+        .withdraw-quick-btn:hover { opacity: 0.9; }
+
+        /* শিট পপআপ টেবিল স্টাইল */
         .sheet-modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -405,7 +432,7 @@
         .status-pending { background: rgba(241, 196, 15, 0.15); color: #f1c40f; border: 1px solid rgba(241, 196, 15, 0.25); }
         .status-confirm { background: rgba(46, 204, 113, 0.15); color: #2ecc71; border: 1px solid rgba(46, 204, 113, 0.25); }
 
-        /* ইনফো ডিসপ্লে বক্স */
+        /* ইনফো ডিসপ্লে বক্স ও পলিসি স্টাইল */
         .info-display-box {
             background: #050505;
             border: 1px solid rgba(212,175,55,0.2);
@@ -419,7 +446,6 @@
         .info-lbl { font-size: 0.62rem; color: var(--gold-solid); text-transform: uppercase; font-weight: 700; }
         .info-val { font-size: 0.78rem; color: #fff; font-weight: 600; }
 
-        /* ভেরিফিকেশন ও পেমেন্ট স্টাইল */
         .qr-box {
             text-align: center;
             padding: 12px;
@@ -464,13 +490,15 @@
         .pay-option.selected { background: var(--gold-gradient); color: #000; border-color: #fff; }
 
         .policy-content {
-            font-size: 0.75rem;
+            font-size: 0.74rem;
             color: var(--text-gray);
-            line-height: 1.6;
+            line-height: 1.7;
             background: #050505;
-            padding: 12px;
+            padding: 14px;
             border-radius: 10px;
             border: 1px solid rgba(212,175,55,0.2);
+            max-height: 65vh;
+            overflow-y: auto;
         }
     </style>
 </head>
@@ -535,7 +563,7 @@
             <!-- মেইন ড্যাশবোর্ড হোম কার্ড -->
             <div class="dash-card">
                 
-                <!-- হেডার: বামপাশে লোগো, ব্র্যান্ড, নাম, আইডি এবং ডানপাশে থ্রি-লাইন মেনু -->
+                <!-- হেডার: বামপাশে লোগো, ব্র্যান্ড, নাম, ইউনিক এফিলিয়েট আইডি এবং ডানপাশে থ্রি-লাইন মেনু -->
                 <div class="home-top-section">
                     <div class="home-left-info">
                         <img src="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400" alt="Logo" class="home-logo">
@@ -550,9 +578,6 @@
                         </button>
 
                         <div class="dropdown-menu" id="dropdownMenu">
-                            <div class="menu-item" onclick="openPopupModal('tabHomePopup')">
-                                <i class="fa-solid fa-house"></i> Home
-                            </div>
                             <div class="menu-item" onclick="openPopupModal('tabInfoPopup')">
                                 <i class="fa-solid fa-circle-info"></i> Information
                             </div>
@@ -572,17 +597,17 @@
                     </div>
                 </div>
 
-                <!-- টোটাল ইনকাম ও টোটাল পেআউট বক্স ($0.00 ও ১০% কমিশন) -->
+                <!-- টোটাল ইনকাম ও টোটাল পেআউট বক্স ($0.00 ও ১০% কমিশন নোট) -->
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-lbl">Total Earn</div>
                         <div class="stat-val" id="totalEarnVal">$0.00</div>
-                        <div class="commission-note">10% Commission</div>
+                        <div class="commission-badge">10% Commission</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-lbl">Total Payout</div>
                         <div class="stat-val" id="totalPayoutVal">$0.00</div>
-                        <div class="commission-note">10% Commission</div>
+                        <div class="commission-badge">10% Commission</div>
                     </div>
                 </div>
 
@@ -594,16 +619,21 @@
                     </button>
                 </div>
 
-                <!-- ক্লিক এনালিটিক্স গ্রাফ -->
+                <!-- ভিজিটর ক্লিক এনালিটিক্স গ্রাফ -->
                 <div class="chart-box">
                     <div style="font-size: 0.68rem; color: var(--gold-solid); font-weight: 700; margin-bottom: 4px; text-transform: uppercase;">Visitor Clicks Analytics</div>
                     <canvas id="clicksChart" height="100"></canvas>
                 </div>
 
-                <!-- এফিলিয়েট সাপোর্ট (সাদা রঙ) -->
-                <button class="support-btn" onclick="openFirebaseChat()">
-                    <i class="fa-solid fa-headset" style="font-size: 0.9rem;"></i> Affiliate Support
-                </button>
+                <!-- এফিলিয়েট সাপোর্ট (সাদা রঙ) ও উইথড্র বাটন -->
+                <div class="action-row">
+                    <button class="support-btn" onclick="openFirebaseChat()">
+                        <i class="fa-solid fa-headset" style="font-size: 0.85rem;"></i> Support
+                    </button>
+                    <button class="withdraw-quick-btn" onclick="openPopupModal('tabWithdrawPopup')">
+                        <i class="fa-solid fa-wallet" style="font-size: 0.85rem;"></i> Withdraw
+                    </button>
+                </div>
             </div>
 
         </div>
@@ -821,13 +851,11 @@
             const phone = dialCode + " " + phoneNum;
             const addressInput = document.getElementById('regAddress');
 
-            // ইউনিক এফিলিয়েট আইডি জেনারেট করা (যেমন: #ROR-849201)
             const randomId = '#ROR-' + Math.floor(100000 + Math.random() * 900000);
 
             document.getElementById('homeDispName').innerText = name;
             document.getElementById('homeAffId').innerText = "ID: " + randomId;
 
-            // ইনফরমেশন ট্যাবের ডেট আপডেট
             if(document.getElementById('dispName')) {
                 document.getElementById('dispName').innerText = name;
                 document.getElementById('dispEmail').innerText = email;
@@ -849,7 +877,6 @@
             menu.classList.toggle('show');
         }
 
-        // থ্রি-ডট মেনু থেকে পপআপ ওপেন করার ফাংশন
         function openPopupModal(tabType) {
             document.getElementById('dropdownMenu').classList.remove('show');
             const overlay = document.getElementById('popupModalOverlay');
@@ -857,10 +884,7 @@
             
             let htmlContent = `<button class="modal-close-btn" onclick="closeModal('popupModalOverlay')"><i class="fa-solid fa-xmark"></i></button>`;
 
-            if(tabType === 'tabHomePopup') {
-                htmlContent += `<h3 class="modal-title">Dashboard Home</h3><p style="font-size:0.75rem; color:var(--text-gray); text-align:center;">You are already on the main dashboard home.</p>`;
-            } 
-            else if(tabType === 'tabInfoPopup') {
+            if(tabType === 'tabInfoPopup') {
                 htmlContent += `
                     <h3 class="modal-title">Profile Information</h3>
                     <div class="info-display-box">
@@ -934,18 +958,18 @@
             } 
             else if(tabType === 'tabPolicyPopup') {
                 htmlContent += `
-                    <h3 class="modal-title">Affiliate Policy</h3>
+                    <h3 class="modal-title">Affiliate Policy & Terms</h3>
                     <div class="policy-content">
-                        1. All affiliate commissions are subject to verification and anti-fraud checks.<br><br>
-                        2. Payouts are processed automatically once the status changes to confirmed.<br><br>
-                        3. Any violation of terms will result in immediate account suspension.
+                        <strong>1. Commission Structure:</strong> Affiliate commissions are calculated based on the net total amount after deducting any product discounts. A standard 10% commission is applied to qualifying sales.<br><br>
+                        <strong>2. Product Status & Payouts:</strong> In the product ID record, affiliate items will remain in 'Pending' status prior to successful delivery. Once the product is fully delivered to the customer, the status automatically shifts to 'Confirm', and earnings become eligible for payout.<br><br>
+                        <strong>3. Marketing Guidelines:</strong> Affiliates must promote products strictly following professional marketing ethics across approved social media platforms. Spamming or misleading promotions will lead to immediate account suspension.<br><br>
+                        <strong>4. Anti-Fraud Policy:</strong> All conversions are subject to strict automated anti-fraud checks to ensure legitimate buyer engagement.
                     </div>`;
             }
 
             contentBox.innerHTML = htmlContent;
             overlay.style.display = 'flex';
 
-            // কিউআর কোড রি-লজ্জ যদি ভেরিফিকেশন ট্যাব ওপেন হয়
             if(tabType === 'tabVerificationPopup') {
                 const otpauth = encodeURIComponent("otpauth://totp/RORRAXY:user@gmail.com?secret=JBSWY3DPEHPK3PXP&issuer=RORRAXY");
                 const qrImg = document.getElementById('qrCodeImage');
@@ -1020,7 +1044,6 @@
             showToast("Connecting to Firebase Live Support...");
         }
 
-        // ক্লিক এনালিটিক্স গ্রাফ রেন্ডার (ভিজিটর ক্লিক কাউন্ট)
         function renderClicksChart() {
             const ctx = document.getElementById('clicksChart').getContext('2d');
             new Chart(ctx, {
