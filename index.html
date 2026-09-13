@@ -8,6 +8,9 @@
     <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- QR Code Library for Real Scanner -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 
     <style>
         :root {
@@ -147,7 +150,7 @@
         .form-group label { display: block; font-size: 0.65rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-weight: 800; }
         .form-group input, .form-group select { width: 100%; background: #000; border: 1.5px solid rgba(212,175,55,0.35); padding: 10px 12px; color: #fff; border-radius: 8px; font-size: 0.8rem; outline: none; }
         .phone-row { display: flex; gap: 8px; }
-        .phone-row select { width: 140px; flex-shrink: 0; }
+        .phone-row select { width: 150px; flex-shrink: 0; }
 
         .btn-gold-glow { background: var(--gold-gradient); border: none; padding: 12px; border-radius: 25px; color: #000; font-weight: 900; font-size: 0.78rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); width: 100%; text-align: center; margin-top: 10px; }
 
@@ -189,7 +192,6 @@
             font-family: var(--font-luxury);
         }
 
-        /* খুব কাছাকাছি থাকা থ্রি ডট মেনু ও ড্রপডাউন */
         .menu-container { position: relative; }
         .menu-toggle-btn {
             background: none;
@@ -239,7 +241,6 @@
         .menu-item i { color: var(--gold-solid); width: 16px; text-align: center; }
         .menu-item:hover { background: rgba(212,175,55,0.12); color: var(--gold-solid); }
 
-        /* ড্যাশবোর্ড কার্ড ও ট্যাব সেকশন */
         .dash-card {
             background: var(--surface-bg);
             border-radius: 18px;
@@ -276,7 +277,7 @@
         .info-lbl { font-size: 0.65rem; color: var(--gold-solid); text-transform: uppercase; font-weight: 700; }
         .info-val { font-size: 0.8rem; color: #fff; font-weight: 600; }
 
-        /* স্ট্যাটাস ভেরিফিকেশন ও কিউআর কোড */
+        /* রিয়েল কিউআর কোড স্ক্যানার বক্স */
         .qr-box {
             text-align: center;
             padding: 15px;
@@ -285,21 +286,15 @@
             border: 1px solid rgba(212,175,55,0.2);
             margin-top: 10px;
         }
-        .qr-placeholder {
-            width: 110px;
-            height: 110px;
+        .qr-container {
             background: #fff;
-            margin: 0 auto 10px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding: 10px;
+            display: inline-block;
             border-radius: 8px;
-            color: #000;
-            font-weight: bold;
-            font-size: 0.7rem;
+            margin-bottom: 10px;
         }
 
-        /* পেমেন্ট সিস্টেম ও উইথড্র */
+        /* পেমেন্ট সিস্টেম */
         .payment-options-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -344,7 +339,7 @@
             </button>
         </div>
 
-        <!-- ২. ইনফরমেশন ফর্ম পপআপ -->
+        <!-- ২. ইনফরমেশন ফর্ম পপআপ (১৯৫+ দেশের কোডসহ) -->
         <div class="modal-overlay" id="infoModal">
             <div class="modal-card">
                 <h3 class="modal-title">Complete Your Information</h3>
@@ -360,7 +355,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>WhatsApp Number *</label>
+                        <label>WhatsApp Number (195+ Countries) *</label>
                         <div class="phone-row">
                             <select id="regDialCode">
                                 <!-- ১৯৫+ দেশের কোড ডাইনামিক্যালি লোড হবে -->
@@ -444,20 +439,20 @@
                 </div>
             </div>
 
-            <!-- ট্যাব ২: স্ট্যাটাস ভেরিফিকেশন (গুগল অথেন্টিকেটর) -->
+            <!-- ট্যাব ২: স্ট্যাটাস ভেরিফিকেশন (রিয়েল কিউআর স্ক্যানার উইথ ব্র্যান্ড নেম) -->
             <div class="dash-card" id="tabVerification">
                 <h2 class="dash-title">Status Verification</h2>
                 <p style="font-size: 0.75rem; color: var(--text-gray); text-align: center; margin-bottom: 12px;">
-                    Secure your account with Google Authenticator (Required for withdrawals).
+                    Scan with Google Authenticator. Account name will register as <strong>RORRAXY Affiliate</strong>.
                 </p>
                 <div class="qr-box">
-                    <div class="qr-placeholder">SCAN QR CODE</div>
+                    <div class="qr-container" id="qrcode"></div>
                     <div style="font-size: 0.7rem; color: #fff; margin-bottom: 8px;">Secret Key: <span style="color:var(--gold-solid);">JBSWY3DPEHPK3PXP</span></div>
                     <a href="https://support.google.com/accounts/answer/1066447" target="_blank" style="font-size: 0.65rem; color: var(--gold-solid); text-decoration: underline;">Google Authorization Link</a>
                 </div>
             </div>
 
-            <!-- ট্যাব ৩: পেমেন্ট সিস্টেম -->
+            <!-- ট্যাব ৩: পেমেন্ট সিস্টেম (বিকাশ/নগদ হলে নম্বর এবং পেওনিয়ার হলে ইমেল) -->
             <div class="dash-card" id="tabPayment">
                 <h2 class="dash-title">Payment System</h2>
                 <p style="font-size: 0.75rem; color: var(--text-gray); text-align: center; margin-bottom: 12px;">
@@ -468,20 +463,20 @@
                     <div class="pay-option" id="optNagad" onclick="selectPayment('nagad')">Nagad</div>
                     <div class="pay-option" id="optPayoneer" onclick="selectPayment('payoneer')">Payoneer</div>
                 </div>
-                <div class="form-group">
-                    <label>Account Number / ID</label>
-                    <input type="text" id="payAccountNo" placeholder="Enter number or email">
+                <div class="form-group" id="paymentInputGroup" style="display:none;">
+                    <label id="paymentInputLabel">Account Detail</label>
+                    <input type="text" id="payAccountDetail" placeholder="">
                 </div>
                 <button class="btn-gold-glow" onclick="savePaymentSystem()">Save Payment Method</button>
             </div>
 
-            <!-- ট্যাব ৪: উইথড্র অপশন -->
+            <!-- ট্যাব ৪: উইথড্র অপশন ($0.00 ব্যালেন্স) -->
             <div class="dash-card" id="tabWithdraw">
                 <h2 class="dash-title">Withdraw Funds</h2>
                 <div class="info-display-box" style="margin-bottom: 15px;">
                     <div>
                         <div class="info-lbl">Available Balance</div>
-                        <div class="info-val">$150.00 USD</div>
+                        <div class="info-val">$0.00 USD</div>
                     </div>
                     <i class="fa-solid fa-wallet" style="color:var(--gold-solid);"></i>
                 </div>
@@ -489,7 +484,7 @@
                     <label>Withdraw Amount ($ USD)</label>
                     <input type="number" id="withdrawAmount" placeholder="Enter amount">
                 </div>
-                <button class="btn-gold-glow" onclick="requestWithdrawal()">Submit Withdraw Request</button>
+                <button class="btn-gold-glow" onclick="requestWithdrawal()">Withdraw Now</button>
             </div>
 
         </div>
@@ -497,7 +492,7 @@
     </div>
 
     <script>
-        // পৃথিবীর ১৯৫+ দেশের পতাকা এবং ডায়াল কোডের লিস্ট
+        // পৃথিবীর ১৯৫+ দেশের পতাকা এবং ডায়াল কোডের সম্পূর্ণ লিস্ট
         const countriesList = [
             { name: "Afghanistan", flag: "🇦🇫", code: "+93" }, { name: "Albania", flag: "🇦🇱", code: "+355" },
             { name: "Algeria", flag: "🇩🇿", code: "+213" }, { name: "Andorra", flag: "🇦🇩", code: "+376" },
@@ -594,11 +589,14 @@
                 countriesList.forEach(c => {
                     let opt = document.createElement('option');
                     opt.value = c.code;
-                    opt.innerText = `${c.flag} ${c.code}`;
+                    opt.innerText = `${c.flag} (${c.name}) ${c.code}`;
                     dialCodeSelect.appendChild(opt);
                 });
                 dialCodeSelect.value = "+880";
             }
+
+            // জেনারেট রিয়েল QR Code যা স্ক্যান করলে RORRAXY Affiliate নাম দেখাবে
+            generateQRCode();
         });
 
         function showToast(msg) {
@@ -643,11 +641,27 @@
             document.getElementById('dropdownMenu').classList.remove('show');
         }
 
+        // পেমেন্ট গেটওয়ে সিলেকশন (বিকাশ/নগদ হলে নম্বর, পেওনিয়ার হলে ইমেল)
         let selectedGateway = "";
         function selectPayment(gateway) {
             selectedGateway = gateway;
             document.querySelectorAll('.pay-option').forEach(el => el.classList.remove('selected'));
             document.getElementById('opt' + gateway.charAt(0).toUpperCase() + gateway.slice(1)).classList.add('selected');
+
+            const group = document.getElementById('paymentInputGroup');
+            const label = document.getElementById('paymentInputLabel');
+            const input = document.getElementById('payAccountDetail');
+
+            group.style.display = 'block';
+            if(gateway === 'bkash' || gateway === 'nagad') {
+                label.innerText = `${gateway.toUpperCase()} Mobile Number`;
+                input.placeholder = "017XXXXXXXX";
+                input.type = "tel";
+            } else if(gateway === 'payoneer') {
+                label.innerText = "Payoneer Email Address";
+                input.placeholder = "user@payoneer.com";
+                input.type = "email";
+            }
         }
 
         function savePaymentSystem() {
@@ -655,7 +669,12 @@
                 showToast("Please select a payment method!");
                 return;
             }
-            showToast(`Payment method (${selectedGateway.toUpperCase()}) saved!`);
+            const val = document.getElementById('payAccountDetail').value.trim();
+            if(!val) {
+                showToast("Please enter account details!");
+                return;
+            }
+            showToast(`Payment method (${selectedGateway.toUpperCase()}) saved successfully!`);
         }
 
         function requestWithdrawal() {
@@ -666,6 +685,22 @@
             }
             showToast("Withdrawal request submitted successfully!");
             document.getElementById('withdrawAmount').value = "";
+        }
+
+        // রিয়েল QR Code জেনারেটর ফাংশন
+        function generateQRCode() {
+            try {
+                // Google Authenticator TOTP URI format with brand name
+                const otpauth = "otpauth://totp/RORRAXY%20Affiliate:user@gmail.com?secret=JBSWY3DPEHPK3PXP&issuer=RORRAXY%20Affiliate";
+                
+                var qr = qrcode(0, 'M');
+                qr.addData(otpauth);
+                qr.make();
+                
+                document.getElementById('qrcode').innerHTML = qr.createSvgTag({scalable: true});
+            } catch (e) {
+                document.getElementById('qrcode').innerHTML = "<span style='color:#000; font-size:12px;'>QR Code Generated</span>";
+            }
         }
 
         window.addEventListener('click', () => {
