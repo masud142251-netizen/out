@@ -129,19 +129,6 @@
             filter: drop-shadow(0 2px 5px rgba(0,0,0,0.8));
         }
 
-        @keyframes coinParabola {
-            0% { transform: translate(0, 0) scale(0.6) rotate(0deg); opacity: 1; }
-            40% { transform: translate(calc(var(--dx) * 0.45), -35vh) scale(1.3) rotate(180deg); opacity: 1; }
-            100% { transform: translate(var(--dx), var(--dy)) scale(0.4) rotate(360deg); opacity: 0; }
-        }
-        .flying-coin {
-            position: fixed; z-index: 9999; width: 28px; height: 28px; background: var(--gold-gradient);
-            border-radius: 50%; border: 2px solid #ffffff; box-shadow: 0 0 18px var(--gold-solid);
-            animation: coinParabola 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .flying-coin::after { content: '$'; font-size: 0.75rem; font-weight: 900; color: #000; }
-
         /* Feed Layout */
         .feed-container {
             padding: 12px 10px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; width: 100%; max-width: 1400px; margin: 0 auto;
@@ -280,7 +267,7 @@
         nav.bottom-nav {
             position: fixed; bottom: 0; left: 0; width: 100%; background: var(--footer-retail);
             display: flex; justify-content: space-around; align-items: center; padding: 8px 4px;
-            z-index: 5000; border-top: 1px solid rgba(212,175,55,0.15); backdrop-filter: blur(15px);
+            z-index: 6500; border-top: 1px solid rgba(212,175,55,0.15); backdrop-filter: blur(15px);
         }
         .nav-item {
             display: flex; flex-direction: column; align-items: center; text-decoration: none;
@@ -344,10 +331,10 @@
         <iframe id="fullScreenIframe" src="" style="width: 100vw; height: 100vh; border: none; background: #000;"></iframe>
     </div>
 
-    <!-- সাব-ডোমেইন ওভারলে প্যানেল (Affiliate, Seller, You - ওয়ান অফ টগল সিস্টেম) -->
+    <!-- সাব-ডোমেইন ওভারলে প্যানেল (Affiliate, Seller, You - ওয়ান অফ টগল সিস্টেম ও বটম ন্যাভবার দৃশ্যমান রাখার জন্য z-index অ্যাডজাস্ট করা হয়েছে) -->
     <div id="subdomainOverlay" class="subdomain-iframe-overlay">
         <div class="golden-close-btn" onclick="closeSubdomainOverlay()"><i class="fa-solid fa-xmark"></i></div>
-        <iframe id="subdomainIframeElement" src="" style="width: 100vw; height: 100vh; border: none; background: #000;"></iframe>
+        <iframe id="subdomainIframeElement" src="" style="width: 100vw; height: calc(100vh - 65px); border: none; background: #000; display: block;"></iframe>
     </div>
 
     <!-- শেয়ার পপ-আপ মোডাল -->
@@ -465,7 +452,7 @@
         </div>
     </div>
 
-    <!-- ক্যাটাগরি ওভারলে (সম্পূর্ণ ক্যাটাগরি সহ) -->
+    <!-- ক্যাটাগরি ওভারলে -->
     <div id="categoryView" class="category-fullscreen-view">
         <div class="golden-close-btn" onclick="toggleCategoryView('categoryView')"><i class="fa-solid fa-xmark"></i></div>
         <div style="margin-bottom: 25px; text-align: center;">
@@ -483,7 +470,7 @@
         </div>
     </div>
 
-    <!-- ফিক্সড বটম ন্যাভবার (Affiliate, Seller, You ওয়ান-অফ সিস্টেমসহ) -->
+    <!-- ফিক্সড বটম ন্যাভবার (সর্বদা ওপরে দৃশ্যমান থাকবে) -->
     <nav class="bottom-nav">
         <div class="nav-item" onclick="toggleSubdomainOverlay('https://affiliate.rorraxy.com')">
             <i class="fa-solid fa-handshake"></i>
@@ -539,7 +526,7 @@
             document.getElementById('fullScreenIframe').src = '';
         }
 
-        // ওয়ান-অফ টগল সিস্টেম: ক্লিক করলে আসবে, আবার একই মেনুতে বা X এ টিপলে চলে যাবে
+        // ওয়ান-অফ টগল সিস্টেম ও বটম ন্যাভবার দৃশ্যমান রাখার ব্যবস্থা
         function toggleSubdomainOverlay(url) {
             const overlay = document.getElementById('subdomainOverlay');
             const iframe = document.getElementById('subdomainIframeElement');
