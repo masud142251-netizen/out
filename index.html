@@ -23,10 +23,9 @@
             --font-body: 'Poppins', sans-serif;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; word-break: normal; overflow-wrap: break-word; }
         
-        html { width: 100%; background-color: var(--bg-black); }
-        body { 
+        html, body { 
             width: 100%; 
             min-height: 100vh; 
             background-color: var(--bg-black); 
@@ -34,30 +33,35 @@
             font-family: var(--font-body); 
             overflow-x: hidden; 
             -webkit-font-smoothing: antialiased; 
+        }
+
+        /* বডিকে ফ্লেক্স করে সবকিছু উল্লম্ব এবং অনুভূমিকভাবে একদম মাঝখানে (Middle) রাখা হয়েছে */
+        body {
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            padding: 20px 15px;
+            padding: 15px;
         }
 
         h1, h2, h3, h4 { font-family: var(--font-luxury); }
 
-        .custom-toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(12, 12, 12, 0.98); border: 1.5px solid; border-image: var(--gold-gradient) 1; color: #fcf6ba; padding: 10px 22px; border-radius: 30px; font-size: 0.8rem; font-weight: 700; z-index: 999999; display: none; box-shadow: 0 0 20px rgba(212,175,55,0.3); font-family: var(--font-body); }
+        .custom-toast { position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: rgba(12, 12, 12, 0.98); border: 1.5px solid; border-image: var(--gold-gradient) 1; color: #fcf6ba; padding: 8px 16px; border-radius: 30px; font-size: 0.75rem; font-weight: 700; z-index: 999999; display: none; box-shadow: 0 0 20px rgba(212,175,55,0.3); font-family: var(--font-body); white-space: nowrap; }
 
-        /* প্রশস্ত স্ক্রিন লেআউট (মোবাইল ও পিসির জন্য অপ্টিমাইজড) */
+        /* প্রশস্ত ও রেসপন্সিভ স্ক্রিন লেআউট */
         .page-container {
             width: 100%;
-            max-width: 650px; /* পিসিতে সুন্দর প্রশস্ততা এবং মোবাইলে ফুল স্ক্রিন কভারেজ */
+            max-width: 650px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
         }
 
         /* ল্যান্ডিং / গুগল ভেরিফিকেশন কার্ড */
         .auth-card {
             background: var(--surface-bg);
-            border-radius: 20px;
-            padding: 40px 25px;
+            border-radius: 18px;
+            padding: 35px 22px;
             text-align: center;
             box-shadow: 0 15px 40px rgba(0,0,0,0.95);
             border: 1.5px solid rgba(212,175,55,0.25);
@@ -65,28 +69,28 @@
         }
 
         .logo-large {
-            width: 85px;
-            height: 85px;
+            width: 75px;
+            height: 75px;
             object-fit: contain;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .brand-title-large {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 900;
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 12px;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
         }
 
         .welcome-subtitle {
-            font-size: 0.88rem;
+            font-size: 0.82rem;
             color: var(--text-gray);
-            line-height: 1.6;
-            margin-bottom: 25px;
+            line-height: 1.5;
+            margin-bottom: 22px;
             font-family: var(--font-body);
         }
 
@@ -95,21 +99,21 @@
             background: #ffffff;
             color: #000;
             border: none;
-            padding: 15px;
-            border-radius: 35px;
+            padding: 13px;
+            border-radius: 30px;
             font-weight: 700;
-            font-size: 0.92rem;
+            font-size: 0.85rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
             cursor: pointer;
             transition: 0.3s;
             font-family: var(--font-body);
         }
         .google-verify-btn:hover { background: #eaeaea; }
 
-        /* প্রশস্ত পপআপ মডাল */
+        /* পপআপ মডাল ওভারলে (সবসময় মাঝখানে থাকবে) */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -124,44 +128,44 @@
         .modal-card {
             background: var(--surface-bg);
             border: 1.5px solid rgba(212,175,55,0.35);
-            border-radius: 20px;
-            padding: 28px 22px;
+            border-radius: 18px;
+            padding: 24px 18px;
             width: 100%;
-            max-width: 600px; /* পপআপ উইন্ডো আরও প্রশস্ত করা হয়েছে */
+            max-width: 600px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.9);
             text-align: left;
-            max-height: 90vh;
+            max-height: 88vh;
             overflow-y: auto;
             position: relative;
         }
         .modal-close-btn {
             position: absolute;
-            top: 18px; right: 18px;
+            top: 14px; right: 14px;
             background: none; border: none;
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             cursor: pointer;
         }
         .modal-title {
             font-family: var(--font-luxury);
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-transform: uppercase;
             font-weight: 900;
-            margin-bottom: 18px;
+            margin-bottom: 15px;
             text-align: center;
         }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-size: 0.7rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; font-weight: 800; font-family: var(--font-body); }
-        .form-group input, .form-group select { width: 100%; background: #000; border: 1.5px solid rgba(212,175,55,0.3); padding: 12px 15px; color: #fff; border-radius: 10px; font-size: 0.88rem; outline: none; font-family: var(--font-body); }
-        .phone-row { display: flex; gap: 10px; }
-        .phone-row select { width: 140px; flex-shrink: 0; background: #000; color: #fff; border: 1.5px solid rgba(212,175,55,0.3); border-radius: 10px; font-size: 0.8rem; }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 0.65rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; font-weight: 800; font-family: var(--font-body); white-space: nowrap; }
+        .form-group input, .form-group select { width: 100%; background: #000; border: 1.5px solid rgba(212,175,55,0.3); padding: 10px 12px; color: #fff; border-radius: 8px; font-size: 0.82rem; outline: none; font-family: var(--font-body); }
+        .phone-row { display: flex; gap: 8px; }
+        .phone-row select { width: 115px; flex-shrink: 0; background: #000; color: #fff; border: 1.5px solid rgba(212,175,55,0.3); border-radius: 8px; font-size: 0.75rem; }
 
-        .btn-gold-glow { background: var(--gold-gradient); border: none; padding: 14px; border-radius: 30px; color: #000; font-weight: 900; font-size: 0.82rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); width: 100%; text-align: center; margin-top: 12px; }
+        .btn-gold-glow { background: var(--gold-gradient); border: none; padding: 12px; border-radius: 25px; color: #000; font-weight: 900; font-size: 0.78rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); width: 100%; text-align: center; margin-top: 10px; }
 
         /* ড্যাশবোর্ড লেআউট */
         .dashboard-wrapper {
@@ -169,13 +173,13 @@
             width: 100%;
             max-width: 650px;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
         }
 
         .dash-card {
             background: var(--surface-bg);
-            border-radius: 20px;
-            padding: 22px 18px;
+            border-radius: 18px;
+            padding: 18px 14px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.9);
             border: 1.5px solid rgba(212,175,55,0.2);
             width: 100%;
@@ -187,7 +191,7 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 18px;
+            margin-bottom: 15px;
             position: relative;
         }
 
@@ -195,75 +199,85 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
+            max-width: 78%;
         }
 
         .home-logo { 
-            width: 58px; 
-            height: 58px; 
+            width: 50px; 
+            height: 50px; 
             object-fit: contain; 
-            margin-bottom: 6px; 
+            margin-bottom: 4px; 
         }
         .home-brand-name {
-            font-size: 0.9rem;
+            font-size: 0.82rem;
             font-weight: 900;
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
             font-family: var(--font-luxury);
         }
         .home-username {
-            font-size: 1.05rem;
+            font-size: 0.95rem;
             font-weight: 700;
             color: var(--text-white);
-            margin-top: 3px;
+            margin-top: 2px;
             font-family: var(--font-body);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
         }
         .home-affiliate-id {
-            font-size: 0.72rem;
+            font-size: 0.68rem;
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 700;
-            letter-spacing: 0.5px;
-            margin-top: 2px;
+            letter-spacing: 0.3px;
+            margin-top: 1px;
             font-family: var(--font-body);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
         }
         .home-commission-sub {
-            font-size: 0.62rem;
+            font-size: 0.58rem;
             color: var(--text-gray);
             font-weight: 500;
-            margin-top: 2px;
+            margin-top: 1px;
             font-family: var(--font-body);
+            white-space: nowrap;
         }
 
-        .menu-container { position: relative; margin-top: 4px; }
+        .menu-container { position: relative; margin-top: 2px; }
         .menu-toggle-btn {
             background: none;
             border: none;
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             transition: 0.3s;
         }
         .menu-toggle-btn:hover { opacity: 0.8; }
 
         .dropdown-menu {
             position: absolute;
-            top: 42px;
+            top: 38px;
             right: 0;
             background: var(--surface-bg);
             border: 1.5px solid rgba(212,175,55,0.35);
-            border-radius: 14px;
-            width: 195px;
+            border-radius: 12px;
+            width: 175px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.95);
             display: none;
             flex-direction: column;
@@ -273,41 +287,42 @@
         .dropdown-menu.show { display: flex; }
         
         .menu-item {
-            padding: 12px 16px;
-            font-size: 0.8rem;
+            padding: 10px 14px;
+            font-size: 0.75rem;
             color: var(--text-white);
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             border-bottom: 1px solid rgba(212,175,55,0.08);
             transition: 0.2s;
             cursor: pointer;
             font-family: var(--font-body);
+            white-space: nowrap;
         }
         .menu-item:last-child { border-bottom: none; }
-        .menu-item i { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; width: 18px; text-align: center; }
+        .menu-item i { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; width: 16px; text-align: center; }
         .menu-item:hover { background: rgba(212,175,55,0.1); color: #fcf6ba; }
 
         /* স্ট্যাটস গ্রিড */
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 15px;
+            gap: 10px;
+            margin-bottom: 12px;
         }
         .stat-card {
             background: #040404;
             border: 1.5px solid rgba(212,175,55,0.25);
-            padding: 15px;
-            border-radius: 14px;
+            padding: 12px;
+            border-radius: 12px;
             text-align: center;
         }
-        .stat-lbl { font-size: 0.65rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-weight: 800; margin-bottom: 4px; font-family: var(--font-body); }
-        .stat-val { font-size: 1.35rem; font-weight: 900; color: #fff; font-family: var(--font-luxury); }
+        .stat-lbl { font-size: 0.6rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-weight: 800; margin-bottom: 3px; font-family: var(--font-body); white-space: nowrap; }
+        .stat-val { font-size: 1.2rem; font-weight: 900; color: #fff; font-family: var(--font-luxury); white-space: nowrap; }
 
         /* প্রোডাক্ট আইডি রেকর্ড বাটন */
-        .sheet-btn-wrapper { margin-bottom: 15px; display: flex; justify-content: center; }
+        .sheet-btn-wrapper { margin-bottom: 12px; display: flex; justify-content: center; }
         .sheet-trigger-btn {
             background: #040404;
             border: 1.5px solid rgba(212,175,55,0.35);
@@ -315,10 +330,10 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             width: 100%;
-            padding: 13px;
-            border-radius: 14px;
+            padding: 11px;
+            border-radius: 12px;
             font-weight: 800;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             cursor: pointer;
             text-transform: uppercase;
             display: flex;
@@ -326,6 +341,7 @@
             justify-content: space-between;
             transition: 0.3s;
             font-family: var(--font-body);
+            white-space: nowrap;
         }
         .sheet-trigger-btn:hover { background: rgba(212,175,55,0.08); }
 
@@ -333,40 +349,42 @@
         .chart-box {
             background: #040404;
             border: 1.5px solid rgba(212,175,55,0.25);
-            padding: 14px;
-            border-radius: 14px;
-            margin-bottom: 15px;
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 12px;
         }
         .chart-header-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
         .chart-title {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 800;
             text-transform: uppercase;
             font-family: var(--font-body);
+            white-space: nowrap;
         }
         .chart-filters {
             display: flex;
-            gap: 6px;
+            gap: 4px;
         }
         .filter-btn {
             background: transparent;
             border: 1.5px solid rgba(212,175,55,0.3);
             color: var(--text-gray);
-            font-size: 0.62rem;
-            padding: 3px 8px;
-            border-radius: 8px;
+            font-size: 0.58rem;
+            padding: 2px 6px;
+            border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
             transition: 0.2s;
             font-family: var(--font-body);
+            white-space: nowrap;
         }
         .filter-btn.active {
             background: var(--gold-gradient);
@@ -377,26 +395,27 @@
         /* একশন রো (সাপোর্ট এবং উইথড্র বাটন) */
         .action-row {
             display: flex;
-            gap: 10px;
+            gap: 8px;
         }
         .support-btn {
             background: transparent;
             border: 1.5px solid rgba(255,255,255,0.25);
             color: #ffffff;
             flex: 1;
-            padding: 12px;
+            padding: 10px;
             font-weight: 700;
-            font-size: 0.78rem;
+            font-size: 0.72rem;
             cursor: pointer;
             text-transform: uppercase;
             font-family: var(--font-luxury);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
-            border-radius: 12px;
+            gap: 5px;
+            border-radius: 10px;
             transition: 0.3s;
             text-decoration: none;
+            white-space: nowrap;
         }
         .support-btn:hover { border-color: #fcf6ba; color: #fcf6ba; }
 
@@ -405,18 +424,19 @@
             border: none;
             color: #000;
             flex: 1;
-            padding: 12px;
+            padding: 10px;
             font-weight: 800;
-            font-size: 0.78rem;
+            font-size: 0.72rem;
             cursor: pointer;
             text-transform: uppercase;
             font-family: var(--font-luxury);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
-            border-radius: 12px;
+            gap: 5px;
+            border-radius: 10px;
             transition: 0.3s;
+            white-space: nowrap;
         }
         .withdraw-quick-btn:hover { opacity: 0.9; }
 
@@ -435,8 +455,8 @@
         .sheet-modal-card {
             background: var(--surface-bg);
             border: 1.5px solid rgba(212,175,55,0.4);
-            border-radius: 20px;
-            padding: 24px 18px;
+            border-radius: 18px;
+            padding: 20px 14px;
             width: 100%;
             max-width: 600px;
             max-height: 80vh;
@@ -447,36 +467,38 @@
         .sheet-table-scroll {
             overflow-y: auto;
             max-height: 60vh;
-            margin-top: 12px;
+            margin-top: 10px;
         }
         .sheet-table {
             width: 100%;
             border-collapse: collapse;
             text-align: left;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-family: var(--font-body);
         }
         .sheet-table th {
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-size: 0.68rem;
+            font-size: 0.62rem;
             text-transform: uppercase;
             border-bottom: 1.5px solid rgba(212,175,55,0.25);
-            padding-bottom: 8px;
+            padding-bottom: 6px;
             position: sticky;
             top: 0;
             background: var(--surface-bg);
+            white-space: nowrap;
         }
         .sheet-table td {
-            padding: 11px 6px;
+            padding: 10px 4px;
             border-bottom: 1px solid rgba(255,255,255,0.06);
             color: #fff;
+            white-space: nowrap;
         }
         .status-badge {
-            padding: 3px 9px;
+            padding: 2px 7px;
             border-radius: 20px;
-            font-size: 0.62rem;
+            font-size: 0.58rem;
             font-weight: 700;
             text-transform: uppercase;
         }
@@ -487,71 +509,72 @@
         .info-display-box {
             background: #040404;
             border: 1.5px solid rgba(212,175,55,0.25);
-            padding: 14px;
-            border-radius: 12px;
-            margin-bottom: 10px;
+            padding: 11px;
+            border-radius: 10px;
+            margin-bottom: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .info-lbl { font-size: 0.68rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-weight: 800; font-family: var(--font-body); }
-        .info-val { font-size: 0.85rem; color: #fff; font-weight: 600; font-family: var(--font-body); }
+        .info-lbl { font-size: 0.62rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-weight: 800; font-family: var(--font-body); white-space: nowrap; }
+        .info-val { font-size: 0.78rem; color: #fff; font-weight: 600; font-family: var(--font-body); overflow: hidden; text-overflow: ellipsis; max-width: 60%; text-align: right; }
 
         .qr-box {
             text-align: center;
-            padding: 15px;
+            padding: 12px;
             background: #040404;
-            border-radius: 12px;
+            border-radius: 10px;
             border: 1.5px solid rgba(212,175,55,0.25);
-            margin-top: 10px;
+            margin-top: 8px;
         }
-        .qr-image { width: 160px; height: 160px; background: #fff; padding: 6px; border-radius: 8px; margin: 0 auto 10px auto; object-fit: contain; }
+        .qr-image { width: 140px; height: 140px; background: #fff; padding: 5px; border-radius: 6px; margin: 0 auto 8px auto; object-fit: contain; }
 
         .verified-success-box {
             display: none;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 25px;
+            padding: 20px;
             background: rgba(46, 204, 113, 0.08);
             border: 2px solid #2ecc71;
-            border-radius: 14px;
+            border-radius: 12px;
             text-align: center;
         }
-        .verified-success-box i { font-size: 3rem; color: #2ecc71; margin-bottom: 10px; }
+        .verified-success-box i { font-size: 2.6rem; color: #2ecc71; margin-bottom: 8px; }
 
         .payment-options-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 8px;
+            margin-bottom: 12px;
         }
         .pay-option {
             background: #040404;
             border: 1.5px solid rgba(212,175,55,0.3);
-            padding: 12px 8px;
-            border-radius: 10px;
+            padding: 10px 6px;
+            border-radius: 8px;
             text-align: center;
             cursor: pointer;
-            font-size: 0.78rem;
+            font-size: 0.72rem;
             font-weight: 700;
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             transition: 0.3s;
             font-family: var(--font-body);
+            white-space: nowrap;
         }
         .pay-option.selected { background: var(--gold-gradient); color: #000; -webkit-text-fill-color: #000; border-color: #fff; }
 
         .policy-content {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--text-gray);
-            line-height: 1.8;
+            line-height: 1.7;
             background: #040404;
-            padding: 16px;
-            border-radius: 12px;
+            padding: 14px;
+            border-radius: 10px;
             border: 1.5px solid rgba(212,175,55,0.25);
-            max-height: 65vh;
+            max-height: 62vh;
             overflow-y: auto;
             font-family: var(--font-body);
         }
@@ -663,8 +686,8 @@
                 <!-- প্রোডাক্ট আইডি রেকর্ড শিট বাটন -->
                 <div class="sheet-btn-wrapper">
                     <button class="sheet-trigger-btn" onclick="openSheetModal()">
-                        <span><i class="fa-solid fa-table-list" style="margin-right: 6px;"></i> Product ID Records</span>
-                        <i class="fa-solid fa-chevron-right" style="font-size: 0.7rem;"></i>
+                        <span><i class="fa-solid fa-table-list" style="margin-right: 5px;"></i> Product ID Records</span>
+                        <i class="fa-solid fa-chevron-right" style="font-size: 0.65rem;"></i>
                     </button>
                 </div>
 
@@ -678,16 +701,16 @@
                             <button class="filter-btn" onclick="updateChartFilter('1y', this)" id="oneYearFilterBtn">1Y (Year 1)</button>
                         </div>
                     </div>
-                    <canvas id="clicksChart" height="110"></canvas>
+                    <canvas id="clicksChart" height="100"></canvas>
                 </div>
 
                 <!-- সাপোর্ট এবং উইথড্র বাটন -->
                 <div class="action-row">
                     <button class="support-btn" onclick="openFirebaseChat()">
-                        <i class="fa-solid fa-headset" style="font-size: 0.85rem;"></i> Support
+                        <i class="fa-solid fa-headset" style="font-size: 0.8rem;"></i> Support
                     </button>
                     <button class="withdraw-quick-btn" onclick="checkWithdrawSteps()">
-                        <i class="fa-solid fa-wallet" style="font-size: 0.85rem;"></i> Withdraw
+                        <i class="fa-solid fa-wallet" style="font-size: 0.8rem;"></i> Withdraw
                     </button>
                 </div>
             </div>
@@ -700,7 +723,7 @@
     <div class="sheet-modal-overlay" id="sheetModal">
         <div class="sheet-modal-card">
             <button class="modal-close-btn" onclick="closeSheetModal()"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="modal-title" style="margin-bottom: 8px;">Product ID Records</h3>
+            <h3 class="modal-title" style="margin-bottom: 6px;">Product ID Records</h3>
             <div class="sheet-table-scroll">
                 <table class="sheet-table">
                     <thead>
@@ -958,7 +981,7 @@
                         <i class="fa-solid fa-location-dot" style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;"></i>
                     </div>
                     
-                    <div class="form-group" style="margin-top: 15px;">
+                    <div class="form-group" style="margin-top: 12px;">
                         <label>Update / Add Address *</label>
                         <input type="text" id="userAddressInput" placeholder="House/Street, City, Country" value="${savedAddress}">
                     </div>
@@ -971,14 +994,14 @@
 
                 htmlContent += `
                     <h3 class="modal-title">Verification</h3>
-                    <p style="font-size: 0.8rem; color: var(--text-gray); text-align: center; margin-bottom: 12px; font-family: var(--font-body);">
+                    <p style="font-size: 0.75rem; color: var(--text-gray); text-align: center; margin-bottom: 10px; font-family: var(--font-body);">
                         Scan with Google Authenticator. Issuer name: <strong>RORRAXY</strong>.
                     </p>
                     
                     <div class="qr-box" id="verificationScanBox" style="display:${isVerified ? 'none' : 'block'};">
                         <img id="qrCodeImage" class="qr-image" src="${qrUrl}" alt="QR">
-                        <div style="font-size: 0.75rem; color: #fff; margin-bottom: 10px; font-family: var(--font-body);">Secret Key: <span style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:700;">JBSWY3DPEHPK3PXP</span></div>
-                        <div class="form-group" style="text-align: left; margin-bottom: 8px;">
+                        <div style="font-size: 0.7rem; color: #fff; margin-bottom: 8px; font-family: var(--font-body);">Secret Key: <span style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:700;">JBSWY3DPEHPK3PXP</span></div>
+                        <div class="form-group" style="text-align: left; margin-bottom: 6px;">
                             <label>Enter 6-Digit Code</label>
                             <input type="text" id="authCodeInput" placeholder="123456" maxlength="6" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                         </div>
@@ -987,14 +1010,14 @@
 
                     <div class="verified-success-box" id="verificationSuccessBox" style="display:${isVerified ? 'flex' : 'none'};">
                         <i class="fa-solid fa-circle-check" style="color: #2ecc71;"></i>
-                        <h3 style="color: #2ecc71; font-family: var(--font-luxury); font-size: 1.15rem; margin-bottom: 5px;">Verification Confirmed</h3>
-                        <p style="font-size: 0.78rem; color: var(--text-gray); font-family: var(--font-body);">Your account is securely verified.</p>
+                        <h3 style="color: #2ecc71; font-family: var(--font-luxury); font-size: 1.05rem; margin-bottom: 4px;">Verification Confirmed</h3>
+                        <p style="font-size: 0.72rem; color: var(--text-gray); font-family: var(--font-body);">Your account is securely verified.</p>
                     </div>`;
             } 
             else if(tabType === 'tabPaymentPopup') {
                 htmlContent += `
                     <h3 class="modal-title">Payment Setup</h3>
-                    <p style="font-size: 0.8rem; color: var(--text-gray); text-align: center; margin-bottom: 12px; font-family: var(--font-body);">Select your preferred payout gateway.</p>
+                    <p style="font-size: 0.75rem; color: var(--text-gray); text-align: center; margin-bottom: 10px; font-family: var(--font-body);">Select your preferred payout gateway.</p>
                     <div class="payment-options-grid">
                         <div class="pay-option" id="optBkash" onclick="selectPayment('bkash')">Bikash</div>
                         <div class="pay-option" id="optNagad" onclick="selectPayment('nagad')">Nagad</div>
@@ -1009,7 +1032,7 @@
             else if(tabType === 'tabWithdrawPopup') {
                 htmlContent += `
                     <h3 class="modal-title">Withdraw Funds</h3>
-                    <div class="info-display-box" style="margin-bottom: 15px;">
+                    <div class="info-display-box" style="margin-bottom: 12px;">
                         <div><div class="info-lbl">Available Balance</div><div class="info-val">$0.00 USD</div></div>
                         <i class="fa-solid fa-wallet" style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;"></i>
                     </div>
@@ -1158,7 +1181,7 @@
                         data: dataPoints,
                         borderColor: '#bf953f',
                         backgroundColor: 'rgba(191, 149, 63, 0.08)',
-                        borderWidth: 2.5,
+                        borderWidth: 2,
                         fill: true,
                         tension: 0.3
                     }]
@@ -1167,8 +1190,8 @@
                     responsive: true,
                     plugins: { legend: { display: false } },
                     scales: {
-                        x: { ticks: { color: '#a5a5a5', font: { size: 10, family: 'Poppins' } }, grid: { color: 'rgba(255,255,255,0.03)' } },
-                        y: { ticks: { color: '#a5a5a5', font: { size: 10, family: 'Poppins' } }, grid: { color: 'rgba(255,255,255,0.03)' } }
+                        x: { ticks: { color: '#a5a5a5', font: { size: 9, family: 'Poppins' } }, grid: { color: 'rgba(255,255,255,0.03)' } },
+                        y: { ticks: { color: '#a5a5a5', font: { size: 9, family: 'Poppins' } }, grid: { color: 'rgba(255,255,255,0.03)' } }
                     }
                 }
             });
