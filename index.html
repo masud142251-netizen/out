@@ -15,7 +15,8 @@
         :root {
             --bg-black: #020202;
             --surface-bg: #070707;
-            --gold-gradient: linear-gradient(135deg, #d4af37, #fcf6ba, #aa771c);
+            /* আপনার লোগোর অরিজিনাল গোল্ডেন গ্রেডিয়েন্ট থিম */
+            --gold-gradient: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
             --gold-solid: #d4af37;
             --text-white: #f3f3f3;
             --text-gray: #a5a5a5;
@@ -42,7 +43,7 @@
 
         h1, h2, h3, h4 { font-family: var(--font-luxury); }
 
-        .custom-toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(12, 12, 12, 0.98); border: 1px solid rgba(212,175,55,0.4); color: var(--gold-solid); padding: 8px 18px; border-radius: 30px; font-size: 0.7rem; font-weight: 600; z-index: 999999; display: none; box-shadow: 0 0 15px rgba(212,175,55,0.2); }
+        .custom-toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(12, 12, 12, 0.98); border: 1.5px solid var(--gold-solid); color: var(--gold-solid); padding: 8px 18px; border-radius: 30px; font-size: 0.7rem; font-weight: 700; z-index: 999999; display: none; box-shadow: 0 0 20px rgba(212,175,55,0.3); font-family: var(--font-body); }
 
         .page-container {
             width: 100%;
@@ -59,7 +60,7 @@
             padding: 35px 22px;
             text-align: center;
             box-shadow: 0 15px 40px rgba(0,0,0,0.95);
-            border: 1px solid rgba(212,175,55,0.2);
+            border: 1px solid rgba(212,175,55,0.25);
             width: 100%;
         }
 
@@ -86,6 +87,7 @@
             color: var(--text-gray);
             line-height: 1.6;
             margin-bottom: 22px;
+            font-family: var(--font-body);
         }
 
         .google-verify-btn {
@@ -103,6 +105,7 @@
             gap: 10px;
             cursor: pointer;
             transition: 0.3s;
+            font-family: var(--font-body);
         }
         .google-verify-btn:hover { background: #eaeaea; }
 
@@ -120,7 +123,7 @@
         }
         .modal-card {
             background: var(--surface-bg);
-            border: 1px solid rgba(212,175,55,0.3);
+            border: 1px solid rgba(212,175,55,0.35);
             border-radius: 16px;
             padding: 24px 18px;
             width: 100%;
@@ -151,14 +154,14 @@
             text-align: center;
         }
         .form-group { margin-bottom: 12px; }
-        .form-group label { display: block; font-size: 0.62rem; color: var(--gold-solid); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-weight: 700; }
-        .form-group input, .form-group select { width: 100%; background: #000; border: 1px solid rgba(212,175,55,0.25); padding: 10px 12px; color: #fff; border-radius: 8px; font-size: 0.78rem; outline: none; }
+        .form-group label { display: block; font-size: 0.62rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-weight: 800; font-family: var(--font-body); }
+        .form-group input, .form-group select { width: 100%; background: #000; border: 1.5px solid rgba(212,175,55,0.3); padding: 10px 12px; color: #fff; border-radius: 8px; font-size: 0.78rem; outline: none; font-family: var(--font-body); }
         .phone-row { display: flex; gap: 8px; }
-        .phone-row select { width: 130px; flex-shrink: 0; background: #000; color: #fff; border: 1px solid rgba(212,175,55,0.25); border-radius: 8px; font-size: 0.72rem; }
+        .phone-row select { width: 130px; flex-shrink: 0; background: #000; color: #fff; border: 1.5px solid rgba(212,175,55,0.3); border-radius: 8px; font-size: 0.72rem; }
 
         .btn-gold-glow { background: var(--gold-gradient); border: none; padding: 12px; border-radius: 25px; color: #000; font-weight: 900; font-size: 0.75rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); width: 100%; text-align: center; margin-top: 10px; }
         
-        .btn-reset-outline { background: transparent; border: 1px solid #e74c3c; color: #e74c3c; padding: 10px; border-radius: 25px; font-weight: 700; font-size: 0.7rem; cursor: pointer; text-transform: uppercase; width: 100%; text-align: center; margin-top: 12px; transition: 0.3s; }
+        .btn-reset-outline { background: transparent; border: 1.5px solid #e74c3c; color: #e74c3c; padding: 10px; border-radius: 25px; font-weight: 700; font-size: 0.7rem; cursor: pointer; text-transform: uppercase; width: 100%; text-align: center; margin-top: 12px; transition: 0.3s; font-family: var(--font-body); }
         .btn-reset-outline:hover { background: rgba(231,76,60,0.1); }
 
         /* ড্যাশবোর্ড লেআউট */
@@ -175,7 +178,7 @@
             border-radius: 16px;
             padding: 18px 14px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.9);
-            border: 1px solid rgba(212,175,55,0.18);
+            border: 1px solid rgba(212,175,55,0.2);
             width: 100%;
             display: block;
         }
@@ -216,6 +219,7 @@
             font-weight: 700;
             color: var(--text-white);
             margin-top: 2px;
+            font-family: var(--font-body);
         }
         .home-affiliate-id {
             font-size: 0.65rem;
@@ -223,12 +227,14 @@
             font-weight: 600;
             letter-spacing: 0.5px;
             margin-top: 1px;
+            font-family: var(--font-body);
         }
         .home-commission-sub {
             font-size: 0.55rem;
             color: var(--text-gray);
             font-weight: 500;
             margin-top: 1px;
+            font-family: var(--font-body);
         }
 
         .menu-container { position: relative; margin-top: 4px; }
@@ -274,6 +280,7 @@
             border-bottom: 1px solid rgba(212,175,55,0.08);
             transition: 0.2s;
             cursor: pointer;
+            font-family: var(--font-body);
         }
         .menu-item:last-child { border-bottom: none; }
         .menu-item i { color: var(--gold-solid); width: 16px; text-align: center; }
@@ -288,12 +295,12 @@
         }
         .stat-card {
             background: #040404;
-            border: 1px solid rgba(212,175,55,0.18);
+            border: 1px solid rgba(212,175,55,0.2);
             padding: 12px;
             border-radius: 12px;
             text-align: center;
         }
-        .stat-lbl { font-size: 0.58rem; color: var(--gold-solid); text-transform: uppercase; font-weight: 700; margin-bottom: 3px; }
+        .stat-lbl { font-size: 0.58rem; color: var(--gold-solid); text-transform: uppercase; font-weight: 700; margin-bottom: 3px; font-family: var(--font-body); }
         .stat-val { font-size: 1.15rem; font-weight: 900; color: #fff; font-family: var(--font-luxury); }
 
         /* প্রোডাক্ট আইডি রেকর্ড বাটন */
@@ -313,13 +320,14 @@
             align-items: center;
             justify-content: space-between;
             transition: 0.3s;
+            font-family: var(--font-body);
         }
-        .sheet-trigger-btn:hover { background: rgba(212,175,55,0.06); }
+        .sheet-trigger-btn:hover { background: rgba(212,175,55,0.08); }
 
         /* ক্লিক অ্যানালাইসিস গ্রাফ সেকশন */
         .chart-box {
             background: #040404;
-            border: 1px solid rgba(212,175,55,0.18);
+            border: 1px solid rgba(212,175,55,0.2);
             padding: 10px;
             border-radius: 12px;
             margin-bottom: 12px;
@@ -335,6 +343,7 @@
             color: var(--gold-solid);
             font-weight: 700;
             text-transform: uppercase;
+            font-family: var(--font-body);
         }
         .chart-filters {
             display: flex;
@@ -350,6 +359,7 @@
             cursor: pointer;
             font-weight: 600;
             transition: 0.2s;
+            font-family: var(--font-body);
         }
         .filter-btn.active {
             background: var(--gold-gradient);
@@ -364,7 +374,7 @@
         }
         .support-btn {
             background: transparent;
-            border: 1px solid rgba(255,255,255,0.18);
+            border: 1px solid rgba(255,255,255,0.2);
             color: #ffffff;
             flex: 1;
             padding: 10px;
@@ -437,6 +447,7 @@
             border-collapse: collapse;
             text-align: left;
             font-size: 0.72rem;
+            font-family: var(--font-body);
         }
         .sheet-table th {
             color: var(--gold-solid);
@@ -466,7 +477,7 @@
         /* ইনফো ডিসপ্লে বক্স ও পলিসি স্টাইল */
         .info-display-box {
             background: #040404;
-            border: 1px solid rgba(212,175,55,0.18);
+            border: 1px solid rgba(212,175,55,0.2);
             padding: 12px;
             border-radius: 10px;
             margin-bottom: 8px;
@@ -474,15 +485,15 @@
             justify-content: space-between;
             align-items: center;
         }
-        .info-lbl { font-size: 0.62rem; color: var(--gold-solid); text-transform: uppercase; font-weight: 700; }
-        .info-val { font-size: 0.78rem; color: #fff; font-weight: 600; }
+        .info-lbl { font-size: 0.62rem; color: var(--gold-solid); text-transform: uppercase; font-weight: 700; font-family: var(--font-body); }
+        .info-val { font-size: 0.78rem; color: #fff; font-weight: 600; font-family: var(--font-body); }
 
         .qr-box {
             text-align: center;
             padding: 12px;
             background: #040404;
             border-radius: 10px;
-            border: 1px solid rgba(212,175,55,0.18);
+            border: 1px solid rgba(212,175,55,0.2);
             margin-top: 8px;
         }
         .qr-image { width: 140px; height: 140px; background: #fff; padding: 5px; border-radius: 6px; margin: 0 auto 8px auto; object-fit: contain; }
@@ -517,6 +528,7 @@
             font-weight: 700;
             color: var(--gold-solid);
             transition: 0.3s;
+            font-family: var(--font-body);
         }
         .pay-option.selected { background: var(--gold-gradient); color: #000; border-color: #fff; }
 
@@ -527,9 +539,10 @@
             background: #040404;
             padding: 14px;
             border-radius: 10px;
-            border: 1px solid rgba(212,175,55,0.18);
+            border: 1px solid rgba(212,175,55,0.2);
             max-height: 65vh;
             overflow-y: auto;
+            font-family: var(--font-body);
         }
     </style>
 </head>
@@ -552,7 +565,7 @@
             </button>
         </div>
 
-        <!-- ২. ইনফরমেশন ফর্ম পপআপ -->
+        <!-- ২. ইনফরমেশন ফর্ম পপআপ (নাম, জিমেইল, হোয়াটসঅ্যাপ কোডসহ) -->
         <div class="modal-overlay" id="infoModal">
             <div class="modal-card">
                 <button class="modal-close-btn" onclick="closeModal('infoModal')"><i class="fa-solid fa-xmark"></i></button>
@@ -589,13 +602,13 @@
             <!-- মেইন ড্যাশবোর্ড হোম কার্ড -->
             <div class="dash-card">
                 
-                <!-- হেডার: লোগো, ব্র্যান্ড, নাম, এফিলিয়েট আইডি এবং ১০% কমিশন নিচে -->
+                <!-- হেডার: লোগো, ব্র্যান্ড, নাম, জিমেইল ইউজারনেম বেজড এফিলিয়েট আইডি এবং ১০% কমিশন নিচে -->
                 <div class="home-top-section">
                     <div class="home-left-info">
                         <img src="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400" alt="Logo" class="home-logo">
                         <div class="home-brand-name">RORRAXY</div>
                         <div class="home-username" id="homeDispName">User Name</div>
-                        <div class="home-affiliate-id" id="homeAffId">Affiliate ID: #ROR-605473</div>
+                        <div class="home-affiliate-id" id="homeAffId">Affiliate ID: user</div>
                         <div class="home-commission-sub">10% Commission</div>
                     </div>
 
@@ -636,7 +649,7 @@
                     </div>
                 </div>
 
-                <!-- প্রোডাক্ট আইডি রেকর্ড শিট বাটন -->
+                <!-- প্রোডাক্ট আইডি রেকর্ড শিট বাটন (মিডল বরাবর) -->
                 <div class="sheet-btn-wrapper">
                     <button class="sheet-trigger-btn" onclick="openSheetModal()">
                         <span><i class="fa-solid fa-table-list" style="margin-right: 6px; color: var(--gold-solid);"></i> Product ID Records</span>
@@ -849,10 +862,12 @@
             const phoneNum = document.getElementById('regWhatsApp').value.trim();
             const phone = dialCode + " " + phoneNum;
 
-            const randomId = 'Affiliate ID: #ROR-605473';
+            // জিমেইল থেকে ইউজারনেম এক্সট্রাক্ট করে এফিলিয়েট আইডি তৈরি (যেমন: user@gmail.com থেকে 'user')
+            let gmailUsername = email.includes('@') ? email.split('@')[0] : email;
+            const affiliateIdStr = 'Affiliate ID: ' + gmailUsername;
 
             document.getElementById('homeDispName').innerText = name;
-            document.getElementById('homeAffId').innerText = randomId;
+            document.getElementById('homeAffId').innerText = affiliateIdStr;
 
             localStorage.setItem('rorraxy_name', name);
             localStorage.setItem('rorraxy_email', email);
@@ -946,13 +961,13 @@
 
                 htmlContent += `
                     <h3 class="modal-title">Verification</h3>
-                    <p style="font-size: 0.72rem; color: var(--text-gray); text-align: center; margin-bottom: 10px;">
+                    <p style="font-size: 0.72rem; color: var(--text-gray); text-align: center; margin-bottom: 10px; font-family: var(--font-body);">
                         Scan with Google Authenticator. Issuer name: <strong>RORRAXY</strong>.
                     </p>
                     
                     <div class="qr-box" id="verificationScanBox" style="display:${isVerified ? 'none' : 'block'};">
                         <img id="qrCodeImage" class="qr-image" src="${qrUrl}" alt="QR">
-                        <div style="font-size: 0.68rem; color: #fff; margin-bottom: 8px;">Secret Key: <span style="color:var(--gold-solid);">JBSWY3DPEHPK3PXP</span></div>
+                        <div style="font-size: 0.68rem; color: #fff; margin-bottom: 8px; font-family: var(--font-body);">Secret Key: <span style="color:var(--gold-solid);">JBSWY3DPEHPK3PXP</span></div>
                         <div class="form-group" style="text-align: left; margin-bottom: 6px;">
                             <label>Enter 6-Digit Code</label>
                             <input type="text" id="authCodeInput" placeholder="123456" maxlength="6" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
@@ -963,14 +978,14 @@
                     <div class="verified-success-box" id="verificationSuccessBox" style="display:${isVerified ? 'flex' : 'none'};">
                         <i class="fa-solid fa-circle-check" style="color: #2ecc71;"></i>
                         <h3 style="color: #2ecc71; font-family: var(--font-luxury); font-size: 1.05rem; margin-bottom: 4px;">Verification Confirmed</h3>
-                        <p style="font-size: 0.72rem; color: var(--text-gray); margin-bottom: 8px;">Your account is securely verified.</p>
+                        <p style="font-size: 0.72rem; color: var(--text-gray); margin-bottom: 8px; font-family: var(--font-body);">Your account is securely verified.</p>
                         <button class="btn-reset-outline" onclick="resetVerification()">Reset / Re-configure Authenticator</button>
                     </div>`;
             } 
             else if(tabType === 'tabPaymentPopup') {
                 htmlContent += `
                     <h3 class="modal-title">Payment Setup</h3>
-                    <p style="font-size: 0.72rem; color: var(--text-gray); text-align: center; margin-bottom: 10px;">Select your preferred payout gateway.</p>
+                    <p style="font-size: 0.72rem; color: var(--text-gray); text-align: center; margin-bottom: 10px; font-family: var(--font-body);">Select your preferred payout gateway.</p>
                     <div class="payment-options-grid">
                         <div class="pay-option" id="optBkash" onclick="selectPayment('bkash')">Bikash</div>
                         <div class="pay-option" id="optNagad" onclick="selectPayment('nagad')">Nagad</div>
@@ -1018,7 +1033,6 @@
             }
             localStorage.setItem('rorraxy_address', addr);
             localStorage.setItem('rorraxy_address_done', 'true');
-            document.getElementById('displayAddressVal').innerText = addr;
             showToast("Address saved successfully!");
             closeModal('popupModalOverlay');
         }
@@ -1031,15 +1045,14 @@
             }
             localStorage.setItem('rorraxy_verified', 'true');
             showToast("Verification Successful!");
-            openPopupModal('tabVerificationPopup'); // রিফ্রেশ হয়ে সাকসেস বক্স ও রিসেট বাটন নিয়ে আসবে
+            closeModal('popupModalOverlay'); // সফল হওয়ার পর পপআপ বন্ধ হয়ে যাবে
         }
 
-        // ইউজার অ্যাপ থেকে ডিলিট করলে রিসেট করার ফাংশন
         function resetVerification() {
             if(confirm("Are you sure you want to re-configure Google Authenticator?")) {
                 localStorage.removeItem('rorraxy_verified');
                 showToast("Verification reset. Scan new QR code.");
-                openPopupModal('tabVerificationPopup'); // স্ক্যানার বক্স ফিরিয়ে আনবে
+                openPopupModal('tabVerificationPopup');
             }
         }
 
@@ -1078,6 +1091,7 @@
             }
             localStorage.setItem('rorraxy_payment_done', 'true');
             showToast(`Payment method (${selectedGateway.toUpperCase()}) saved successfully!`);
+            closeModal('popupModalOverlay'); // পেমেন্ট সেভ হওয়ার পর পপআপ বন্ধ হয়ে যাবে
         }
 
         function requestWithdrawal() {
@@ -1152,8 +1166,8 @@
                     responsive: true,
                     plugins: { legend: { display: false } },
                     scales: {
-                        x: { ticks: { color: '#a5a5a5', font: { size: 9 } }, grid: { color: 'rgba(255,255,255,0.03)' } },
-                        y: { ticks: { color: '#a5a5a5', font: { size: 9 } }, grid: { color: 'rgba(255,255,255,0.03)' } }
+                        x: { ticks: { color: '#a5a5a5', font: { size: 9, family: 'Poppins' } }, grid: { color: 'rgba(255,255,255,0.03)' } },
+                        y: { ticks: { color: '#a5a5a5', font: { size: 9, family: 'Poppins' } }, grid: { color: 'rgba(255,255,255,0.03)' } }
                     }
                 }
             });
