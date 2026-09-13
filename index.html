@@ -15,9 +15,8 @@
         :root {
             --bg-black: #020202;
             --surface-bg: #070707;
-            /* আপনার লোগোর অরিজিনাল গোল্ডেন গ্রেডিয়েন্ট থিম */
+            /* লোগোর প্রিমিয়াম গোল্ডেন গ্রেডিয়েন্ট থিম */
             --gold-gradient: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
-            --gold-solid: #d4af37;
             --text-white: #f3f3f3;
             --text-gray: #a5a5a5;
             --font-luxury: 'Cinzel', serif;
@@ -43,7 +42,7 @@
 
         h1, h2, h3, h4 { font-family: var(--font-luxury); }
 
-        .custom-toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(12, 12, 12, 0.98); border: 1.5px solid var(--gold-solid); color: var(--gold-solid); padding: 8px 18px; border-radius: 30px; font-size: 0.7rem; font-weight: 700; z-index: 999999; display: none; box-shadow: 0 0 20px rgba(212,175,55,0.3); font-family: var(--font-body); }
+        .custom-toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(12, 12, 12, 0.98); border: 1.5px solid; border-image: var(--gold-gradient) 1; color: #fcf6ba; padding: 8px 18px; border-radius: 30px; font-size: 0.7rem; font-weight: 700; z-index: 999999; display: none; box-shadow: 0 0 20px rgba(212,175,55,0.3); font-family: var(--font-body); }
 
         .page-container {
             width: 100%;
@@ -138,7 +137,9 @@
             position: absolute;
             top: 15px; right: 15px;
             background: none; border: none;
-            color: var(--gold-solid);
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             font-size: 1.1rem;
             cursor: pointer;
         }
@@ -160,9 +161,6 @@
         .phone-row select { width: 130px; flex-shrink: 0; background: #000; color: #fff; border: 1.5px solid rgba(212,175,55,0.3); border-radius: 8px; font-size: 0.72rem; }
 
         .btn-gold-glow { background: var(--gold-gradient); border: none; padding: 12px; border-radius: 25px; color: #000; font-weight: 900; font-size: 0.75rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); width: 100%; text-align: center; margin-top: 10px; }
-        
-        .btn-reset-outline { background: transparent; border: 1.5px solid #e74c3c; color: #e74c3c; padding: 10px; border-radius: 25px; font-weight: 700; font-size: 0.7rem; cursor: pointer; text-transform: uppercase; width: 100%; text-align: center; margin-top: 12px; transition: 0.3s; font-family: var(--font-body); }
-        .btn-reset-outline:hover { background: rgba(231,76,60,0.1); }
 
         /* ড্যাশবোর্ড লেআউট */
         .dashboard-wrapper {
@@ -223,8 +221,10 @@
         }
         .home-affiliate-id {
             font-size: 0.65rem;
-            color: var(--gold-solid);
-            font-weight: 600;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
             letter-spacing: 0.5px;
             margin-top: 1px;
             font-family: var(--font-body);
@@ -241,7 +241,9 @@
         .menu-toggle-btn {
             background: none;
             border: none;
-            color: var(--gold-solid);
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             width: 32px;
             height: 32px;
             display: flex;
@@ -251,7 +253,7 @@
             font-size: 1.2rem;
             transition: 0.3s;
         }
-        .menu-toggle-btn:hover { color: #fff; }
+        .menu-toggle-btn:hover { opacity: 0.8; }
 
         .dropdown-menu {
             position: absolute;
@@ -283,8 +285,8 @@
             font-family: var(--font-body);
         }
         .menu-item:last-child { border-bottom: none; }
-        .menu-item i { color: var(--gold-solid); width: 16px; text-align: center; }
-        .menu-item:hover { background: rgba(212,175,55,0.1); color: var(--gold-solid); }
+        .menu-item i { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; width: 16px; text-align: center; }
+        .menu-item:hover { background: rgba(212,175,55,0.1); color: #fcf6ba; }
 
         /* স্ট্যাটস গ্রিড */
         .stats-grid {
@@ -300,7 +302,7 @@
             border-radius: 12px;
             text-align: center;
         }
-        .stat-lbl { font-size: 0.58rem; color: var(--gold-solid); text-transform: uppercase; font-weight: 700; margin-bottom: 3px; font-family: var(--font-body); }
+        .stat-lbl { font-size: 0.58rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-weight: 800; margin-bottom: 3px; font-family: var(--font-body); }
         .stat-val { font-size: 1.15rem; font-weight: 900; color: #fff; font-family: var(--font-luxury); }
 
         /* প্রোডাক্ট আইডি রেকর্ড বাটন */
@@ -308,11 +310,13 @@
         .sheet-trigger-btn {
             background: #040404;
             border: 1px solid rgba(212,175,55,0.3);
-            color: var(--gold-solid);
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             width: 100%;
             padding: 11px;
             border-radius: 12px;
-            font-weight: 700;
+            font-weight: 800;
             font-size: 0.72rem;
             cursor: pointer;
             text-transform: uppercase;
@@ -340,8 +344,10 @@
         }
         .chart-title {
             font-size: 0.68rem;
-            color: var(--gold-solid);
-            font-weight: 700;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
             text-transform: uppercase;
             font-family: var(--font-body);
         }
@@ -391,7 +397,7 @@
             transition: 0.3s;
             text-decoration: none;
         }
-        .support-btn:hover { border-color: var(--gold-solid); color: var(--gold-solid); }
+        .support-btn:hover { border-color: #fcf6ba; color: #fcf6ba; }
 
         .withdraw-quick-btn {
             background: var(--gold-gradient);
@@ -450,7 +456,9 @@
             font-family: var(--font-body);
         }
         .sheet-table th {
-            color: var(--gold-solid);
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             font-size: 0.6rem;
             text-transform: uppercase;
             border-bottom: 1px solid rgba(212,175,55,0.25);
@@ -485,7 +493,7 @@
             justify-content: space-between;
             align-items: center;
         }
-        .info-lbl { font-size: 0.62rem; color: var(--gold-solid); text-transform: uppercase; font-weight: 700; font-family: var(--font-body); }
+        .info-lbl { font-size: 0.62rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-weight: 800; font-family: var(--font-body); }
         .info-val { font-size: 0.78rem; color: #fff; font-weight: 600; font-family: var(--font-body); }
 
         .qr-box {
@@ -503,13 +511,13 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 22px;
             background: rgba(46, 204, 113, 0.08);
             border: 2px solid #2ecc71;
             border-radius: 10px;
             text-align: center;
         }
-        .verified-success-box i { font-size: 2.5rem; color: #2ecc71; margin-bottom: 6px; }
+        .verified-success-box i { font-size: 2.8rem; color: #2ecc71; margin-bottom: 8px; }
 
         .payment-options-grid {
             display: grid;
@@ -526,11 +534,13 @@
             cursor: pointer;
             font-size: 0.72rem;
             font-weight: 700;
-            color: var(--gold-solid);
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             transition: 0.3s;
             font-family: var(--font-body);
         }
-        .pay-option.selected { background: var(--gold-gradient); color: #000; border-color: #fff; }
+        .pay-option.selected { background: var(--gold-gradient); color: #000; -webkit-text-fill-color: #000; border-color: #fff; }
 
         .policy-content {
             font-size: 0.74rem;
@@ -565,7 +575,7 @@
             </button>
         </div>
 
-        <!-- ২. ইনফরমেশন ফর্ম পপআপ (নাম, জিমেইল, হোয়াটসঅ্যাপ কোডসহ) -->
+        <!-- ২. ইনফরমেশন ফর্ম পপআপ -->
         <div class="modal-overlay" id="infoModal">
             <div class="modal-card">
                 <button class="modal-close-btn" onclick="closeModal('infoModal')"><i class="fa-solid fa-xmark"></i></button>
@@ -602,7 +612,7 @@
             <!-- মেইন ড্যাশবোর্ড হোম কার্ড -->
             <div class="dash-card">
                 
-                <!-- হেডার: লোগো, ব্র্যান্ড, নাম, জিমেইল ইউজারনেম বেজড এফিলিয়েট আইডি এবং ১০% কমিশন নিচে -->
+                <!-- হেডার: লোগো, ব্র্যান্ড, নাম, জিমেইল ইউজারনেম বেজড এফিলিয়েট আইডি এবং ১০% কমিশন -->
                 <div class="home-top-section">
                     <div class="home-left-info">
                         <img src="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400" alt="Logo" class="home-logo">
@@ -649,10 +659,10 @@
                     </div>
                 </div>
 
-                <!-- প্রোডাক্ট আইডি রেকর্ড শিট বাটন (মিডল বরাবর) -->
+                <!-- প্রোডাক্ট আইডি রেকর্ড শিট বাটন -->
                 <div class="sheet-btn-wrapper">
                     <button class="sheet-trigger-btn" onclick="openSheetModal()">
-                        <span><i class="fa-solid fa-table-list" style="margin-right: 6px; color: var(--gold-solid);"></i> Product ID Records</span>
+                        <span><i class="fa-solid fa-table-list" style="margin-right: 6px;"></i> Product ID Records</span>
                         <i class="fa-solid fa-chevron-right" style="font-size: 0.65rem;"></i>
                     </button>
                 </div>
@@ -862,7 +872,6 @@
             const phoneNum = document.getElementById('regWhatsApp').value.trim();
             const phone = dialCode + " " + phoneNum;
 
-            // জিমেইল থেকে ইউজারনেম এক্সট্রাক্ট করে এফিলিয়েট আইডি তৈরি (যেমন: user@gmail.com থেকে 'user')
             let gmailUsername = email.includes('@') ? email.split('@')[0] : email;
             const affiliateIdStr = 'Affiliate ID: ' + gmailUsername;
 
@@ -933,19 +942,19 @@
                     <h3 class="modal-title">Profile Information</h3>
                     <div class="info-display-box">
                         <div><div class="info-lbl">Full Name</div><div class="info-val">${document.getElementById('homeDispName').innerText}</div></div>
-                        <i class="fa-solid fa-user" style="color:var(--gold-solid);"></i>
+                        <i class="fa-solid fa-user" style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;"></i>
                     </div>
                     <div class="info-display-box">
                         <div><div class="info-lbl">Gmail Account</div><div class="info-val">${localStorage.getItem('rorraxy_email') || 'user@gmail.com'}</div></div>
-                        <i class="fa-solid fa-envelope" style="color:var(--gold-solid);"></i>
+                        <i class="fa-solid fa-envelope" style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;"></i>
                     </div>
                     <div class="info-display-box">
                         <div><div class="info-lbl">WhatsApp Number</div><div class="info-val">${localStorage.getItem('rorraxy_phone') || '+880 17XXXXXXXX'}</div></div>
-                        <i class="fa-brands fa-whatsapp" style="color:var(--gold-solid);"></i>
+                        <i class="fa-brands fa-whatsapp" style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;"></i>
                     </div>
                     <div class="info-display-box">
                         <div><div class="info-lbl">Address</div><div class="info-val" id="displayAddressVal">${savedAddress || 'Not Provided'}</div></div>
-                        <i class="fa-solid fa-location-dot" style="color:var(--gold-solid);"></i>
+                        <i class="fa-solid fa-location-dot" style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;"></i>
                     </div>
                     
                     <div class="form-group" style="margin-top: 15px;">
@@ -967,7 +976,7 @@
                     
                     <div class="qr-box" id="verificationScanBox" style="display:${isVerified ? 'none' : 'block'};">
                         <img id="qrCodeImage" class="qr-image" src="${qrUrl}" alt="QR">
-                        <div style="font-size: 0.68rem; color: #fff; margin-bottom: 8px; font-family: var(--font-body);">Secret Key: <span style="color:var(--gold-solid);">JBSWY3DPEHPK3PXP</span></div>
+                        <div style="font-size: 0.68rem; color: #fff; margin-bottom: 8px; font-family: var(--font-body);">Secret Key: <span style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:700;">JBSWY3DPEHPK3PXP</span></div>
                         <div class="form-group" style="text-align: left; margin-bottom: 6px;">
                             <label>Enter 6-Digit Code</label>
                             <input type="text" id="authCodeInput" placeholder="123456" maxlength="6" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
@@ -978,8 +987,7 @@
                     <div class="verified-success-box" id="verificationSuccessBox" style="display:${isVerified ? 'flex' : 'none'};">
                         <i class="fa-solid fa-circle-check" style="color: #2ecc71;"></i>
                         <h3 style="color: #2ecc71; font-family: var(--font-luxury); font-size: 1.05rem; margin-bottom: 4px;">Verification Confirmed</h3>
-                        <p style="font-size: 0.72rem; color: var(--text-gray); margin-bottom: 8px; font-family: var(--font-body);">Your account is securely verified.</p>
-                        <button class="btn-reset-outline" onclick="resetVerification()">Reset / Re-configure Authenticator</button>
+                        <p style="font-size: 0.72rem; color: var(--text-gray); font-family: var(--font-body);">Your account is securely verified.</p>
                     </div>`;
             } 
             else if(tabType === 'tabPaymentPopup') {
@@ -1002,7 +1010,7 @@
                     <h3 class="modal-title">Withdraw Funds</h3>
                     <div class="info-display-box" style="margin-bottom: 12px;">
                         <div><div class="info-lbl">Available Balance</div><div class="info-val">$0.00 USD</div></div>
-                        <i class="fa-solid fa-wallet" style="color:var(--gold-solid);"></i>
+                        <i class="fa-solid fa-wallet" style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;"></i>
                     </div>
                     <div class="form-group">
                         <label>Withdraw Amount ($ USD)</label>
@@ -1045,15 +1053,7 @@
             }
             localStorage.setItem('rorraxy_verified', 'true');
             showToast("Verification Successful!");
-            closeModal('popupModalOverlay'); // সফল হওয়ার পর পপআপ বন্ধ হয়ে যাবে
-        }
-
-        function resetVerification() {
-            if(confirm("Are you sure you want to re-configure Google Authenticator?")) {
-                localStorage.removeItem('rorraxy_verified');
-                showToast("Verification reset. Scan new QR code.");
-                openPopupModal('tabVerificationPopup');
-            }
+            closeModal('popupModalOverlay');
         }
 
         let selectedGateway = "";
@@ -1091,7 +1091,7 @@
             }
             localStorage.setItem('rorraxy_payment_done', 'true');
             showToast(`Payment method (${selectedGateway.toUpperCase()}) saved successfully!`);
-            closeModal('popupModalOverlay'); // পেমেন্ট সেভ হওয়ার পর পপআপ বন্ধ হয়ে যাবে
+            closeModal('popupModalOverlay');
         }
 
         function requestWithdrawal() {
@@ -1155,8 +1155,8 @@
                     datasets: [{
                         label: 'Total Clicks',
                         data: dataPoints,
-                        borderColor: '#d4af37',
-                        backgroundColor: 'rgba(212, 175, 55, 0.08)',
+                        borderColor: '#bf953f',
+                        backgroundColor: 'rgba(191, 149, 63, 0.08)',
                         borderWidth: 2,
                         fill: true,
                         tension: 0.3
