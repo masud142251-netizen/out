@@ -160,81 +160,6 @@
             gap: 12px;
         }
 
-        /* হেডার: বামপাশে থ্রি-লাইন মেনু এবং ডানে ছোট লোগো */
-        header.dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 15px;
-            background: var(--surface-bg);
-            border-radius: 12px;
-            border: 1px solid rgba(212,175,55,0.2);
-            width: 100%;
-            position: relative;
-        }
-
-        .menu-container { position: relative; }
-        .menu-toggle-btn {
-            background: none;
-            border: none;
-            color: var(--gold-solid);
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 1.1rem;
-            transition: 0.3s;
-        }
-        .menu-toggle-btn:hover { color: #fff; }
-
-        .header-brand-right { display: flex; align-items: center; gap: 8px; }
-        .small-logo { width: 26px; height: 26px; object-fit: contain; }
-        .header-title {
-            font-size: 0.8rem;
-            font-weight: 900;
-            background: var(--gold-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-family: var(--font-luxury);
-        }
-
-        /* বামপাশে ভাসমান মেনু ড্রপডাউন */
-        .dropdown-menu {
-            position: absolute;
-            top: 42px;
-            left: 0;
-            background: var(--surface-bg);
-            border: 1px solid rgba(212,175,55,0.3);
-            border-radius: 12px;
-            width: 200px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.95);
-            display: none;
-            flex-direction: column;
-            z-index: 1100;
-            overflow: hidden;
-        }
-        .dropdown-menu.show { display: flex; }
-        
-        .menu-item {
-            padding: 10px 14px;
-            font-size: 0.72rem;
-            color: var(--text-white);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 1px solid rgba(212,175,55,0.08);
-            transition: 0.2s;
-            cursor: pointer;
-        }
-        .menu-item:last-child { border-bottom: none; }
-        .menu-item i { color: var(--gold-solid); width: 16px; text-align: center; }
-        .menu-item:hover { background: rgba(212,175,55,0.1); color: var(--gold-solid); }
-
         /* ট্যাব কার্ডগুলো */
         .dash-card {
             background: var(--surface-bg);
@@ -259,37 +184,95 @@
             text-align: center;
         }
 
-        /* হোম ড্যাশবোর্ড সেকশন (বর্ডারহীন ক্লিন ডিজাইন) */
-        .home-hero-box {
-            text-align: center;
-            padding: 12px 10px 18px 10px;
-            margin-bottom: 12px;
+        /* হোম ড্যাশবোর্ড হেডার: বামপাশে লোগো, ব্র্যান্ড নাম, ইউজার নাম এবং ঠিক নিচেই থ্রি-লাইন মেনু */
+        .home-top-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            position: relative;
         }
+
+        .home-left-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
         .home-logo { 
-            width: 65px; 
-            height: 65px; 
+            width: 55px; 
+            height: 55px; 
             object-fit: contain; 
-            margin-bottom: 6px; 
-            filter: drop-shadow(0 0 10px rgba(212,175,55,0.4));
+            margin-bottom: 4px; 
+            filter: drop-shadow(0 0 8px rgba(212,175,55,0.4));
         }
         .home-brand-name {
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             font-weight: 900;
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
             font-family: var(--font-luxury);
-            margin-bottom: 4px;
         }
         .home-username {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 700;
             color: #fff;
         }
 
-        /* টোটাল ইনকাম ও পেআউট গ্রিড */
+        /* লোগোর ঠিক নিচে থ্রি-লাইন মেনু বাটন */
+        .menu-container { position: relative; margin-top: 4px; }
+        .menu-toggle-btn {
+            background: none;
+            border: none;
+            color: var(--gold-solid);
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: 0.3s;
+        }
+        .menu-toggle-btn:hover { color: #fff; }
+
+        /* ভাসমান মেনু ড্রপডাউন */
+        .dropdown-menu {
+            position: absolute;
+            top: 38px;
+            left: 0;
+            background: var(--surface-bg);
+            border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 12px;
+            width: 190px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.95);
+            display: none;
+            flex-direction: column;
+            z-index: 1100;
+            overflow: hidden;
+        }
+        .dropdown-menu.show { display: flex; }
+        
+        .menu-item {
+            padding: 10px 14px;
+            font-size: 0.72rem;
+            color: var(--text-white);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(212,175,55,0.08);
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .menu-item:last-child { border-bottom: none; }
+        .menu-item i { color: var(--gold-solid); width: 16px; text-align: center; }
+        .menu-item:hover { background: rgba(212,175,55,0.1); color: var(--gold-solid); }
+
+        /* টোটাল ইনকাম ও পেআউট গ্রিড ($0.00 করা হয়েছে) */
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -306,7 +289,7 @@
         .stat-lbl { font-size: 0.58rem; color: var(--gold-solid); text-transform: uppercase; font-weight: 700; margin-bottom: 3px; }
         .stat-val { font-size: 1.15rem; font-weight: 900; color: #fff; font-family: var(--font-luxury); }
 
-        /* প্রোডাক্ট আইডি শিট টেবিল */
+        /* প্রোডাক্ট আইডি শিট টেবিল (হেডার রিমুভ করা হয়েছে) */
         .sheet-table-wrapper {
             background: #050505;
             border: 1px solid rgba(212,175,55,0.2);
@@ -352,14 +335,14 @@
             margin-bottom: 12px;
         }
 
-        /* এফিলিয়েট সাপোর্ট বাটন (বর্ডার বা শেপ ছাড়া একদম ক্লিন) */
+        /* এফিলিয়েট সাপোর্ট বাটন (সাদা রঙ করা হয়েছে) */
         .support-btn {
             background: transparent;
             border: none;
-            color: var(--gold-solid);
+            color: #ffffff;
             width: 100%;
             padding: 10px;
-            font-weight: 800;
+            font-weight: 700;
             font-size: 0.75rem;
             cursor: pointer;
             text-transform: uppercase;
@@ -372,7 +355,7 @@
             text-decoration: none;
             letter-spacing: 1px;
         }
-        .support-btn:hover { color: #fff; text-shadow: 0 0 10px var(--gold-solid); }
+        .support-btn:hover { color: var(--gold-solid); text-shadow: 0 0 10px var(--gold-solid); }
 
         /* ইনফো ডিসপ্লে বক্স */
         .info-display-box {
@@ -501,65 +484,59 @@
         <!-- ৩. ড্যাশবোর্ড সেকশন -->
         <div class="dashboard-wrapper" id="dashboardSection">
             
-            <header class="dashboard-header">
-                <!-- বামপাশে ভাসমান থ্রি-লাইন মেনু ড্রপডাউন -->
-                <div class="menu-container">
-                    <button class="menu-toggle-btn" onclick="toggleMenu(event)">
-                        <i class="fa-solid fa-bars"></i>
-                    </button>
+            <!-- ট্যাব ১: মেইন ড্যাশবোর্ড হোম -->
+            <div class="dash-card active-tab" id="tabHome">
+                
+                <!-- বামপাশে লোগো, ব্র্যান্ড নাম, ইউজারের নাম এবং লোগোর ঠিক নিচে থ্রি-লাইন মেনু -->
+                <div class="home-top-section">
+                    <div class="home-left-info">
+                        <img src="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400" alt="Logo" class="home-logo">
+                        <div class="home-brand-name">RORRAXY</div>
+                        <div class="home-username" id="homeDispName">User Name</div>
+                    </div>
 
-                    <div class="dropdown-menu" id="dropdownMenu">
-                        <div class="menu-item" onclick="switchTab('tabHome')">
-                            <i class="fa-solid fa-house"></i> Home
-                        </div>
-                        <div class="menu-item" onclick="switchTab('tabInfo')">
-                            <i class="fa-solid fa-circle-info"></i> Information
-                        </div>
-                        <div class="menu-item" onclick="switchTab('tabVerification')">
-                            <i class="fa-solid fa-shield-halved"></i> Verification
-                        </div>
-                        <div class="menu-item" onclick="switchTab('tabPayment')">
-                            <i class="fa-solid fa-wallet"></i> Payment Setup
-                        </div>
-                        <div class="menu-item" onclick="switchTab('tabWithdraw')">
-                            <i class="fa-solid fa-money-bill-transfer"></i> Withdraw
-                        </div>
-                        <div class="menu-item" onclick="switchTab('tabPolicy')">
-                            <i class="fa-solid fa-file-contract"></i> Policy
+                    <div class="menu-container">
+                        <button class="menu-toggle-btn" onclick="toggleMenu(event)">
+                            <i class="fa-solid fa-bars"></i>
+                        </button>
+
+                        <div class="dropdown-menu" id="dropdownMenu">
+                            <div class="menu-item" onclick="switchTab('tabHome')">
+                                <i class="fa-solid fa-house"></i> Home
+                            </div>
+                            <div class="menu-item" onclick="switchTab('tabInfo')">
+                                <i class="fa-solid fa-circle-info"></i> Information
+                            </div>
+                            <div class="menu-item" onclick="switchTab('tabVerification')">
+                                <i class="fa-solid fa-shield-halved"></i> Verification
+                            </div>
+                            <div class="menu-item" onclick="switchTab('tabPayment')">
+                                <i class="fa-solid fa-wallet"></i> Payment Setup
+                            </div>
+                            <div class="menu-item" onclick="switchTab('tabWithdraw')">
+                                <i class="fa-solid fa-money-bill-transfer"></i> Withdraw
+                            </div>
+                            <div class="menu-item" onclick="switchTab('tabPolicy')">
+                                <i class="fa-solid fa-file-contract"></i> Policy
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- ডানে ছোট লোগো এবং ব্র্যান্ড নাম -->
-                <div class="header-brand-right">
-                    <span class="header-title">RORRAXY</span>
-                    <img src="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400" alt="Logo" class="small-logo">
-                </div>
-            </header>
-
-            <!-- ট্যাব ১: মেইন ড্যাশবোর্ড হোম -->
-            <div class="dash-card active-tab" id="tabHome">
-                <div class="home-hero-box">
-                    <img src="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400" alt="Logo" class="home-logo">
-                    <div class="home-brand-name">RORRAXY</div>
-                    <div class="home-username" id="homeDispName">User Name</div>
-                </div>
-
-                <!-- টোটাল ইনকাম ও টোটাল পেআউট বক্স -->
+                <!-- টোটাল ইনকাম ও টোটাল পেআউট বক্স ($0.00) -->
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-lbl">Total Earn</div>
-                        <div class="stat-val" id="totalEarnVal">$350.00</div>
+                        <div class="stat-val" id="totalEarnVal">$0.00</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-lbl">Total Payout</div>
-                        <div class="stat-val" id="totalPayoutVal">$200.00</div>
+                        <div class="stat-val" id="totalPayoutVal">$0.00</div>
                     </div>
                 </div>
 
-                <!-- প্রোডাক্ট আইডি শিট টেবিল -->
+                <!-- প্রোডাক্ট আইডি শিট টেবিল (হেডার ছাড়া শুধু Product ID, Amount, Status) -->
                 <div class="sheet-table-wrapper">
-                    <div style="font-size: 0.68rem; color: var(--gold-solid); font-weight: 700; margin-bottom: 6px; text-transform: uppercase;">Product ID Records</div>
                     <table class="sheet-table">
                         <thead>
                             <tr>
@@ -594,7 +571,7 @@
                     <canvas id="performanceChart" height="100"></canvas>
                 </div>
 
-                <!-- এফিলিয়েট সাপোর্ট (ফায়ারবেস লাইভ চ্যাট ট্রিগার বাটন) -->
+                <!-- এফিলিয়েট সাপোর্ট (সাদা রঙ করা হয়েছে) -->
                 <button class="support-btn" onclick="openFirebaseChat()">
                     <i class="fa-solid fa-headset" style="font-size: 0.9rem;"></i> Affiliate Support
                 </button>
@@ -956,10 +933,8 @@
             document.getElementById('withdrawAmount').value = "";
         }
 
-        // ফায়ারবেস লাইভ চ্যাট সাপোর্ট ওপেন করার ফাংশন
         function openFirebaseChat() {
             showToast("Connecting to Firebase Live Support...");
-            // এখানে আপনার ফায়ারবেস চ্যাট উইন্ডো বা রিয়েল-টাইম চ্যাট লিংক যুক্ত করতে পারেন
         }
 
         function renderChart() {
@@ -970,7 +945,7 @@
                     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
                     datasets: [{
                         label: 'Earnings ($)',
-                        data: [20, 45, 30, 80, 50, 95, 120],
+                        data: [0, 0, 0, 0, 0, 0, 0],
                         borderColor: '#d4af37',
                         backgroundColor: 'rgba(212, 175, 55, 0.08)',
                         borderWidth: 2,
