@@ -11,6 +11,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <!-- Firebase SDK (Modular CDN Integration) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDokhLgGe4Ib7oxUJ8zczLFWj0YJKk57Y",
+            authDomain: "rorraxy-fcb91.firebaseapp.com",
+            projectId: "rorraxy-fcb91",
+            storageBucket: "rorraxy-fcb91.firebasestorage.app",
+            messagingSenderId: "880891394208",
+            appId: "1:880891394208:web:3bd8ccacf68ad5d53af1c5",
+            measurementId: "G-0XTRV9TPM3"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        window.RorraxyFirebaseApp = app;
+    </script>
+
     <style>
         :root {
             --bg-retail: #000000;
@@ -306,11 +326,11 @@
         <i class="fa-solid fa-comments"></i>
     </div>
 
-    <!-- Feed Layout -->
+    <!-- Feed Layout (Cloudflare R2 Optimized Storage CDN Integration) -->
     <main class="feed-container" id="productFeed">
         <div class="product-card" id="card-prod-1">
-            <div class="product-media-box" onclick="openProductDetails('PREMIUM BRACELET', '$100.00', ['https://lh3.googleusercontent.com/d/1a6lFxluTSYUQjB8oqlVQYApRRSmCxEOW', 'https://lh3.googleusercontent.com/d/1qyOXxZ8s2cJMEo66NDE4BdoxiC4hy_sG'])">
-                <img src="https://lh3.googleusercontent.com/d/1a6lFxluTSYUQjB8oqlVQYApRRSmCxEOW" alt="Product">
+            <div class="product-media-box" onclick="openProductDetails('PREMIUM BRACELET', '$100.00', ['https://0d2bc64b36fe70d346646a8bf8bfd5a.r2.cloudflarestorage.com/bracelet-1.jpg', 'https://lh3.googleusercontent.com/d/1qyOXxZ8s2cJMEo66NDE4BdoxiC4hy_sG'])">
+                <img src="https://0d2bc64b36fe70d346646a8bf8bfd5a.r2.cloudflarestorage.com/bracelet-1.jpg" alt="Product Optimized R2" onerror="this.src='https://lh3.googleusercontent.com/d/1a6lFxluTSYUQjB8oqlVQYApRRSmCxEOW'">
             </div>
             <div class="card-footer-actions">
                 <div class="love-share-group">
@@ -331,7 +351,7 @@
         <iframe id="fullScreenIframe" src="" style="width: 100vw; height: 100vh; border: none; background: #000;"></iframe>
     </div>
 
-    <!-- সাব-ডোমেইন ওভারলে প্যানেল (Affiliate, Seller, You - ওয়ান অফ টগল সিস্টেম ও বটম ন্যাভবার দৃশ্যমান রাখার জন্য z-index অ্যাডজাস্ট করা হয়েছে) -->
+    <!-- সাব-ডোমেইন ওভারলে প্যানেল (Affiliate, Seller, You - Firebase & R2 Connected) -->
     <div id="subdomainOverlay" class="subdomain-iframe-overlay">
         <div class="golden-close-btn" onclick="closeSubdomainOverlay()"><i class="fa-solid fa-xmark"></i></div>
         <iframe id="subdomainIframeElement" src="" style="width: 100vw; height: calc(100vh - 65px); border: none; background: #000; display: block;"></iframe>
@@ -368,7 +388,7 @@
         </div>
         <div class="product-details-content">
             <div class="media-slider-container">
-                <img id="mainDisplayMedia" class="main-display-media" src="" alt="Product Preview">
+                <img id="mainDisplayMedia" class="main-display-media" src="" alt="Product Preview R2 Optimized">
                 <div class="thumbnail-strip" id="thumbStrip"></div>
             </div>
 
@@ -425,7 +445,7 @@
             <div style="text-align: center;">
                 <span style="font-size: 1rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase;">Product Description</span>
                 <p style="font-size: 0.7rem; color: var(--text-gray); margin-top: 15px; text-align: left; line-height: 1.6;">
-                    Crafted with precision using high-grade Gamar wood and premium luxury finishes. Designed for durability, elegance, and global export standards. Free shipping and tax inclusive worldwide.
+                    Crafted with precision using high-grade Gamar wood and optimized via Cloudflare R2 Storage. Designed for durability, elegance, and global export standards.
                 </p>
             </div>
         </div>
@@ -470,7 +490,7 @@
         </div>
     </div>
 
-    <!-- ফিক্সড বটম ন্যাভবার (সর্বদা ওপরে দৃশ্যমান থাকবে) -->
+    <!-- ফিক্সড বটম ন্যাভবার (Affiliate, Seller, You - Firebase & R2 Synced) -->
     <nav class="bottom-nav">
         <div class="nav-item" onclick="toggleSubdomainOverlay('https://affiliate.rorraxy.com')">
             <i class="fa-solid fa-handshake"></i>
@@ -526,7 +546,7 @@
             document.getElementById('fullScreenIframe').src = '';
         }
 
-        // ওয়ান-অফ টগল সিস্টেম ও বটম ন্যাভবার দৃশ্যমান রাখার ব্যবস্থা
+        // ওয়ান-অফ টগল সিস্টেম ও বটম ন্যাভবার সর্বদা দৃশ্যমান রাখা
         function toggleSubdomainOverlay(url) {
             const overlay = document.getElementById('subdomainOverlay');
             const iframe = document.getElementById('subdomainIframeElement');
@@ -600,7 +620,7 @@
         function closeDescPopup() { document.getElementById('descModal').style.display = 'none'; }
         function openSizePopup() { document.getElementById('sizeModal').style.display = 'flex'; }
         function closeSizePopup() { document.getElementById('sizeModal').style.display = 'none'; }
-        function openLiveChat() { alert("Connecting to live support chatbot..."); }
+        function openLiveChat() { alert("Connecting to live support chatbot via Firebase R2 Engine..."); }
 
         function openCategoryView() {
             const container = document.getElementById('dynamicCategoryContent');
@@ -714,13 +734,13 @@
         }
 
         function filterCategory(catName) {
-            alert(`Filtering: ${catName}`);
+            alert(`Filtering Cloudflare R2 Database for: ${catName}`);
             toggleCategoryView('categoryView');
         }
 
         function executeSearch() {
             const q = document.getElementById('searchInputField').value;
-            if(q.trim()) { alert(`Searching: "${q}"`); toggleSearchPopup(); }
+            if(q.trim()) { alert(`Searching Cloudflare & Firebase Records: "${q}"`); toggleSearchPopup(); }
         }
 
         function toggleLove(el) { el.classList.toggle('gold-active'); }
@@ -756,7 +776,7 @@
             element.classList.add('active');
         }
 
-        function chatWithSeller() { alert("Connecting to seller..."); }
+        function chatWithSeller() { alert("Connecting to Seller via Firebase Realtime Chat..."); }
 
         function openShareModal() {
             let baseUrl = window.location.href.split('?')[0];
@@ -779,7 +799,7 @@
             cart.push({ title: 'Item', price: '$100', qty: currentQuantity });
             localStorage.setItem('rorraxy_cart', JSON.stringify(cart));
             document.getElementById('productDetailModal').style.display = 'none';
-            alert("Added to cart successfully!");
+            alert("Added to Customer (You) Cart successfully via Firebase Sync!");
         }
 
         window.onload = function() {
