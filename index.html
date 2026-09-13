@@ -196,25 +196,26 @@
         }
         .golden-close-btn i { font-size: 1.1rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* কার্ট আইটেম স্টাইল ও ডিলিট ক্রস বাটন */
+        /* স্ক্রিনশটের হুবহু ডিজাইনের ঝুড়ি মডাল ও লাল ক্রস ডিলিট বাটন */
         .cart-items-container {
             max-height: 220px; overflow-y: auto; margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; text-align: left;
         }
         .cart-item-row {
-            background: #000; border: 1px solid rgba(212,175,55,0.2); padding: 8px 12px; border-radius: 8px;
+            background: #000; border: 1px solid rgba(212,175,55,0.25); padding: 8px 12px; border-radius: 8px;
             display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; gap: 10px;
         }
-        .cart-item-img { width: 40px; height: 40px; object-fit: cover; border-radius: 6px; border: 1px solid rgba(212,175,55,0.3); background: #111; flex-shrink: 0; }
+        .cart-item-img { width: 38px; height: 38px; object-fit: cover; border-radius: 6px; border: 1px solid rgba(212,175,55,0.3); background: #111; flex-shrink: 0; }
         .cart-item-info { flex: 1; min-width: 0; }
         .cart-item-info h5 { color: #fcf6ba; font-size: 0.75rem; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: var(--font-luxury); }
         .cart-item-info p { color: var(--text-gray); font-size: 0.65rem; }
         
+        /* নিখাদ লাল রঙের বৃত্তাকার ক্রস ডিলিট বাটন */
         .cart-item-remove {
             background: #ff3b30; border: none; color: #fff; width: 26px; height: 26px; border-radius: 50%;
             cursor: pointer; font-size: 0.75rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-            transition: 0.2s;
+            transition: 0.2s; box-shadow: 0 2px 8px rgba(255,59,48,0.4);
         }
-        .cart-item-remove:hover { transform: scale(1.1); background: #e74c3c; }
+        .cart-item-remove:hover { transform: scale(1.12); background: #e74c3c; }
 
         .cart-total-box {
             background: rgba(212,175,55,0.06); border: 1.5px solid rgba(212,175,55,0.3); padding: 10px 14px;
@@ -388,20 +389,21 @@
         <iframe id="subdomainIframeElement" src="" style="width: 100vw; height: 100vh; border: none; background: #000;"></iframe>
     </div>
 
-    <!-- ঝুড়ি এবং চেকআউট মোডাল (ক্রস ডিলিট বাটন ও বড় লোগো সহ) -->
+    <!-- ঝুড়ি এবং চেকআউট মোডাল (স্ক্রিনশটের মতো বড় লোগো, "SHOPPING CART" এবং লাল ক্রস ডিলিট বাটন সহ) -->
     <div id="basketModal" class="share-modal">
         <div class="basket-modal-box">
             <div class="golden-close-btn" onclick="closeBasketModal()" style="position: absolute; top: 15px; right: 15px;"><i class="fa-solid fa-xmark"></i></div>
             
-            <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 15px;">
-                <img src="https://lh3.googleusercontent.com/d/1qyOXxZ8s2cJMEo66NDE4BdoxiC4hy_sG" alt="Logo" style="width: 32px; height: 32px; object-fit: contain;">
-                <h2 style="font-size: 1rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-family: var(--font-luxury);">Shopping Cart</h2>
+            <!-- স্ক্রিনশটের হুবহু হেডার: বড় লোগো এবং SHOPPING CART টাইটেল -->
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; margin-bottom: 15px; text-align: center;">
+                <img src="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400" alt="Logo" style="width: 45px; height: 45px; object-fit: contain; margin-bottom: 2px;">
+                <h2 style="font-size: 1rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-family: var(--font-luxury); letter-spacing: 1px;">SHOPPING CART</h2>
             </div>
             
             <div class="cart-items-container" id="cartItemsList"></div>
             
             <div class="cart-total-box">
-                <span>Total Amount:</span>
+                <span>TOTAL AMOUNT:</span>
                 <span id="cartTotalAmt" style="color: var(--gold-solid);">$0.00</span>
             </div>
 
@@ -411,7 +413,7 @@
         </div>
     </div>
 
-    <!-- কাস্টমার ইনফো ফর্ম পপআপ (You / Checkout Integration) -->
+    <!-- কাস্টমার ইনফো ফর্ম পপআপ (Checkout & You Integration) -->
     <div id="customerInfoModal" class="share-modal">
         <div class="basket-modal-box">
             <div class="golden-close-btn" onclick="closeCustomerInfoModal()" style="position: absolute; top: 15px; right: 15px;"><i class="fa-solid fa-xmark"></i></div>
@@ -577,7 +579,7 @@
             <i class="fa-solid fa-chart-line"></i>
             <span>Seller</span>
         </div>
-        <!-- 'You' মেনু ক্লিক করলে ইউ সাবডোমেন বা ড্যাশবোর্ড ওপেন হবে -->
+        <!-- 'You' মেনু ক্লিক করলে you.rorraxy.com ওপেন হবে -->
         <div class="nav-item" onclick="openYouMenu()">
             <i class="fa-solid fa-user-shield"></i>
             <span>You</span>
