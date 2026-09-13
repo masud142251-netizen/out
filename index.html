@@ -175,7 +175,6 @@
         }
         .golden-close-btn i { font-size: 1.1rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* স্ক্রিনশটের হুবহু ঝুড়ি মডাল ও গোল লাল ক্রস ডিলিট বাটন */
         .cart-items-container {
             max-height: 220px; overflow-y: auto; margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; text-align: left;
         }
@@ -360,7 +359,7 @@
         <iframe id="subdomainIframeElement" src="" style="width: 100vw; height: 100vh; border: none; background: #000;"></iframe>
     </div>
 
-    <!-- ঝুড়ি এবং চেকআউট মোডাল (স্ক্রিনশটের হুবহু ডিজাইন: বড় লোগো, "SHOPPING CART" এবং বৃত্তাকার লাল ডিলিট বাটন) -->
+    <!-- ঝুড়ি এবং চেকআউট মোডাল -->
     <div id="basketModal" class="share-modal">
         <div class="basket-modal-box">
             <div class="golden-close-btn" onclick="closeBasketModal()" style="position: absolute; top: 15px; right: 15px;"><i class="fa-solid fa-xmark"></i></div>
@@ -517,7 +516,7 @@
         </div>
     </div>
 
-    <!-- ক্যাটাগরি ওভারলে (৭টি প্রধান ক্যাটাগরি ও সাব-ক্যাটাগরি ডেটা সহ) -->
+    <!-- ক্যাটাগরি ওভারলে (সম্পূর্ণ ৭টি ক্যাটাগরির ডেটা সহ) -->
     <div id="categoryView" class="category-fullscreen-view">
         <div class="golden-close-btn" onclick="toggleCategoryView()"><i class="fa-solid fa-xmark"></i></div>
         <div style="margin-bottom: 25px; text-align: center;">
@@ -668,6 +667,7 @@
             let cart = JSON.parse(localStorage.getItem('rorraxy_cart')) || [];
             cart.splice(index, 1);
             localStorage.setItem('rorraxy_cart', JSON.stringify(cart));
+            localStorage.setItem('rorraxy_user_orders_sync', JSON.stringify(cart));
             updateCartBadge();
             renderCartItems();
             showToast("Product removed from cart");
@@ -757,7 +757,7 @@
         function closeSizePopup() { document.getElementById('sizeModal').style.display = 'none'; }
         function openLiveChat() { showToast("Connecting to live support chatbot..."); }
 
-        // ক্যাটাগরি পপআপ টগল সিস্টেম (সমস্ত ৭টি ক্যাটাগরির ডেটাসহ)
+        // ক্যাটাগরি পপআপ টগল সিস্টেম (সম্পূর্ণ ডেটাসহ)
         function toggleCategoryView() {
             const view = document.getElementById('categoryView');
             const isVisible = view.style.display === 'block';
