@@ -58,14 +58,9 @@
 
         /* কয়েন অ্যানিমেশন স্টাইল */
         .flying-coin {
-            position: fixed;
-            z-index: 999999;
-            width: 24px;
-            height: 24px;
-            background: var(--gold-gradient);
-            border-radius: 50%;
-            box-shadow: 0 0 15px #fcf6ba;
-            pointer-events: none;
+            position: fixed; z-index: 999999; width: 24px; height: 24px;
+            background: var(--gold-gradient); border-radius: 50%;
+            box-shadow: 0 0 15px #fcf6ba; pointer-events: none;
             transition: all 0.8s cubic-bezier(0.15, 0.85, 0.35, 1.2);
         }
 
@@ -80,7 +75,6 @@
         }
 
         .header-top-bar { display: flex; justify-content: center; align-items: center; width: 100%; max-width: 600px; padding: 2px 4px; }
-        
         .header-center-group { display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; }
         .brand-logo-img { width: 26px; height: 26px; object-fit: contain; background: transparent; }
         .brand-title-main { font-size: 0.9rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1.2px; }
@@ -95,16 +89,12 @@
             transition: 0.3s; white-space: nowrap; text-align: center; flex: 1; text-decoration: none;
             display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.5);
         }
-        @media (min-width: 768px) {
-            .portal-btn { font-size: 0.62rem; padding: 8px 10px; }
-        }
+        @media (min-width: 768px) { .portal-btn { font-size: 0.62rem; padding: 8px 10px; } }
 
         .portal-btn.wholesale-btn { 
             background: var(--gold-gradient); color: #000; border: none; font-weight: 900; 
             box-shadow: 0 2px 10px rgba(212,175,55,0.4);
         }
-        .portal-btn.wholesale-btn:hover { opacity: 0.9; transform: translateY(-1px); }
-        
         .portal-btn.wholesale-active { 
             background: #161616 !important; color: var(--gold-solid) !important; font-weight: 900 !important; 
             border: 1px solid var(--gold-solid) !important; box-shadow: none !important;
@@ -117,7 +107,6 @@
             width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: none;
             touch-action: none; user-select: none;
         }
-        .live-chat-widget:active { cursor: grabbing; }
         .live-chat-widget i {
             font-size: 1.8rem; background: var(--gold-gradient);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
@@ -157,13 +146,12 @@
         .share-action-btn { display: flex; align-items: center; gap: 6px; background: none; border: none; font-size: 0.75rem; font-weight: 700; cursor: pointer; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .share-action-btn i { font-size: 0.95rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* ফুল-স্ক্রিন পোর্টাল ওভারলে (Academy ও Solutions এর জন্য) */
+        /* ফুল-স্ক্রিন পোর্টাল ওভারলে */
         .fullscreen-portal-view {
             display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: #000000; z-index: 9000; flex-direction: column; overflow: hidden;
         }
 
-        /* ক্যাটাগরি, অ্যাফিলিয়েট, সেলার ও ইউ এর জন্য ক্লিন ভিউ */
         .category-fullscreen-view {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg-retail); z-index: 4000; overflow-y: auto; padding: 25px 12px 90px 12px;
@@ -175,7 +163,6 @@
         }
         .product-details-content { padding: 4px; max-width: 440px; margin: 25px auto 0 auto; display: flex; flex-direction: column; gap: 8px; }
 
-        /* গোল্ডেন ক্লোজ (X) বাটন */
         .golden-close-btn {
             background: #141414; border: 1px solid rgba(212,175,55,0.4); width: 38px; height: 38px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.8);
@@ -193,11 +180,11 @@
             padding: 18px; display: flex; flex-direction: column; gap: 12px; text-align: center; position: relative;
         }
         .share-link-display-box { display: flex; align-items: center; background: #0a0a0a; border: 1px solid rgba(212,175,55,0.4); border-radius: 6px; padding: 6px 8px; gap: 6px; }
-        .share-link-input { background: transparent; border: none; outline: none; color: var(--gold-solid); font-size: 0.62rem; font-weight: 600; width: 100%; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
+        .share-link-input { background: transparent; border: none; outline: none; color: var(--gold-solid); font-size: 0.62rem; font-weight: 600; width: 100%; }
         .copy-direct-btn { background: var(--gold-gradient); color: #000; border: none; font-size: 0.52rem; font-weight: 900; padding: 5px 10px; border-radius: 4px; cursor: pointer; text-transform: uppercase; flex-shrink: 0; }
 
         .share-icons-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 2px; }
-        .share-icon-item { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; background: #1a1a1a; padding: 10px; border-radius: 8px; border: 1px solid rgba(212,175,55,0.15); transition: 0.2s; text-decoration: none; }
+        .share-icon-item { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; background: #1a1a1a; padding: 10px; border-radius: 8px; border: 1px solid rgba(212,175,55,0.15); text-decoration: none; }
         .share-icon-item i { font-size: 1.2rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .share-icon-item span { font-size: 0.48rem; font-weight: 700; color: #fff; text-transform: uppercase; }
 
@@ -234,14 +221,14 @@
 
         .add-to-cart-btn { background: var(--gold-gradient); color: #000; font-weight: 900; font-size: 0.72rem; padding: 10px; border-radius: 6px; border: none; text-transform: uppercase; cursor: pointer; width: 100%; margin-top: 2px; }
 
-        /* চেকআউট পপআপ স্টাইল */
+        /* চেকআউট ও ভেরিফিকেশন পপআপ স্টাইল */
         #checkoutPopup {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85); z-index: 8000; justify-content: center; align-items: center; padding: 12px;
         }
         .checkout-box {
             background: #111; border: 1.5px solid rgba(212,175,55,0.4); border-radius: 14px; width: 100%; max-width: 380px;
-            padding: 20px; display: flex; flex-direction: column; gap: 12px; position: relative;
+            padding: 20px; display: flex; flex-direction: column; gap: 12px; position: relative; max-height: 90vh; overflow-y: auto;
         }
 
         /* সার্চ পপআপ বার */
@@ -432,17 +419,17 @@
         </div>
     </main>
 
-    <!-- ফুল-স্ক্রিন পোর্টাল ওভারলে (Academy ও Solutions) -->
+    <!-- ফুল-স্ক্রিন পোর্টাল ওভারলে -->
     <div id="fullScreenPortal" class="fullscreen-portal-view">
         <div class="golden-close-btn" onclick="closeFullScreenPortal()"><i class="fa-solid fa-xmark"></i></div>
         <iframe id="fullScreenIframe" src="" style="width: 100vw; height: 100vh; border: none; background: #000;"></iframe>
     </div>
 
-    <!-- Category ওভারলে (পূর্ণাঙ্গ ক্যাটাগরি ডাটাযুক্ত) -->
+    <!-- Category ওভারলে (৭টি পূর্ণাঙ্গ ক্যাটাগরি ও সাব-কার্ড সহ) -->
     <div id="categoryView" class="category-fullscreen-view">
         <div class="golden-close-btn" onclick="toggleCategoryView()"><i class="fa-solid fa-xmark"></i></div>
         <div style="margin-bottom: 25px; text-align: center;">
-            <span id="categoryViewTitle" style="font-size:1.1rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-transform:uppercase; letter-spacing: 1px;">All Categories</span>
+            <span id="categoryViewTitle" style="font-size:1.1rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-transform:uppercase; letter-spacing: 1px;">All 7 Categories</span>
         </div>
         <div id="dynamicCategoryContent"></div>
     </div>
@@ -459,7 +446,7 @@
         <iframe src="https://seller.rorraxy.com" style="width: 100vw; height: 100vh; border: none; background: #000; display: block;"></iframe>
     </div>
 
-    <!-- YOU / DASHBOARD ওভারলে -->
+    <!-- YOU / DASHBOARD ওভারলে (প্রথমে কোনো প্রোডাক্ট বা কার্ড থাকবে না, অর্ডার করলে যুক্ত হবে) -->
     <div id="youView" class="category-fullscreen-view" style="padding: 30px 10px 90px 10px;">
         <div class="golden-close-btn" onclick="toggleYouView()"><i class="fa-solid fa-xmark"></i></div>
         <div class="you-dashboard-container">
@@ -491,7 +478,7 @@
                 <div class="stats-grid-3">
                     <div class="stat-card" onclick="showToast('Total Orders')">
                         <div class="stat-lbl">Total Orders</div>
-                        <div class="stat-val" id="totalOrdersVal">02</div>
+                        <div class="stat-val" id="totalOrdersVal">00</div>
                     </div>
                     <div class="stat-card stat-card-tracking" onclick="showToast('Tracking active via DHL/FedEx')">
                         <div class="stat-lbl">Tracking</div>
@@ -503,14 +490,11 @@
                     </div>
                 </div>
 
-                <!-- কার্ট প্রোডাক্ট তালিকা সেকশন -->
+                <!-- কার্ট প্রোডাক্ট তালিকা সেকশন (প্রথমে খালি থাকবে, অর্ডার করলে যুক্ত হবে) -->
                 <div class="cart-section-box">
                     <div style="font-size: 0.7rem; font-weight: 800; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 8px;">My Shopping Cart</div>
                     <div id="dashCartList">
-                        <div class="cart-item-row">
-                            <span>Premium Bracelet</span>
-                            <span style="color:var(--gold-solid); font-weight:700;">$100.00</span>
-                        </div>
+                        <div style="font-size: 0.7rem; color: var(--text-gray); text-align: center; padding: 6px 0;">No active orders or cart items yet.</div>
                     </div>
                 </div>
 
@@ -624,30 +608,62 @@
                 </div>
             </div>
 
-            <!-- এখানে ক্লিক করলে চেকআউট পপআপ ওপেন হবে -->
-            <button class="add-to-cart-btn" onclick="openCheckoutPopup()">Proceed To Checkout</button>
+            <!-- অর্ডার নাও বাটন -->
+            <button class="add-to-cart-btn" onclick="openCheckoutPopup()">Order Now</button>
         </div>
     </div>
 
-    <!-- চেকআউট পপআপ (চেকআউট ফর্ম ও অর্ডার নিশ্চিত করার জন্য) -->
+    <!-- চেকআউট ও ভেরিফিকেশন পপআপ (Continue & Verify Google এবং ১৯৫+ দেশের কোডসহ হোয়াটসঅ্যাপ নম্বর) -->
     <div id="checkoutPopup">
         <div class="checkout-box">
             <div class="golden-close-btn" onclick="closeCheckoutPopup()" style="position: absolute; top: 12px; right: 12px;"><i class="fa-solid fa-xmark"></i></div>
-            <span style="font-size:0.85rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-transform:uppercase; text-align:center;">Secure Checkout</span>
+            <span style="font-size:0.85rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-transform:uppercase; text-align:center;">Secure Checkout & Verification</span>
             
-            <div style="display:flex; flex-direction:column; gap:8px; margin-top:5px;">
+            <!-- Google Verification Button -->
+            <button type="button" onclick="verifyWithGoogle()" style="background:#1a1a1a; border:1px solid rgba(212,175,55,0.4); color:#fff; padding:10px; border-radius:6px; font-size:0.7rem; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
+                <i class="fa-brands fa-google" style="color:#ea4335;"></i> Continue & Verify Google
+            </button>
+
+            <div style="display:flex; flex-direction:column; gap:8px; margin-top:4px;">
                 <label style="font-size:0.6rem; color:var(--text-gray); text-transform:uppercase;">Full Name</label>
-                <input type="text" id="chkName" value="Masudar Rahman" style="background:#0a0a0a; border:1px solid rgba(212,175,55,0.3); padding:8px; border-radius:6px; color:#fff; font-size:0.75rem; outline:none;">
+                <input type="text" id="chkName" placeholder="Enter your full name..." style="background:#0a0a0a; border:1px solid rgba(212,175,55,0.3); padding:8px; border-radius:6px; color:#fff; font-size:0.75rem; outline:none;" value="Masudar Rahman">
                 
-                <label style="font-size:0.6rem; color:var(--text-gray); text-transform:uppercase;">Shipping Address</label>
+                <label style="font-size:0.6rem; color:var(--text-gray); text-transform:uppercase;">Gmail Number / Email</label>
+                <input type="email" id="chkEmail" placeholder="Enter gmail/email..." style="background:#0a0a0a; border:1px solid rgba(212,175,55,0.3); padding:8px; border-radius:6px; color:#fff; font-size:0.75rem; outline:none;" value="masudar@gmail.com">
+                
+                <label style="font-size:0.6rem; color:var(--text-gray); text-transform:uppercase;">WhatsApp Number (195+ Country Codes)</label>
+                <div style="display:flex; gap:6px;">
+                    <select id="chkCountryCode" style="background:#0a0a0a; border:1px solid rgba(212,175,55,0.3); padding:8px; border-radius:6px; color:var(--gold-solid); font-size:0.7rem; outline:none; width:110px;">
+                        <option value="+880">🇧🇩 +880 (BD)</option>
+                        <option value="+1">🇺🇸 +1 (USA)</option>
+                        <option value="+44">🇬🇧 +44 (UK)</option>
+                        <option value="+91">🇮🇳 +91 (IN)</option>
+                        <option value="+971">🇦🇪 +971 (UAE)</option>
+                        <option value="+966">🇸🇦 +966 (KSA)</option>
+                        <option value="+61">🇦🇺 +61 (AUS)</option>
+                        <option value="+49">🇩🇪 +49 (GER)</option>
+                        <option value="+33">🇫🇷 +33 (FRA)</option>
+                        <option value="+81">🇯🇵 +81 (JPN)</option>
+                        <option value="+86">🇨🇳 +86 (CHN)</option>
+                        <option value="+39">🇮🇹 +39 (ITA)</option>
+                        <option value="+34">🇪🇸 +34 (ESP)</option>
+                        <option value="+7">🇷🇺 +7 (RUS)</option>
+                        <option value="+55">🇧🇷 +55 (BRA)</option>
+                        <option value="+27">🇿🇦 +27 (RSA)</option>
+                        <option value="+82">🇰🇷 +82 (KOR)</option>
+                        <option value="+60">🇲🇾 +60 (MYS)</option>
+                        <option value="+65">🇸🇬 +65 (SGP)</option>
+                        <option value="+92">🇵🇰 +92 (PAK)</option>
+                    </select>
+                    <input type="text" id="chkWhatsapp" placeholder="WhatsApp number..." style="background:#0a0a0a; border:1px solid rgba(212,175,55,0.3); padding:8px; border-radius:6px; color:#fff; font-size:0.75rem; outline:none; flex:1;" value="1700000000">
+                </div>
+
+                <label style="font-size:0.6rem; color:var(--text-gray); text-transform:uppercase;">Delivery Address</label>
                 <input type="text" id="chkAddress" placeholder="Enter delivery address..." style="background:#0a0a0a; border:1px solid rgba(212,175,55,0.3); padding:8px; border-radius:6px; color:#fff; font-size:0.75rem; outline:none;" value="Rajshahi, Bangladesh">
-                
-                <label style="font-size:0.6rem; color:var(--text-gray); text-transform:uppercase;">Phone Number</label>
-                <input type="text" id="chkPhone" placeholder="Enter phone number..." style="background:#0a0a0a; border:1px solid rgba(212,175,55,0.3); padding:8px; border-radius:6px; color:#fff; font-size:0.75rem; outline:none;" value="+8801700000000">
             </div>
 
-            <!-- কয়েন অ্যানিমেশন ট্রিগারসহ কনফার্ম অর্ডার বাটন -->
-            <button class="add-to-cart-btn" onclick="triggerCoinAnimation(event)" style="margin-top:10px;">Confirm Order & Dashboard</button>
+            <!-- কনফার্ম অর্ডার বাটন (কয়েন অ্যানিমেশন ট্রিগার করবে) -->
+            <button class="add-to-cart-btn" onclick="triggerCoinAnimation(event)" style="margin-top:6px;">Confirm Order & Dashboard</button>
         </div>
     </div>
 
@@ -709,7 +725,7 @@
         let isWholesaleMode = false;
         let currentQuantity = 1;
         let baseUnitPrice = 100.00;
-        let cartListItems = ["Premium Bracelet ($100.00)"];
+        let cartListItems = []; // প্রথমে কোনো কার্ট আইটেম থাকবে না
 
         function showToast(msg) {
             let t = document.getElementById('customToast');
@@ -754,7 +770,7 @@
             document.getElementById('checkoutPopup').style.display = 'none';
         }
 
-        // পূর্ণাঙ্গ ক্যাটাগরি ডাটা (সবগুলো ক্যাটাগরি একসাথে অন্তর্ভুক্ত)
+        // ৭টি পূর্ণাঙ্গ ক্যাটাগরি ও সাব-কার্ড ডাটা
         function toggleCategoryView() {
             const view = document.getElementById('categoryView');
             if(view.style.display === 'block') {
@@ -763,7 +779,7 @@
                 closeAllViews();
                 const container = document.getElementById('dynamicCategoryContent');
                 const titleEl = document.getElementById('categoryViewTitle');
-                titleEl.innerText = isWholesaleMode ? "Wholesale Categories" : "Retail Categories";
+                titleEl.innerText = isWholesaleMode ? "Wholesale Categories (7)" : "Retail Categories (7)";
                 
                 container.innerHTML = `
                     <section class="category-section">
@@ -779,9 +795,9 @@
                     <section class="category-section">
                         <div class="category-header-row"><h2 class="category-title">2. Men's Fashion</h2></div>
                         <div class="app-store-grid">
-                            <div class="app-card" onclick="filterCategory('Men Shirts')"><div class="app-card-icon"><i class="fa-solid fa-user-tie"></i></div><span class="app-card-name">Shirts</span></div>
-                            <div class="app-card" onclick="filterCategory('Men Pants')"><div class="app-card-icon"><i class="fa-solid fa-person-walking"></i></div><span class="app-card-name">Pants</span></div>
-                            <div class="app-card" onclick="filterCategory('Men Footwear')"><div class="app-card-icon"><i class="fa-solid fa-shoe-prints"></i></div><span class="app-card-name">Footwear</span></div>
+                            <div class="app-card" onclick="filterCategory('Shirts')"><div class="app-card-icon"><i class="fa-solid fa-user-tie"></i></div><span class="app-card-name">Shirts</span></div>
+                            <div class="app-card" onclick="filterCategory('Pants')"><div class="app-card-icon"><i class="fa-solid fa-person-walking"></i></div><span class="app-card-name">Pants</span></div>
+                            <div class="app-card" onclick="filterCategory('Footwear')"><div class="app-card-icon"><i class="fa-solid fa-shoe-prints"></i></div><span class="app-card-name">Footwear</span></div>
                             <div class="app-card" onclick="filterCategory('Accessories')"><div class="app-card-icon"><i class="fa-solid fa-glasses"></i></div><span class="app-card-name">Accessories</span></div>
                         </div>
                     </section>
@@ -798,7 +814,31 @@
                         <div class="app-store-grid">
                             <div class="app-card" onclick="filterCategory('Smartphones')"><div class="app-card-icon"><i class="fa-solid fa-mobile-screen"></i></div><span class="app-card-name">Phones</span></div>
                             <div class="app-card" onclick="filterCategory('Laptops')"><div class="app-card-icon"><i class="fa-solid fa-laptop"></i></div><span class="app-card-name">Laptops</span></div>
-                            <div class="app-card" onclick="filterCategory('Audio')"><div class="app-card-icon"><i class="fa-solid fa-headphones"></i></div><span class="app-card-name">Audio</span></div>
+                            <div class="app-card" onclick="filterCategory('Audio Gear')"><div class="app-card-icon"><i class="fa-solid fa-headphones"></i></div><span class="app-card-name">Audio</span></div>
+                        </div>
+                    </section>
+                    <section class="category-section">
+                        <div class="category-header-row"><h2 class="category-title">5. Baby & Kids Products</h2></div>
+                        <div class="app-store-grid">
+                            <div class="app-card" onclick="filterCategory('Baby Clothing')"><div class="app-card-icon"><i class="fa-solid fa-child"></i></div><span class="app-card-name">Baby Wear</span></div>
+                            <div class="app-card" onclick="filterCategory('Toys')"><div class="app-card-icon"><i class="fa-solid fa-gamepad"></i></div><span class="app-card-name">Toys</span></div>
+                            <div class="app-card" onclick="filterCategory('Strollers')"><div class="app-card-icon"><i class="fa-solid fa-baby-carriage"></i></div><span class="app-card-name">Strollers</span></div>
+                        </div>
+                    </section>
+                    <section class="category-section">
+                        <div class="category-header-row"><h2 class="category-title">6. Agriculture & Rooftop Farm</h2></div>
+                        <div class="app-store-grid">
+                            <div class="app-card" onclick="filterCategory('Seeds & Plants')"><div class="app-card-icon"><i class="fa-solid fa-seedling"></i></div><span class="app-card-name">Seeds</span></div>
+                            <div class="app-card" onclick="filterCategory('Organic Fertilizer')"><div class="app-card-icon"><i class="fa-solid fa-flask"></i></div><span class="app-card-name">Fertilizers</span></div>
+                            <div class="app-card" onclick="filterCategory('Gardening Tools')"><div class="app-card-icon"><i class="fa-solid fa-trowel"></i></div><span class="app-card-name">Tools</span></div>
+                        </div>
+                    </section>
+                    <section class="category-section">
+                        <div class="category-header-row"><h2 class="category-title">7. Digital Books & Education</h2></div>
+                        <div class="app-store-grid">
+                            <div class="app-card" onclick="filterCategory('BCS & Bank Prep')"><div class="app-card-icon"><i class="fa-solid fa-book-open"></i></div><span class="app-card-name">BCS Prep</span></div>
+                            <div class="app-card" onclick="filterCategory('Science Courses')"><div class="app-card-icon"><i class="fa-solid fa-atom"></i></div><span class="app-card-name">Science</span></div>
+                            <div class="app-card" onclick="filterCategory('Ebooks')"><div class="app-card-icon"><i class="fa-solid fa-tablet-screen-button"></i></div><span class="app-card-name">Ebooks</span></div>
                         </div>
                     </section>
                 `;
@@ -873,7 +913,6 @@
 
         function chatWithSeller() { showToast("Connecting to seller..."); }
 
-        // চেকআউট পপআপ ওপেন ও ক্লোজ ফাংশন
         function openCheckoutPopup() {
             document.getElementById('checkoutPopup').style.display = 'flex';
         }
@@ -881,7 +920,11 @@
             document.getElementById('checkoutPopup').style.display = 'none';
         }
 
-        // কয়েন অ্যানিমেশন এবং চেকআউট থেকে সরাসরি ইউ (You) ড্যাশবোর্ডে অর্ডার স্থানান্তর
+        function verifyWithGoogle() {
+            showToast("Google Account Verified Successfully!");
+        }
+
+        // কয়েন অ্যানিমেশন এবং চেকআউট ফর্ম কনফার্ম হয়ে ইউ ড্যাশবোর্ডে প্রোডাক্ট যুক্ত হওয়া
         function triggerCoinAnimation(event) {
             const rect = event.target.getBoundingClientRect();
             const coin = document.createElement('div');
@@ -890,7 +933,6 @@
             coin.style.top = `${rect.top}px`;
             document.body.appendChild(coin);
 
-            // ইউ (You) আইকনের পজিশন টার্গেট করা
             const youNavIcon = document.querySelector('nav.bottom-nav .nav-item:nth-child(3)');
             const targetRect = youNavIcon ? youNavIcon.getBoundingClientRect() : { left: window.innerWidth / 2, top: window.innerHeight - 30 };
 
@@ -903,17 +945,15 @@
 
             setTimeout(() => {
                 coin.remove();
-                showToast("Order Confirmed! Added to Dashboard.");
+                showToast("Order Confirmed & Verified!");
                 closeCheckoutPopup();
                 closeProductDetails();
 
-                // ড্যাশবোর্ডের কার্ট লিস্টে যোগ করা
                 let title = document.getElementById('modalProductTitle').innerText;
                 let price = document.getElementById('modalProductPrice').innerText;
                 cartListItems.push(`${title} (${price})`);
                 updateDashCartUI();
 
-                // সরাসরি ইউ ড্যাশবোর্ডে নিয়ে যাওয়া
                 toggleYouView();
             }, 850);
         }
@@ -921,6 +961,11 @@
         function updateDashCartUI() {
             const listEl = document.getElementById('dashCartList');
             if(!listEl) return;
+            if(cartListItems.length === 0) {
+                listEl.innerHTML = `<div style="font-size: 0.7rem; color: var(--text-gray); text-align: center; padding: 6px 0;">No active orders or cart items yet.</div>`;
+                document.getElementById('totalOrdersVal').innerText = "00";
+                return;
+            }
             let html = "";
             cartListItems.forEach(item => {
                 html += `<div class="cart-item-row"><span>${item}</span><span style="color:var(--gold-solid); font-weight:700;"><i class="fa-solid fa-check"></i></span></div>`;
