@@ -166,9 +166,9 @@
         }
         .golden-close-btn i { font-size: 1.1rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* সেলার ড্যাশবোর্ড ও পোর্টাল কার্ড স্টাইল */
-        .portal-content-box { width: 100%; max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
-        .dash-card { background: var(--card-retail); border-radius: 14px; padding: 16px; border: 1px solid rgba(212,175,55,0.25); box-shadow: 0 8px 25px rgba(0,0,0,0.8); }
+        /* ড্যাশবোর্ড কমন স্টাইল */
+        .portal-content-box { width: 100%; max-width: 650px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+        .dash-card { background: var(--card-retail); border-radius: 14px; padding: 18px; border: 1px solid rgba(212,175,55,0.25); box-shadow: 0 8px 25px rgba(0,0,0,0.8); }
         .stats-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 12px 0; }
         .stat-box { background: #080808; border: 1px solid rgba(212,175,55,0.2); padding: 10px; border-radius: 8px; text-align: center; }
         .stat-label { font-size: 0.5rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-weight: 800; }
@@ -262,7 +262,7 @@
 </head>
 <body id="mainBody">
 
-    <!-- হেডার (ঝুড়ি বাস্কেট আইকন সম্পূর্ণ বাদ দিয়ে আপডেট করা) -->
+    <!-- হেডার -->
     <header class="app-header" id="mainHeader">
         <div class="header-top-bar">
             <div class="header-center-group" onclick="location.href='https://rorraxy.com'">
@@ -288,7 +288,7 @@
         <i class="fa-solid fa-comments"></i>
     </div>
 
-    <!-- Feed Layout -->
+    <!-- হোমপেজ প্রোডাক্ট ফিড (পূর্ণাঙ্গ ডেটাসহ) -->
     <main class="feed-container" id="productFeed">
         <div class="product-card" id="card-prod-1">
             <div class="product-media-box" onclick="openProductDetails('PREMIUM BRACELET', '$100.00', ['https://lh3.googleusercontent.com/d/1a6lFxluTSYUQjB8oqlVQYApRRSmCxEOW', 'https://lh3.googleusercontent.com/d/1qyOXxZ8s2cJMEo66NDE4BdoxiC4hy_sG'])">
@@ -305,15 +305,31 @@
                 </div>
             </div>
         </div>
+
+        <div class="product-card" id="card-prod-2">
+            <div class="product-media-box" onclick="openProductDetails('LUXURY WOODEN WATCH', '$250.00', ['https://lh3.googleusercontent.com/d/1qyOXxZ8s2cJMEo66NDE4BdoxiC4hy_sG', 'https://lh3.googleusercontent.com/d/1a6lFxluTSYUQjB8oqlVQYApRRSmCxEOW'])">
+                <img src="https://lh3.googleusercontent.com/d/1qyOXxZ8s2cJMEo66NDE4BdoxiC4hy_sG" alt="Product">
+            </div>
+            <div class="card-footer-actions">
+                <div class="love-share-group">
+                    <div class="love-action card-love-btn" onclick="toggleLove(this)">
+                        <i class="fa-solid fa-heart"></i> <span class="love-count">389</span>
+                    </div>
+                    <button class="share-action-btn" onclick="openShareModal()">
+                        <i class="fa-solid fa-share-nodes"></i> Share
+                    </button>
+                </div>
+            </div>
+        </div>
     </main>
 
-    <!-- ফুল-স্ক্রিন একাডেমি ও সলিউশন পোর্টাল ওভারলে -->
+    <!-- ফুল-স্ক্রিন পোর্টাল ওভারলে -->
     <div id="fullScreenPortal" class="fullscreen-portal-view">
         <div class="golden-close-btn" onclick="closeFullScreenPortal()"><i class="fa-solid fa-xmark"></i></div>
         <iframe id="fullScreenIframe" src="" style="width: 100vw; height: 100vh; border: none; background: #000;"></iframe>
     </div>
 
-    <!-- Category ওভারলে (ক্লিক করলে ওপেন, আবার ক্লিক করলে বন্ধ) -->
+    <!-- Category ওভারলে (সমস্ত ৭টি ক্যাটাগরি ও সাব-ক্যাটাগরি সহ) -->
     <div id="categoryView" class="category-fullscreen-view">
         <div class="golden-close-btn" onclick="toggleCategoryView()"><i class="fa-solid fa-xmark"></i></div>
         <div style="margin-bottom: 25px; text-align: center;">
@@ -322,7 +338,7 @@
         <div id="dynamicCategoryContent"></div>
     </div>
 
-    <!-- Affiliate ওভারলে (পূর্ণাঙ্গ তথ্য ও টগল সিস্টেমসহ) -->
+    <!-- Affiliate ওভারলে (আলাদা পূর্ণাঙ্গ রিপোজিটরি প্যানেল) -->
     <div id="affiliateView" class="category-fullscreen-view">
         <div class="golden-close-btn" onclick="toggleAffiliateView()"><i class="fa-solid fa-xmark"></i></div>
         <div style="margin-bottom: 25px; text-align: center;">
@@ -333,7 +349,7 @@
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                     <div>
                         <div style="font-size:0.65rem; color:var(--text-gray); text-transform:uppercase;">Affiliate ID</div>
-                        <div style="font-size:0.9rem; font-weight:800; color:var(--gold-solid);">AFF-999M</div>
+                        <div style="font-size:0.9rem; font-weight:800; color:var(--gold-solid);">AFF-999M (SHASHA99M)</div>
                     </div>
                     <div style="text-align:right;">
                         <div style="font-size:0.65rem; color:var(--text-gray); text-transform:uppercase;">Status</div>
@@ -341,26 +357,26 @@
                     </div>
                 </div>
                 <div class="stats-grid-3">
-                    <div class="stat-box"><div class="stat-label">Clicks</div><div class="stat-value">1,245</div></div>
-                    <div class="stat-box"><div class="stat-label">Orders</div><div class="stat-value">48</div></div>
-                    <div class="stat-box"><div class="stat-label">Earnings</div><div class="stat-value">$450.00</div></div>
+                    <div class="stat-box"><div class="stat-label">Total Clicks</div><div class="stat-value">3,420</div></div>
+                    <div class="stat-box"><div class="stat-label">Conversions</div><div class="stat-value">124</div></div>
+                    <div class="stat-box"><div class="stat-label">Commission</div><div class="stat-value">$1,250.00</div></div>
                 </div>
                 <div style="margin-top:12px;">
-                    <label style="font-size:0.62rem; color:var(--text-gray); text-transform:uppercase; display:block; margin-bottom:4px;">Your Referral Link</label>
+                    <label style="font-size:0.62rem; color:var(--text-gray); text-transform:uppercase; display:block; margin-bottom:4px;">Affiliate Tracking Link</label>
                     <div style="display:flex; gap:6px;">
-                        <input type="text" readonly value="https://rorraxy.com/?ref=AFF999M" style="width:100%; background:#000; border:1px solid rgba(212,175,55,0.3); padding:8px; border-radius:6px; color:#fff; font-size:0.68rem; outline:none;">
-                        <button class="btn-gold-glow" style="margin-top:0; width:90px;" onclick="alert('Referral link copied!')">Copy</button>
+                        <input type="text" readonly value="https://rorraxy.com/?ref=SHASHA99M" style="width:100%; background:#000; border:1px solid rgba(212,175,55,0.3); padding:8px; border-radius:6px; color:#fff; font-size:0.68rem; outline:none;">
+                        <button class="btn-gold-glow" style="margin-top:0; width:90px;" onclick="alert('Affiliate link copied!')">Copy</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Seller ওভারলে (পূর্ণাঙ্গ তথ্য ও টগল সিস্টেমসহ) -->
+    <!-- Seller ওভারলে (আলাদা পূর্ণাঙ্গ সেলার ড্যাশবোর্ড রিপোজিটরি) -->
     <div id="sellerView" class="category-fullscreen-view">
         <div class="golden-close-btn" onclick="toggleSellerView()"><i class="fa-solid fa-xmark"></i></div>
         <div style="margin-bottom: 25px; text-align: center;">
-            <span style="font-size:1.1rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-transform:uppercase; letter-spacing: 1px;">Seller Dashboard</span>
+            <span style="font-size:1.1rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-transform:uppercase; letter-spacing: 1px;">Seller Center Dashboard</span>
         </div>
         <div class="portal-content-box">
             <div class="dash-card">
@@ -371,23 +387,23 @@
                     </div>
                     <div style="text-align:right;">
                         <div style="font-size:0.65rem; color:var(--text-gray); text-transform:uppercase;">Seller ID</div>
-                        <div style="font-size:0.75rem; font-weight:800; color:var(--gold-solid);">SL-7789</div>
+                        <div style="font-size:0.75rem; font-weight:800; color:var(--gold-solid);">SELLER-01</div>
                     </div>
                 </div>
                 <div class="stats-grid-3">
-                    <div class="stat-box"><div class="stat-label">Products</div><div class="stat-value">12 / 50</div></div>
-                    <div class="stat-box"><div class="stat-label">Sales</div><div class="stat-value">$1,850</div></div>
-                    <div class="stat-box"><div class="stat-label">Rating</div><div class="stat-value">4.9 ★</div></div>
+                    <div class="stat-box"><div class="stat-label">Products</div><div class="stat-value">25 / 50</div></div>
+                    <div class="stat-box"><div class="stat-label">Total Revenue</div><div class="stat-value">$4,820</div></div>
+                    <div class="stat-box"><div class="stat-label">Store Rating</div><div class="stat-value">4.95 ★</div></div>
                 </div>
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:12px;">
-                    <button class="btn-gold-glow" style="margin-top:0;" onclick="alert('Opening Product Upload Wizard...')"><i class="fa-solid fa-plus"></i> New Upload</button>
-                    <button class="btn-gold-glow" style="margin-top:0; background:transparent; border:1px solid var(--gold-solid); color:var(--gold-solid);" onclick="alert('Opening Product Inventory...')"><i class="fa-solid fa-boxes-stacked"></i> Products</button>
+                    <button class="btn-gold-glow" style="margin-top:0;" onclick="alert('Opening Product Upload Wizard...')"><i class="fa-solid fa-plus"></i> Upload Item</button>
+                    <button class="btn-gold-glow" style="margin-top:0; background:transparent; border:1px solid var(--gold-solid); color:var(--gold-solid);" onclick="alert('Opening Inventory List...')"><i class="fa-solid fa-boxes-stacked"></i> Inventory</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- You ওভারলে (পূর্ণাঙ্গ তথ্য ও টগল সিস্টেমসহ) -->
+    <!-- You ওভারলে (আলাদা ইউজার অ্যাকাউন্ট ও বাস্কেট রিপোজিটরি প্যানেল) -->
     <div id="youView" class="category-fullscreen-view">
         <div class="golden-close-btn" onclick="toggleYouView()"><i class="fa-solid fa-xmark"></i></div>
         <div style="margin-bottom: 25px; text-align: center;">
@@ -396,20 +412,24 @@
         <div class="portal-content-box">
             <div class="dash-card">
                 <div style="display:flex; align-items:center; gap:12px; margin-bottom:15px; border-bottom:1px solid rgba(212,175,55,0.15); padding-bottom:12px;">
-                    <div style="width:45px; height:45px; background:var(--gold-gradient); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#000; font-weight:900; font-size:1.2rem;">MR</div>
+                    <div style="width:48px; height:48px; background:var(--gold-gradient); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#000; font-weight:900; font-size:1.2rem;">MR</div>
                     <div>
-                        <div style="font-size:0.85rem; font-weight:800; color:#fff;">Masudar Rahman</div>
-                        <div style="font-size:0.62rem; color:var(--text-gray);">masudar@gmail.com | 🇧🇩 +880 17XXXXXXXX</div>
+                        <div style="font-size:0.9rem; font-weight:800; color:#fff;">Masudar Rahman</div>
+                        <div style="font-size:0.65rem; color:var(--text-gray);">masudar.rahman@gmail.com | 🇧🇩 +880 17XXXXXXXX</div>
                     </div>
                 </div>
                 <div style="margin-bottom:12px;">
-                    <div style="font-size:0.7rem; font-weight:800; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-transform:uppercase; margin-bottom:8px;"><i class="fa-solid fa-basket-shopping"></i> Shopping Basket Items</div>
-                    <div style="background:#080808; border:1px solid rgba(212,175,55,0.2); border-radius:8px; padding:10px; font-size:0.7rem; color:var(--text-gray); display:flex; justify-content:space-between; align-items:center;">
+                    <div style="font-size:0.7rem; font-weight:800; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-transform:uppercase; margin-bottom:8px;"><i class="fa-solid fa-basket-shopping"></i> Shopping Basket & Saved Orders</div>
+                    <div style="background:#080808; border:1px solid rgba(212,175,55,0.2); border-radius:8px; padding:10px; font-size:0.7rem; color:var(--text-gray); display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
                         <span>Premium Bracelet (1x)</span>
                         <span style="color:#fff; font-weight:800;">$100.00</span>
                     </div>
+                    <div style="background:#080808; border:1px solid rgba(212,175,55,0.2); border-radius:8px; padding:10px; font-size:0.7rem; color:var(--text-gray); display:flex; justify-content:space-between; align-items:center;">
+                        <span>Luxury Wooden Watch (1x)</span>
+                        <span style="color:#fff; font-weight:800;">$250.00</span>
+                    </div>
                 </div>
-                <button class="btn-gold-glow" onclick="alert('Proceeding to Google Secure Checkout...')">Proceed to Checkout</button>
+                <button class="btn-gold-glow" onclick="alert('Proceeding to Secure Google Checkout...')">Secure Checkout ($350.00)</button>
             </div>
         </div>
     </div>
@@ -589,7 +609,6 @@
             document.getElementById('fullScreenIframe').src = '';
         }
 
-        // সব ওভারলে একসঙ্গে বন্ধ করার ফাংশন (টগল করার সময় আগেরটি বন্ধ করতে সাহায্য করবে)
         function closeAllViews() {
             document.getElementById('categoryView').style.display = 'none';
             document.getElementById('affiliateView').style.display = 'none';
@@ -598,7 +617,7 @@
             document.getElementById('searchPopup').style.display = 'none';
         }
 
-        // ক্যাটাগরি টগল সিস্টেম
+        // সমস্ত ৭টি ক্যাটাগরির পূর্ণাঙ্গ ডেটা সহ টগল সিস্টেম
         function toggleCategoryView() {
             const view = document.getElementById('categoryView');
             if(view.style.display === 'block') {
@@ -645,6 +664,60 @@
                             <div class="app-card" onclick="filterCategory('Mom & Me')"><div class="app-card-icon"><i class="fa-solid fa-venus"></i></div><span class="app-card-name">Mom & Me</span></div>
                             <div class="app-card" onclick="filterCategory('Dad & Me')"><div class="app-card-icon"><i class="fa-solid fa-mars"></i></div><span class="app-card-name">Dad & Me</span></div>
                             <div class="app-card" onclick="filterCategory('Sibling Sets')"><div class="app-card-icon"><i class="fa-solid fa-children"></i></div><span class="app-card-name">Sibling Sets</span></div>
+                            <div class="app-card" onclick="filterCategory('Team Sets')"><div class="app-card-icon"><i class="fa-solid fa-people-group"></i></div><span class="app-card-name">Team Sets</span></div>
+                            <div class="app-card" onclick="filterCategory('BFF Sets')"><div class="app-card-icon"><i class="fa-solid fa-hands-holding-child"></i></div><span class="app-card-name">BFF Sets</span></div>
+                            <div class="app-card" onclick="filterCategory('Pet & Owner')"><div class="app-card-icon"><i class="fa-solid fa-paw"></i></div><span class="app-card-name">Pet & Owner</span></div>
+                            <div class="app-card" onclick="filterCategory('Holiday Sets')"><div class="app-card-icon"><i class="fa-solid fa-gifts"></i></div><span class="app-card-name">Holiday Sets</span></div>
+                            <div class="app-card" onclick="filterCategory('Value Bundles')"><div class="app-card-icon"><i class="fa-solid fa-box-open"></i></div><span class="app-card-name">Value Bundles</span></div>
+                        </div>
+                    </section>
+
+                    <section class="category-section">
+                        <div class="category-header-row"><h2 class="category-title">4. Luxury Gifts</h2></div>
+                        <div class="app-store-grid">
+                            <div class="app-card" onclick="filterCategory('Corporate Gifts')"><div class="app-card-icon"><i class="fa-solid fa-briefcase"></i></div><span class="app-card-name">Corporate Gifts</span></div>
+                            <div class="app-card" onclick="filterCategory('Luxury Items')"><div class="app-card-icon"><i class="fa-solid fa-gift"></i></div><span class="app-card-name">Luxury Items</span></div>
+                            <div class="app-card" onclick="filterCategory('Handicrafts')"><div class="app-card-icon"><i class="fa-solid fa-palette"></i></div><span class="app-card-name">Handicrafts</span></div>
+                            <div class="app-card" onclick="filterCategory('Wood Resin')"><div class="app-card-icon"><i class="fa-solid fa-tree"></i></div><span class="app-card-name">Wood Resin</span></div>
+                            <div class="app-card" onclick="filterCategory('Gift Hampers')"><div class="app-card-icon"><i class="fa-solid fa-basket-shopping"></i></div><span class="app-card-name">Gift Hampers</span></div>
+                        </div>
+                    </section>
+
+                    <section class="category-section">
+                        <div class="category-header-row"><h2 class="category-title">5. Girls' Fashion</h2></div>
+                        <div class="app-store-grid">
+                            <div class="app-card" onclick="filterCategory('Girls Clothing')"><div class="app-card-icon"><i class="fa-solid fa-child-dress"></i></div><span class="app-card-name">Clothing</span></div>
+                            <div class="app-card" onclick="filterCategory('Girls Shoes')"><div class="app-card-icon"><i class="fa-solid fa-shoe-prints"></i></div><span class="app-card-name">Shoes</span></div>
+                            <div class="app-card" onclick="filterCategory('Girls Bags')"><div class="app-card-icon"><i class="fa-solid fa-shopping-basket"></i></div><span class="app-card-name">Bags</span></div>
+                            <div class="app-card" onclick="filterCategory('Girls Jewelry')"><div class="app-card-icon"><i class="fa-solid fa-ring"></i></div><span class="app-card-name">Jewelry</span></div>
+                            <div class="app-card" onclick="filterCategory('Girls Watches')"><div class="app-card-icon"><i class="fa-solid fa-clock"></i></div><span class="app-card-name">Watches</span></div>
+                            <div class="app-card" onclick="filterCategory('Girls Hair Acc')"><div class="app-card-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div><span class="app-card-name">Hair Acc.</span></div>
+                            <div class="app-card" onclick="filterCategory('Girls Activewear')"><div class="app-card-icon"><i class="fa-solid fa-person-running"></i></div><span class="app-card-name">Activewear</span></div>
+                            <div class="app-card" onclick="filterCategory('Girls Sleepwear')"><div class="app-card-icon"><i class="fa-solid fa-bed"></i></div><span class="app-card-name">Sleepwear</span></div>
+                            <div class="app-card" onclick="filterCategory('Girls Party Dresses')"><div class="app-card-icon"><i class="fa-solid fa-chess-queen"></i></div><span class="app-card-name">Party Dresses</span></div>
+                            <div class="app-card" onclick="filterCategory('Girls Accessories')"><div class="app-card-icon"><i class="fa-solid fa-glasses"></i></div><span class="app-card-name">Accessories</span></div>
+                        </div>
+                    </section>
+
+                    <section class="category-section">
+                        <div class="category-header-row"><h2 class="category-title">6. Men's Fashion</h2></div>
+                        <div class="app-store-grid">
+                            <div class="app-card" onclick="filterCategory('Men Clothing')"><div class="app-card-icon"><i class="fa-solid fa-user-tie"></i></div><span class="app-card-name">Clothing</span></div>
+                            <div class="app-card" onclick="filterCategory('Men Shoes')"><div class="app-card-icon"><i class="fa-solid fa-shoe-prints"></i></div><span class="app-card-name">Shoes</span></div>
+                            <div class="app-card" onclick="filterCategory('Men Watches')"><div class="app-card-icon"><i class="fa-solid fa-clock"></i></div><span class="app-card-name">Watches</span></div>
+                            <div class="app-card" onclick="filterCategory('Men Grooming')"><div class="app-card-icon"><i class="fa-solid fa-scissors"></i></div><span class="app-card-name">Grooming</span></div>
+                            <div class="app-card" onclick="filterCategory('Men Accessories')"><div class="app-card-icon"><i class="fa-solid fa-briefcase"></i></div><span class="app-card-name">Accessories</span></div>
+                        </div>
+                    </section>
+
+                    <section class="category-section">
+                        <div class="category-header-row"><h2 class="category-title">7. Mother & Baby</h2></div>
+                        <div class="app-store-grid">
+                            <div class="app-card" onclick="filterCategory('Baby Clothing')"><div class="app-card-icon"><i class="fa-solid fa-baby"></i></div><span class="app-card-name">Clothing</span></div>
+                            <div class="app-card" onclick="filterCategory('Maternity')"><div class="app-card-icon"><i class="fa-solid fa-person-pregnant"></i></div><span class="app-card-name">Maternity</span></div>
+                            <div class="app-card" onclick="filterCategory('Baby Care')"><div class="app-card-icon"><i class="fa-solid fa-bottle-droplet"></i></div><span class="app-card-name">Baby Care</span></div>
+                            <div class="app-card" onclick="filterCategory('Nursery Gear')"><div class="app-card-icon"><i class="fa-solid fa-baby-carriage"></i></div><span class="app-card-name">Nursery Gear</span></div>
+                            <div class="app-card" onclick="filterCategory('Baby Accessories')"><div class="app-card-icon"><i class="fa-solid fa-puzzle-piece"></i></div><span class="app-card-name">Accessories</span></div>
                         </div>
                     </section>
                 `;
