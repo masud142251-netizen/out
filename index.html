@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -21,7 +21,7 @@
             --font-body: 'Poppins', sans-serif;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; word-break: normal; overflow-wrap: break-word; }
         
         html, body { 
             width: 100%; 
@@ -30,18 +30,20 @@
             color: var(--text-white); 
             font-family: var(--font-body); 
             overflow-x: hidden; 
+            -webkit-font-smoothing: antialiased; 
         }
 
         body {
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            padding: 15px 10px 80px 10px;
+            padding: 12px 10px 85px 10px;
+            flex-direction: column;
         }
 
         h1, h2, h3, h4 { font-family: var(--font-luxury); }
 
-        .custom-toast { position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: rgba(12, 12, 12, 0.98); border: 1.5px solid; border-image: var(--gold-gradient) 1; color: #fcf6ba; padding: 8px 16px; border-radius: 30px; font-size: 0.75rem; font-weight: 700; z-index: 999999; display: none; box-shadow: 0 0 20px rgba(212,175,55,0.3); white-space: nowrap; }
+        .custom-toast { position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: rgba(12, 12, 12, 0.98); border: 1.5px solid; border-image: var(--gold-gradient) 1; color: #fcf6ba; padding: 8px 16px; border-radius: 30px; font-size: 0.75rem; font-weight: 700; z-index: 999999; display: none; box-shadow: 0 0 20px rgba(212,175,55,0.3); font-family: var(--font-body); white-space: nowrap; }
 
         .page-container {
             width: 100%;
@@ -51,66 +53,7 @@
             gap: 15px;
         }
 
-        /* প্রোডাক্ট ফিড সেকশন (স্যাম্পল শপিং আইটেম) */
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            width: 100%;
-        }
-
-        .product-card {
-            background: var(--surface-bg);
-            border: 1.5px solid rgba(212,175,55,0.2);
-            border-radius: 14px;
-            padding: 12px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .product-img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            background: #000;
-        }
-
-        .product-name {
-            font-size: 0.78rem;
-            font-weight: 700;
-            color: #fcf6ba;
-            margin-bottom: 4px;
-            font-family: var(--font-luxury);
-        }
-
-        .product-price {
-            font-size: 0.85rem;
-            font-weight: 900;
-            color: #fff;
-            margin-bottom: 10px;
-        }
-
-        .order-now-btn {
-            background: var(--gold-gradient);
-            border: none;
-            color: #000;
-            font-weight: 900;
-            font-size: 0.7rem;
-            padding: 8px;
-            border-radius: 20px;
-            cursor: pointer;
-            text-transform: uppercase;
-            width: 100%;
-            box-shadow: 0 4px 15px rgba(212,175,55,0.25);
-            transition: 0.2s;
-        }
-        .order-now-btn:active { transform: scale(0.95); }
-
-        /* কয়েন অ্যানিমেশন স্টাইল */
+        /* ফ্লাইং কয়েন অ্যানিমেশন */
         .flying-coin {
             position: fixed;
             width: 24px;
@@ -123,129 +66,194 @@
             transition: all 0.8s cubic-bezier(0.15, 0.85, 0.35, 1.2);
         }
 
-        /* ড্যাশবোর্ড ও 'YOU' সেকশন (হোমপেজের ভেতরেই সংযুক্ত) */
-        .dashboard-card {
+        /* প্রোডাক্ট ফিড সেকশন */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            width: 100%;
+        }
+        .product-card {
+            background: var(--surface-bg);
+            border: 1.5px solid rgba(212,175,55,0.2);
+            border-radius: 14px;
+            padding: 12px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .product-img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            background: #000;
+        }
+        .product-name { font-size: 0.78rem; font-weight: 700; color: #fcf6ba; margin-bottom: 4px; font-family: var(--font-luxury); }
+        .product-price { font-size: 0.85rem; font-weight: 900; color: #fff; margin-bottom: 10px; }
+        .order-now-btn {
+            background: var(--gold-gradient); border: none; color: #000; font-weight: 900; font-size: 0.7rem;
+            padding: 8px; border-radius: 20px; cursor: pointer; text-transform: uppercase; width: 100%;
+            box-shadow: 0 4px 15px rgba(212,175,55,0.25); transition: 0.2s;
+        }
+        .order-now-btn:active { transform: scale(0.95); }
+
+        /* ঝুড়ি ও ভেরিফিকেশন কার্ড (লুসিভ ইউ সেকশন) */
+        .auth-card {
             background: var(--surface-bg);
             border-radius: 18px;
-            padding: 18px 14px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.9);
-            border: 1.5px solid rgba(212,175,55,0.3);
+            padding: 22px 16px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.95);
+            border: 1.5px solid rgba(212,175,55,0.25);
             width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 12px;
         }
 
-        .home-top-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-
-        .home-left-info {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .home-logo { width: 45px; height: 45px; object-fit: contain; margin-bottom: 4px; }
-        .home-brand-name { font-size: 0.8rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; font-family: var(--font-luxury); }
-        .home-username { font-size: 0.92rem; font-weight: 700; color: var(--text-white); margin-top: 2px; }
-        .home-affiliate-id { font-size: 0.65rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; margin-top: 1px; }
-
-        /* বাস্কেট / কার্ট লিস্ট সেকশন (You Section) */
-        .basket-section {
-            background: #040404;
-            border: 1.5px solid rgba(212,175,55,0.25);
-            border-radius: 12px;
-            padding: 12px;
-        }
-
-        .basket-title {
-            font-size: 0.8rem;
-            font-weight: 800;
-            background: var(--gold-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-            font-family: var(--font-luxury);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        .logo-large { width: 50px; height: 50px; object-fit: contain; margin-bottom: 4px; }
+        .brand-title-large { font-size: 1.2rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 2px; }
+        .welcome-subtitle { font-size: 0.8rem; font-weight: 600; color: #ffffff; letter-spacing: 1px; margin-bottom: 12px; font-family: var(--font-luxury); }
 
         .cart-items-container {
-            max-height: 160px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            margin-bottom: 8px;
+            max-height: 180px; overflow-y: auto; margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; text-align: left;
         }
-
         .cart-item-row {
-            background: #000;
-            border: 1px solid rgba(212,175,55,0.15);
-            padding: 6px 10px;
-            border-radius: 6px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.72rem;
+            background: #000; border: 1px solid rgba(212,175,55,0.2); padding: 8px 12px; border-radius: 8px;
+            display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem;
         }
-
-        .cart-item-remove {
-            background: none;
-            border: none;
-            color: #e74c3c;
-            cursor: pointer;
-            font-size: 0.85rem;
-        }
+        .cart-item-info h5 { color: #fcf6ba; font-size: 0.75rem; margin-bottom: 2px; }
+        .cart-item-info p { color: var(--text-gray); font-size: 0.65rem; }
+        .cart-item-remove { background: none; border: none; color: #e74c3c; cursor: pointer; font-size: 0.9rem; padding: 4px; }
 
         .cart-total-box {
-            background: rgba(212,175,55,0.06);
-            border: 1px solid rgba(212,175,55,0.3);
-            padding: 8px 12px;
-            border-radius: 6px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.78rem;
-            font-weight: 700;
-            font-family: var(--font-luxury);
-            color: #fcf6ba;
-            margin-bottom: 10px;
+            background: rgba(212,175,55,0.06); border: 1.5px solid rgba(212,175,55,0.3); padding: 10px 14px;
+            border-radius: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;
+            font-weight: 700; margin-bottom: 15px; font-family: var(--font-luxury); color: #fcf6ba;
         }
 
         .google-verify-btn {
-            width: 100%;
-            background: #ffffff;
-            color: #000;
-            border: none;
-            padding: 10px;
-            border-radius: 25px;
-            font-weight: 700;
-            font-size: 0.78rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            cursor: pointer;
-            font-family: var(--font-body);
+            width: 100%; background: #ffffff; color: #000; border: none; padding: 12px; border-radius: 30px;
+            font-weight: 700; font-size: 0.82rem; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: 0.3s;
+        }
+        .google-verify-btn:hover { background: #eaeaea; }
+
+        /* পপআপ মডাল ওভারলে */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); display: none;
+            justify-content: center; align-items: center; z-index: 2000; padding: 15px;
+        }
+        .modal-card {
+            background: var(--surface-bg); border: 1.5px solid rgba(212,175,55,0.35); border-radius: 18px;
+            padding: 24px 18px; width: 100%; max-width: 550px; box-shadow: 0 15px 40px rgba(0,0,0,0.9);
+            text-align: left; max-height: 88vh; overflow-y: auto; position: relative;
+        }
+        .modal-close-btn {
+            position: absolute; top: 14px; right: 14px; background: none; border: none;
+            background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            font-size: 1.2rem; cursor: pointer;
+        }
+        .modal-title {
+            font-family: var(--font-luxury); font-size: 1.1rem; background: var(--gold-gradient);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-weight: 900; margin-bottom: 15px; text-align: center;
+        }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 0.65rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; font-weight: 800; }
+        .form-group input, .form-group select { width: 100%; background: #000; border: 1.5px solid rgba(212,175,55,0.3); padding: 10px 12px; color: #fff; border-radius: 8px; font-size: 0.82rem; outline: none; }
+        .phone-row { display: flex; gap: 8px; }
+        .phone-row select { width: 115px; flex-shrink: 0; background: #000; color: #fff; border: 1.5px solid rgba(212,175,55,0.3); border-radius: 8px; font-size: 0.75rem; }
+
+        .btn-gold-glow { background: var(--gold-gradient); border: none; padding: 12px; border-radius: 25px; color: #000; font-weight: 900; font-size: 0.78rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); width: 100%; text-align: center; margin-top: 10px; }
+
+        /* ড্যাশবোর্ড লেআউট */
+        .dashboard-wrapper { display: none; width: 100%; flex-direction: column; gap: 12px; }
+        .dash-card {
+            background: var(--surface-bg); border-radius: 18px; padding: 18px 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.9); border: 1.5px solid rgba(212,175,55,0.2); width: 100%; display: block;
         }
 
-        /* বটম ন্যাভবার */
+        .home-top-section { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; position: relative; }
+        .home-left-info { display: flex; flex-direction: column; align-items: flex-start; max-width: 78%; }
+        .home-logo { width: 50px; height: 50px; object-fit: contain; margin-bottom: 4px; }
+        .home-brand-name { font-size: 0.82rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; font-family: var(--font-luxury); }
+        .home-username { font-size: 0.95rem; font-weight: 700; color: var(--text-white); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+        .home-affiliate-id { font-size: 0.68rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+        .home-commission-sub { font-size: 0.58rem; color: var(--text-gray); font-weight: 500; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+
+        .menu-container { position: relative; margin-top: 2px; display: flex; gap: 8px; align-items: center; }
+        .notification-bell-btn { background: none; border: none; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.1rem; position: relative; }
+        .notif-badge { position: absolute; top: 5px; right: 4px; background: #e74c3c; color: #fff; font-size: 0.45rem; width: 13px; height: 13px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: 700; }
+        .menu-toggle-btn { background: none; border: none; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.3rem; }
+
+        .dropdown-menu {
+            position: absolute; top: 38px; right: 0; background: var(--surface-bg);
+            border: 1.5px solid rgba(212,175,55,0.35); border-radius: 12px; width: 185px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.95); display: none; flex-direction: column; z-index: 1100; overflow: hidden;
+        }
+        .dropdown-menu.show { display: flex; }
+        .menu-item { padding: 10px 14px; font-size: 0.75rem; color: var(--text-white); text-decoration: none; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(212,175,55,0.08); cursor: pointer; white-space: nowrap; }
+        .menu-item:last-child { border-bottom: none; }
+        .menu-item i { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; width: 16px; text-align: center; }
+        .menu-item:hover { background: rgba(212,175,55,0.1); color: #fcf6ba; }
+
+        .stats-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+        .stat-card { background: #040404; border: 1.5px solid rgba(212,175,55,0.25); padding: 10px 6px; border-radius: 10px; text-align: center; cursor: pointer; }
+        .stat-lbl { font-size: 0.52rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-weight: 800; margin-bottom: 3px; white-space: nowrap; }
+        .stat-val { font-size: 1rem; font-weight: 900; color: #fff; font-family: var(--font-luxury); white-space: nowrap; }
+        .stat-card-tracking { background: var(--gold-gradient); border: none; box-shadow: 0 0 15px rgba(212,175,55,0.25); }
+        .stat-card-tracking .stat-lbl, .stat-card-tracking .stat-val { -webkit-text-fill-color: #000; color: #000; font-weight: 900; }
+
+        .touch-hand-anim { display: inline-block; animation: touchBounce 1.2s infinite ease-in-out; margin-left: 3px; }
+        @keyframes touchBounce { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-4px) scale(1.15); } }
+
+        .tracking-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+        .tracking-item { background: #000; border: 1.5px solid rgba(212,175,55,0.25); padding: 12px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .tracking-info h4 { font-size: 0.75rem; color: #fcf6ba; margin-bottom: 2px; }
+        .tracking-info p { font-size: 0.62rem; color: var(--text-gray); }
+        .track-url-btn { background: var(--gold-gradient); color: #000; font-size: 0.65rem; font-weight: 800; padding: 6px 12px; border-radius: 20px; text-decoration: none; display: flex; align-items: center; gap: 5px; text-transform: uppercase; white-space: nowrap; }
+
+        .chat-box { background: #040404; border: 1.5px solid rgba(212,175,55,0.25); border-radius: 12px; margin-bottom: 12px; display: flex; flex-direction: column; height: 200px; overflow: hidden; }
+        .chat-header { padding: 8px 12px; background: rgba(212,175,55,0.08); border-bottom: 1px solid rgba(212,175,55,0.2); font-size: 0.68rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; }
+        .chat-messages-area { flex: 1; padding: 10px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; font-size: 0.72rem; }
+        .chat-msg { max-width: 80%; padding: 6px 10px; border-radius: 8px; line-height: 1.4; }
+        .chat-msg.seller { background: rgba(255,255,255,0.06); color: #fff; align-self: flex-start; border-left: 2px solid #bf953f; }
+        .chat-msg.customer { background: rgba(191, 149, 63, 0.15); color: #fcf6ba; align-self: flex-end; border-right: 2px solid #bf953f; }
+        .chat-input-row { display: flex; border-top: 1px solid rgba(212,175,55,0.2); background: #000; }
+        .chat-input { flex: 1; background: transparent; border: none; padding: 10px; color: #fff; font-size: 0.75rem; outline: none; }
+        .chat-send-btn { background: var(--gold-gradient); border: none; color: #000; padding: 0 14px; font-weight: 800; cursor: pointer; font-size: 0.75rem; }
+
+        .action-row { display: flex; gap: 8px; }
+        .support-btn { background: transparent; border: 1.5px solid rgba(255,255,255,0.25); color: #ffffff; flex: 1; padding: 10px; font-weight: 700; font-size: 0.72rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); display: flex; align-items: center; justify-content: center; gap: 5px; border-radius: 10px; text-decoration: none; white-space: nowrap; }
+        .withdraw-quick-btn { background: var(--gold-gradient); border: none; color: #000; flex: 1; padding: 10px; font-weight: 800; font-size: 0.72rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); display: flex; align-items: center; justify-content: center; gap: 5px; border-radius: 10px; white-space: nowrap; }
+
+        .info-display-box { background: #040404; border: 1.5px solid rgba(212,175,55,0.25); padding: 12px 14px; border-radius: 10px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+        .info-content-wrap { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+        .info-lbl { font-size: 0.6rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-weight: 800; margin-bottom: 2px; white-space: nowrap; }
+        .info-val { font-size: 0.78rem; color: #fff; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
+
+        .qr-box { text-align: center; padding: 12px; background: #040404; border-radius: 10px; border: 1.5px solid rgba(212,175,55,0.25); margin-top: 8px; }
+        .qr-image { width: 140px; height: 140px; background: #fff; padding: 5px; border-radius: 6px; margin: 0 auto 8px auto; object-fit: contain; }
+
+        .verified-success-box { display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; background: rgba(46, 204, 113, 0.08); border: 2px solid #2ecc71; border-radius: 12px; text-align: center; }
+
+        .payment-options-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+        .pay-option { background: #040404; border: 1.5px solid rgba(212,175,55,0.3); padding: 10px 6px; border-radius: 8px; text-align: center; cursor: pointer; font-size: 0.72rem; font-weight: 700; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; white-space: nowrap; }
+        .pay-option.selected { background: var(--gold-gradient); color: #000; -webkit-text-fill-color: #000; border-color: #fff; }
+
+        .policy-content { font-size: 0.75rem; color: var(--text-gray); line-height: 1.7; background: #040404; padding: 14px; border-radius: 10px; border: 1.5px solid rgba(212,175,55,0.25); max-height: 62vh; overflow-y: auto; }
+
+        .notif-item { background: #040404; border: 1.5px solid rgba(212,175,55,0.2); padding: 10px 12px; border-radius: 10px; margin-bottom: 8px; font-size: 0.75rem; display: flex; flex-direction: column; gap: 3px; }
+        .notif-title { font-weight: 700; color: #fcf6ba; }
+        .notif-time { font-size: 0.6rem; color: var(--text-gray); }
+
+        /* ফিক্সড বটম ন্যাভবার */
         .bottom-nav {
-            position: fixed;
-            bottom: 0; left: 0; width: 100%;
-            background: rgba(7, 7, 7, 0.95);
-            backdrop-filter: blur(10px);
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: rgba(7, 7, 7, 0.95); backdrop-filter: blur(10px);
             border-top: 1px solid rgba(212,175,55,0.2);
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            z-index: 1000;
+            display: flex; justify-content: space-around; padding: 10px 0; z-index: 1000;
         }
         .nav-item {
             background: none; border: none; color: var(--text-gray);
@@ -253,70 +261,159 @@
             align-items: center; gap: 3px; cursor: pointer; text-transform: uppercase;
         }
         .nav-item i { font-size: 1.1rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .nav-item.active { color: #fcf6ba; }
+        .nav-item.active, .nav-item:hover { color: #fcf6ba; }
     </style>
 </head>
 <body>
 
-    <div class="custom-toast" id="customToast">Item added to basket successfully!</div>
+    <div class="custom-toast" id="customToast">Action completed successfully!</div>
 
     <div class="page-container">
         
         <!-- ১. প্রোডাক্ট ক্যাটালগ (হোমপেজ ফিড) -->
-        <div class="dashboard-card">
-            <h3 style="font-size: 0.9rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 8px;">Featured Luxury Collections</h3>
+        <div class="dash-card">
+            <h3 style="font-size: 0.9rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 10px;">Featured Luxury Collections</h3>
             <div class="products-grid">
                 
                 <div class="product-card" id="prod-1">
                     <img src="https://lh3.googleusercontent.com/d/1a6lFxluTSYUQjB8oqlVQYApRRSmCxEOW" alt="Product" class="product-img">
                     <div class="product-name">Luxury Gamar Table</div>
                     <div class="product-price">$120.00</div>
-                    <button class="order-now-btn" onclick="addToCartWithCoin(event, 'Luxury Gamar Table', 120.00, 'prod-1')">Order Now</button>
+                    <button class="order-now-btn" onclick="addToCartWithCoin(event, 'Luxury Gamar Table', 120.00)">Order Now</button>
                 </div>
 
                 <div class="product-card" id="prod-2">
                     <img src="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400" alt="Product" class="product-img">
                     <div class="product-name">Baby Cotton Set</div>
                     <div class="product-price">$35.00</div>
-                    <button class="order-now-btn" onclick="addToCartWithCoin(event, 'Baby Cotton Set', 35.00, 'prod-2')">Order Now</button>
+                    <button class="order-now-btn" onclick="addToCartWithCoin(event, 'Baby Cotton Set', 35.00)">Order Now</button>
                 </div>
 
             </div>
         </div>
 
-        <!-- ২. হোমপেজের ভেতরেই 'YOU' বাস্কেট ও অ্যাকাউন্ট সেকশন -->
-        <div class="dashboard-card" id="youSection">
-            <div class="home-top-section">
-                <div class="home-left-info">
-                    <img src="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400" alt="Logo" class="home-logo">
-                    <div class="home-brand-name">RORRAXY - YOU PROFILE</div>
-                    <div class="home-username" id="homeDispName">Masudar Rahman</div>
-                    <div class="home-affiliate-id" id="homeAffId">YOU ID: masudar</div>
-                </div>
+        <!-- ২. ঝুড়ি ও ভেরিফিকেশন ল্যান্ডিং কার্ড (প্রাথমিক অবস্হায়) -->
+        <div class="auth-card" id="authSection">
+            <img src="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400" alt="Logo" class="logo-large">
+            <h1 class="brand-title-large">RORRAXY</h1>
+            <p class="welcome-subtitle">Shopping Cart & Checkout</p>
+
+            <div class="cart-items-container" id="cartItemsList"></div>
+
+            <div class="cart-total-box" id="basketTarget">
+                <span>Total Amount:</span>
+                <span id="cartTotalAmt">$155.00</span>
             </div>
 
-            <!-- ঝুড়ি বা বাস্কেট লিস্ট -->
-            <div class="basket-section">
-                <div class="basket-title">
-                    <span><i class="fa-solid fa-basket-shopping"></i> My Basket / Cart</span>
-                    <span id="cartCountBadge" style="font-size:0.7rem; color:#fff;">2 items</span>
-                </div>
-                
-                <div class="cart-items-container" id="cartItemsList">
-                    <!-- ডাইনামিক কার্ট আইটেম এখানে লোড হবে -->
-                </div>
+            <button class="google-verify-btn" onclick="openInfoModal()">
+                <i class="fa-brands fa-google" style="color:#ea4335;"></i> Continue & Verify with Google
+            </button>
+        </div>
 
-                <div class="cart-total-box" id="basketTarget">
-                    <span>Total Amount:</span>
-                    <span id="cartTotalAmt">$155.00</span>
-                </div>
-
-                <button class="google-verify-btn" onclick="showToast('Proceeding to secure checkout...')">
-                    <i class="fa-brands fa-google" style="color:#ea4335;"></i> Verify & Checkout with Google
-                </button>
+        <!-- ৩. ইনফরমেশন ফর্ম পপআপ -->
+        <div class="modal-overlay" id="infoModal">
+            <div class="modal-card">
+                <button class="modal-close-btn" onclick="closeModal('infoModal')"><i class="fa-solid fa-xmark"></i></button>
+                <h3 class="modal-title">Customer Information</h3>
+                <form id="customerForm" onsubmit="submitCustomerInfo(event)">
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" id="regName" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Gmail *</label>
+                        <input type="email" id="regEmail" placeholder="user@gmail.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>WhatsApp Number *</label>
+                        <div class="phone-row">
+                            <select id="regDialCode"></select>
+                            <input type="tel" id="regWhatsApp" placeholder="17XXXXXXXX" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Delivery Address *</label>
+                        <input type="text" id="regAddress" placeholder="House/Street, City, Country" required>
+                    </div>
+                    <button type="submit" class="btn-gold-glow">Confirm & Enter Dashboard</button>
+                </form>
             </div>
         </div>
 
+        <!-- ৪. ফুল ড্যাশবোর্ড সেকশন (YOU মেনু হোমপেজের ভেতরে সংযুক্ত) -->
+        <div class="dashboard-wrapper" id="dashboardSection">
+            <div class="dash-card">
+                <div class="home-top-section">
+                    <div class="home-left-info">
+                        <img src="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400" alt="Logo" class="home-logo">
+                        <div class="home-brand-name">RORRAXY</div>
+                        <div class="home-username" id="homeDispName">Customer Name</div>
+                        <div class="home-affiliate-id" id="homeAffId">YOU ID: user</div>
+                        <div class="home-commission-sub" id="homeEmailDisp">user@gmail.com</div>
+                    </div>
+
+                    <div class="menu-container">
+                        <button class="notification-bell-btn" onclick="openPopupModal('tabNotificationPopup')">
+                            <i class="fa-solid fa-bell"></i>
+                            <span class="notif-badge">2</span>
+                        </button>
+                        <button class="menu-toggle-btn" onclick="toggleMenu(event)">
+                            <i class="fa-solid fa-bars"></i>
+                        </button>
+                        <div class="dropdown-menu" id="dropdownMenu">
+                            <div class="menu-item" onclick="openPopupModal('tabInfoPopup')"><i class="fa-solid fa-circle-info"></i> Information</div>
+                            <div class="menu-item" onclick="openPopupModal('tabVerificationPopup')"><i class="fa-solid fa-shield-halved"></i> Verification</div>
+                            <div class="menu-item" onclick="openPopupModal('tabPaymentPopup')"><i class="fa-solid fa-wallet"></i> Payment Setup</div>
+                            <div class="menu-item" onclick="openPopupModal('tabWithdrawPopup')"><i class="fa-solid fa-rotate-left"></i> Refund</div>
+                            <div class="menu-item" onclick="openPopupModal('tabPolicyPopup')"><i class="fa-solid fa-file-contract"></i> Policy</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-grid-3">
+                    <div class="stat-card" onclick="openPopupModal('tabOrdersPopup')">
+                        <div class="stat-lbl">Total Orders</div>
+                        <div class="stat-val" id="totalOrdersVal">02</div>
+                    </div>
+                    <div class="stat-card stat-card-tracking" onclick="openPopupModal('tabTrackingPopup')">
+                        <div class="stat-lbl">Tracking</div>
+                        <div class="stat-val">
+                            <i class="fa-solid fa-location-arrow" style="font-size: 0.85rem;"></i>
+                            <span class="touch-hand-anim">👆</span>
+                        </div>
+                    </div>
+                    <div class="stat-card" onclick="openPopupModal('tabWithdrawPopup')">
+                        <div class="stat-lbl">Return Amt</div>
+                        <div class="stat-val" id="returnAmountVal">$0.00</div>
+                    </div>
+                </div>
+
+                <div class="chat-box">
+                    <div class="chat-header">
+                        <span><i class="fa-solid fa-comments"></i> Seller Chatroom</span>
+                        <span style="font-size: 0.55rem; color: #2ecc71;"><i class="fa-solid fa-circle" style="font-size: 5px;"></i> Active Seller</span>
+                    </div>
+                    <div class="chat-messages-area" id="chatMessagesArea">
+                        <div class="chat-msg seller">Hello! Welcome to Rorraxy. Please discuss your product inquiries or order details directly with the verified seller here.</div>
+                    </div>
+                    <div class="chat-input-row">
+                        <input type="text" id="chatInputText" class="chat-input" placeholder="Type message to seller..." onkeypress="handleChatKeyPress(event)">
+                        <button class="chat-send-btn" onclick="sendChatMessage()">Send</button>
+                    </div>
+                </div>
+
+                <div class="action-row">
+                    <button class="support-btn" onclick="openFirebaseChat()"><i class="fa-solid fa-headset"></i> Support</button>
+                    <button class="withdraw-quick-btn" onclick="checkRefundSteps()"><i class="fa-solid fa-rotate-left"></i> Refund</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- মেনু অপশনগুলোর জন্য পপআপ মডাল ওভারলে -->
+    <div class="modal-overlay" id="popupModalOverlay">
+        <div class="modal-card" id="popupModalContent"></div>
     </div>
 
     <!-- বটম ন্যাভবার -->
@@ -325,7 +422,7 @@
             <i class="fa-solid fa-house"></i>
             <span>Home</span>
         </button>
-        <button class="nav-item" onclick="document.getElementById('youSection').scrollIntoView({behavior:'smooth'})">
+        <button class="nav-item" onclick="scrollToYouSection()">
             <i class="fa-solid fa-user-shield"></i>
             <span>You</span>
         </button>
@@ -340,10 +437,9 @@
     </nav>
 
     <script>
-        // ডিফল্ট কার্ট ডাটা
         let cartItems = [
-            { name: "Luxury Gamar Table", price: 120.00, qty: 1 },
-            { name: "Baby Cotton Set", price: 35.00, qty: 1 }
+            { name: "Luxury Gamar Wood Table", price: 120.00, qty: 1 },
+            { name: "Baby Organic Cotton Set", price: 35.00, qty: 1 }
         ];
 
         function renderCart() {
@@ -351,9 +447,8 @@
             if(!container) return;
             
             if(cartItems.length === 0) {
-                container.innerHTML = `<div style="text-align:center; color:var(--text-gray); font-size:0.72rem; padding: 10px;">Your basket is empty</div>`;
+                container.innerHTML = `<div style="text-align:center; color:var(--text-gray); font-size:0.75rem; padding: 15px;">Your cart is empty</div>`;
                 document.getElementById('cartTotalAmt').innerText = "$0.00";
-                document.getElementById('cartCountBadge').innerText = "0 items";
                 return;
             }
 
@@ -363,9 +458,9 @@
                 total += item.price * item.qty;
                 html += `
                     <div class="cart-item-row">
-                        <div>
-                            <strong>${item.name}</strong><br>
-                            <span style="color:var(--text-gray);">$${item.price.toFixed(2)} x ${item.qty}</span>
+                        <div class="cart-item-info">
+                            <h5>${item.name}</h5>
+                            <p>$${item.price.toFixed(2)} x ${item.qty}</p>
                         </div>
                         <button class="cart-item-remove" onclick="removeCartItem(${index})"><i class="fa-solid fa-trash"></i></button>
                     </div>
@@ -373,51 +468,34 @@
             });
             container.innerHTML = html;
             document.getElementById('cartTotalAmt').innerText = "$" + total.toFixed(2);
-            document.getElementById('cartCountBadge').innerText = cartItems.length + " items";
         }
 
         function removeCartItem(index) {
             cartItems.splice(index, 1);
             renderCart();
-            showToast("Item removed from basket");
+            showToast("Product removed from cart");
         }
 
-        // কয়েন বা আইটেম ফ্লাইং অ্যানিমেশন সহ কার্টে এড করার ফাংশন
-        function addToCartWithCoin(event, name, price, cardId) {
-            const btn = event.target;
-            const btnRect = btn.getBoundingClientRect();
-            const targetEl = document.getElementById('basketTarget').getBoundingClientRect();
+        const countriesList = [
+            { name: "Bangladesh", flag: "🇧🇩", code: "+880" }, { name: "United States", flag: "🇺🇸", code: "+1" },
+            { name: "United Kingdom", flag: "🇬🇧", code: "+44" }, { name: "Canada", flag: "🇨🇦", code: "+1" },
+            { name: "United Arab Emirates", flag: "🇦🇪", code: "+971" }, { name: "Saudi Arabia", flag: "🇸🇦", code: "+966" },
+            { name: "India", flag: "🇮🇳", code: "+91" }, { name: "Australia", flag: "🇦🇺", code: "+61" }
+        ];
 
-            // কয়েন এলিমেন্ট তৈরি
-            let coin = document.createElement('div');
-            coin.className = 'flying-coin';
-            coin.style.left = btnRect.left + (btnRect.width / 2) - 12 + 'px';
-            coin.style.top = btnRect.top + (btnRect.height / 2) - 12 + 'px';
-            document.body.appendChild(coin);
-
-            // টার্গেট পজিশনে অ্যানিমেশন পাঠানো
-            setTimeout(() => {
-                coin.style.left = targetEl.left + (targetEl.width / 2) - 12 + 'px';
-                coin.style.top = targetEl.top + (targetEl.height / 2) - 12 + 'px';
-                coin.style.transform = 'scale(0.3) rotate(360deg)';
-                coin.style.opacity = '0.3';
-            }, 30);
-
-            // অ্যানিমেশন শেষে কয়েন রিমুভ করে কার্টে ডাটা যোগ করা
-            setTimeout(() => {
-                coin.remove();
-                
-                // চেক করি আইটেমটি অলরেডি আছে কিনা, থাকলে কোয়ান্টিটি বাড়াবে
-                let existing = cartItems.find(i => i.name === name);
-                if(existing) {
-                    existing.qty += 1;
-                } else {
-                    cartItems.push({ name: name, price: price, qty: 1 });
-                }
-                renderCart();
-                showToast(`"${name}" added to your You basket!`);
-            }, 800);
-        }
+        window.addEventListener('DOMContentLoaded', () => {
+            renderCart();
+            const dialCodeSelect = document.getElementById('regDialCode');
+            if(dialCodeSelect) {
+                countriesList.forEach(c => {
+                    let opt = document.createElement('option');
+                    opt.value = c.code;
+                    opt.innerText = `${c.flag} ${c.code}`;
+                    dialCodeSelect.appendChild(opt);
+                });
+                dialCodeSelect.value = "+880";
+            }
+        });
 
         function showToast(msg) {
             let t = document.getElementById('customToast');
@@ -427,8 +505,343 @@
             setTimeout(() => { t.style.display = 'none'; }, 2000);
         }
 
-        window.addEventListener('DOMContentLoaded', () => {
-            renderCart();
+        function openInfoModal() {
+            document.getElementById('infoModal').style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function scrollToYouSection() {
+            const isDone = localStorage.getItem('rorraxy_cust_info_done') === 'true';
+            if(isDone) {
+                document.getElementById('dashboardSection').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                document.getElementById('authSection').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function submitCustomerInfo(e) {
+            e.preventDefault();
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const dialCode = document.getElementById('regDialCode').value;
+            const phoneNum = document.getElementById('regWhatsApp').value.trim();
+            const address = document.getElementById('regAddress').value.trim();
+            const phone = dialCode + " " + phoneNum;
+
+            let gmailUsername = email.includes('@') ? email.split('@')[0] : email;
+            const uidStr = 'YOU ID: ' + gmailUsername;
+
+            document.getElementById('homeDispName').innerText = name;
+            document.getElementById('homeAffId').innerText = uidStr;
+            document.getElementById('homeEmailDisp').innerText = email;
+
+            localStorage.setItem('rorraxy_cust_name', name);
+            localStorage.setItem('rorraxy_cust_email', email);
+            localStorage.setItem('rorraxy_cust_phone', phone);
+            localStorage.setItem('rorraxy_cust_address', address);
+            localStorage.setItem('rorraxy_cust_info_done', 'true');
+
+            document.getElementById('infoModal').style.display = 'none';
+            document.getElementById('authSection').style.display = 'none';
+            document.getElementById('dashboardSection').style.display = 'flex';
+            document.getElementById('dashboardSection').scrollIntoView({ behavior: 'smooth' });
+            showToast("Order confirmed & profile configured!");
+        }
+
+        function toggleMenu(e) {
+            e.stopPropagation();
+            const menu = document.getElementById('dropdownMenu');
+            menu.classList.toggle('show');
+        }
+
+        function checkRefundSteps() {
+            const hasInfo = localStorage.getItem('rorraxy_cust_info_done') === 'true';
+            const hasVerified = localStorage.getItem('rorraxy_cust_verified') === 'true';
+            const hasPayment = localStorage.getItem('rorraxy_cust_payment_done') === 'true';
+
+            if(!hasInfo) {
+                showToast("Please complete your profile information first!");
+                openPopupModal('tabInfoPopup');
+                return;
+            }
+            if(!hasVerified) {
+                showToast("Please complete Google Authenticator verification for security!");
+                openPopupModal('tabVerificationPopup');
+                return;
+            }
+            if(!hasPayment) {
+                showToast("Please set up your refund payment method first!");
+                openPopupModal('tabPaymentPopup');
+                return;
+            }
+            openPopupModal('tabWithdrawPopup');
+        }
+
+        function openPopupModal(tabType) {
+            document.getElementById('dropdownMenu').classList.remove('show');
+            const overlay = document.getElementById('popupModalOverlay');
+            const contentBox = document.getElementById('popupModalContent');
+            
+            let htmlContent = `<button class="modal-close-btn" onclick="closeModal('popupModalOverlay')"><i class="fa-solid fa-xmark"></i></button>`;
+
+            if(tabType === 'tabInfoPopup') {
+                let savedAddress = localStorage.getItem('rorraxy_cust_address') || 'Not Provided';
+                htmlContent += `
+                    <h3 class="modal-title">Customer Information</h3>
+                    <div class="info-display-box">
+                        <div class="info-content-wrap">
+                            <div class="info-lbl">Full Name</div>
+                            <div class="info-val">${document.getElementById('homeDispName').innerText}</div>
+                        </div>
+                        <i class="fa-solid fa-user" style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;"></i>
+                    </div>
+                    <div class="info-display-box">
+                        <div class="info-content-wrap">
+                            <div class="info-lbl">Gmail Account</div>
+                            <div class="info-val">${localStorage.getItem('rorraxy_cust_email') || 'user@gmail.com'}</div>
+                        </div>
+                        <i class="fa-solid fa-envelope" style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;"></i>
+                    </div>
+                    <div class="info-display-box">
+                        <div class="info-content-wrap">
+                            <div class="info-lbl">WhatsApp Number</div>
+                            <div class="info-val">${localStorage.getItem('rorraxy_cust_phone') || '+880 17XXXXXXXX'}</div>
+                        </div>
+                        <i class="fa-brands fa-whatsapp" style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;"></i>
+                    </div>
+                    <div class="info-display-box">
+                        <div class="info-content-wrap">
+                            <div class="info-lbl">Delivery Address</div>
+                            <div class="info-val">${savedAddress}</div>
+                        </div>
+                        <i class="fa-solid fa-location-dot" style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;"></i>
+                    </div>`;
+            } 
+            else if(tabType === 'tabOrdersPopup') {
+                htmlContent += `
+                    <h3 class="modal-title">Total Orders</h3>
+                    <p style="font-size: 0.72rem; color: var(--text-gray); text-align: center; margin-bottom: 12px;">Your recent purchase orders</p>
+                    <div class="tracking-list">
+                        <div class="tracking-item">
+                            <div class="tracking-info">
+                                <h4>Product #PRD-9021</h4>
+                                <p>Status: Confirmed & Processing</p>
+                            </div>
+                        </div>
+                        <div class="tracking-item">
+                            <div class="tracking-info">
+                                <h4>Product #PRD-9022</h4>
+                                <p>Status: Shipped to Courier</p>
+                            </div>
+                        </div>
+                    </div>`;
+            }
+            else if(tabType === 'tabTrackingPopup') {
+                htmlContent += `
+                    <h3 class="modal-title">Product Tracking</h3>
+                    <p style="font-size: 0.72rem; color: var(--text-gray); text-align: center; margin-bottom: 12px;">Click 'Track Live' to view international courier tracking page</p>
+                    <div class="tracking-list">
+                        <div class="tracking-item">
+                            <div class="tracking-info">
+                                <h4>Product #PRD-9021</h4>
+                                <p>Courier: DHL Express Global</p>
+                            </div>
+                            <a href="https://www.dhl.com" target="_blank" class="track-url-btn"><i class="fa-solid fa-location-arrow"></i> Track Live</a>
+                        </div>
+                    </div>`;
+            }
+            else if(tabType === 'tabVerificationPopup') {
+                const isVerified = localStorage.getItem('rorraxy_cust_verified') === 'true';
+                const otpauthData = encodeURIComponent("otpauth://totp/RORRAXY:customer@gmail.com?secret=JBSWY3DPEHPK3PXP&issuer=RORRAXY");
+                const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${otpauthData}`;
+
+                htmlContent += `
+                    <h3 class="modal-title">Security Verification</h3>
+                    <p style="font-size: 0.75rem; color: var(--text-gray); text-align: center; margin-bottom: 10px;">Scan with Google Authenticator. Issuer name: <strong>RORRAXY</strong>.</p>
+                    <div class="qr-box" id="verificationScanBox" style="display:${isVerified ? 'none' : 'block'};">
+                        <img id="qrCodeImage" class="qr-image" src="${qrUrl}" alt="QR">
+                        <div style="font-size: 0.7rem; color: #fff; margin-bottom: 8px;">Secret Key: <span style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:700;">JBSWY3DPEHPK3PXP</span></div>
+                        <div class="form-group" style="text-align: left; margin-bottom: 6px;">
+                            <label>Enter 6-Digit Code</label>
+                            <input type="text" id="authCodeInput" placeholder="123456" maxlength="6" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                        </div>
+                        <button class="btn-gold-glow" onclick="verifyAuthCode()">Verify Code</button>
+                    </div>
+                    <div class="verified-success-box" id="verificationSuccessBox" style="display:${isVerified ? 'flex' : 'none'};">
+                        <i class="fa-solid fa-circle-check" style="color: #2ecc71; font-size: 2.5rem; margin-bottom: 6px;"></i>
+                        <h3 style="color: #2ecc71; font-family: var(--font-luxury); font-size: 1rem;">Verification Confirmed</h3>
+                    </div>`;
+            } 
+            else if(tabType === 'tabPaymentPopup') {
+                htmlContent += `
+                    <h3 class="modal-title">Refund Payment Setup</h3>
+                    <p style="font-size: 0.75rem; color: var(--text-gray); text-align: center; margin-bottom: 10px;">Select your refund payout gateway.</p>
+                    <div class="payment-options-grid">
+                        <div class="pay-option" id="optBkash" onclick="selectPayment('bkash')">Bikash</div>
+                        <div class="pay-option" id="optNagad" onclick="selectPayment('nagad')">Nagad</div>
+                        <div class="pay-option" id="optPayoneer" onclick="selectPayment('payoneer')">Payoneer</div>
+                    </div>
+                    <div class="form-group" id="paymentInputGroup" style="display:none;">
+                        <label id="paymentInputLabel">Account Detail</label>
+                        <input type="text" id="payAccountDetail" placeholder="">
+                    </div>
+                    <button class="btn-gold-glow" onclick="savePaymentSystem()">Save Payment Method</button>`;
+            } 
+            else if(tabType === 'tabWithdrawPopup') {
+                htmlContent += `
+                    <h3 class="modal-title">Refund Request</h3>
+                    <div class="info-display-box">
+                        <div class="info-content-wrap">
+                            <div class="info-lbl">Return Amount Balance</div>
+                            <div class="info-val">$0.00 USD</div>
+                        </div>
+                        <i class="fa-solid fa-wallet" style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;"></i>
+                    </div>
+                    <div class="form-group" style="margin-top: 12px;">
+                        <label>Refund Amount ($ USD)</label>
+                        <input type="number" id="withdrawAmount" placeholder="Enter amount">
+                    </div>
+                    <button class="btn-gold-glow" onclick="requestWithdrawal()">Submit Refund Request</button>`;
+            } 
+            else if(tabType === 'tabNotificationPopup') {
+                htmlContent += `
+                    <h3 class="modal-title">Notifications</h3>
+                    <div class="notif-item">
+                        <div class="notif-title"><i class="fa-solid fa-box-open" style="color:#bf953f; margin-right:5px;"></i> Order Confirmed</div>
+                        <div style="font-size: 0.7rem; color: #fff;">Your recent product order has been verified and registered by seller.</div>
+                        <div class="notif-time">10 mins ago</div>
+                    </div>`;
+            }
+            else if(tabType === 'tabPolicyPopup') {
+                htmlContent += `
+                    <h3 class="modal-title">Customer Return & Order Policy</h3>
+                    <div class="policy-content">
+                        <strong>1. Direct Communication with Seller:</strong> Customers are strongly advised to communicate with sellers via live chat.<br><br>
+                        <strong>2. Return Transport Cost:</strong> Return shipping cost must be borne by the customer.<br><br>
+                        <strong>3. Eligibility:</strong> Valid refund requests are subject to review.
+                    </div>`;
+            }
+
+            contentBox.innerHTML = htmlContent;
+            overlay.style.display = 'flex';
+        }
+
+        function verifyAuthCode() {
+            const code = document.getElementById('authCodeInput').value.trim();
+            if(code.length !== 6) {
+                showToast("Please enter a valid 6-digit verification code!");
+                return;
+            }
+            localStorage.setItem('rorraxy_cust_verified', 'true');
+            showToast("Verification Successful!");
+            closeModal('popupModalOverlay');
+        }
+
+        let selectedGateway = "";
+        function selectPayment(gateway) {
+            selectedGateway = gateway;
+            document.querySelectorAll('.pay-option').forEach(el => el.classList.remove('selected'));
+            let el = document.getElementById('opt' + gateway.charAt(0).toUpperCase() + gateway.slice(1));
+            if(el) el.classList.add('selected');
+
+            const group = document.getElementById('paymentInputGroup');
+            const label = document.getElementById('paymentInputLabel');
+            const input = document.getElementById('payAccountDetail');
+
+            if(group) group.style.display = 'block';
+            if(gateway === 'bkash' || gateway === 'nagad') {
+                label.innerText = `${gateway.toUpperCase()} Mobile Number`;
+                input.placeholder = "017XXXXXXXX";
+            } else if(gateway === 'payoneer') {
+                label.innerText = "Payoneer Email Address";
+                input.placeholder = "user@payoneer.com";
+            }
+        }
+
+        function savePaymentSystem() {
+            if(!selectedGateway) {
+                showToast("Please select a payment method!");
+                return;
+            }
+            localStorage.setItem('rorraxy_cust_payment_done', 'true');
+            showToast("Refund payment method saved successfully!");
+            closeModal('popupModalOverlay');
+        }
+
+        function requestWithdrawal() {
+            showToast("Refund request submitted successfully!");
+            closeModal('popupModalOverlay');
+        }
+
+        function openFirebaseChat() { showToast("Connecting to Firebase Live Support..."); }
+
+        function sendChatMessage() {
+            let input = document.getElementById('chatInputText');
+            let txt = input.value.trim();
+            if(!txt) return;
+            let area = document.getElementById('chatMessagesArea');
+            let custMsg = document.createElement('div');
+            custMsg.className = 'chat-msg customer';
+            custMsg.innerText = txt;
+            area.appendChild(custMsg);
+            input.value = "";
+            area.scrollTop = area.scrollHeight;
+
+            setTimeout(() => {
+                let sellerMsg = document.createElement('div');
+                sellerMsg.className = 'chat-msg seller';
+                sellerMsg.innerText = "Thanks for your message! Seller will respond shortly.";
+                area.appendChild(sellerMsg);
+                area.scrollTop = area.scrollHeight;
+            }, 1000);
+        }
+
+        function handleChatKeyPress(e) { if(e.key === 'Enter') sendChatMessage(); }
+
+        // কয়েন ফ্লাইং অ্যানিমেশন সহ কার্টে এড করা
+        function addToCartWithCoin(event, name, price) {
+            const btn = event.target;
+            const btnRect = btn.getBoundingClientRect();
+            const targetEl = document.getElementById('basketTarget').getBoundingClientRect();
+
+            let coin = document.createElement('div');
+            coin.className = 'flying-coin';
+            coin.style.left = btnRect.left + (btnRect.width / 2) - 12 + 'px';
+            coin.style.top = btnRect.top + (btnRect.height / 2) - 12 + 'px';
+            document.body.appendChild(coin);
+
+            setTimeout(() => {
+                coin.style.left = targetEl.left + (targetEl.width / 2) - 12 + 'px';
+                coin.style.top = targetEl.top + (targetEl.height / 2) - 12 + 'px';
+                coin.style.transform = 'scale(0.3) rotate(360deg)';
+                coin.style.opacity = '0.3';
+            }, 30);
+
+            setTimeout(() => {
+                coin.remove();
+                let existing = cartItems.find(i => i.name === name);
+                if(existing) {
+                    existing.qty += 1;
+                } else {
+                    cartItems.push({ name: name, price: price, qty: 1 });
+                }
+                renderCart();
+                showToast(`"${name}" added to basket!`);
+            }, 800);
+        }
+
+        window.addEventListener('click', (e) => {
+            const menu = document.getElementById('dropdownMenu');
+            if(menu && menu.classList.contains('show') && !e.target.closest('.menu-container')) {
+                menu.classList.remove('show');
+            }
+            const popupOverlay = document.getElementById('popupModalOverlay');
+            if(e.target === popupOverlay) {
+                popupOverlay.style.display = 'none';
+            }
         });
     </script>
 </body>
