@@ -8,17 +8,17 @@
     <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Chart.js for Graph -->
+    <!-- Chart.js for Analytics Graph -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         :root {
-            --bg-black: #050505;
-            --surface-bg: #0c0c0c;
+            --bg-black: #030303;
+            --surface-bg: #090909;
             --gold-gradient: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
             --gold-solid: #d4af37;
             --text-white: #ffffff;
-            --text-gray: #cfcfcf;
+            --text-gray: #b5b5b5;
             --font-luxury: 'Cinzel', serif;
             --font-body: 'Poppins', sans-serif;
         }
@@ -37,56 +37,56 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px 10px;
+            padding: 15px 8px;
         }
 
         h1, h2, h3, h4, .brand-title-main { font-family: var(--font-luxury); }
 
-        .custom-toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(16, 16, 16, 0.98); border: 1.5px solid var(--gold-solid); color: var(--gold-solid); padding: 8px 16px; border-radius: 30px; font-size: 0.7rem; font-weight: 700; z-index: 999999; display: none; box-shadow: 0 0 15px rgba(212,175,55,0.3); }
+        .custom-toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(15, 15, 15, 0.98); border: 1.5px solid var(--gold-solid); color: var(--gold-solid); padding: 8px 18px; border-radius: 30px; font-size: 0.7rem; font-weight: 700; z-index: 999999; display: none; box-shadow: 0 0 20px rgba(212,175,55,0.35); }
 
         .page-container {
             width: 100%;
-            max-width: 600px;
+            max-width: 500px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        /* ল্যান্ডিং / গুগল ভেরিফিকেশন কার্ড (বড় ও কালারফুল লোগো নাম) */
+        /* ল্যান্ডিং / গুগল ভেরিফিকেশন কার্ড */
         .auth-card {
             background: var(--surface-bg);
             border-radius: 20px;
-            padding: 40px 24px;
+            padding: 35px 22px;
             text-align: center;
             box-shadow: 0 15px 40px rgba(0,0,0,0.95);
-            border: 1px solid rgba(212,175,55,0.25);
+            border: 1px solid rgba(212,175,55,0.2);
             width: 100%;
         }
 
         .logo-large {
-            width: 85px;
-            height: 85px;
+            width: 80px;
+            height: 80px;
             object-fit: contain;
-            margin-bottom: 12px;
-            filter: drop-shadow(0 0 10px rgba(212,175,55,0.4));
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 12px rgba(212,175,55,0.45));
         }
 
         .brand-title-large {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 900;
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-transform: uppercase;
             letter-spacing: 3px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .welcome-subtitle {
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: var(--text-gray);
             line-height: 1.6;
-            margin-bottom: 25px;
+            margin-bottom: 22px;
         }
 
         .google-verify-btn {
@@ -94,17 +94,17 @@
             background: #ffffff;
             color: #000;
             border: none;
-            padding: 14px;
+            padding: 13px;
             border-radius: 30px;
             font-weight: 700;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
             cursor: pointer;
             transition: 0.3s;
-            box-shadow: 0 4px 15px rgba(255,255,255,0.2);
+            box-shadow: 0 4px 15px rgba(255,255,255,0.15);
         }
         .google-verify-btn:hover { background: #f1f1f1; transform: scale(1.02); }
 
@@ -112,7 +112,7 @@
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
+            background: rgba(0,0,0,0.88);
             backdrop-filter: blur(8px);
             display: none;
             justify-content: center;
@@ -122,11 +122,11 @@
         }
         .modal-card {
             background: var(--surface-bg);
-            border: 1px solid rgba(212,175,55,0.4);
+            border: 1px solid rgba(212,175,55,0.35);
             border-radius: 18px;
-            padding: 25px 20px;
+            padding: 24px 18px;
             width: 100%;
-            max-width: 480px;
+            max-width: 450px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.9);
             text-align: left;
             max-height: 90vh;
@@ -134,7 +134,7 @@
         }
         .modal-title {
             font-family: var(--font-luxury);
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -144,74 +144,74 @@
             text-align: center;
         }
         .form-group { margin-bottom: 12px; }
-        .form-group label { display: block; font-size: 0.65rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-weight: 800; }
-        .form-group input, .form-group select { width: 100%; background: #000; border: 1.5px solid rgba(212,175,55,0.35); padding: 10px 12px; color: #fff; border-radius: 8px; font-size: 0.8rem; outline: none; }
+        .form-group label { display: block; font-size: 0.62rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-weight: 800; }
+        .form-group input, .form-group select { width: 100%; background: #000; border: 1.5px solid rgba(212,175,55,0.3); padding: 10px 12px; color: #fff; border-radius: 8px; font-size: 0.78rem; outline: none; }
         .phone-row { display: flex; gap: 8px; }
-        .phone-row select { width: 140px; flex-shrink: 0; background: #000; color: #fff; border: 1.5px solid rgba(212,175,55,0.35); border-radius: 8px; font-size: 0.75rem; }
+        .phone-row select { width: 130px; flex-shrink: 0; background: #000; color: #fff; border: 1.5px solid rgba(212,175,55,0.3); border-radius: 8px; font-size: 0.72rem; }
 
-        .btn-gold-glow { background: var(--gold-gradient); border: none; padding: 12px; border-radius: 25px; color: #000; font-weight: 900; font-size: 0.78rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); width: 100%; text-align: center; margin-top: 10px; }
+        .btn-gold-glow { background: var(--gold-gradient); border: none; padding: 12px; border-radius: 25px; color: #000; font-weight: 900; font-size: 0.75rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); width: 100%; text-align: center; margin-top: 10px; }
 
         /* ড্যাশবোর্ড লেআউট */
         .dashboard-wrapper {
             display: none;
             width: 100%;
-            max-width: 600px;
+            max-width: 500px;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
         }
 
+        /* হেডার: বামপাশে থ্রি-লাইন মেনু এবং ডানে ছোট লোগো */
         header.dashboard-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 18px;
+            padding: 8px 15px;
             background: var(--surface-bg);
-            border-radius: 14px;
-            border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 12px;
+            border: 1px solid rgba(212,175,55,0.2);
             width: 100%;
             position: relative;
-        }
-
-        .header-brand-group { display: flex; align-items: center; gap: 10px; }
-        .small-logo { width: 30px; height: 30px; object-fit: contain; }
-        .header-title {
-            font-size: 0.85rem;
-            font-weight: 900;
-            background: var(--gold-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            font-family: var(--font-luxury);
         }
 
         .menu-container { position: relative; }
         .menu-toggle-btn {
             background: none;
-            border: 1.5px solid rgba(212,175,55,0.4);
+            border: none;
             color: var(--gold-solid);
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
+            width: 32px;
+            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 1.1rem;
             transition: 0.3s;
         }
-        .menu-toggle-btn:hover { background: rgba(212,175,55,0.1); }
+        .menu-toggle-btn:hover { color: #fff; }
 
-        /* সাইড স্লাইড মেনু (ড্রপডাউন) */
+        .header-brand-right { display: flex; align-items: center; gap: 8px; }
+        .small-logo { width: 26px; height: 26px; object-fit: contain; }
+        .header-title {
+            font-size: 0.8rem;
+            font-weight: 900;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: var(--font-luxury);
+        }
+
+        /* বামপাশে ভাসমান মেনু ড্রপডাউন */
         .dropdown-menu {
             position: absolute;
             top: 42px;
-            right: 0;
+            left: 0;
             background: var(--surface-bg);
             border: 1px solid rgba(212,175,55,0.3);
             border-radius: 12px;
-            width: 220px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.9);
+            width: 200px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.95);
             display: none;
             flex-direction: column;
             z-index: 1100;
@@ -220,202 +220,212 @@
         .dropdown-menu.show { display: flex; }
         
         .menu-item {
-            padding: 11px 15px;
-            font-size: 0.75rem;
+            padding: 10px 14px;
+            font-size: 0.72rem;
             color: var(--text-white);
             text-decoration: none;
             display: flex;
             align-items: center;
             gap: 10px;
-            border-bottom: 1px solid rgba(212,175,55,0.1);
+            border-bottom: 1px solid rgba(212,175,55,0.08);
             transition: 0.2s;
             cursor: pointer;
         }
         .menu-item:last-child { border-bottom: none; }
         .menu-item i { color: var(--gold-solid); width: 16px; text-align: center; }
-        .menu-item:hover { background: rgba(212,175,55,0.12); color: var(--gold-solid); }
+        .menu-item:hover { background: rgba(212,175,55,0.1); color: var(--gold-solid); }
 
         /* ট্যাব কার্ডগুলো */
         .dash-card {
             background: var(--surface-bg);
-            border-radius: 18px;
-            padding: 24px 20px;
-            box-shadow: 0 12px 40px rgba(0,0,0,0.9);
-            border: 1px solid rgba(212,175,55,0.25);
+            border-radius: 16px;
+            padding: 20px 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.9);
+            border: 1px solid rgba(212,175,55,0.2);
             width: 100%;
             display: none;
         }
         .dash-card.active-tab { display: block; }
 
         .dash-title {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 900;
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-transform: uppercase;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             font-family: var(--font-luxury);
             text-align: center;
         }
 
-        /* মেইন হোম ড্যাশবোর্ড স্টাইল */
+        /* হোম ড্যাশবোর্ড সেকশন (বর্ডারহীন ক্লিন ডিজাইন) */
         .home-hero-box {
             text-align: center;
-            background: #000;
-            border: 1px solid rgba(212,175,55,0.3);
-            padding: 22px 15px;
-            border-radius: 16px;
-            margin-bottom: 15px;
+            padding: 12px 10px 18px 10px;
+            margin-bottom: 12px;
         }
-        .home-logo { width: 55px; height: 55px; object-fit: contain; margin-bottom: 8px; }
-        .home-username {
-            font-size: 1.2rem;
+        .home-logo { 
+            width: 65px; 
+            height: 65px; 
+            object-fit: contain; 
+            margin-bottom: 6px; 
+            filter: drop-shadow(0 0 10px rgba(212,175,55,0.4));
+        }
+        .home-brand-name {
+            font-size: 0.95rem;
             font-weight: 900;
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-transform: uppercase;
+            letter-spacing: 2px;
             font-family: var(--font-luxury);
+            margin-bottom: 4px;
+        }
+        .home-username {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
         }
 
-        /* ইনকাম ও পেআউট গ্রিড */
+        /* টোটাল ইনকাম ও পেআউট গ্রিড */
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 15px;
+            gap: 10px;
+            margin-bottom: 12px;
         }
         .stat-card {
-            background: #000;
-            border: 1px solid rgba(212,175,55,0.25);
-            padding: 15px;
-            border-radius: 14px;
+            background: #050505;
+            border: 1px solid rgba(212,175,55,0.2);
+            padding: 12px;
+            border-radius: 12px;
             text-align: center;
         }
-        .stat-lbl { font-size: 0.6rem; color: var(--gold-solid); text-transform: uppercase; font-weight: 700; margin-bottom: 4px; }
-        .stat-val { font-size: 1.25rem; font-weight: 900; color: #fff; font-family: var(--font-luxury); }
+        .stat-lbl { font-size: 0.58rem; color: var(--gold-solid); text-transform: uppercase; font-weight: 700; margin-bottom: 3px; }
+        .stat-val { font-size: 1.15rem; font-weight: 900; color: #fff; font-family: var(--font-luxury); }
 
-        /* প্রোডাক্ট শিট টেবিল */
+        /* প্রোডাক্ট আইডি শিট টেবিল */
         .sheet-table-wrapper {
-            background: #000;
-            border: 1px solid rgba(212,175,55,0.25);
-            border-radius: 14px;
-            padding: 12px;
-            margin-bottom: 15px;
+            background: #050505;
+            border: 1px solid rgba(212,175,55,0.2);
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: 12px;
             overflow-x: auto;
         }
         .sheet-table {
             width: 100%;
             border-collapse: collapse;
             text-align: left;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
         }
         .sheet-table th {
             color: var(--gold-solid);
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             text-transform: uppercase;
-            border-bottom: 1px solid rgba(212,175,55,0.3);
-            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(212,175,55,0.25);
+            padding-bottom: 6px;
         }
         .sheet-table td {
-            padding: 10px 4px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 8px 4px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
             color: #fff;
         }
         .status-badge {
-            padding: 3px 8px;
+            padding: 2px 7px;
             border-radius: 20px;
-            font-size: 0.6rem;
+            font-size: 0.58rem;
             font-weight: 700;
             text-transform: uppercase;
         }
-        .status-pending { background: rgba(241, 196, 15, 0.15); color: #f1c40f; border: 1px solid rgba(241, 196, 15, 0.3); }
-        .status-confirm { background: rgba(46, 204, 113, 0.15); color: #2ecc71; border: 1px solid rgba(46, 204, 113, 0.3); }
+        .status-pending { background: rgba(241, 196, 15, 0.15); color: #f1c40f; border: 1px solid rgba(241, 196, 15, 0.25); }
+        .status-confirm { background: rgba(46, 204, 113, 0.15); color: #2ecc71; border: 1px solid rgba(46, 204, 113, 0.25); }
 
         /* গ্রাফ কন্টেইনার */
         .chart-box {
-            background: #000;
-            border: 1px solid rgba(212,175,55,0.25);
-            padding: 12px;
-            border-radius: 14px;
-            margin-bottom: 15px;
+            background: #050505;
+            border: 1px solid rgba(212,175,55,0.2);
+            padding: 10px;
+            border-radius: 12px;
+            margin-bottom: 12px;
         }
 
-        /* এফিলিয়েট সাপোর্ট বাটন */
+        /* এফিলিয়েট সাপোর্ট বাটন (বর্ডার বা শেপ ছাড়া একদম ক্লিন) */
         .support-btn {
-            background: #000;
-            border: 1.5px solid var(--gold-solid);
+            background: transparent;
+            border: none;
             color: var(--gold-solid);
             width: 100%;
-            padding: 12px;
-            border-radius: 25px;
-            font-weight: 900;
-            font-size: 0.78rem;
+            padding: 10px;
+            font-weight: 800;
+            font-size: 0.75rem;
             cursor: pointer;
             text-transform: uppercase;
             font-family: var(--font-luxury);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
             transition: 0.3s;
             text-decoration: none;
+            letter-spacing: 1px;
         }
-        .support-btn:hover { background: rgba(212,175,55,0.1); box-shadow: 0 0 15px rgba(212,175,55,0.3); }
+        .support-btn:hover { color: #fff; text-shadow: 0 0 10px var(--gold-solid); }
 
         /* ইনফো ডিসপ্লে বক্স */
         .info-display-box {
-            background: #000;
-            border: 1px solid rgba(212,175,55,0.25);
-            padding: 14px;
-            border-radius: 12px;
-            margin-bottom: 10px;
+            background: #050505;
+            border: 1px solid rgba(212,175,55,0.2);
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .info-lbl { font-size: 0.65rem; color: var(--gold-solid); text-transform: uppercase; font-weight: 700; }
-        .info-val { font-size: 0.8rem; color: #fff; font-weight: 600; }
+        .info-lbl { font-size: 0.62rem; color: var(--gold-solid); text-transform: uppercase; font-weight: 700; }
+        .info-val { font-size: 0.78rem; color: #fff; font-weight: 600; }
 
         /* ভেরিফিকেশন ও পেমেন্ট স্টাইল */
         .qr-box {
             text-align: center;
-            padding: 15px;
-            background: #000;
-            border-radius: 12px;
+            padding: 12px;
+            background: #050505;
+            border-radius: 10px;
             border: 1px solid rgba(212,175,55,0.2);
-            margin-top: 10px;
+            margin-top: 8px;
         }
-        .qr-image { width: 150px; height: 150px; background: #fff; padding: 6px; border-radius: 8px; margin: 0 auto 10px auto; object-fit: contain; }
+        .qr-image { width: 140px; height: 140px; background: #fff; padding: 5px; border-radius: 6px; margin: 0 auto 8px auto; object-fit: contain; }
 
         .verified-success-box {
             display: none;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 30px;
-            background: rgba(46, 204, 113, 0.1);
+            padding: 25px;
+            background: rgba(46, 204, 113, 0.08);
             border: 2px solid #2ecc71;
-            border-radius: 12px;
+            border-radius: 10px;
             text-align: center;
         }
-        .verified-success-box i { font-size: 3rem; color: #2ecc71; margin-bottom: 10px; }
+        .verified-success-box i { font-size: 2.8rem; color: #2ecc71; margin-bottom: 8px; }
 
         .payment-options-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 8px;
+            margin-bottom: 12px;
         }
         .pay-option {
-            background: #000;
-            border: 1.5px solid rgba(212,175,55,0.3);
-            padding: 12px 8px;
-            border-radius: 10px;
+            background: #050505;
+            border: 1.5px solid rgba(212,175,55,0.25);
+            padding: 10px 6px;
+            border-radius: 8px;
             text-align: center;
             cursor: pointer;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             font-weight: 700;
             color: var(--gold-solid);
             transition: 0.3s;
@@ -424,12 +434,12 @@
 
         /* পলিসি ট্যাব স্টাইল */
         .policy-content {
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             color: var(--text-gray);
-            line-height: 1.7;
-            background: #000;
-            padding: 15px;
-            border-radius: 12px;
+            line-height: 1.6;
+            background: #050505;
+            padding: 12px;
+            border-radius: 10px;
             border: 1px solid rgba(212,175,55,0.2);
         }
     </style>
@@ -440,7 +450,7 @@
 
     <div class="page-container">
         
-        <!-- ১. ল্যান্ডিং / গুগল ভেরিফিকেশন কার্ড (বড় ও প্রিমিয়াম লোগো ও নাম) -->
+        <!-- ১. ল্যান্ডিং / গুগল ভেরিফিকেশন কার্ড -->
         <div class="auth-card" id="authSection">
             <img src="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400" alt="Logo" class="logo-large">
             <h1 class="brand-title-large">RORRAXY</h1>
@@ -492,20 +502,15 @@
         <div class="dashboard-wrapper" id="dashboardSection">
             
             <header class="dashboard-header">
-                <div class="header-brand-group">
-                    <img src="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400" alt="Logo" class="small-logo">
-                    <span class="header-title">RORRAXY</span>
-                </div>
-
-                <!-- থ্রি ডট মেনু (সাইড ড্রয়ার) -->
+                <!-- বামপাশে ভাসমান থ্রি-লাইন মেনু ড্রপডাউন -->
                 <div class="menu-container">
                     <button class="menu-toggle-btn" onclick="toggleMenu(event)">
-                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                        <i class="fa-solid fa-bars"></i>
                     </button>
 
                     <div class="dropdown-menu" id="dropdownMenu">
                         <div class="menu-item" onclick="switchTab('tabHome')">
-                            <i class="fa-solid fa-house"></i> Dashboard Home
+                            <i class="fa-solid fa-house"></i> Home
                         </div>
                         <div class="menu-item" onclick="switchTab('tabInfo')">
                             <i class="fa-solid fa-circle-info"></i> Information
@@ -524,12 +529,19 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- ডানে ছোট লোগো এবং ব্র্যান্ড নাম -->
+                <div class="header-brand-right">
+                    <span class="header-title">RORRAXY</span>
+                    <img src="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400" alt="Logo" class="small-logo">
+                </div>
             </header>
 
-            <!-- ট্যাব ১: মেইন ড্যাশবোর্ড হোম (লোগো, শুধু নাম, আর্ন, পেআউট, শিট, গ্রাফ ও সাপোর্ট) -->
+            <!-- ট্যাব ১: মেইন ড্যাশবোর্ড হোম -->
             <div class="dash-card active-tab" id="tabHome">
                 <div class="home-hero-box">
                     <img src="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400" alt="Logo" class="home-logo">
+                    <div class="home-brand-name">RORRAXY</div>
                     <div class="home-username" id="homeDispName">User Name</div>
                 </div>
 
@@ -545,9 +557,9 @@
                     </div>
                 </div>
 
-                <!-- প্রোডাক্ট আইডি শিট টেবিল (Pending & Confirm) -->
+                <!-- প্রোডাক্ট আইডি শিট টেবিল -->
                 <div class="sheet-table-wrapper">
-                    <div style="font-size: 0.7rem; color: var(--gold-solid); font-weight: 700; margin-bottom: 8px; text-transform: uppercase;">Product ID Records</div>
+                    <div style="font-size: 0.68rem; color: var(--gold-solid); font-weight: 700; margin-bottom: 6px; text-transform: uppercase;">Product ID Records</div>
                     <table class="sheet-table">
                         <thead>
                             <tr>
@@ -578,14 +590,14 @@
 
                 <!-- পারফরম্যান্স গ্রাফ -->
                 <div class="chart-box">
-                    <div style="font-size: 0.7rem; color: var(--gold-solid); font-weight: 700; margin-bottom: 6px; text-transform: uppercase;">Performance Analytics</div>
-                    <canvas id="performanceChart" height="110"></canvas>
+                    <div style="font-size: 0.68rem; color: var(--gold-solid); font-weight: 700; margin-bottom: 4px; text-transform: uppercase;">Analytics Graph</div>
+                    <canvas id="performanceChart" height="100"></canvas>
                 </div>
 
-                <!-- এফিলিয়েট সাপোর্ট বাটন -->
-                <a href="https://wa.me/8801700000000" target="_blank" class="support-btn">
-                    <i class="fa-brands fa-whatsapp" style="font-size: 1rem; color: #25d366;"></i> Affiliate Support
-                </a>
+                <!-- এফিলিয়েট সাপোর্ট (ফায়ারবেস লাইভ চ্যাট ট্রিগার বাটন) -->
+                <button class="support-btn" onclick="openFirebaseChat()">
+                    <i class="fa-solid fa-headset" style="font-size: 0.9rem;"></i> Affiliate Support
+                </button>
             </div>
 
             <!-- ট্যাব ২: ইনফরমেশন -->
@@ -620,7 +632,7 @@
                     <i class="fa-solid fa-location-dot" style="color:var(--gold-solid);"></i>
                 </div>
 
-                <button class="btn-gold-glow" onclick="openInfoModal('edit')" style="margin-top: 15px;">
+                <button class="btn-gold-glow" onclick="openInfoModal('edit')" style="margin-top: 12px;">
                     <i class="fa-solid fa-pen-to-square"></i> Edit Profile Information
                 </button>
             </div>
@@ -628,15 +640,15 @@
             <!-- ট্যাব ৩: ভেরিফিকেশন -->
             <div class="dash-card" id="tabVerification">
                 <h2 class="dash-title">Verification</h2>
-                <p style="font-size: 0.75rem; color: var(--text-gray); text-align: center; margin-bottom: 12px;">
+                <p style="font-size: 0.72rem; color: var(--text-gray); text-align: center; margin-bottom: 10px;">
                     Scan with Google Authenticator. Issuer name will appear as <strong>RORRAXY</strong>.
                 </p>
                 
                 <div class="qr-box" id="verificationScanBox">
                     <img id="qrCodeImage" class="qr-image" src="" alt="QR Scanner">
-                    <div style="font-size: 0.7rem; color: #fff; margin-bottom: 10px;">Secret Key: <span style="color:var(--gold-solid);">JBSWY3DPEHPK3PXP</span></div>
+                    <div style="font-size: 0.68rem; color: #fff; margin-bottom: 8px;">Secret Key: <span style="color:var(--gold-solid);">JBSWY3DPEHPK3PXP</span></div>
                     
-                    <div class="form-group" style="text-align: left; margin-bottom: 8px;">
+                    <div class="form-group" style="text-align: left; margin-bottom: 6px;">
                         <label>Enter 6-Digit Code from Authenticator</label>
                         <input type="text" id="authCodeInput" placeholder="123456" maxlength="6" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                     </div>
@@ -645,15 +657,15 @@
 
                 <div class="verified-success-box" id="verificationSuccessBox">
                     <i class="fa-solid fa-circle-check" style="color: #2ecc71;"></i>
-                    <h3 style="color: #2ecc71; font-family: var(--font-luxury); font-size: 1.1rem; margin-bottom: 5px;">Verification Confirmed</h3>
-                    <p style="font-size: 0.75rem; color: var(--text-gray);">Your account is securely verified with Google Authenticator.</p>
+                    <h3 style="color: #2ecc71; font-family: var(--font-luxury); font-size: 1.05rem; margin-bottom: 4px;">Verification Confirmed</h3>
+                    <p style="font-size: 0.72rem; color: var(--text-gray);">Your account is securely verified with Google Authenticator.</p>
                 </div>
             </div>
 
             <!-- ট্যাব ৪: পেমেন্ট সেটআপ -->
             <div class="dash-card" id="tabPayment">
                 <h2 class="dash-title">Payment Setup</h2>
-                <p style="font-size: 0.75rem; color: var(--text-gray); text-align: center; margin-bottom: 12px;">
+                <p style="font-size: 0.72rem; color: var(--text-gray); text-align: center; margin-bottom: 10px;">
                     Select your preferred payout gateway.
                 </p>
                 <div class="payment-options-grid">
@@ -671,7 +683,7 @@
             <!-- ট্যাব ৫: উইথড্র -->
             <div class="dash-card" id="tabWithdraw">
                 <h2 class="dash-title">Withdraw Funds</h2>
-                <div class="info-display-box" style="margin-bottom: 15px;">
+                <div class="info-display-box" style="margin-bottom: 12px;">
                     <div>
                         <div class="info-lbl">Available Balance</div>
                         <div class="info-val">$0.00 USD</div>
@@ -810,7 +822,6 @@
                 document.getElementById('verificationSuccessBox').style.display = 'flex';
             }
 
-            // চার্ট রেন্ডার
             renderChart();
         });
 
@@ -861,7 +872,6 @@
             const phone = dialCode + " " + phoneNum;
             const addressInput = document.getElementById('regAddress');
 
-            // হোম এবং ইনফরমেশন ট্যাবে ডেটা সেট করা (শুধু নাম হোমে শো করবে)
             document.getElementById('homeDispName').innerText = name;
             document.getElementById('dispName').innerText = name;
             document.getElementById('dispEmail').innerText = email;
@@ -946,7 +956,12 @@
             document.getElementById('withdrawAmount').value = "";
         }
 
-        // গ্রাফ রেন্ডার করার ফাংশন
+        // ফায়ারবেস লাইভ চ্যাট সাপোর্ট ওপেন করার ফাংশন
+        function openFirebaseChat() {
+            showToast("Connecting to Firebase Live Support...");
+            // এখানে আপনার ফায়ারবেস চ্যাট উইন্ডো বা রিয়েল-টাইম চ্যাট লিংক যুক্ত করতে পারেন
+        }
+
         function renderChart() {
             const ctx = document.getElementById('performanceChart').getContext('2d');
             new Chart(ctx, {
@@ -957,7 +972,7 @@
                         label: 'Earnings ($)',
                         data: [20, 45, 30, 80, 50, 95, 120],
                         borderColor: '#d4af37',
-                        backgroundColor: 'rgba(212, 175, 55, 0.1)',
+                        backgroundColor: 'rgba(212, 175, 55, 0.08)',
                         borderWidth: 2,
                         fill: true,
                         tension: 0.3
@@ -967,8 +982,8 @@
                     responsive: true,
                     plugins: { legend: { display: false } },
                     scales: {
-                        x: { ticks: { color: '#cfcfcf', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' } },
-                        y: { ticks: { color: '#cfcfcf', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' } }
+                        x: { ticks: { color: '#b5b5b5', font: { size: 9 } }, grid: { color: 'rgba(255,255,255,0.04)' } },
+                        y: { ticks: { color: '#b5b5b5', font: { size: 9 } }, grid: { color: 'rgba(255,255,255,0.04)' } }
                     }
                 }
             });
