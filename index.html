@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Firebase SDK (Modular CDN Integration) -->
+    <!-- Firebase SDK Integration -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
@@ -326,7 +326,7 @@
         <i class="fa-solid fa-comments"></i>
     </div>
 
-    <!-- Feed Layout (Cloudflare R2 Optimized Storage CDN Integration) -->
+    <!-- Feed Layout (Cloudflare R2 Storage CDN Integration) -->
     <main class="feed-container" id="productFeed">
         <div class="product-card" id="card-prod-1">
             <div class="product-media-box" onclick="openProductDetails('PREMIUM BRACELET', '$100.00', ['https://0d2bc64b36fe70d346646a8bf8bfd5a.r2.cloudflarestorage.com/bracelet-1.jpg', 'https://lh3.googleusercontent.com/d/1qyOXxZ8s2cJMEo66NDE4BdoxiC4hy_sG'])">
@@ -388,7 +388,7 @@
         </div>
         <div class="product-details-content">
             <div class="media-slider-container">
-                <img id="mainDisplayMedia" class="main-display-media" src="" alt="Product Preview R2 Optimized">
+                <img id="mainDisplayMedia" class="main-display-media" src="" alt="Product Preview R2 Optimized" onerror="this.src='https://lh3.googleusercontent.com/d/1a6lFxluTSYUQjB8oqlVQYApRRSmCxEOW'">
                 <div class="thumbnail-strip" id="thumbStrip"></div>
             </div>
 
@@ -546,7 +546,6 @@
             document.getElementById('fullScreenIframe').src = '';
         }
 
-        // ওয়ান-অফ টগল সিস্টেম ও বটম ন্যাভবার সর্বদা দৃশ্যমান রাখা
         function toggleSubdomainOverlay(url) {
             const overlay = document.getElementById('subdomainOverlay');
             const iframe = document.getElementById('subdomainIframeElement');
@@ -763,7 +762,7 @@
             
             let thumbHTML = '';
             images.forEach((img, index) => {
-                thumbHTML += `<div class="thumb-item ${index === 0 ? 'active' : ''}" onclick="switchMedia('${img}', this)"><img src="${img}"></div>`;
+                thumbHTML += `<div class="thumb-item ${index === 0 ? 'active' : ''}" onclick="switchMedia('${img}', this)"><img src="${img}" onerror="this.src='https://lh3.googleusercontent.com/d/1a6lFxluTSYUQjB8oqlVQYApRRSmCxEOW'"></div>`;
             });
             document.getElementById('thumbStrip').innerHTML = thumbHTML;
             document.getElementById('productDetailModal').style.display = 'block';
