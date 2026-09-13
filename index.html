@@ -8,7 +8,7 @@
     <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Chart.js for Analytics Graph -->
+    <!-- Chart.js for Clicks Analytics -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
@@ -68,7 +68,6 @@
             height: 80px;
             object-fit: contain;
             margin-bottom: 10px;
-            filter: drop-shadow(0 0 12px rgba(212,175,55,0.45));
         }
 
         .brand-title-large {
@@ -131,6 +130,15 @@
             text-align: left;
             max-height: 90vh;
             overflow-y: auto;
+            position: relative;
+        }
+        .modal-close-btn {
+            position: absolute;
+            top: 15px; right: 15px;
+            background: none; border: none;
+            color: var(--gold-solid);
+            font-size: 1.1rem;
+            cursor: pointer;
         }
         .modal-title {
             font-family: var(--font-luxury);
@@ -160,7 +168,7 @@
             gap: 12px;
         }
 
-        /* ট্যাব কার্ডগুলো */
+        /* ড্যাশবোর্ড হোম কার্ড */
         .dash-card {
             background: var(--surface-bg);
             border-radius: 16px;
@@ -168,23 +176,10 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.9);
             border: 1px solid rgba(212,175,55,0.2);
             width: 100%;
-            display: none;
-        }
-        .dash-card.active-tab { display: block; }
-
-        .dash-title {
-            font-size: 1.05rem;
-            font-weight: 900;
-            background: var(--gold-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
-            margin-bottom: 12px;
-            font-family: var(--font-luxury);
-            text-align: center;
+            display: block;
         }
 
-        /* হোম ড্যাশবোর্ড হেডার: বামপাশে লোগো, ব্র্যান্ড নাম, ইউজার নাম এবং ঠিক নিচেই থ্রি-লাইন মেনু */
+        /* হোম ড্যাশবোর্ড হেডার: বামপাশে লোগো, ব্র্যান্ড নাম, ইউজার নাম, এফিলিয়েট আইডি এবং ডানপাশে থ্রি-লাইন মেনু */
         .home-top-section {
             display: flex;
             justify-content: space-between;
@@ -204,7 +199,6 @@
             height: 55px; 
             object-fit: contain; 
             margin-bottom: 4px; 
-            filter: drop-shadow(0 0 8px rgba(212,175,55,0.4));
         }
         .home-brand-name {
             font-size: 0.85rem;
@@ -220,9 +214,17 @@
             font-size: 1rem;
             font-weight: 700;
             color: #fff;
+            margin-top: 2px;
+        }
+        .home-affiliate-id {
+            font-size: 0.65rem;
+            color: var(--gold-solid);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-top: 1px;
         }
 
-        /* লোগোর ঠিক নিচে থ্রি-লাইন মেনু বাটন */
+        /* ডানপাশে থ্রি-লাইন মেনু বাটন */
         .menu-container { position: relative; margin-top: 4px; }
         .menu-toggle-btn {
             background: none;
@@ -239,11 +241,11 @@
         }
         .menu-toggle-btn:hover { color: #fff; }
 
-        /* ভাসমান মেনু ড্রপডাউন */
+        /* ডানপাশ থেকে ভাসমান মেনু ড্রপডাউন */
         .dropdown-menu {
             position: absolute;
             top: 38px;
-            left: 0;
+            right: 0;
             background: var(--surface-bg);
             border: 1px solid rgba(212,175,55,0.3);
             border-radius: 12px;
@@ -272,7 +274,7 @@
         .menu-item i { color: var(--gold-solid); width: 16px; text-align: center; }
         .menu-item:hover { background: rgba(212,175,55,0.1); color: var(--gold-solid); }
 
-        /* টোটাল ইনকাম ও পেআউট গ্রিড ($0.00 করা হয়েছে) */
+        /* টোটাল ইনকাম ও পেআউট গ্রিড ($0.00 ও ১০% কমিশন নোট) */
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -288,45 +290,31 @@
         }
         .stat-lbl { font-size: 0.58rem; color: var(--gold-solid); text-transform: uppercase; font-weight: 700; margin-bottom: 3px; }
         .stat-val { font-size: 1.15rem; font-weight: 900; color: #fff; font-family: var(--font-luxury); }
+        .commission-note { font-size: 0.52rem; color: var(--text-gray); margin-top: 2px; font-weight: 500; }
 
-        /* প্রোডাক্ট আইডি শিট টেবিল (হেডার রিমুভ করা হয়েছে) */
-        .sheet-table-wrapper {
-            background: #050505;
-            border: 1px solid rgba(212,175,55,0.2);
-            border-radius: 12px;
-            padding: 10px;
+        /* প্রোডাক্ট আইডি শিট ওপেন করার বাটন */
+        .sheet-btn-wrapper {
             margin-bottom: 12px;
-            overflow-x: auto;
         }
-        .sheet-table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-            font-size: 0.72rem;
-        }
-        .sheet-table th {
+        .sheet-trigger-btn {
+            background: #050505;
+            border: 1px solid rgba(212,175,55,0.3);
             color: var(--gold-solid);
-            font-size: 0.6rem;
-            text-transform: uppercase;
-            border-bottom: 1px solid rgba(212,175,55,0.25);
-            padding-bottom: 6px;
-        }
-        .sheet-table td {
-            padding: 8px 4px;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
-            color: #fff;
-        }
-        .status-badge {
-            padding: 2px 7px;
-            border-radius: 20px;
-            font-size: 0.58rem;
+            width: 100%;
+            padding: 11px;
+            border-radius: 12px;
             font-weight: 700;
+            font-size: 0.75rem;
+            cursor: pointer;
             text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: 0.3s;
         }
-        .status-pending { background: rgba(241, 196, 15, 0.15); color: #f1c40f; border: 1px solid rgba(241, 196, 15, 0.25); }
-        .status-confirm { background: rgba(46, 204, 113, 0.15); color: #2ecc71; border: 1px solid rgba(46, 204, 113, 0.25); }
+        .sheet-trigger-btn:hover { background: rgba(212,175,55,0.08); }
 
-        /* গ্রাফ কন্টেইনার */
+        /* ক্লিক এনালাইসিস গ্রাফ কার্ড */
         .chart-box {
             background: #050505;
             border: 1px solid rgba(212,175,55,0.2);
@@ -335,7 +323,7 @@
             margin-bottom: 12px;
         }
 
-        /* এফিলিয়েট সাপোর্ট বাটন (সাদা রঙ করা হয়েছে) */
+        /* এফিলিয়েট সাপোর্ট বাটন (সাদা রঙ) */
         .support-btn {
             background: transparent;
             border: none;
@@ -356,6 +344,66 @@
             letter-spacing: 1px;
         }
         .support-btn:hover { color: var(--gold-solid); text-shadow: 0 0 10px var(--gold-solid); }
+
+        /* শিট পপআপ টেবিল স্টাইল (স্ক্রোলএবল) */
+        .sheet-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(6px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2500;
+            padding: 15px;
+        }
+        .sheet-modal-card {
+            background: var(--surface-bg);
+            border: 1px solid rgba(212,175,55,0.4);
+            border-radius: 16px;
+            padding: 20px 15px;
+            width: 100%;
+            max-width: 450px;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        .sheet-table-scroll {
+            overflow-y: auto;
+            max-height: 60vh;
+            margin-top: 10px;
+        }
+        .sheet-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.72rem;
+        }
+        .sheet-table th {
+            color: var(--gold-solid);
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(212,175,55,0.25);
+            padding-bottom: 6px;
+            position: sticky;
+            top: 0;
+            background: var(--surface-bg);
+        }
+        .sheet-table td {
+            padding: 9px 4px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            color: #fff;
+        }
+        .status-badge {
+            padding: 2px 7px;
+            border-radius: 20px;
+            font-size: 0.58rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .status-pending { background: rgba(241, 196, 15, 0.15); color: #f1c40f; border: 1px solid rgba(241, 196, 15, 0.25); }
+        .status-confirm { background: rgba(46, 204, 113, 0.15); color: #2ecc71; border: 1px solid rgba(46, 204, 113, 0.25); }
 
         /* ইনফো ডিসপ্লে বক্স */
         .info-display-box {
@@ -415,7 +463,6 @@
         }
         .pay-option.selected { background: var(--gold-gradient); color: #000; border-color: #fff; }
 
-        /* পলিসি ট্যাব স্টাইল */
         .policy-content {
             font-size: 0.75rem;
             color: var(--text-gray);
@@ -449,6 +496,7 @@
         <!-- ২. ইনফরমেশন ফর্ম পপআপ -->
         <div class="modal-overlay" id="infoModal">
             <div class="modal-card">
+                <button class="modal-close-btn" onclick="closeModal('infoModal')"><i class="fa-solid fa-xmark"></i></button>
                 <h3 class="modal-title" id="modalHeading">Complete Your Information</h3>
                 <form id="affiliateForm" onsubmit="submitAffiliateInfo(event)">
                     <div class="form-group">
@@ -484,15 +532,16 @@
         <!-- ৩. ড্যাশবোর্ড সেকশন -->
         <div class="dashboard-wrapper" id="dashboardSection">
             
-            <!-- ট্যাব ১: মেইন ড্যাশবোর্ড হোম -->
-            <div class="dash-card active-tab" id="tabHome">
+            <!-- মেইন ড্যাশবোর্ড হোম কার্ড -->
+            <div class="dash-card">
                 
-                <!-- বামপাশে লোগো, ব্র্যান্ড নাম, ইউজারের নাম এবং লোগোর ঠিক নিচে থ্রি-লাইন মেনু -->
+                <!-- হেডার: বামপাশে লোগো, ব্র্যান্ড, নাম, আইডি এবং ডানপাশে থ্রি-লাইন মেনু -->
                 <div class="home-top-section">
                     <div class="home-left-info">
                         <img src="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400" alt="Logo" class="home-logo">
                         <div class="home-brand-name">RORRAXY</div>
                         <div class="home-username" id="homeDispName">User Name</div>
+                        <div class="home-affiliate-id" id="homeAffId">ID: #ROR-000000</div>
                     </div>
 
                     <div class="menu-container">
@@ -501,191 +550,102 @@
                         </button>
 
                         <div class="dropdown-menu" id="dropdownMenu">
-                            <div class="menu-item" onclick="switchTab('tabHome')">
+                            <div class="menu-item" onclick="openPopupModal('tabHomePopup')">
                                 <i class="fa-solid fa-house"></i> Home
                             </div>
-                            <div class="menu-item" onclick="switchTab('tabInfo')">
+                            <div class="menu-item" onclick="openPopupModal('tabInfoPopup')">
                                 <i class="fa-solid fa-circle-info"></i> Information
                             </div>
-                            <div class="menu-item" onclick="switchTab('tabVerification')">
+                            <div class="menu-item" onclick="openPopupModal('tabVerificationPopup')">
                                 <i class="fa-solid fa-shield-halved"></i> Verification
                             </div>
-                            <div class="menu-item" onclick="switchTab('tabPayment')">
+                            <div class="menu-item" onclick="openPopupModal('tabPaymentPopup')">
                                 <i class="fa-solid fa-wallet"></i> Payment Setup
                             </div>
-                            <div class="menu-item" onclick="switchTab('tabWithdraw')">
+                            <div class="menu-item" onclick="openPopupModal('tabWithdrawPopup')">
                                 <i class="fa-solid fa-money-bill-transfer"></i> Withdraw
                             </div>
-                            <div class="menu-item" onclick="switchTab('tabPolicy')">
+                            <div class="menu-item" onclick="openPopupModal('tabPolicyPopup')">
                                 <i class="fa-solid fa-file-contract"></i> Policy
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- টোটাল ইনকাম ও টোটাল পেআউট বক্স ($0.00) -->
+                <!-- টোটাল ইনকাম ও টোটাল পেআউট বক্স ($0.00 ও ১০% কমিশন) -->
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-lbl">Total Earn</div>
                         <div class="stat-val" id="totalEarnVal">$0.00</div>
+                        <div class="commission-note">10% Commission</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-lbl">Total Payout</div>
                         <div class="stat-val" id="totalPayoutVal">$0.00</div>
+                        <div class="commission-note">10% Commission</div>
                     </div>
                 </div>
 
-                <!-- প্রোডাক্ট আইডি শিট টেবিল (হেডার ছাড়া শুধু Product ID, Amount, Status) -->
-                <div class="sheet-table-wrapper">
-                    <table class="sheet-table">
-                        <thead>
-                            <tr>
-                                <th>Product ID</th>
-                                <th>Amount</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="productSheetBody">
-                            <tr>
-                                <td>#PRD-9021</td>
-                                <td>$50.00</td>
-                                <td><span class="status-badge status-confirm">Confirm</span></td>
-                            </tr>
-                            <tr>
-                                <td>#PRD-9022</td>
-                                <td>$75.00</td>
-                                <td><span class="status-badge status-pending">Pending</span></td>
-                            </tr>
-                            <tr>
-                                <td>#PRD-9023</td>
-                                <td>$125.00</td>
-                                <td><span class="status-badge status-confirm">Confirm</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <!-- প্রোডাক্ট আইডি শিট ওপেন করার বাটন -->
+                <div class="sheet-btn-wrapper">
+                    <button class="sheet-trigger-btn" onclick="openSheetModal()">
+                        <span><i class="fa-solid fa-table-list" style="margin-right: 6px; color: var(--gold-solid);"></i> Product ID Records</span>
+                        <i class="fa-solid fa-chevron-right" style="font-size: 0.65rem;"></i>
+                    </button>
                 </div>
 
-                <!-- পারফরম্যান্স গ্রাফ -->
+                <!-- ক্লিক এনালিটিক্স গ্রাফ -->
                 <div class="chart-box">
-                    <div style="font-size: 0.68rem; color: var(--gold-solid); font-weight: 700; margin-bottom: 4px; text-transform: uppercase;">Analytics Graph</div>
-                    <canvas id="performanceChart" height="100"></canvas>
+                    <div style="font-size: 0.68rem; color: var(--gold-solid); font-weight: 700; margin-bottom: 4px; text-transform: uppercase;">Visitor Clicks Analytics</div>
+                    <canvas id="clicksChart" height="100"></canvas>
                 </div>
 
-                <!-- এফিলিয়েট সাপোর্ট (সাদা রঙ করা হয়েছে) -->
+                <!-- এফিলিয়েট সাপোর্ট (সাদা রঙ) -->
                 <button class="support-btn" onclick="openFirebaseChat()">
                     <i class="fa-solid fa-headset" style="font-size: 0.9rem;"></i> Affiliate Support
                 </button>
             </div>
 
-            <!-- ট্যাব ২: ইনফরমেশন -->
-            <div class="dash-card" id="tabInfo">
-                <h2 class="dash-title">Profile Information</h2>
-                <div class="info-display-box">
-                    <div>
-                        <div class="info-lbl">Full Name</div>
-                        <div class="info-val" id="dispName">--</div>
-                    </div>
-                    <i class="fa-solid fa-user" style="color:var(--gold-solid);"></i>
-                </div>
-                <div class="info-display-box">
-                    <div>
-                        <div class="info-lbl">Gmail Account</div>
-                        <div class="info-val" id="dispEmail">--</div>
-                    </div>
-                    <i class="fa-solid fa-envelope" style="color:var(--gold-solid);"></i>
-                </div>
-                <div class="info-display-box">
-                    <div>
-                        <div class="info-lbl">WhatsApp Number</div>
-                        <div class="info-val" id="dispPhone">--</div>
-                    </div>
-                    <i class="fa-brands fa-whatsapp" style="color:var(--gold-solid);"></i>
-                </div>
-                <div class="info-display-box">
-                    <div>
-                        <div class="info-lbl">Address</div>
-                        <div class="info-val" id="dispAddress">Not Provided</div>
-                    </div>
-                    <i class="fa-solid fa-location-dot" style="color:var(--gold-solid);"></i>
-                </div>
-
-                <button class="btn-gold-glow" onclick="openInfoModal('edit')" style="margin-top: 12px;">
-                    <i class="fa-solid fa-pen-to-square"></i> Edit Profile Information
-                </button>
-            </div>
-
-            <!-- ট্যাব ৩: ভেরিফিকেশন -->
-            <div class="dash-card" id="tabVerification">
-                <h2 class="dash-title">Verification</h2>
-                <p style="font-size: 0.72rem; color: var(--text-gray); text-align: center; margin-bottom: 10px;">
-                    Scan with Google Authenticator. Issuer name will appear as <strong>RORRAXY</strong>.
-                </p>
-                
-                <div class="qr-box" id="verificationScanBox">
-                    <img id="qrCodeImage" class="qr-image" src="" alt="QR Scanner">
-                    <div style="font-size: 0.68rem; color: #fff; margin-bottom: 8px;">Secret Key: <span style="color:var(--gold-solid);">JBSWY3DPEHPK3PXP</span></div>
-                    
-                    <div class="form-group" style="text-align: left; margin-bottom: 6px;">
-                        <label>Enter 6-Digit Code from Authenticator</label>
-                        <input type="text" id="authCodeInput" placeholder="123456" maxlength="6" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                    </div>
-                    <button class="btn-gold-glow" onclick="verifyAuthCode()">Verify Code</button>
-                </div>
-
-                <div class="verified-success-box" id="verificationSuccessBox">
-                    <i class="fa-solid fa-circle-check" style="color: #2ecc71;"></i>
-                    <h3 style="color: #2ecc71; font-family: var(--font-luxury); font-size: 1.05rem; margin-bottom: 4px;">Verification Confirmed</h3>
-                    <p style="font-size: 0.72rem; color: var(--text-gray);">Your account is securely verified with Google Authenticator.</p>
-                </div>
-            </div>
-
-            <!-- ট্যাব ৪: পেমেন্ট সেটআপ -->
-            <div class="dash-card" id="tabPayment">
-                <h2 class="dash-title">Payment Setup</h2>
-                <p style="font-size: 0.72rem; color: var(--text-gray); text-align: center; margin-bottom: 10px;">
-                    Select your preferred payout gateway.
-                </p>
-                <div class="payment-options-grid">
-                    <div class="pay-option" id="optBkash" onclick="selectPayment('bkash')">Bikash</div>
-                    <div class="pay-option" id="optNagad" onclick="selectPayment('nagad')">Nagad</div>
-                    <div class="pay-option" id="optPayoneer" onclick="selectPayment('payoneer')">Payoneer</div>
-                </div>
-                <div class="form-group" id="paymentInputGroup" style="display:none;">
-                    <label id="paymentInputLabel">Account Detail</label>
-                    <input type="text" id="payAccountDetail" placeholder="">
-                </div>
-                <button class="btn-gold-glow" onclick="savePaymentSystem()">Save Payment Method</button>
-            </div>
-
-            <!-- ট্যাব ৫: উইথড্র -->
-            <div class="dash-card" id="tabWithdraw">
-                <h2 class="dash-title">Withdraw Funds</h2>
-                <div class="info-display-box" style="margin-bottom: 12px;">
-                    <div>
-                        <div class="info-lbl">Available Balance</div>
-                        <div class="info-val">$0.00 USD</div>
-                    </div>
-                    <i class="fa-solid fa-wallet" style="color:var(--gold-solid);"></i>
-                </div>
-                <div class="form-group">
-                    <label>Withdraw Amount ($ USD)</label>
-                    <input type="number" id="withdrawAmount" placeholder="Enter amount">
-                </div>
-                <button class="btn-gold-glow" onclick="requestWithdrawal()">Withdraw Now</button>
-            </div>
-
-            <!-- ট্যাব ৬: পলিসি -->
-            <div class="dash-card" id="tabPolicy">
-                <h2 class="dash-title">Affiliate Policy</h2>
-                <div class="policy-content">
-                    1. All affiliate commissions are subject to verification and anti-fraud checks.<br><br>
-                    2. Payouts are processed automatically once the status changes to confirmed.<br><br>
-                    3. Any violation of terms will result in immediate account suspension.
-                </div>
-            </div>
-
         </div>
 
+    </div>
+
+    <!-- প্রোডাক্ট আইডি শিট পপআপ মডাল (স্ক্রোলএবল) -->
+    <div class="sheet-modal-overlay" id="sheetModal">
+        <div class="sheet-modal-card">
+            <button class="modal-close-btn" onclick="closeSheetModal()"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="modal-title" style="margin-bottom: 5px;">Product ID Records</h3>
+            <div class="sheet-table-scroll">
+                <table class="sheet-table">
+                    <thead>
+                        <tr>
+                            <th>Product ID</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productSheetBody">
+                        <tr>
+                            <td>#PRD-9021</td>
+                            <td>$0.00</td>
+                            <td><span class="status-badge status-confirm">Confirm</span></td>
+                        </tr>
+                        <tr>
+                            <td>#PRD-9022</td>
+                            <td>$0.00</td>
+                            <td><span class="status-badge status-pending">Pending</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- মেনু অপশনগুলোর জন্য পপআপ মডাল ওভারলে -->
+    <div class="modal-overlay" id="popupModalOverlay">
+        <div class="modal-card" id="popupModalContent">
+            <!-- ডাইনামিক কনটেন্ট এখানে লোড হবে -->
+        </div>
     </div>
 
     <script>
@@ -799,7 +759,7 @@
                 document.getElementById('verificationSuccessBox').style.display = 'flex';
             }
 
-            renderChart();
+            renderClicksChart();
         });
 
         function showToast(msg) {
@@ -819,10 +779,10 @@
                 document.getElementById('modalSubmitBtn').innerText = "Update Information";
                 addressGroup.style.display = 'block';
                 
-                document.getElementById('regName').value = document.getElementById('dispName').innerText;
-                document.getElementById('regEmail').value = document.getElementById('dispEmail').innerText;
+                document.getElementById('regName').value = document.getElementById('homeDispName').innerText;
+                document.getElementById('regEmail').value = document.getElementById('dispEmail') ? document.getElementById('dispEmail').innerText : '';
                 
-                let currentPhone = document.getElementById('dispPhone').innerText;
+                let currentPhone = document.getElementById('dispPhone') ? document.getElementById('dispPhone').innerText : '';
                 let parts = currentPhone.split(" ");
                 if(parts.length >= 2) {
                     document.getElementById('regDialCode').value = parts[0];
@@ -831,13 +791,25 @@
                     document.getElementById('regWhatsApp').value = currentPhone;
                 }
 
-                let currentAddr = document.getElementById('dispAddress').innerText;
+                let currentAddr = document.getElementById('dispAddress') ? document.getElementById('dispAddress').innerText : '';
                 document.getElementById('regAddress').value = currentAddr === 'Not Provided' ? '' : currentAddr;
             } else {
                 document.getElementById('modalHeading').innerText = "Complete Your Information";
                 document.getElementById('modalSubmitBtn').innerText = "Confirm & Enter Dashboard";
                 addressGroup.style.display = 'none';
             }
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function openSheetModal() {
+            document.getElementById('sheetModal').style.display = 'flex';
+        }
+
+        function closeSheetModal() {
+            document.getElementById('sheetModal').style.display = 'none';
         }
 
         function submitAffiliateInfo(e) {
@@ -849,13 +821,20 @@
             const phone = dialCode + " " + phoneNum;
             const addressInput = document.getElementById('regAddress');
 
-            document.getElementById('homeDispName').innerText = name;
-            document.getElementById('dispName').innerText = name;
-            document.getElementById('dispEmail').innerText = email;
-            document.getElementById('dispPhone').innerText = phone;
+            // ইউনিক এফিলিয়েট আইডি জেনারেট করা (যেমন: #ROR-849201)
+            const randomId = '#ROR-' + Math.floor(100000 + Math.random() * 900000);
 
-            if(addressInput && addressInput.value.trim() !== '') {
-                document.getElementById('dispAddress').innerText = addressInput.value.trim();
+            document.getElementById('homeDispName').innerText = name;
+            document.getElementById('homeAffId').innerText = "ID: " + randomId;
+
+            // ইনফরমেশন ট্যাবের ডেট আপডেট
+            if(document.getElementById('dispName')) {
+                document.getElementById('dispName').innerText = name;
+                document.getElementById('dispEmail').innerText = email;
+                document.getElementById('dispPhone').innerText = phone;
+                if(addressInput && addressInput.value.trim() !== '') {
+                    document.getElementById('dispAddress').innerText = addressInput.value.trim();
+                }
             }
 
             document.getElementById('infoModal').style.display = 'none';
@@ -870,10 +849,113 @@
             menu.classList.toggle('show');
         }
 
-        function switchTab(tabId) {
-            document.querySelectorAll('.dash-card').forEach(card => card.classList.remove('active-tab'));
-            document.getElementById(tabId).classList.add('active-tab');
+        // থ্রি-ডট মেনু থেকে পপআপ ওপেন করার ফাংশন
+        function openPopupModal(tabType) {
             document.getElementById('dropdownMenu').classList.remove('show');
+            const overlay = document.getElementById('popupModalOverlay');
+            const contentBox = document.getElementById('popupModalContent');
+            
+            let htmlContent = `<button class="modal-close-btn" onclick="closeModal('popupModalOverlay')"><i class="fa-solid fa-xmark"></i></button>`;
+
+            if(tabType === 'tabHomePopup') {
+                htmlContent += `<h3 class="modal-title">Dashboard Home</h3><p style="font-size:0.75rem; color:var(--text-gray); text-align:center;">You are already on the main dashboard home.</p>`;
+            } 
+            else if(tabType === 'tabInfoPopup') {
+                htmlContent += `
+                    <h3 class="modal-title">Profile Information</h3>
+                    <div class="info-display-box">
+                        <div><div class="info-lbl">Full Name</div><div class="info-val" id="dispName">${document.getElementById('homeDispName').innerText}</div></div>
+                        <i class="fa-solid fa-user" style="color:var(--gold-solid);"></i>
+                    </div>
+                    <div class="info-display-box">
+                        <div><div class="info-lbl">Gmail Account</div><div class="info-val" id="dispEmail">user@gmail.com</div></div>
+                        <i class="fa-solid fa-envelope" style="color:var(--gold-solid);"></i>
+                    </div>
+                    <div class="info-display-box">
+                        <div><div class="info-lbl">WhatsApp Number</div><div class="info-val" id="dispPhone">+880 17XXXXXXXX</div></div>
+                        <i class="fa-brands fa-whatsapp" style="color:var(--gold-solid);"></i>
+                    </div>
+                    <div class="info-display-box">
+                        <div><div class="info-lbl">Address</div><div class="info-val" id="dispAddress">Not Provided</div></div>
+                        <i class="fa-solid fa-location-dot" style="color:var(--gold-solid);"></i>
+                    </div>
+                    <button class="btn-gold-glow" onclick="closeModal('popupModalOverlay'); openInfoModal('edit');" style="margin-top: 10px;">
+                        <i class="fa-solid fa-pen-to-square"></i> Edit Profile Information
+                    </button>`;
+            } 
+            else if(tabType === 'tabVerificationPopup') {
+                htmlContent += `
+                    <h3 class="modal-title">Verification</h3>
+                    <p style="font-size: 0.72rem; color: var(--text-gray); text-align: center; margin-bottom: 10px;">
+                        Scan with Google Authenticator. Issuer name will appear as <strong>RORRAXY</strong>.
+                    </p>
+                    <div class="qr-box" id="verificationScanBox">
+                        <img id="qrCodeImage" class="qr-image" src="" alt="QR Scanner">
+                        <div style="font-size: 0.68rem; color: #fff; margin-bottom: 8px;">Secret Key: <span style="color:var(--gold-solid);">JBSWY3DPEHPK3PXP</span></div>
+                        <div class="form-group" style="text-align: left; margin-bottom: 6px;">
+                            <label>Enter 6-Digit Code</label>
+                            <input type="text" id="authCodeInput" placeholder="123456" maxlength="6" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                        </div>
+                        <button class="btn-gold-glow" onclick="verifyAuthCode()">Verify Code</button>
+                    </div>
+                    <div class="verified-success-box" id="verificationSuccessBox">
+                        <i class="fa-solid fa-circle-check" style="color: #2ecc71;"></i>
+                        <h3 style="color: #2ecc71; font-family: var(--font-luxury); font-size: 1.05rem; margin-bottom: 4px;">Verification Confirmed</h3>
+                        <p style="font-size: 0.72rem; color: var(--text-gray);">Your account is securely verified.</p>
+                    </div>`;
+            } 
+            else if(tabType === 'tabPaymentPopup') {
+                htmlContent += `
+                    <h3 class="modal-title">Payment Setup</h3>
+                    <p style="font-size: 0.72rem; color: var(--text-gray); text-align: center; margin-bottom: 10px;">Select your preferred payout gateway.</p>
+                    <div class="payment-options-grid">
+                        <div class="pay-option" id="optBkash" onclick="selectPayment('bkash')">Bikash</div>
+                        <div class="pay-option" id="optNagad" onclick="selectPayment('nagad')">Nagad</div>
+                        <div class="pay-option" id="optPayoneer" onclick="selectPayment('payoneer')">Payoneer</div>
+                    </div>
+                    <div class="form-group" id="paymentInputGroup" style="display:none;">
+                        <label id="paymentInputLabel">Account Detail</label>
+                        <input type="text" id="payAccountDetail" placeholder="">
+                    </div>
+                    <button class="btn-gold-glow" onclick="savePaymentSystem()">Save Payment Method</button>`;
+            } 
+            else if(tabType === 'tabWithdrawPopup') {
+                htmlContent += `
+                    <h3 class="modal-title">Withdraw Funds</h3>
+                    <div class="info-display-box" style="margin-bottom: 12px;">
+                        <div><div class="info-lbl">Available Balance</div><div class="info-val">$0.00 USD</div></div>
+                        <i class="fa-solid fa-wallet" style="color:var(--gold-solid);"></i>
+                    </div>
+                    <div class="form-group">
+                        <label>Withdraw Amount ($ USD)</label>
+                        <input type="number" id="withdrawAmount" placeholder="Enter amount">
+                    </div>
+                    <button class="btn-gold-glow" onclick="requestWithdrawal()">Withdraw Now</button>`;
+            } 
+            else if(tabType === 'tabPolicyPopup') {
+                htmlContent += `
+                    <h3 class="modal-title">Affiliate Policy</h3>
+                    <div class="policy-content">
+                        1. All affiliate commissions are subject to verification and anti-fraud checks.<br><br>
+                        2. Payouts are processed automatically once the status changes to confirmed.<br><br>
+                        3. Any violation of terms will result in immediate account suspension.
+                    </div>`;
+            }
+
+            contentBox.innerHTML = htmlContent;
+            overlay.style.display = 'flex';
+
+            // কিউআর কোড রি-লজ্জ যদি ভেরিফিকেশন ট্যাব ওপেন হয়
+            if(tabType === 'tabVerificationPopup') {
+                const otpauth = encodeURIComponent("otpauth://totp/RORRAXY:user@gmail.com?secret=JBSWY3DPEHPK3PXP&issuer=RORRAXY");
+                const qrImg = document.getElementById('qrCodeImage');
+                if(qrImg) qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${otpauth}`;
+                
+                if(localStorage.getItem('rorraxy_verified') === 'true') {
+                    if(document.getElementById('verificationScanBox')) document.getElementById('verificationScanBox').style.display = 'none';
+                    if(document.getElementById('verificationSuccessBox')) document.getElementById('verificationSuccessBox').style.display = 'flex';
+                }
+            }
         }
 
         function verifyAuthCode() {
@@ -892,13 +974,14 @@
         function selectPayment(gateway) {
             selectedGateway = gateway;
             document.querySelectorAll('.pay-option').forEach(el => el.classList.remove('selected'));
-            document.getElementById('opt' + gateway.charAt(0).toUpperCase() + gateway.slice(1)).classList.add('selected');
+            let el = document.getElementById('opt' + gateway.charAt(0).toUpperCase() + gateway.slice(1));
+            if(el) el.classList.add('selected');
 
             const group = document.getElementById('paymentInputGroup');
             const label = document.getElementById('paymentInputLabel');
             const input = document.getElementById('payAccountDetail');
 
-            group.style.display = 'block';
+            if(group) group.style.display = 'block';
             if(gateway === 'bkash' || gateway === 'nagad') {
                 label.innerText = `${gateway.toUpperCase()} Mobile Number`;
                 input.placeholder = "017XXXXXXXX";
@@ -937,15 +1020,16 @@
             showToast("Connecting to Firebase Live Support...");
         }
 
-        function renderChart() {
-            const ctx = document.getElementById('performanceChart').getContext('2d');
+        // ক্লিক এনালিটিক্স গ্রাফ রেন্ডার (ভিজিটর ক্লিক কাউন্ট)
+        function renderClicksChart() {
+            const ctx = document.getElementById('clicksChart').getContext('2d');
             new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
                     datasets: [{
-                        label: 'Earnings ($)',
-                        data: [0, 0, 0, 0, 0, 0, 0],
+                        label: 'Total Clicks',
+                        data: [12, 25, 18, 40, 30, 55, 75],
                         borderColor: '#d4af37',
                         backgroundColor: 'rgba(212, 175, 55, 0.08)',
                         borderWidth: 2,
@@ -964,10 +1048,18 @@
             });
         }
 
-        window.addEventListener('click', () => {
+        window.addEventListener('click', (e) => {
             const menu = document.getElementById('dropdownMenu');
-            if(menu && menu.classList.contains('show')) {
+            if(menu && menu.classList.contains('show') && !e.target.closest('.menu-container')) {
                 menu.classList.remove('show');
+            }
+            const sheetModal = document.getElementById('sheetModal');
+            if(e.target === sheetModal) {
+                sheetModal.style.display = 'none';
+            }
+            const popupOverlay = document.getElementById('popupModalOverlay');
+            if(e.target === popupOverlay) {
+                popupOverlay.style.display = 'none';
             }
         });
     </script>
