@@ -37,16 +37,17 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 15px 8px;
+            padding: 20px 15px;
         }
 
         h1, h2, h3, h4 { font-family: var(--font-luxury); }
 
-        .custom-toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(12, 12, 12, 0.98); border: 1.5px solid; border-image: var(--gold-gradient) 1; color: #fcf6ba; padding: 8px 18px; border-radius: 30px; font-size: 0.7rem; font-weight: 700; z-index: 999999; display: none; box-shadow: 0 0 20px rgba(212,175,55,0.3); font-family: var(--font-body); }
+        .custom-toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(12, 12, 12, 0.98); border: 1.5px solid; border-image: var(--gold-gradient) 1; color: #fcf6ba; padding: 10px 22px; border-radius: 30px; font-size: 0.8rem; font-weight: 700; z-index: 999999; display: none; box-shadow: 0 0 20px rgba(212,175,55,0.3); font-family: var(--font-body); }
 
+        /* প্রশস্ত স্ক্রিন লেআউট (মোবাইল ও পিসির জন্য অপ্টিমাইজড) */
         .page-container {
             width: 100%;
-            max-width: 480px;
+            max-width: 650px; /* পিসিতে সুন্দর প্রশস্ততা এবং মোবাইলে ফুল স্ক্রিন কভারেজ */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -55,37 +56,37 @@
         /* ল্যান্ডিং / গুগল ভেরিফিকেশন কার্ড */
         .auth-card {
             background: var(--surface-bg);
-            border-radius: 18px;
-            padding: 35px 22px;
+            border-radius: 20px;
+            padding: 40px 25px;
             text-align: center;
             box-shadow: 0 15px 40px rgba(0,0,0,0.95);
-            border: 1px solid rgba(212,175,55,0.25);
+            border: 1.5px solid rgba(212,175,55,0.25);
             width: 100%;
         }
 
         .logo-large {
-            width: 75px;
-            height: 75px;
+            width: 85px;
+            height: 85px;
             object-fit: contain;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .brand-title-large {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 900;
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-transform: uppercase;
             letter-spacing: 3px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .welcome-subtitle {
-            font-size: 0.78rem;
+            font-size: 0.88rem;
             color: var(--text-gray);
             line-height: 1.6;
-            margin-bottom: 22px;
+            margin-bottom: 25px;
             font-family: var(--font-body);
         }
 
@@ -94,10 +95,10 @@
             background: #ffffff;
             color: #000;
             border: none;
-            padding: 13px;
-            border-radius: 30px;
+            padding: 15px;
+            border-radius: 35px;
             font-weight: 700;
-            font-size: 0.82rem;
+            font-size: 0.92rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -108,7 +109,7 @@
         }
         .google-verify-btn:hover { background: #eaeaea; }
 
-        /* পপআপ মডাল */
+        /* প্রশস্ত পপআপ মডাল */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -122,11 +123,11 @@
         }
         .modal-card {
             background: var(--surface-bg);
-            border: 1px solid rgba(212,175,55,0.35);
-            border-radius: 16px;
-            padding: 24px 18px;
+            border: 1.5px solid rgba(212,175,55,0.35);
+            border-radius: 20px;
+            padding: 28px 22px;
             width: 100%;
-            max-width: 440px;
+            max-width: 600px; /* পপআপ উইন্ডো আরও প্রশস্ত করা হয়েছে */
             box-shadow: 0 15px 40px rgba(0,0,0,0.9);
             text-align: left;
             max-height: 90vh;
@@ -135,48 +136,48 @@
         }
         .modal-close-btn {
             position: absolute;
-            top: 15px; right: 15px;
+            top: 18px; right: 18px;
             background: none; border: none;
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-size: 1.1rem;
+            font-size: 1.3rem;
             cursor: pointer;
         }
         .modal-title {
             font-family: var(--font-luxury);
-            font-size: 1.05rem;
+            font-size: 1.2rem;
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-transform: uppercase;
             font-weight: 900;
-            margin-bottom: 15px;
+            margin-bottom: 18px;
             text-align: center;
         }
-        .form-group { margin-bottom: 12px; }
-        .form-group label { display: block; font-size: 0.62rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-weight: 800; font-family: var(--font-body); }
-        .form-group input, .form-group select { width: 100%; background: #000; border: 1.5px solid rgba(212,175,55,0.3); padding: 10px 12px; color: #fff; border-radius: 8px; font-size: 0.78rem; outline: none; font-family: var(--font-body); }
-        .phone-row { display: flex; gap: 8px; }
-        .phone-row select { width: 130px; flex-shrink: 0; background: #000; color: #fff; border: 1.5px solid rgba(212,175,55,0.3); border-radius: 8px; font-size: 0.72rem; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 0.7rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; font-weight: 800; font-family: var(--font-body); }
+        .form-group input, .form-group select { width: 100%; background: #000; border: 1.5px solid rgba(212,175,55,0.3); padding: 12px 15px; color: #fff; border-radius: 10px; font-size: 0.88rem; outline: none; font-family: var(--font-body); }
+        .phone-row { display: flex; gap: 10px; }
+        .phone-row select { width: 140px; flex-shrink: 0; background: #000; color: #fff; border: 1.5px solid rgba(212,175,55,0.3); border-radius: 10px; font-size: 0.8rem; }
 
-        .btn-gold-glow { background: var(--gold-gradient); border: none; padding: 12px; border-radius: 25px; color: #000; font-weight: 900; font-size: 0.75rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); width: 100%; text-align: center; margin-top: 10px; }
+        .btn-gold-glow { background: var(--gold-gradient); border: none; padding: 14px; border-radius: 30px; color: #000; font-weight: 900; font-size: 0.82rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); width: 100%; text-align: center; margin-top: 12px; }
 
         /* ড্যাশবোর্ড লেআউট */
         .dashboard-wrapper {
             display: none;
             width: 100%;
-            max-width: 480px;
+            max-width: 650px;
             flex-direction: column;
-            gap: 12px;
+            gap: 15px;
         }
 
         .dash-card {
             background: var(--surface-bg);
-            border-radius: 16px;
-            padding: 18px 14px;
+            border-radius: 20px;
+            padding: 22px 18px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.9);
-            border: 1px solid rgba(212,175,55,0.2);
+            border: 1.5px solid rgba(212,175,55,0.2);
             width: 100%;
             display: block;
         }
@@ -186,7 +187,7 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 14px;
+            margin-bottom: 18px;
             position: relative;
         }
 
@@ -197,13 +198,13 @@
         }
 
         .home-logo { 
-            width: 50px; 
-            height: 50px; 
+            width: 58px; 
+            height: 58px; 
             object-fit: contain; 
-            margin-bottom: 4px; 
+            margin-bottom: 6px; 
         }
         .home-brand-name {
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             font-weight: 900;
             background: var(--gold-gradient);
             -webkit-background-clip: text;
@@ -213,27 +214,27 @@
             font-family: var(--font-luxury);
         }
         .home-username {
-            font-size: 0.95rem;
+            font-size: 1.05rem;
             font-weight: 700;
             color: var(--text-white);
-            margin-top: 2px;
+            margin-top: 3px;
             font-family: var(--font-body);
         }
         .home-affiliate-id {
-            font-size: 0.65rem;
+            font-size: 0.72rem;
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 700;
             letter-spacing: 0.5px;
-            margin-top: 1px;
+            margin-top: 2px;
             font-family: var(--font-body);
         }
         .home-commission-sub {
-            font-size: 0.55rem;
+            font-size: 0.62rem;
             color: var(--text-gray);
             font-weight: 500;
-            margin-top: 1px;
+            margin-top: 2px;
             font-family: var(--font-body);
         }
 
@@ -244,25 +245,25 @@
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             transition: 0.3s;
         }
         .menu-toggle-btn:hover { opacity: 0.8; }
 
         .dropdown-menu {
             position: absolute;
-            top: 38px;
+            top: 42px;
             right: 0;
             background: var(--surface-bg);
-            border: 1px solid rgba(212,175,55,0.3);
-            border-radius: 12px;
-            width: 180px;
+            border: 1.5px solid rgba(212,175,55,0.35);
+            border-radius: 14px;
+            width: 195px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.95);
             display: none;
             flex-direction: column;
@@ -272,52 +273,52 @@
         .dropdown-menu.show { display: flex; }
         
         .menu-item {
-            padding: 10px 14px;
-            font-size: 0.72rem;
+            padding: 12px 16px;
+            font-size: 0.8rem;
             color: var(--text-white);
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             border-bottom: 1px solid rgba(212,175,55,0.08);
             transition: 0.2s;
             cursor: pointer;
             font-family: var(--font-body);
         }
         .menu-item:last-child { border-bottom: none; }
-        .menu-item i { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; width: 16px; text-align: center; }
+        .menu-item i { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; width: 18px; text-align: center; }
         .menu-item:hover { background: rgba(212,175,55,0.1); color: #fcf6ba; }
 
         /* স্ট্যাটস গ্রিড */
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 12px;
+            gap: 12px;
+            margin-bottom: 15px;
         }
         .stat-card {
             background: #040404;
-            border: 1px solid rgba(212,175,55,0.2);
-            padding: 12px;
-            border-radius: 12px;
+            border: 1.5px solid rgba(212,175,55,0.25);
+            padding: 15px;
+            border-radius: 14px;
             text-align: center;
         }
-        .stat-lbl { font-size: 0.58rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-weight: 800; margin-bottom: 3px; font-family: var(--font-body); }
-        .stat-val { font-size: 1.15rem; font-weight: 900; color: #fff; font-family: var(--font-luxury); }
+        .stat-lbl { font-size: 0.65rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-weight: 800; margin-bottom: 4px; font-family: var(--font-body); }
+        .stat-val { font-size: 1.35rem; font-weight: 900; color: #fff; font-family: var(--font-luxury); }
 
         /* প্রোডাক্ট আইডি রেকর্ড বাটন */
-        .sheet-btn-wrapper { margin-bottom: 12px; display: flex; justify-content: center; }
+        .sheet-btn-wrapper { margin-bottom: 15px; display: flex; justify-content: center; }
         .sheet-trigger-btn {
             background: #040404;
-            border: 1px solid rgba(212,175,55,0.3);
+            border: 1.5px solid rgba(212,175,55,0.35);
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             width: 100%;
-            padding: 11px;
-            border-radius: 12px;
+            padding: 13px;
+            border-radius: 14px;
             font-weight: 800;
-            font-size: 0.72rem;
+            font-size: 0.8rem;
             cursor: pointer;
             text-transform: uppercase;
             display: flex;
@@ -331,19 +332,19 @@
         /* ক্লিক অ্যানালাইসিস গ্রাফ সেকশন */
         .chart-box {
             background: #040404;
-            border: 1px solid rgba(212,175,55,0.2);
-            padding: 10px;
-            border-radius: 12px;
-            margin-bottom: 12px;
+            border: 1.5px solid rgba(212,175,55,0.25);
+            padding: 14px;
+            border-radius: 14px;
+            margin-bottom: 15px;
         }
         .chart-header-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
         .chart-title {
-            font-size: 0.68rem;
+            font-size: 0.75rem;
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -353,15 +354,15 @@
         }
         .chart-filters {
             display: flex;
-            gap: 4px;
+            gap: 6px;
         }
         .filter-btn {
             background: transparent;
-            border: 1px solid rgba(212,175,55,0.3);
+            border: 1.5px solid rgba(212,175,55,0.3);
             color: var(--text-gray);
-            font-size: 0.55rem;
-            padding: 2px 6px;
-            border-radius: 6px;
+            font-size: 0.62rem;
+            padding: 3px 8px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
             transition: 0.2s;
@@ -376,24 +377,24 @@
         /* একশন রো (সাপোর্ট এবং উইথড্র বাটন) */
         .action-row {
             display: flex;
-            gap: 8px;
+            gap: 10px;
         }
         .support-btn {
             background: transparent;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1.5px solid rgba(255,255,255,0.25);
             color: #ffffff;
             flex: 1;
-            padding: 10px;
+            padding: 12px;
             font-weight: 700;
-            font-size: 0.7rem;
+            font-size: 0.78rem;
             cursor: pointer;
             text-transform: uppercase;
             font-family: var(--font-luxury);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 5px;
-            border-radius: 10px;
+            gap: 6px;
+            border-radius: 12px;
             transition: 0.3s;
             text-decoration: none;
         }
@@ -404,17 +405,17 @@
             border: none;
             color: #000;
             flex: 1;
-            padding: 10px;
+            padding: 12px;
             font-weight: 800;
-            font-size: 0.7rem;
+            font-size: 0.78rem;
             cursor: pointer;
             text-transform: uppercase;
             font-family: var(--font-luxury);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 5px;
-            border-radius: 10px;
+            gap: 6px;
+            border-radius: 12px;
             transition: 0.3s;
         }
         .withdraw-quick-btn:hover { opacity: 0.9; }
@@ -433,11 +434,11 @@
         }
         .sheet-modal-card {
             background: var(--surface-bg);
-            border: 1px solid rgba(212,175,55,0.4);
-            border-radius: 16px;
-            padding: 20px 15px;
+            border: 1.5px solid rgba(212,175,55,0.4);
+            border-radius: 20px;
+            padding: 24px 18px;
             width: 100%;
-            max-width: 440px;
+            max-width: 600px;
             max-height: 80vh;
             display: flex;
             flex-direction: column;
@@ -446,36 +447,36 @@
         .sheet-table-scroll {
             overflow-y: auto;
             max-height: 60vh;
-            margin-top: 10px;
+            margin-top: 12px;
         }
         .sheet-table {
             width: 100%;
             border-collapse: collapse;
             text-align: left;
-            font-size: 0.72rem;
+            font-size: 0.8rem;
             font-family: var(--font-body);
         }
         .sheet-table th {
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-size: 0.6rem;
+            font-size: 0.68rem;
             text-transform: uppercase;
-            border-bottom: 1px solid rgba(212,175,55,0.25);
-            padding-bottom: 6px;
+            border-bottom: 1.5px solid rgba(212,175,55,0.25);
+            padding-bottom: 8px;
             position: sticky;
             top: 0;
             background: var(--surface-bg);
         }
         .sheet-table td {
-            padding: 9px 4px;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
+            padding: 11px 6px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
             color: #fff;
         }
         .status-badge {
-            padding: 2px 7px;
+            padding: 3px 9px;
             border-radius: 20px;
-            font-size: 0.58rem;
+            font-size: 0.62rem;
             font-weight: 700;
             text-transform: uppercase;
         }
@@ -485,54 +486,54 @@
         /* ইনফো ডিসপ্লে বক্স ও পলিসি স্টাইল */
         .info-display-box {
             background: #040404;
-            border: 1px solid rgba(212,175,55,0.2);
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 8px;
+            border: 1.5px solid rgba(212,175,55,0.25);
+            padding: 14px;
+            border-radius: 12px;
+            margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .info-lbl { font-size: 0.62rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-weight: 800; font-family: var(--font-body); }
-        .info-val { font-size: 0.78rem; color: #fff; font-weight: 600; font-family: var(--font-body); }
+        .info-lbl { font-size: 0.68rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-weight: 800; font-family: var(--font-body); }
+        .info-val { font-size: 0.85rem; color: #fff; font-weight: 600; font-family: var(--font-body); }
 
         .qr-box {
             text-align: center;
-            padding: 12px;
+            padding: 15px;
             background: #040404;
-            border-radius: 10px;
-            border: 1px solid rgba(212,175,55,0.2);
-            margin-top: 8px;
+            border-radius: 12px;
+            border: 1.5px solid rgba(212,175,55,0.25);
+            margin-top: 10px;
         }
-        .qr-image { width: 140px; height: 140px; background: #fff; padding: 5px; border-radius: 6px; margin: 0 auto 8px auto; object-fit: contain; }
+        .qr-image { width: 160px; height: 160px; background: #fff; padding: 6px; border-radius: 8px; margin: 0 auto 10px auto; object-fit: contain; }
 
         .verified-success-box {
             display: none;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 22px;
+            padding: 25px;
             background: rgba(46, 204, 113, 0.08);
             border: 2px solid #2ecc71;
-            border-radius: 10px;
+            border-radius: 14px;
             text-align: center;
         }
-        .verified-success-box i { font-size: 2.8rem; color: #2ecc71; margin-bottom: 8px; }
+        .verified-success-box i { font-size: 3rem; color: #2ecc71; margin-bottom: 10px; }
 
         .payment-options-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-bottom: 12px;
+            gap: 10px;
+            margin-bottom: 15px;
         }
         .pay-option {
             background: #040404;
-            border: 1.5px solid rgba(212,175,55,0.25);
-            padding: 10px 6px;
-            border-radius: 8px;
+            border: 1.5px solid rgba(212,175,55,0.3);
+            padding: 12px 8px;
+            border-radius: 10px;
             text-align: center;
             cursor: pointer;
-            font-size: 0.72rem;
+            font-size: 0.78rem;
             font-weight: 700;
             background: var(--gold-gradient);
             -webkit-background-clip: text;
@@ -543,13 +544,13 @@
         .pay-option.selected { background: var(--gold-gradient); color: #000; -webkit-text-fill-color: #000; border-color: #fff; }
 
         .policy-content {
-            font-size: 0.74rem;
+            font-size: 0.8rem;
             color: var(--text-gray);
-            line-height: 1.7;
+            line-height: 1.8;
             background: #040404;
-            padding: 14px;
-            border-radius: 10px;
-            border: 1px solid rgba(212,175,55,0.2);
+            padding: 16px;
+            border-radius: 12px;
+            border: 1.5px solid rgba(212,175,55,0.25);
             max-height: 65vh;
             overflow-y: auto;
             font-family: var(--font-body);
@@ -663,7 +664,7 @@
                 <div class="sheet-btn-wrapper">
                     <button class="sheet-trigger-btn" onclick="openSheetModal()">
                         <span><i class="fa-solid fa-table-list" style="margin-right: 6px;"></i> Product ID Records</span>
-                        <i class="fa-solid fa-chevron-right" style="font-size: 0.65rem;"></i>
+                        <i class="fa-solid fa-chevron-right" style="font-size: 0.7rem;"></i>
                     </button>
                 </div>
 
@@ -677,16 +678,16 @@
                             <button class="filter-btn" onclick="updateChartFilter('1y', this)" id="oneYearFilterBtn">1Y (Year 1)</button>
                         </div>
                     </div>
-                    <canvas id="clicksChart" height="100"></canvas>
+                    <canvas id="clicksChart" height="110"></canvas>
                 </div>
 
                 <!-- সাপোর্ট এবং উইথড্র বাটন -->
                 <div class="action-row">
                     <button class="support-btn" onclick="openFirebaseChat()">
-                        <i class="fa-solid fa-headset" style="font-size: 0.8rem;"></i> Support
+                        <i class="fa-solid fa-headset" style="font-size: 0.85rem;"></i> Support
                     </button>
                     <button class="withdraw-quick-btn" onclick="checkWithdrawSteps()">
-                        <i class="fa-solid fa-wallet" style="font-size: 0.8rem;"></i> Withdraw
+                        <i class="fa-solid fa-wallet" style="font-size: 0.85rem;"></i> Withdraw
                     </button>
                 </div>
             </div>
@@ -699,7 +700,7 @@
     <div class="sheet-modal-overlay" id="sheetModal">
         <div class="sheet-modal-card">
             <button class="modal-close-btn" onclick="closeSheetModal()"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="modal-title" style="margin-bottom: 5px;">Product ID Records</h3>
+            <h3 class="modal-title" style="margin-bottom: 8px;">Product ID Records</h3>
             <div class="sheet-table-scroll">
                 <table class="sheet-table">
                     <thead>
@@ -970,14 +971,14 @@
 
                 htmlContent += `
                     <h3 class="modal-title">Verification</h3>
-                    <p style="font-size: 0.72rem; color: var(--text-gray); text-align: center; margin-bottom: 10px; font-family: var(--font-body);">
+                    <p style="font-size: 0.8rem; color: var(--text-gray); text-align: center; margin-bottom: 12px; font-family: var(--font-body);">
                         Scan with Google Authenticator. Issuer name: <strong>RORRAXY</strong>.
                     </p>
                     
                     <div class="qr-box" id="verificationScanBox" style="display:${isVerified ? 'none' : 'block'};">
                         <img id="qrCodeImage" class="qr-image" src="${qrUrl}" alt="QR">
-                        <div style="font-size: 0.68rem; color: #fff; margin-bottom: 8px; font-family: var(--font-body);">Secret Key: <span style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:700;">JBSWY3DPEHPK3PXP</span></div>
-                        <div class="form-group" style="text-align: left; margin-bottom: 6px;">
+                        <div style="font-size: 0.75rem; color: #fff; margin-bottom: 10px; font-family: var(--font-body);">Secret Key: <span style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:700;">JBSWY3DPEHPK3PXP</span></div>
+                        <div class="form-group" style="text-align: left; margin-bottom: 8px;">
                             <label>Enter 6-Digit Code</label>
                             <input type="text" id="authCodeInput" placeholder="123456" maxlength="6" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                         </div>
@@ -986,14 +987,14 @@
 
                     <div class="verified-success-box" id="verificationSuccessBox" style="display:${isVerified ? 'flex' : 'none'};">
                         <i class="fa-solid fa-circle-check" style="color: #2ecc71;"></i>
-                        <h3 style="color: #2ecc71; font-family: var(--font-luxury); font-size: 1.05rem; margin-bottom: 4px;">Verification Confirmed</h3>
-                        <p style="font-size: 0.72rem; color: var(--text-gray); font-family: var(--font-body);">Your account is securely verified.</p>
+                        <h3 style="color: #2ecc71; font-family: var(--font-luxury); font-size: 1.15rem; margin-bottom: 5px;">Verification Confirmed</h3>
+                        <p style="font-size: 0.78rem; color: var(--text-gray); font-family: var(--font-body);">Your account is securely verified.</p>
                     </div>`;
             } 
             else if(tabType === 'tabPaymentPopup') {
                 htmlContent += `
                     <h3 class="modal-title">Payment Setup</h3>
-                    <p style="font-size: 0.72rem; color: var(--text-gray); text-align: center; margin-bottom: 10px; font-family: var(--font-body);">Select your preferred payout gateway.</p>
+                    <p style="font-size: 0.8rem; color: var(--text-gray); text-align: center; margin-bottom: 12px; font-family: var(--font-body);">Select your preferred payout gateway.</p>
                     <div class="payment-options-grid">
                         <div class="pay-option" id="optBkash" onclick="selectPayment('bkash')">Bikash</div>
                         <div class="pay-option" id="optNagad" onclick="selectPayment('nagad')">Nagad</div>
@@ -1008,7 +1009,7 @@
             else if(tabType === 'tabWithdrawPopup') {
                 htmlContent += `
                     <h3 class="modal-title">Withdraw Funds</h3>
-                    <div class="info-display-box" style="margin-bottom: 12px;">
+                    <div class="info-display-box" style="margin-bottom: 15px;">
                         <div><div class="info-lbl">Available Balance</div><div class="info-val">$0.00 USD</div></div>
                         <i class="fa-solid fa-wallet" style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;"></i>
                     </div>
@@ -1157,7 +1158,7 @@
                         data: dataPoints,
                         borderColor: '#bf953f',
                         backgroundColor: 'rgba(191, 149, 63, 0.08)',
-                        borderWidth: 2,
+                        borderWidth: 2.5,
                         fill: true,
                         tension: 0.3
                     }]
@@ -1166,8 +1167,8 @@
                     responsive: true,
                     plugins: { legend: { display: false } },
                     scales: {
-                        x: { ticks: { color: '#a5a5a5', font: { size: 9, family: 'Poppins' } }, grid: { color: 'rgba(255,255,255,0.03)' } },
-                        y: { ticks: { color: '#a5a5a5', font: { size: 9, family: 'Poppins' } }, grid: { color: 'rgba(255,255,255,0.03)' } }
+                        x: { ticks: { color: '#a5a5a5', font: { size: 10, family: 'Poppins' } }, grid: { color: 'rgba(255,255,255,0.03)' } },
+                        y: { ticks: { color: '#a5a5a5', font: { size: 10, family: 'Poppins' } }, grid: { color: 'rgba(255,255,255,0.03)' } }
                     }
                 }
             });
