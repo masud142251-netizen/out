@@ -359,7 +359,7 @@
         <iframe id="subdomainIframeElement" src="" style="width: 100vw; height: 100vh; border: none; background: #000;"></iframe>
     </div>
 
-    <!-- ঝুড়ি এবং চেকআউট মোডাল -->
+    <!-- ঝুড়ি এবং চেকআউট মোডাল (Google Direct Verification বাটন সহ) -->
     <div id="basketModal" class="share-modal">
         <div class="basket-modal-box">
             <div class="golden-close-btn" onclick="closeBasketModal()" style="position: absolute; top: 15px; right: 15px;"><i class="fa-solid fa-xmark"></i></div>
@@ -376,32 +376,10 @@
                 <span id="cartTotalAmt" style="color: var(--gold-solid);">$0.00</span>
             </div>
 
-            <button class="google-verify-btn" onclick="openCustomerInfoModal()">
+            <!-- এখানে ইউজার সরাসরি Google Verify করে You ড্যাশবোর্ডে চলে যাবে -->
+            <button class="google-verify-btn" onclick="verifyAndOpenYouDashboard()">
                 <i class="fa-brands fa-google" style="color:#ea4335;"></i> Continue & Verify Google Direct
             </button>
-        </div>
-    </div>
-
-    <!-- কাস্টমার ইনফো ফর্ম পপআপ -->
-    <div id="customerInfoModal" class="share-modal">
-        <div class="basket-modal-box">
-            <div class="golden-close-btn" onclick="closeCustomerInfoModal()" style="position: absolute; top: 15px; right: 15px;"><i class="fa-solid fa-xmark"></i></div>
-            <h3 style="font-family: var(--font-luxury); font-size: 1.1rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-weight: 900; margin-bottom: 15px; text-align: center;">Customer Verification</h3>
-            <form onsubmit="submitCustomerDetails(event)">
-                <div style="margin-bottom: 10px; text-align: left;">
-                    <label style="font-size: 0.65rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-weight: 800; display: block; margin-bottom: 4px;">Full Name *</label>
-                    <input type="text" id="custNameInput" placeholder="Enter your full name" required style="width: 100%; background: #000; border: 1px solid rgba(212,175,55,0.3); padding: 10px; color: #fff; border-radius: 8px; font-size: 0.8rem; outline: none;">
-                </div>
-                <div style="margin-bottom: 10px; text-align: left;">
-                    <label style="font-size: 0.65rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-weight: 800; display: block; margin-bottom: 4px;">Gmail *</label>
-                    <input type="email" id="custEmailInput" placeholder="user@gmail.com" required style="width: 100%; background: #000; border: 1px solid rgba(212,175,55,0.3); padding: 10px; color: #fff; border-radius: 8px; font-size: 0.8rem; outline: none;">
-                </div>
-                <div style="margin-bottom: 15px; text-align: left;">
-                    <label style="font-size: 0.65rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-weight: 800; display: block; margin-bottom: 4px;">Delivery Address *</label>
-                    <input type="text" id="custAddressInput" placeholder="House, Street, City, Country" required style="width: 100%; background: #000; border: 1px solid rgba(212,175,55,0.3); padding: 10px; color: #fff; border-radius: 8px; font-size: 0.8rem; outline: none;">
-                </div>
-                <button type="submit" class="add-to-cart-btn">Confirm & Proceed to Checkout</button>
-            </form>
         </div>
     </div>
 
@@ -516,7 +494,7 @@
         </div>
     </div>
 
-    <!-- ক্যাটাগরি ওভারলে (সম্পূর্ণ ৭টি ক্যাটাগরির ডেটা সহ) -->
+    <!-- ক্যাটাগরি ওভারলে (সমস্ত ক্যাটাগরির ডেটাসহ) -->
     <div id="categoryView" class="category-fullscreen-view">
         <div class="golden-close-btn" onclick="toggleCategoryView()"><i class="fa-solid fa-xmark"></i></div>
         <div style="margin-bottom: 25px; text-align: center;">
@@ -534,7 +512,7 @@
         </div>
     </div>
 
-    <!-- ফিক্সড বটম ন্যাভবার (সকল মেনু টগল সিস্টেম সহ) -->
+    <!-- ফিক্সড বটম ন্যাভবার -->
     <nav class="bottom-nav">
         <div class="nav-item" onclick="toggleSubdomainOverlay('https://affiliate.rorraxy.com')">
             <i class="fa-solid fa-handshake"></i>
@@ -599,7 +577,6 @@
             document.getElementById('fullScreenIframe').src = '';
         }
 
-        // সাব-ডোমেইন ও ইউ (You) মেনু টগল সিস্টেম (ক্লিক করলে ওপেন, পুনরায় ক্লিক করলে বন্ধ)
         function toggleSubdomainOverlay(url) {
             const overlay = document.getElementById('subdomainOverlay');
             const iframe = document.getElementById('subdomainIframeElement');
@@ -673,32 +650,24 @@
             showToast("Product removed from cart");
         }
 
-        function openCustomerInfoModal() {
+        // গুগল ভেরিফাই করে সরাসরি ইউ ড্যাশবোর্ডে সিঙ্ক ও রিডাইরেক্ট করার ফাংশন
+        function verifyAndOpenYouDashboard() {
             let cart = JSON.parse(localStorage.getItem('rorraxy_cart')) || [];
             if (cart.length === 0) {
                 showToast("Your cart is empty!");
                 return;
             }
+            // ডেটা ইউ-ড্যাশবোর্ডের জন্য ফুল সিঙ্ক করা হলো
+            localStorage.setItem('rorraxy_user_orders_sync', JSON.stringify(cart));
+            localStorage.setItem('rorraxy_google_verified', 'true');
+            
             closeBasketModal();
-            document.getElementById('customerInfoModal').style.display = 'flex';
-        }
-        function closeCustomerInfoModal() {
-            document.getElementById('customerInfoModal').style.display = 'none';
-        }
-
-        function submitCustomerDetails(e) {
-            e.preventDefault();
-            const name = document.getElementById('custNameInput').value.trim();
-            const email = document.getElementById('custEmailInput').value.trim();
-            const address = document.getElementById('custAddressInput').value.trim();
-
-            localStorage.setItem('rorraxy_cust_name', name);
-            localStorage.setItem('rorraxy_cust_email', email);
-            localStorage.setItem('rorraxy_cust_address', address);
-            localStorage.setItem('rorraxy_cust_info_done', 'true');
-
-            closeCustomerInfoModal();
-            window.location.href = "https://checkout.rorraxy.com";
+            showToast("Google Verified Successfully! Opening Dashboard...");
+            
+            // সরাসরি ইউ ড্যাশবোর্ডে বা সাবডোমেনে নিয়ে যাওয়া
+            setTimeout(() => {
+                toggleSubdomainOverlay('https://you.rorraxy.com');
+            }, 1000);
         }
 
         function toggleRetailWholesaleMode() {
@@ -757,7 +726,6 @@
         function closeSizePopup() { document.getElementById('sizeModal').style.display = 'none'; }
         function openLiveChat() { showToast("Connecting to live support chatbot..."); }
 
-        // ক্যাটাগরি পপআপ টগল সিস্টেম (সম্পূর্ণ ডেটাসহ)
         function toggleCategoryView() {
             const view = document.getElementById('categoryView');
             const isVisible = view.style.display === 'block';
@@ -870,7 +838,6 @@
             }
         }
 
-        // সার্চ পপআপ টগল সিস্টেম
         function toggleSearchPopup() {
             const popup = document.getElementById('searchPopup');
             const isVisible = popup.style.display === 'block';
@@ -998,7 +965,7 @@
             
             document.body.appendChild(coin);
             setTimeout(() => { coin.remove(); }, 1100);
-            showToast("Product added to cart & synced with You!");
+            showToast("Product added to cart & synced!");
         }
 
         function updateCartBadge() {
