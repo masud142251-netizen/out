@@ -220,6 +220,12 @@
             background: rgba(35, 35, 35, 0.9);
             transform: scale(1.06);
         }
+        .vote-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
 
         /* মাঝখানের কাউন্টার বক্স */
         .counter-display-box {
@@ -267,19 +273,19 @@
         <!-- হিরো কার্ড -->
         <div class="luxury-card">
             <span class="coming-soon-badge">Coming Soon</span>
-            <h1 class="hero-title">Bangladesh's First Creative Academy</h1>
+            <h1 class="hero-title">Creative Academy</h1>
             <p class="hero-sub">
                 Empowering the future with revolutionary <strong>Win-Win Fee Courses</strong>. Learn by building cutting-edge real-world applications.
             </p>
         </div>
 
-        <!-- ভোট সিস্টেম (মাঝখানে সংখ্যা এবং দুইপাশে ইয়েস-নো বাটন) -->
+        <!-- ভোট সিস্টেম -->
         <div class="voting-container">
             <h3 class="voting-title">Community Vote</h3>
-            <p class="voting-desc">Do you support launching Bangladesh's first Win-Win Creative Academy?</p>
+            <p class="voting-desc">Do You Support Win-Win Creative Academy?</p>
             
             <div class="voting-interface">
-                <button class="vote-btn vote-yes" onclick="handleVote('yes')">
+                <button class="vote-btn vote-yes" id="yesBtn" onclick="handleVote('yes')">
                     <i class="fa-solid fa-check"></i> Yes
                 </button>
                 
@@ -288,7 +294,7 @@
                     <span class="counter-label">Total Votes</span>
                 </div>
 
-                <button class="vote-btn vote-no" onclick="handleVote('no')">
+                <button class="vote-btn vote-no" id="noBtn" onclick="handleVote('no')">
                     <i class="fa-solid fa-xmark"></i> No
                 </button>
             </div>
@@ -305,8 +311,24 @@
             setTimeout(() => { t.style.display = 'none'; }, 2000);
         }
 
-        // ফায়ারবেস থেকে ভোট সংখ্যা ম্যানেজ করা এবং লাইভ আপডেট করা
+        // চেক করা যে ব্রাউজার থেকে ইতিমধ্যে ভোট দেওয়া হয়েছে কি না
+        window.addEventListener('DOMContentLoaded', () => {
+            const hasVoted = localStorage.getItem('rorraxy_academy_voted');
+            if(hasVoted) {
+                document.getElementById('yesBtn').disabled = true;
+                document.getElementById('noBtn').disabled = true;
+                showToast("You have already submitted your vote!");
+            }
+            loadVoteCount();
+        });
+
         async function handleVote(choice) {
+            // ডাবল ভোট আটকানোর লজিক
+            if(localStorage.getItem('rorraxy_academy_voted')) {
+                showToast("You can only vote once!");
+                return;
+            }
+
             const counterEl = document.getElementById('voteCounter');
             let currentVal = parseInt(counterEl.innerText);
 
@@ -320,28 +342,33 @@
 
             counterEl.innerText = currentVal;
 
+            // লোকাল স্টোরেজে সেভ করে দেওয়া যাতে পুনরায় ভোট দিতে না পারে
+            localStorage.setItem('rorraxy_academy_voted', choice);
+            document.getElementById('yesBtn').disabled = true;
+            document.getElementById('noBtn').disabled = true;
+
             try {
                 await db.collection("academy_votes").add({
                     vote: choice,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 });
             } catch (error) {
-                // অফলাইন বা ফায়ারবেস কনফিগারেশন না থাকলেও লোকাল কাউন্টার কাজ করবে
+                // ফায়ারবেস কানেকশন না থাকলেও লোকাল কাউন্টার ও ভ্যালিডেশন পারফেক্ট কাজ করবে
             }
         }
 
-        // পেজ লোড হওয়ার সময় ফায়ারবেস থেকে মোট ভোট লোড করা (যদি ডেটা থাকে)
-        window.addEventListener('DOMContentLoaded', async () => {
+        async function loadVoteCount() {
             try {
                 const snapshot = await db.collection("academy_votes").get();
                 if(!snapshot.empty) {
-                    let total = 490 + snapshot.size; // বেস ৪৯০ থেকে শুরু
+                    // ফায়ারবেসের মোট ভোটের সাথে বেস ৪৯০ যোগ হবে
+                    let total = 490 + snapshot.size;
                     document.getElementById('voteCounter').innerText = total;
                 }
             } catch (e) {
                 // ডিফল্ট ৪৯০ দেখাবে
             }
-        });
+        }
     </script>
 </body>
 </html>
