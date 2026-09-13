@@ -549,7 +549,7 @@
             </button>
         </div>
 
-        <!-- ২. ইনফরমেশন ফর্ম পপআপ (শুধু ৩টি ফিল্ড: নাম, জিমেইল, হোয়াটসঅ্যাপ কোডসহ) -->
+        <!-- ২. ইনফরমেশন ফর্ম পপআপ -->
         <div class="modal-overlay" id="infoModal">
             <div class="modal-card">
                 <button class="modal-close-btn" onclick="closeModal('infoModal')"><i class="fa-solid fa-xmark"></i></button>
@@ -641,7 +641,7 @@
                     </button>
                 </div>
 
-                <!-- ভিজিটর ক্লিক অ্যানালাইসিস গ্রাফ (৭ দিন, ১ মাস, ১ বছর ডাইনামিক বয়স বৃদ্ধি সহ) -->
+                <!-- ভিজিটর ক্লিক অ্যানালাইসিস গ্রাফ -->
                 <div class="chart-box">
                     <div class="chart-header-row">
                         <div class="chart-title">Visitor Clicks Analytics</div>
@@ -872,7 +872,7 @@
             menu.classList.toggle('show');
         }
 
-        // উইথড্র করার সিকোয়েন্স চেক (ইনফরমেশন -> অ্যাড্রেস -> ভেরিফিকেশন -> পেমেন্ট সেটআপ -> উইথড্র)
+        // উইথড্র করার সিকোয়েন্স চেক
         function checkWithdrawSteps() {
             const hasInfo = localStorage.getItem('rorraxy_info_done') === 'true';
             const hasAddress = localStorage.getItem('rorraxy_address_done') === 'true';
@@ -938,13 +938,19 @@
                     <button class="btn-gold-glow" onclick="saveUserAddress()">Save Address</button>`;
             } 
             else if(tabType === 'tabVerificationPopup') {
+                const isVerified = localStorage.getItem('rorraxy_verified') === 'true';
+                // পারফেক্ট স্ট্যান্ডার্ড টপটিপি কিউআর কোড ইউআরএল
+                const otpauthData = encodeURIComponent("otpauth://totp/RORRAXY:user@gmail.com?secret=JBSWY3DPEHPK3PXP&issuer=RORRAXY");
+                const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${otpauthData}`;
+
                 htmlContent += `
                     <h3 class="modal-title">Verification</h3>
                     <p style="font-size: 0.72rem; color: var(--text-gray); text-align: center; margin-bottom: 10px;">
                         Scan with Google Authenticator. Issuer name: <strong>RORRAXY</strong>.
                     </p>
-                    <div class="qr-box" id="verificationScanBox">
-                        <img id="qrCodeImage" class="qr-image" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=otpauth" alt="QR">
+                    
+                    <div class="qr-box" id="verificationScanBox" style="display:${isVerified ? 'none' : 'block'};">
+                        <img id="qrCodeImage" class="qr-image" src="${qrUrl}" alt="QR">
                         <div style="font-size: 0.68rem; color: #fff; margin-bottom: 8px;">Secret Key: <span style="color:var(--gold-solid);">JBSWY3DPEHPK3PXP</span></div>
                         <div class="form-group" style="text-align: left; margin-bottom: 6px;">
                             <label>Enter 6-Digit Code</label>
@@ -952,7 +958,8 @@
                         </div>
                         <button class="btn-gold-glow" onclick="verifyAuthCode()">Verify Code</button>
                     </div>
-                    <div class="verified-success-box" id="verificationSuccessBox" style="display:${localStorage.getItem('rorraxy_verified') === 'true' ? 'flex' : 'none'};">
+
+                    <div class="verified-success-box" id="verificationSuccessBox" style="display:${isVerified ? 'flex' : 'none'};">
                         <i class="fa-solid fa-circle-check" style="color: #2ecc71;"></i>
                         <h3 style="color: #2ecc71; font-family: var(--font-luxury); font-size: 1.05rem; margin-bottom: 4px;">Verification Confirmed</h3>
                         <p style="font-size: 0.72rem; color: var(--text-gray);">Your account is securely verified.</p>
@@ -1022,6 +1029,8 @@
             }
             localStorage.setItem('rorraxy_verified', 'true');
             showToast("Verification Successful!");
+            
+            // ডায়নামিকভাবে স্ক্যান বক্স হাইড করে সাকসেস বক্স শো করা
             const scanBox = document.getElementById('verificationScanBox');
             const succBox = document.getElementById('verificationSuccessBox');
             if(scanBox) scanBox.style.display = 'none';
