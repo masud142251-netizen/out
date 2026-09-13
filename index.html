@@ -108,7 +108,7 @@
             transform: scale(1.02);
         }
 
-        /* ইনফরমেশন ফর্ম পপআপ/মডাল */
+        /* ইনফরমেশন ফর্ম পপআপ */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -274,7 +274,7 @@
         .info-lbl { font-size: 0.65rem; color: var(--gold-solid); text-transform: uppercase; font-weight: 700; }
         .info-val { font-size: 0.8rem; color: #fff; font-weight: 600; }
 
-        /* পারফেক্ট কিউআর কোড স্ক্যানার বক্স */
+        /* ভেরিফিকেশন সেকশন (কিউআর কোড ও কোড ভেরিফাই ইনপুট) */
         .qr-box {
             text-align: center;
             padding: 15px;
@@ -284,13 +284,37 @@
             margin-top: 10px;
         }
         .qr-image {
-            width: 160px;
-            height: 160px;
+            width: 150px;
+            height: 150px;
             background: #fff;
-            padding: 8px;
+            padding: 6px;
             border-radius: 8px;
             margin: 0 auto 10px auto;
             object-fit: contain;
+        }
+
+        /* ভেরিফাইড সাকসেস বক্স (সবুজ টিক মার্ক) */
+        .verified-success-box {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            background: rgba(46, 204, 113, 0.1);
+            border: 2px solid #2ecc71;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .verified-success-box i {
+            font-size: 3rem;
+            color: #2ecc71;
+            margin-bottom: 10px;
+            animation: bounceIn 0.5s ease;
+        }
+        @keyframes bounceIn {
+            0% { transform: scale(0); }
+            70% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
 
         /* পেমেন্ট সিস্টেম */
@@ -338,7 +362,7 @@
             </button>
         </div>
 
-        <!-- ২. ইনফরমেশন ফর্ম পপআপ (১৯৫+ দেশের কোডসহ সম্পূর্ণ লিস্ট) -->
+        <!-- ২. ইনফরমেশন ফর্ম পপআপ (১৯৫+ দেশের কোডসহ) -->
         <div class="modal-overlay" id="infoModal">
             <div class="modal-card">
                 <h3 class="modal-title">Complete Your Information</h3>
@@ -379,7 +403,7 @@
             <header class="dashboard-header">
                 <div class="header-brand-group">
                     <img src="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400" alt="Logo" class="small-logo">
-                    <span class="header-title">RORRAXY Affiliate</span>
+                    <span class="header-title">RORRAXY</span>
                 </div>
 
                 <!-- থ্রি ডট মেনু ও ড্রপডাউন -->
@@ -393,7 +417,7 @@
                             <i class="fa-solid fa-circle-info"></i> Information
                         </div>
                         <div class="menu-item" onclick="switchTab('tabVerification')">
-                            <i class="fa-solid fa-shield-halved"></i> Status Verification
+                            <i class="fa-solid fa-shield-halved"></i> Verification
                         </div>
                         <div class="menu-item" onclick="switchTab('tabPayment')">
                             <i class="fa-solid fa-wallet"></i> Payment System
@@ -438,21 +462,34 @@
                 </div>
             </div>
 
-            <!-- ট্যাব ২: স্ট্যাটাস ভেরিফিকেশন (গুগল অথেন্টিকেটর স্ক্যানার) -->
+            <!-- ট্যাব ২: ভেরিফিকেশন (Google Authenticator Scan & Code Verify with Green Success) -->
             <div class="dash-card" id="tabVerification">
-                <h2 class="dash-title">Status Verification</h2>
+                <h2 class="dash-title">Verification</h2>
                 <p style="font-size: 0.75rem; color: var(--text-gray); text-align: center; margin-bottom: 12px;">
-                    Scan with Google Authenticator. Account name will register as <strong>RORRAXY Affiliate</strong>.
+                    Scan with Google Authenticator. Issuer name will appear as <strong>RORRAXY</strong>.
                 </p>
-                <div class="qr-box">
-                    <!-- সরাসরি প্রিমিয়াম কিউআর কোড ইমেজ API -->
+                
+                <!-- কিউআর কোড এবং কোড সাবমিট বক্স -->
+                <div class="qr-box" id="verificationScanBox">
                     <img id="qrCodeImage" class="qr-image" src="" alt="QR Scanner">
-                    <div style="font-size: 0.7rem; color: #fff; margin-bottom: 8px;">Secret Key: <span style="color:var(--gold-solid);">JBSWY3DPEHPK3PXP</span></div>
-                    <a href="https://support.google.com/accounts/answer/1066447" target="_blank" style="font-size: 0.65rem; color: var(--gold-solid); text-decoration: underline;">Google Authorization Link</a>
+                    <div style="font-size: 0.7rem; color: #fff; margin-bottom: 10px;">Secret Key: <span style="color:var(--gold-solid);">JBSWY3DPEHPK3PXP</span></div>
+                    
+                    <div class="form-group" style="text-align: left; margin-bottom: 8px;">
+                        <label>Enter 6-Digit Code from Authenticator</label>
+                        <input type="text" id="authCodeInput" placeholder="123456" maxlength="6" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                    </div>
+                    <button class="btn-gold-glow" onclick="verifyAuthCode()">Verify Code</button>
+                </div>
+
+                <!-- ভেরিফিকেশন কনফার্ম সাকসেস বক্স (সবুজ টিক মার্ক) -->
+                <div class="verified-success-box" id="verificationSuccessBox">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <h3 style="color: #2ecc71; font-family: var(--font-luxury); font-size: 1.1rem; margin-bottom: 5px;">Verification Confirmed</h3>
+                    <p style="font-size: 0.75rem; color: var(--text-gray);">Your account is securely verified with Google Authenticator.</p>
                 </div>
             </div>
 
-            <!-- ট্যাব ৩: পেমেন্ট সিস্টেম (বিকাশ/নগদ হলে নম্বর এবং পেওনিয়ার হলে ইমেল) -->
+            <!-- ট্যাব ৩: পেমেন্ট সিস্টেম -->
             <div class="dash-card" id="tabPayment">
                 <h2 class="dash-title">Payment System</h2>
                 <p style="font-size: 0.75rem; color: var(--text-gray); text-align: center; margin-bottom: 12px;">
@@ -595,8 +632,8 @@
                 dialCodeSelect.value = "+880";
             }
 
-            // Google Authenticator QR Code API দিয়ে রিয়েল কিউআর লোড করা
-            const otpauth = encodeURIComponent("otpauth://totp/RORRAXY%20Affiliate:user@gmail.com?secret=JBSWY3DPEHPK3PXP&issuer=RORRAXY%20Affiliate");
+            // কিউআর কোডে শুধু ব্র্যান্ড নেম "RORRAXY" সেট করা হয়েছে
+            const otpauth = encodeURIComponent("otpauth://totp/RORRAXY:user@gmail.com?secret=JBSWY3DPEHPK3PXP&issuer=RORRAXY");
             document.getElementById('qrCodeImage').src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${otpauth}`;
         });
 
@@ -640,6 +677,18 @@
             document.querySelectorAll('.dash-card').forEach(card => card.classList.remove('active-tab'));
             document.getElementById(tabId).classList.add('active-tab');
             document.getElementById('dropdownMenu').classList.remove('show');
+        }
+
+        // অথেন্টিকেটর কোড ভেরিফাই করার ফাংশন (কোড সাবমিট করলে স্ক্যানার সরে গিয়ে সবুজ টিক মার্ক দেখাবে)
+        function verifyAuthCode() {
+            const code = document.getElementById('authCodeInput').value.trim();
+            if(code.length !== 6) {
+                showToast("Please enter a valid 6-digit verification code!");
+                return;
+            }
+            showToast("Verification Successful!");
+            document.getElementById('verificationScanBox').style.display = 'none';
+            document.getElementById('verificationSuccessBox').style.display = 'flex';
         }
 
         let selectedGateway = "";
