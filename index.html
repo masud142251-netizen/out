@@ -11,17 +11,17 @@
 
     <style>
         :root {
-            --bg-black: #020202;
-            --surface-bg: #070707;
+            --bg-black: #000000;
+            --surface-bg: #111111;
             --gold-gradient: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
             --gold-solid: #d4af37;
-            --text-white: #f3f3f3;
-            --text-gray: #a5a5a5;
+            --text-white: #ffffff;
+            --text-gray: #b0b0b0;
             --font-luxury: 'Cinzel', serif;
             --font-body: 'Poppins', sans-serif;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; word-break: normal; overflow-wrap: break-word; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         html, body { 
             width: 100%; 
@@ -30,27 +30,25 @@
             color: var(--text-white); 
             font-family: var(--font-body); 
             overflow-x: hidden; 
-            -webkit-font-smoothing: antialiased; 
         }
 
         body {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 12px 10px 85px 10px;
             flex-direction: column;
+            align-items: center;
+            padding: 20px 12px 100px 12px;
         }
 
         h1, h2, h3, h4 { font-family: var(--font-luxury); }
 
-        .custom-toast { position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: rgba(12, 12, 12, 0.98); border: 1.5px solid; border-image: var(--gold-gradient) 1; color: #fcf6ba; padding: 8px 16px; border-radius: 30px; font-size: 0.75rem; font-weight: 700; z-index: 999999; display: none; box-shadow: 0 0 20px rgba(212,175,55,0.3); font-family: var(--font-body); white-space: nowrap; }
+        .custom-toast { position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: rgba(12, 12, 12, 0.98); border: 1.5px solid; border-image: var(--gold-gradient) 1; color: #fcf6ba; padding: 8px 16px; border-radius: 30px; font-size: 0.75rem; font-weight: 700; z-index: 999999; display: none; box-shadow: 0 0 20px rgba(212,175,55,0.3); white-space: nowrap; }
 
         .page-container {
             width: 100%;
-            max-width: 600px;
+            max-width: 650px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
         }
 
         /* ফ্লাইং কয়েন অ্যানিমেশন */
@@ -66,98 +64,236 @@
             transition: all 0.8s cubic-bezier(0.15, 0.85, 0.35, 1.2);
         }
 
-        /* প্রোডাক্ট ফিড সেকশন */
-        .products-grid {
+        /* প্রোডাক্ট ফিড সেকশন (আপনার আগের ডিজাইন অনুযায়ী) */
+        .feed-card-box {
+            background: var(--surface-bg);
+            border: 1.5px solid rgba(212,175,55,0.25);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        .section-main-title {
+            font-size: 0.95rem;
+            font-weight: 800;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            text-align: center;
+            letter-spacing: 1px;
+            font-family: var(--font-luxury);
+        }
+
+        .products-grid-home {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 12px;
-            width: 100%;
         }
-        .product-card {
-            background: var(--surface-bg);
-            border: 1.5px solid rgba(212,175,55,0.2);
-            border-radius: 14px;
-            padding: 12px;
+
+        .product-item-card {
+            background: #000;
+            border: 1px solid rgba(212,175,55,0.2);
+            border-radius: 12px;
+            padding: 10px;
             text-align: center;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
-        .product-img {
+
+        .product-item-img {
             width: 100%;
-            height: 120px;
+            height: 110px;
             object-fit: cover;
             border-radius: 8px;
             margin-bottom: 8px;
-            background: #000;
         }
-        .product-name { font-size: 0.78rem; font-weight: 700; color: #fcf6ba; margin-bottom: 4px; font-family: var(--font-luxury); }
-        .product-price { font-size: 0.85rem; font-weight: 900; color: #fff; margin-bottom: 10px; }
-        .order-now-btn {
-            background: var(--gold-gradient); border: none; color: #000; font-weight: 900; font-size: 0.7rem;
-            padding: 8px; border-radius: 20px; cursor: pointer; text-transform: uppercase; width: 100%;
-            box-shadow: 0 4px 15px rgba(212,175,55,0.25); transition: 0.2s;
-        }
-        .order-now-btn:active { transform: scale(0.95); }
 
-        /* ঝুড়ি ও ভেরিফিকেশন কার্ড (লুসিভ ইউ সেকশন) */
+        .product-item-name {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #fcf6ba;
+            margin-bottom: 3px;
+            font-family: var(--font-luxury);
+        }
+
+        .product-item-price {
+            font-size: 0.82rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .order-now-btn-custom {
+            background: var(--gold-gradient);
+            border: none;
+            color: #000;
+            font-weight: 900;
+            font-size: 0.65rem;
+            padding: 8px;
+            border-radius: 20px;
+            cursor: pointer;
+            text-transform: uppercase;
+            width: 100%;
+            box-shadow: 0 4px 12px rgba(212,175,55,0.2);
+        }
+        .order-now-btn-custom:active { transform: scale(0.95); }
+
+        /* ইউ (YOU) ঝুড়ি ও ভেরিফিকেশন কার্ড (আপনার দেওয়া কোডের অবিকল রূপ) */
         .auth-card {
             background: var(--surface-bg);
             border-radius: 18px;
-            padding: 22px 16px;
+            padding: 25px 18px;
+            text-align: center;
             box-shadow: 0 15px 40px rgba(0,0,0,0.95);
             border: 1.5px solid rgba(212,175,55,0.25);
             width: 100%;
-            display: flex;
-            flex-direction: column;
         }
 
-        .logo-large { width: 50px; height: 50px; object-fit: contain; margin-bottom: 4px; }
-        .brand-title-large { font-size: 1.2rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 2px; }
-        .welcome-subtitle { font-size: 0.8rem; font-weight: 600; color: #ffffff; letter-spacing: 1px; margin-bottom: 12px; font-family: var(--font-luxury); }
+        .logo-large {
+            width: 55px;
+            height: 55px;
+            object-fit: contain;
+            margin-bottom: 6px;
+        }
+
+        .brand-title-large {
+            font-size: 1.3rem;
+            font-weight: 900;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+            font-family: var(--font-luxury);
+        }
+
+        .welcome-subtitle {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #ffffff;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            font-family: var(--font-luxury);
+        }
 
         .cart-items-container {
-            max-height: 180px; overflow-y: auto; margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; text-align: left;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-bottom: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            text-align: left;
         }
+
         .cart-item-row {
-            background: #000; border: 1px solid rgba(212,175,55,0.2); padding: 8px 12px; border-radius: 8px;
-            display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem;
+            background: #000;
+            border: 1px solid rgba(212,175,55,0.2);
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
         }
+
         .cart-item-info h5 { color: #fcf6ba; font-size: 0.75rem; margin-bottom: 2px; }
         .cart-item-info p { color: var(--text-gray); font-size: 0.65rem; }
-        .cart-item-remove { background: none; border: none; color: #e74c3c; cursor: pointer; font-size: 0.9rem; padding: 4px; }
+        
+        .cart-item-remove {
+            background: none;
+            border: none;
+            color: #e74c3c;
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 4px;
+        }
 
         .cart-total-box {
-            background: rgba(212,175,55,0.06); border: 1.5px solid rgba(212,175,55,0.3); padding: 10px 14px;
-            border-radius: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;
-            font-weight: 700; margin-bottom: 15px; font-family: var(--font-luxury); color: #fcf6ba;
+            background: rgba(212,175,55,0.06);
+            border: 1.5px solid rgba(212,175,55,0.3);
+            padding: 10px 14px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-family: var(--font-luxury);
+            color: #fcf6ba;
         }
 
         .google-verify-btn {
-            width: 100%; background: #ffffff; color: #000; border: none; padding: 12px; border-radius: 30px;
-            font-weight: 700; font-size: 0.82rem; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: 0.3s;
+            width: 100%;
+            background: #ffffff;
+            color: #000;
+            border: none;
+            padding: 12px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.82rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: var(--font-body);
         }
         .google-verify-btn:hover { background: #eaeaea; }
 
-        /* পপআপ মডাল ওভারলে */
+        /* পপআপ মডাল ওভারলে ও ড্যাশবোর্ড স্টাইল */
         .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); display: none;
-            justify-content: center; align-items: center; z-index: 2000; padding: 15px;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(6px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 15px;
         }
         .modal-card {
-            background: var(--surface-bg); border: 1.5px solid rgba(212,175,55,0.35); border-radius: 18px;
-            padding: 24px 18px; width: 100%; max-width: 550px; box-shadow: 0 15px 40px rgba(0,0,0,0.9);
-            text-align: left; max-height: 88vh; overflow-y: auto; position: relative;
+            background: var(--surface-bg);
+            border: 1.5px solid rgba(212,175,55,0.35);
+            border-radius: 18px;
+            padding: 24px 18px;
+            width: 100%;
+            max-width: 550px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.9);
+            text-align: left;
+            max-height: 88vh;
+            overflow-y: auto;
+            position: relative;
         }
         .modal-close-btn {
-            position: absolute; top: 14px; right: 14px; background: none; border: none;
-            background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            font-size: 1.2rem; cursor: pointer;
+            position: absolute;
+            top: 14px; right: 14px;
+            background: none; border: none;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.2rem;
+            cursor: pointer;
         }
         .modal-title {
-            font-family: var(--font-luxury); font-size: 1.1rem; background: var(--gold-gradient);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-weight: 900; margin-bottom: 15px; text-align: center;
+            font-family: var(--font-luxury);
+            font-size: 1.1rem;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            font-weight: 900;
+            margin-bottom: 15px;
+            text-align: center;
         }
         .form-group { margin-bottom: 12px; }
         .form-group label { display: block; font-size: 0.65rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; font-weight: 800; }
@@ -167,100 +303,114 @@
 
         .btn-gold-glow { background: var(--gold-gradient); border: none; padding: 12px; border-radius: 25px; color: #000; font-weight: 900; font-size: 0.78rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); width: 100%; text-align: center; margin-top: 10px; }
 
-        /* ড্যাশবোর্ড লেআউট */
-        .dashboard-wrapper { display: none; width: 100%; flex-direction: column; gap: 12px; }
+        /* ড্যাশবোর্ড সেকশন */
+        .dashboard-wrapper {
+            display: none;
+            width: 100%;
+            flex-direction: column;
+            gap: 12px;
+        }
         .dash-card {
-            background: var(--surface-bg); border-radius: 18px; padding: 18px 14px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.9); border: 1.5px solid rgba(212,175,55,0.2); width: 100%; display: block;
+            background: var(--surface-bg);
+            border-radius: 18px;
+            padding: 18px 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.9);
+            border: 1.5px solid rgba(212,175,55,0.2);
+            width: 100%;
         }
 
-        .home-top-section { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; position: relative; }
+        .home-top-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            position: relative;
+        }
         .home-left-info { display: flex; flex-direction: column; align-items: flex-start; max-width: 78%; }
-        .home-logo { width: 50px; height: 50px; object-fit: contain; margin-bottom: 4px; }
-        .home-brand-name { font-size: 0.82rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; font-family: var(--font-luxury); }
-        .home-username { font-size: 0.95rem; font-weight: 700; color: var(--text-white); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
-        .home-affiliate-id { font-size: 0.68rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
-        .home-commission-sub { font-size: 0.58rem; color: var(--text-gray); font-weight: 500; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+        .home-logo { width: 45px; height: 45px; object-fit: contain; margin-bottom: 4px; }
+        .home-brand-name { font-size: 0.8rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; font-family: var(--font-luxury); }
+        .home-username { font-size: 0.92rem; font-weight: 700; color: var(--text-white); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+        .home-affiliate-id { font-size: 0.65rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; margin-top: 1px; }
+        .home-commission-sub { font-size: 0.58rem; color: var(--text-gray); font-weight: 500; margin-top: 1px; }
 
         .menu-container { position: relative; margin-top: 2px; display: flex; gap: 8px; align-items: center; }
-        .notification-bell-btn { background: none; border: none; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.1rem; position: relative; }
-        .notif-badge { position: absolute; top: 5px; right: 4px; background: #e74c3c; color: #fff; font-size: 0.45rem; width: 13px; height: 13px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: 700; }
-        .menu-toggle-btn { background: none; border: none; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.3rem; }
+        .notification-bell-btn { background: none; border: none; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; position: relative; }
+        .notif-badge { position: absolute; top: 3px; right: 2px; background: #e74c3c; color: #fff; font-size: 0.45rem; width: 12px; height: 12px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: 700; }
+        .menu-toggle-btn { background: none; border: none; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.2rem; }
 
         .dropdown-menu {
-            position: absolute; top: 38px; right: 0; background: var(--surface-bg);
-            border: 1.5px solid rgba(212,175,55,0.35); border-radius: 12px; width: 185px;
+            position: absolute; top: 35px; right: 0; background: var(--surface-bg);
+            border: 1.5px solid rgba(212,175,55,0.35); border-radius: 12px; width: 175px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.95); display: none; flex-direction: column; z-index: 1100; overflow: hidden;
         }
         .dropdown-menu.show { display: flex; }
-        .menu-item { padding: 10px 14px; font-size: 0.75rem; color: var(--text-white); text-decoration: none; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(212,175,55,0.08); cursor: pointer; white-space: nowrap; }
+        .menu-item { padding: 10px 12px; font-size: 0.72rem; color: var(--text-white); text-decoration: none; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(212,175,55,0.08); cursor: pointer; }
         .menu-item:last-child { border-bottom: none; }
-        .menu-item i { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; width: 16px; text-align: center; }
+        .menu-item i { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; width: 14px; text-align: center; }
         .menu-item:hover { background: rgba(212,175,55,0.1); color: #fcf6ba; }
 
-        .stats-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
-        .stat-card { background: #040404; border: 1.5px solid rgba(212,175,55,0.25); padding: 10px 6px; border-radius: 10px; text-align: center; cursor: pointer; }
-        .stat-lbl { font-size: 0.52rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-weight: 800; margin-bottom: 3px; white-space: nowrap; }
-        .stat-val { font-size: 1rem; font-weight: 900; color: #fff; font-family: var(--font-luxury); white-space: nowrap; }
+        .stats-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 12px; }
+        .stat-card { background: #040404; border: 1.5px solid rgba(212,175,55,0.25); padding: 8px 4px; border-radius: 10px; text-align: center; cursor: pointer; }
+        .stat-lbl { font-size: 0.5rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-weight: 800; margin-bottom: 2px; }
+        .stat-val { font-size: 0.95rem; font-weight: 900; color: #fff; font-family: var(--font-luxury); }
         .stat-card-tracking { background: var(--gold-gradient); border: none; box-shadow: 0 0 15px rgba(212,175,55,0.25); }
         .stat-card-tracking .stat-lbl, .stat-card-tracking .stat-val { -webkit-text-fill-color: #000; color: #000; font-weight: 900; }
 
-        .touch-hand-anim { display: inline-block; animation: touchBounce 1.2s infinite ease-in-out; margin-left: 3px; }
+        .touch-hand-anim { display: inline-block; animation: touchBounce 1.2s infinite ease-in-out; margin-left: 2px; }
         @keyframes touchBounce { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-4px) scale(1.15); } }
 
         .tracking-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
-        .tracking-item { background: #000; border: 1.5px solid rgba(212,175,55,0.25); padding: 12px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .tracking-info h4 { font-size: 0.75rem; color: #fcf6ba; margin-bottom: 2px; }
-        .tracking-info p { font-size: 0.62rem; color: var(--text-gray); }
-        .track-url-btn { background: var(--gold-gradient); color: #000; font-size: 0.65rem; font-weight: 800; padding: 6px 12px; border-radius: 20px; text-decoration: none; display: flex; align-items: center; gap: 5px; text-transform: uppercase; white-space: nowrap; }
+        .tracking-item { background: #000; border: 1.5px solid rgba(212,175,55,0.25); padding: 10px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .tracking-info h4 { font-size: 0.72rem; color: #fcf6ba; margin-bottom: 2px; }
+        .tracking-info p { font-size: 0.6rem; color: var(--text-gray); }
+        .track-url-btn { background: var(--gold-gradient); color: #000; font-size: 0.6rem; font-weight: 800; padding: 5px 10px; border-radius: 20px; text-decoration: none; display: flex; align-items: center; gap: 4px; text-transform: uppercase; white-space: nowrap; }
 
-        .chat-box { background: #040404; border: 1.5px solid rgba(212,175,55,0.25); border-radius: 12px; margin-bottom: 12px; display: flex; flex-direction: column; height: 200px; overflow: hidden; }
-        .chat-header { padding: 8px 12px; background: rgba(212,175,55,0.08); border-bottom: 1px solid rgba(212,175,55,0.2); font-size: 0.68rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; }
-        .chat-messages-area { flex: 1; padding: 10px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; font-size: 0.72rem; }
-        .chat-msg { max-width: 80%; padding: 6px 10px; border-radius: 8px; line-height: 1.4; }
+        .chat-box { background: #040404; border: 1.5px solid rgba(212,175,55,0.25); border-radius: 12px; margin-bottom: 10px; display: flex; flex-direction: column; height: 180px; overflow: hidden; }
+        .chat-header { padding: 8px 10px; background: rgba(212,175,55,0.08); border-bottom: 1px solid rgba(212,175,55,0.2); font-size: 0.65rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; }
+        .chat-messages-area { flex: 1; padding: 8px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; font-size: 0.7rem; }
+        .chat-msg { max-width: 80%; padding: 5px 8px; border-radius: 6px; line-height: 1.4; }
         .chat-msg.seller { background: rgba(255,255,255,0.06); color: #fff; align-self: flex-start; border-left: 2px solid #bf953f; }
         .chat-msg.customer { background: rgba(191, 149, 63, 0.15); color: #fcf6ba; align-self: flex-end; border-right: 2px solid #bf953f; }
         .chat-input-row { display: flex; border-top: 1px solid rgba(212,175,55,0.2); background: #000; }
-        .chat-input { flex: 1; background: transparent; border: none; padding: 10px; color: #fff; font-size: 0.75rem; outline: none; }
-        .chat-send-btn { background: var(--gold-gradient); border: none; color: #000; padding: 0 14px; font-weight: 800; cursor: pointer; font-size: 0.75rem; }
+        .chat-input { flex: 1; background: transparent; border: none; padding: 8px 10px; color: #fff; font-size: 0.72rem; outline: none; }
+        .chat-send-btn { background: var(--gold-gradient); border: none; color: #000; padding: 0 12px; font-weight: 800; cursor: pointer; font-size: 0.72rem; }
 
         .action-row { display: flex; gap: 8px; }
-        .support-btn { background: transparent; border: 1.5px solid rgba(255,255,255,0.25); color: #ffffff; flex: 1; padding: 10px; font-weight: 700; font-size: 0.72rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); display: flex; align-items: center; justify-content: center; gap: 5px; border-radius: 10px; text-decoration: none; white-space: nowrap; }
-        .withdraw-quick-btn { background: var(--gold-gradient); border: none; color: #000; flex: 1; padding: 10px; font-weight: 800; font-size: 0.72rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); display: flex; align-items: center; justify-content: center; gap: 5px; border-radius: 10px; white-space: nowrap; }
+        .support-btn { background: transparent; border: 1.5px solid rgba(255,255,255,0.25); color: #ffffff; flex: 1; padding: 9px; font-weight: 700; font-size: 0.7rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); display: flex; align-items: center; justify-content: center; gap: 5px; border-radius: 10px; text-decoration: none; }
+        .withdraw-quick-btn { background: var(--gold-gradient); border: none; color: #000; flex: 1; padding: 9px; font-weight: 800; font-size: 0.7rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); display: flex; align-items: center; justify-content: center; gap: 5px; border-radius: 10px; }
 
-        .info-display-box { background: #040404; border: 1.5px solid rgba(212,175,55,0.25); padding: 12px 14px; border-radius: 10px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+        .info-display-box { background: #040404; border: 1.5px solid rgba(212,175,55,0.25); padding: 10px 12px; border-radius: 10px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
         .info-content-wrap { display: flex; flex-direction: column; flex: 1; min-width: 0; }
-        .info-lbl { font-size: 0.6rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-weight: 800; margin-bottom: 2px; white-space: nowrap; }
-        .info-val { font-size: 0.78rem; color: #fff; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
+        .info-lbl { font-size: 0.58rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-weight: 800; margin-bottom: 2px; }
+        .info-val { font-size: 0.75rem; color: #fff; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        .qr-box { text-align: center; padding: 12px; background: #040404; border-radius: 10px; border: 1.5px solid rgba(212,175,55,0.25); margin-top: 8px; }
-        .qr-image { width: 140px; height: 140px; background: #fff; padding: 5px; border-radius: 6px; margin: 0 auto 8px auto; object-fit: contain; }
+        .qr-box { text-align: center; padding: 10px; background: #040404; border-radius: 10px; border: 1.5px solid rgba(212,175,55,0.25); margin-top: 6px; }
+        .qr-image { width: 130px; height: 130px; background: #fff; padding: 4px; border-radius: 6px; margin: 0 auto 6px auto; object-fit: contain; }
+        .verified-success-box { display: none; flex-direction: column; align-items: center; justify-content: center; padding: 15px; background: rgba(46, 204, 113, 0.08); border: 2px solid #2ecc71; border-radius: 12px; text-align: center; }
 
-        .verified-success-box { display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; background: rgba(46, 204, 113, 0.08); border: 2px solid #2ecc71; border-radius: 12px; text-align: center; }
-
-        .payment-options-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
-        .pay-option { background: #040404; border: 1.5px solid rgba(212,175,55,0.3); padding: 10px 6px; border-radius: 8px; text-align: center; cursor: pointer; font-size: 0.72rem; font-weight: 700; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; white-space: nowrap; }
+        .payment-options-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 10px; }
+        .pay-option { background: #040404; border: 1.5px solid rgba(212,175,55,0.3); padding: 8px 4px; border-radius: 8px; text-align: center; cursor: pointer; font-size: 0.7rem; font-weight: 700; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .pay-option.selected { background: var(--gold-gradient); color: #000; -webkit-text-fill-color: #000; border-color: #fff; }
 
-        .policy-content { font-size: 0.75rem; color: var(--text-gray); line-height: 1.7; background: #040404; padding: 14px; border-radius: 10px; border: 1.5px solid rgba(212,175,55,0.25); max-height: 62vh; overflow-y: auto; }
+        .policy-content { font-size: 0.72rem; color: var(--text-gray); line-height: 1.6; background: #040404; padding: 12px; border-radius: 10px; border: 1.5px solid rgba(212,175,55,0.25); max-height: 60vh; overflow-y: auto; }
 
-        .notif-item { background: #040404; border: 1.5px solid rgba(212,175,55,0.2); padding: 10px 12px; border-radius: 10px; margin-bottom: 8px; font-size: 0.75rem; display: flex; flex-direction: column; gap: 3px; }
+        .notif-item { background: #040404; border: 1.5px solid rgba(212,175,55,0.2); padding: 10px; border-radius: 10px; margin-bottom: 8px; font-size: 0.72rem; display: flex; flex-direction: column; gap: 2px; }
         .notif-title { font-weight: 700; color: #fcf6ba; }
-        .notif-time { font-size: 0.6rem; color: var(--text-gray); }
+        .notif-time { font-size: 0.58rem; color: var(--text-gray); }
 
-        /* ফিক্সড বটম ন্যাভবার */
+        /* বটম ন্যাভবার (আপনার ডিজাইন অনুযায়ী) */
         .bottom-nav {
             position: fixed; bottom: 0; left: 0; width: 100%;
-            background: rgba(7, 7, 7, 0.95); backdrop-filter: blur(10px);
+            background: rgba(4, 4, 4, 0.98); backdrop-filter: blur(10px);
             border-top: 1px solid rgba(212,175,55,0.2);
-            display: flex; justify-content: space-around; padding: 10px 0; z-index: 1000;
+            display: flex; justify-content: space-around; padding: 8px 0; z-index: 5000;
         }
         .nav-item {
             background: none; border: none; color: var(--text-gray);
-            font-size: 0.65rem; font-weight: 700; display: flex; flex-direction: column;
-            align-items: center; gap: 3px; cursor: pointer; text-transform: uppercase;
+            font-size: 0.58rem; font-weight: 700; display: flex; flex-direction: column;
+            align-items: center; gap: 2px; cursor: pointer; text-transform: uppercase;
         }
-        .nav-item i { font-size: 1.1rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-item i { font-size: 1.05rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .nav-item.active, .nav-item:hover { color: #fcf6ba; }
     </style>
 </head>
@@ -270,36 +420,38 @@
 
     <div class="page-container">
         
-        <!-- ১. প্রোডাক্ট ক্যাটালগ (হোমপেজ ফিড) -->
-        <div class="dash-card">
-            <h3 style="font-size: 0.9rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; margin-bottom: 10px;">Featured Luxury Collections</h3>
-            <div class="products-grid">
+        <!-- ১. প্রোডাক্ট ক্যাটালগ (হোমপেজ ফিড কার্ড) -->
+        <div class="feed-card-box">
+            <h2 class="section-main-title">Featured Luxury Collections</h2>
+            <div class="products-grid-home">
                 
-                <div class="product-card" id="prod-1">
-                    <img src="https://lh3.googleusercontent.com/d/1a6lFxluTSYUQjB8oqlVQYApRRSmCxEOW" alt="Product" class="product-img">
-                    <div class="product-name">Luxury Gamar Table</div>
-                    <div class="product-price">$120.00</div>
-                    <button class="order-now-btn" onclick="addToCartWithCoin(event, 'Luxury Gamar Table', 120.00)">Order Now</button>
+                <div class="product-item-card" id="prod-card-1">
+                    <img src="https://lh3.googleusercontent.com/d/1a6lFxluTSYUQjB8oqlVQYApRRSmCxEOW" alt="Product" class="product-item-img">
+                    <div class="product-item-name">Luxury Gamar Wood Table</div>
+                    <div class="product-item-price">$120.00</div>
+                    <button class="order-now-btn-custom" onclick="addToCartWithCoin(event, 'Luxury Gamar Wood Table', 120.00)">Order Now</button>
                 </div>
 
-                <div class="product-card" id="prod-2">
-                    <img src="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400" alt="Product" class="product-img">
-                    <div class="product-name">Baby Cotton Set</div>
-                    <div class="product-price">$35.00</div>
-                    <button class="order-now-btn" onclick="addToCartWithCoin(event, 'Baby Cotton Set', 35.00)">Order Now</button>
+                <div class="product-item-card" id="prod-card-2">
+                    <img src="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400" alt="Product" class="product-item-img">
+                    <div class="product-item-name">Baby Organic Cotton Set</div>
+                    <div class="product-item-price">$35.00</div>
+                    <button class="order-now-btn-custom" onclick="addToCartWithCoin(event, 'Baby Organic Cotton Set', 35.00)">Order Now</button>
                 </div>
 
             </div>
         </div>
 
-        <!-- ২. ঝুড়ি ও ভেরিফিকেশন ল্যান্ডিং কার্ড (প্রাথমিক অবস্হায়) -->
+        <!-- ২. ঝুড়ি ও ভেরিফিকেশন ল্যান্ডিং কার্ড (YOU সেকশন - প্রথম অবস্হায়) -->
         <div class="auth-card" id="authSection">
             <img src="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400" alt="Logo" class="logo-large">
             <h1 class="brand-title-large">RORRAXY</h1>
             <p class="welcome-subtitle">Shopping Cart & Checkout</p>
 
+            <!-- কার্ট আইটেম লিস্ট -->
             <div class="cart-items-container" id="cartItemsList"></div>
 
+            <!-- মোট হিসাব বক্স -->
             <div class="cart-total-box" id="basketTarget">
                 <span>Total Amount:</span>
                 <span id="cartTotalAmt">$155.00</span>
@@ -340,7 +492,7 @@
             </div>
         </div>
 
-        <!-- ৪. ফুল ড্যাশবোর্ড সেকশন (YOU মেনু হোমপেজের ভেতরে সংযুক্ত) -->
+        <!-- ৪. ফুল ড্যাশবোর্ড সেকশন (গুগল ভেরিফিকেশনের পর প্রদর্শিত হবে) -->
         <div class="dashboard-wrapper" id="dashboardSection">
             <div class="dash-card">
                 <div class="home-top-section">
@@ -378,7 +530,7 @@
                     <div class="stat-card stat-card-tracking" onclick="openPopupModal('tabTrackingPopup')">
                         <div class="stat-lbl">Tracking</div>
                         <div class="stat-val">
-                            <i class="fa-solid fa-location-arrow" style="font-size: 0.85rem;"></i>
+                            <i class="fa-solid fa-location-arrow" style="font-size: 0.75rem;"></i>
                             <span class="touch-hand-anim">👆</span>
                         </div>
                     </div>
@@ -391,7 +543,7 @@
                 <div class="chat-box">
                     <div class="chat-header">
                         <span><i class="fa-solid fa-comments"></i> Seller Chatroom</span>
-                        <span style="font-size: 0.55rem; color: #2ecc71;"><i class="fa-solid fa-circle" style="font-size: 5px;"></i> Active Seller</span>
+                        <span style="font-size: 0.5rem; color: #2ecc71;"><i class="fa-solid fa-circle" style="font-size: 4px;"></i> Active Seller</span>
                     </div>
                     <div class="chat-messages-area" id="chatMessagesArea">
                         <div class="chat-msg seller">Hello! Welcome to Rorraxy. Please discuss your product inquiries or order details directly with the verified seller here.</div>
@@ -447,7 +599,7 @@
             if(!container) return;
             
             if(cartItems.length === 0) {
-                container.innerHTML = `<div style="text-align:center; color:var(--text-gray); font-size:0.75rem; padding: 15px;">Your cart is empty</div>`;
+                container.innerHTML = `<div style="text-align:center; color:var(--text-gray); font-size:0.72rem; padding: 12px;">Your cart is empty</div>`;
                 document.getElementById('cartTotalAmt').innerText = "$0.00";
                 return;
             }
@@ -494,6 +646,14 @@
                     dialCodeSelect.appendChild(opt);
                 });
                 dialCodeSelect.value = "+880";
+            }
+
+            if(localStorage.getItem('rorraxy_cust_info_done') === 'true') {
+                document.getElementById('authSection').style.display = 'none';
+                document.getElementById('dashboardSection').style.display = 'flex';
+                document.getElementById('homeDispName').innerText = localStorage.getItem('rorraxy_cust_name') || 'Customer';
+                document.getElementById('homeAffId').innerText = 'YOU ID: ' + (localStorage.getItem('rorraxy_cust_email') ? localStorage.getItem('rorraxy_cust_email').split('@')[0] : 'user');
+                document.getElementById('homeEmailDisp').innerText = localStorage.getItem('rorraxy_cust_email') || 'user@gmail.com';
             }
         });
 
@@ -623,7 +783,7 @@
             else if(tabType === 'tabOrdersPopup') {
                 htmlContent += `
                     <h3 class="modal-title">Total Orders</h3>
-                    <p style="font-size: 0.72rem; color: var(--text-gray); text-align: center; margin-bottom: 12px;">Your recent purchase orders</p>
+                    <p style="font-size: 0.7rem; color: var(--text-gray); text-align: center; margin-bottom: 12px;">Your recent purchase orders</p>
                     <div class="tracking-list">
                         <div class="tracking-item">
                             <div class="tracking-info">
@@ -642,7 +802,7 @@
             else if(tabType === 'tabTrackingPopup') {
                 htmlContent += `
                     <h3 class="modal-title">Product Tracking</h3>
-                    <p style="font-size: 0.72rem; color: var(--text-gray); text-align: center; margin-bottom: 12px;">Click 'Track Live' to view international courier tracking page</p>
+                    <p style="font-size: 0.7rem; color: var(--text-gray); text-align: center; margin-bottom: 12px;">Click 'Track Live' to view international courier tracking page</p>
                     <div class="tracking-list">
                         <div class="tracking-item">
                             <div class="tracking-info">
@@ -660,10 +820,10 @@
 
                 htmlContent += `
                     <h3 class="modal-title">Security Verification</h3>
-                    <p style="font-size: 0.75rem; color: var(--text-gray); text-align: center; margin-bottom: 10px;">Scan with Google Authenticator. Issuer name: <strong>RORRAXY</strong>.</p>
+                    <p style="font-size: 0.72rem; color: var(--text-gray); text-align: center; margin-bottom: 10px;">Scan with Google Authenticator. Issuer name: <strong>RORRAXY</strong>.</p>
                     <div class="qr-box" id="verificationScanBox" style="display:${isVerified ? 'none' : 'block'};">
                         <img id="qrCodeImage" class="qr-image" src="${qrUrl}" alt="QR">
-                        <div style="font-size: 0.7rem; color: #fff; margin-bottom: 8px;">Secret Key: <span style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:700;">JBSWY3DPEHPK3PXP</span></div>
+                        <div style="font-size: 0.68rem; color: #fff; margin-bottom: 6px;">Secret Key: <span style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:700;">JBSWY3DPEHPK3PXP</span></div>
                         <div class="form-group" style="text-align: left; margin-bottom: 6px;">
                             <label>Enter 6-Digit Code</label>
                             <input type="text" id="authCodeInput" placeholder="123456" maxlength="6" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
@@ -671,14 +831,14 @@
                         <button class="btn-gold-glow" onclick="verifyAuthCode()">Verify Code</button>
                     </div>
                     <div class="verified-success-box" id="verificationSuccessBox" style="display:${isVerified ? 'flex' : 'none'};">
-                        <i class="fa-solid fa-circle-check" style="color: #2ecc71; font-size: 2.5rem; margin-bottom: 6px;"></i>
-                        <h3 style="color: #2ecc71; font-family: var(--font-luxury); font-size: 1rem;">Verification Confirmed</h3>
+                        <i class="fa-solid fa-circle-check" style="color: #2ecc71; font-size: 2.2rem; margin-bottom: 5px;"></i>
+                        <h3 style="color: #2ecc71; font-family: var(--font-luxury); font-size: 0.95rem;">Verification Confirmed</h3>
                     </div>`;
             } 
             else if(tabType === 'tabPaymentPopup') {
                 htmlContent += `
                     <h3 class="modal-title">Refund Payment Setup</h3>
-                    <p style="font-size: 0.75rem; color: var(--text-gray); text-align: center; margin-bottom: 10px;">Select your refund payout gateway.</p>
+                    <p style="font-size: 0.72rem; color: var(--text-gray); text-align: center; margin-bottom: 10px;">Select your refund payout gateway.</p>
                     <div class="payment-options-grid">
                         <div class="pay-option" id="optBkash" onclick="selectPayment('bkash')">Bikash</div>
                         <div class="pay-option" id="optNagad" onclick="selectPayment('nagad')">Nagad</div>
@@ -700,7 +860,7 @@
                         </div>
                         <i class="fa-solid fa-wallet" style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;"></i>
                     </div>
-                    <div class="form-group" style="margin-top: 12px;">
+                    <div class="form-group" style="margin-top: 10px;">
                         <label>Refund Amount ($ USD)</label>
                         <input type="number" id="withdrawAmount" placeholder="Enter amount">
                     </div>
@@ -710,8 +870,8 @@
                 htmlContent += `
                     <h3 class="modal-title">Notifications</h3>
                     <div class="notif-item">
-                        <div class="notif-title"><i class="fa-solid fa-box-open" style="color:#bf953f; margin-right:5px;"></i> Order Confirmed</div>
-                        <div style="font-size: 0.7rem; color: #fff;">Your recent product order has been verified and registered by seller.</div>
+                        <div class="notif-title"><i class="fa-solid fa-box-open" style="color:#bf953f; margin-right:4px;"></i> Order Confirmed</div>
+                        <div style="font-size: 0.68rem; color: #fff;">Your recent product order has been verified and registered by seller.</div>
                         <div class="notif-time">10 mins ago</div>
                     </div>`;
             }
@@ -801,7 +961,7 @@
 
         function handleChatKeyPress(e) { if(e.key === 'Enter') sendChatMessage(); }
 
-        // কয়েন ফ্লাইং অ্যানিমেশন সহ কার্টে এড করা
+        // কয়েন ফ্লাইং অ্যানিমেশন সহ ঝুড়িতে প্রোডাক্ট এড করা
         function addToCartWithCoin(event, name, price) {
             const btn = event.target;
             const btnRect = btn.getBoundingClientRect();
@@ -829,7 +989,7 @@
                     cartItems.push({ name: name, price: price, qty: 1 });
                 }
                 renderCart();
-                showToast(`"${name}" added to basket!`);
+                showToast(`"${name}" added to your You basket!`);
             }, 800);
         }
 
