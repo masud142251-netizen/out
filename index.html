@@ -109,7 +109,7 @@
             display: flex; align-items: center; justify-content: center; border: 1.5px solid #000;
         }
 
-        /* কয়েন ফ্লাইং অ্যানিমেশন */
+        /* প্রিমিয়াম ও স্মুথ কয়েন ফ্লাইং অ্যানিমেশন */
         @keyframes coinParabola {
             0% { transform: translate(0, 0) scale(0.6) rotate(0deg); opacity: 1; }
             40% { transform: translate(calc(var(--dx) * 0.45), -35vh) scale(1.3) rotate(180deg); opacity: 1; }
@@ -293,7 +293,7 @@
                 <button class="portal-btn wholesale-btn" id="wholesaleToggleBtn" onclick="toggleRetailWholesaleMode()">Wholesale</button>
             </div>
 
-            <!-- ঝুড়ি আইকন (উভয় হেডার ও 'You' সাবডোমেন একই কাজ করবে) -->
+            <!-- ঝুড়ি আইকন -->
             <div class="top-basket-icon-btn" id="topBasketIcon" onclick="openYouOrBasketModal()" title="Basket">
                 <i class="fa-solid fa-basket-shopping"></i>
                 <span class="cart-badge-dot" id="floatingCartCount">0</span>
@@ -337,13 +337,15 @@
         <iframe id="subdomainIframeElement" src="" style="width: 100vw; height: 100vh; border: none; background: #000;"></iframe>
     </div>
 
-    <!-- ঝুড়ি এবং 'You' (`you.rorraxy.com`) সাবডোমেনের যৌথ মোডাল -->
+    <!-- ঝুড়ি এবং 'You' (`you.rorraxy.com`) সাবডোমেনের যৌথ মোডাল (প্রোডাক্ট ইমেজ ও লাল ডিলিট বাটন সহ) -->
     <div id="youBasketModal" class="share-modal">
         <div class="basket-modal-box">
             <div class="golden-close-btn" onclick="closeYouBasketModal()" style="position: absolute; top: 15px; right: 15px;"><i class="fa-solid fa-xmark"></i></div>
+            
+            <!-- শুধু ব্র্যান্ড লোগো এবং ঝুড়ি আইকন 헤ডার -->
             <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 15px;">
-                <img src="https://lh3.googleusercontent.com/d/1qyOXxZ8s2cJMEo66NDE4BdoxiC4hy_sG" alt="Logo" style="width: 20px; height: 20px; object-fit: contain;">
-                <h2 style="font-size: 0.95rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase;">YOU.RORRAXY.COM (BASKET)</h2>
+                <img src="https://lh3.googleusercontent.com/d/1qyOXxZ8s2cJMEo66NDE4BdoxiC4hy_sG" alt="Logo" style="width: 24px; height: 24px; object-fit: contain;">
+                <i class="fa-solid fa-basket-shopping" style="font-size: 1.2rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
             </div>
             
             <div id="youCartItemsList" style="max-height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px;"></div>
@@ -353,7 +355,8 @@
                 <span id="youCartTotalPrice" style="font-size: 0.9rem; font-weight: 900; color: var(--gold-solid);">$0.00</span>
             </div>
 
-            <button class="add-to-cart-btn" onclick="confirmOrderAndCheckout()">Confirm Order & Checkout</button>
+            <!-- "Continue & Verify Google Direct" চেকআউট বাটন -->
+            <button class="add-to-cart-btn" onclick="confirmOrderAndCheckout()">Continue & Verify Google Direct</button>
         </div>
     </div>
 
@@ -472,7 +475,7 @@
         </div>
     </div>
 
-    <!-- ক্যাটাগরি ওভারলে -->
+    <!-- ক্যাটাগরি ওভারলে (সম্পূর্ণ ৭টি ক্যাটাগরি সহ) -->
     <div id="categoryView" class="category-fullscreen-view">
         <div class="golden-close-btn" onclick="toggleCategoryView('categoryView')"><i class="fa-solid fa-xmark"></i></div>
         <div style="margin-bottom: 25px; text-align: center;">
@@ -592,12 +595,13 @@
                 let numericPrice = parseFloat(item.price.replace('$', '')) * item.qty;
                 grandTotal += numericPrice;
                 html += `
-                    <div style="display:flex; justify-content:space-between; align-items:center; background:#141414; padding:8px 10px; border-radius:6px; border:1px solid rgba(212,175,55,0.2);">
-                        <div style="font-size:0.7rem;">
-                            <strong style="color:#fff;">${item.title}</strong><br>
+                    <div style="display:flex; justify-content:space-between; align-items:center; background:#141414; padding:8px 10px; border-radius:6px; border:1px solid rgba(212,175,55,0.2); gap: 10px;">
+                        <img src="${item.image}" alt="Product" style="width: 36px; height: 36px; object-fit: cover; border-radius: 4px; border: 1px solid rgba(212,175,55,0.3);">
+                        <div style="font-size:0.7rem; flex: 1;">
+                            <strong style="color:#fff; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 170px;">${item.title}</strong>
                             <span style="color:var(--gold-solid);">$${numericPrice.toFixed(2)} (${item.qty} Pcs)</span>
                         </div>
-                        <button onclick="removeFromCart(${index})" style="background:#ff2a85; border:none; color:#fff; padding:4px 8px; border-radius:4px; font-size:0.6rem; cursor:pointer;"><i class="fa-solid fa-trash"></i></button>
+                        <button onclick="removeFromCart(${index})" style="background:#ff3b30; border:none; color:#fff; padding:6px 9px; border-radius:4px; font-size:0.65rem; cursor:pointer;" title="Delete"><i class="fa-solid fa-trash"></i></button>
                     </div>
                 `;
             });
@@ -619,7 +623,6 @@
                 alert("Your cart is empty!");
                 return;
             }
-            // চেকআউট সাবডোমেইনে রিডায়রেক্ট করা
             window.location.href = "https://checkout.rorraxy.com";
         }
 
@@ -803,7 +806,10 @@
         function toggleLove(el) { el.classList.toggle('gold-active'); }
         function toggleModalLove(el) { el.classList.toggle('gold-active'); }
 
+        let currentProductImage = "";
+
         function openProductDetails(title, price, images) {
+            currentProductImage = images[0];
             if(isWholesaleMode) {
                 currentQuantity = 1;
                 baseUnitPrice = 100.00;
@@ -828,6 +834,7 @@
 
         function closeProductDetails() { document.getElementById('productDetailModal').style.display = 'none'; }
         function switchMedia(src, element) {
+            currentProductImage = src;
             document.getElementById('mainDisplayMedia').src = src;
             document.querySelectorAll('.thumb-item').forEach(t => t.classList.remove('active'));
             element.classList.add('active');
@@ -851,17 +858,39 @@
             setTimeout(() => { closeShareModal(); }, 2500);
         }
 
-        // কয়েন অ্যানিমেশন এবং বাই নাও এর মাধ্যমে ঝুড়ি ও You সাবডোমেনে ডেটা সিঙ্ক করা
+        // ওয়েব অডিও এপিআই দিয়ে হালকা সুমধুর প্রিমিয়াম সাউন্ড এফেক্ট
+        function playPremiumCoinSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5 note
+                osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15); // A5 note
+                gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.3);
+            } catch(e) {}
+        }
+
+        // কয়েন অ্যানিমেশন, সাউন্ড ও বাই নাও এর মাধ্যমে ঝুড়ি ও You সাবডোমেনে ডেটা সিঙ্ক করা
         function triggerCoinAnimationAndBuyNow(event) {
             let cart = JSON.parse(localStorage.getItem('rorraxy_cart')) || [];
             cart.push({ 
                 title: document.getElementById('modalProductTitle').innerText, 
                 price: document.getElementById('modalProductPrice').innerText, 
-                qty: currentQuantity 
+                qty: currentQuantity,
+                image: currentProductImage
             });
             localStorage.setItem('rorraxy_cart', JSON.stringify(cart));
             updateCartBadge();
             document.getElementById('productDetailModal').style.display = 'none';
+
+            // সাউন্ড বাজানো
+            playPremiumCoinSound();
 
             // কয়েন অ্যানিমেশন ট্রিগার
             const btnRect = event.target.getBoundingClientRect();
