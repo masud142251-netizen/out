@@ -274,7 +274,7 @@
         .info-lbl { font-size: 0.65rem; color: var(--gold-solid); text-transform: uppercase; font-weight: 700; }
         .info-val { font-size: 0.8rem; color: #fff; font-weight: 600; }
 
-        /* ভেরিফিকেশন সেকশন (কিউআর কোড ও কোড ভেরিফাই ইনপুট) */
+        /* ভেরিফিকেশন সেকশন */
         .qr-box {
             text-align: center;
             padding: 15px;
@@ -293,7 +293,6 @@
             object-fit: contain;
         }
 
-        /* ভেরিফাইড সাকসেস বক্স (সবুজ টিক মার্ক) */
         .verified-success-box {
             display: none;
             flex-direction: column;
@@ -357,15 +356,15 @@
                 Exclusive Affiliate Program. Verify your identity with Google to configure your account and access earnings.
             </p>
 
-            <button class="google-verify-btn" onclick="openInfoModal()">
+            <button class="google-verify-btn" onclick="openInfoModal('new')">
                 <i class="fa-brands fa-google" style="color:#ea4335;"></i> Continue & Verify with Google
             </button>
         </div>
 
-        <!-- ২. ইনফরমেশন ফর্ম পপআপ (১৯৫+ দেশের কোডসহ) -->
+        <!-- ২. ইনফরমেশন ফর্ম পপআপ (নতুন রেজিস্ট্রেশন ও এডিট উভয়ের জন্য) -->
         <div class="modal-overlay" id="infoModal">
             <div class="modal-card">
-                <h3 class="modal-title">Complete Your Information</h3>
+                <h3 class="modal-title" id="modalHeading">Complete Your Information</h3>
                 <form id="affiliateForm" onsubmit="submitAffiliateInfo(event)">
                     <div class="form-group">
                         <label>Full Name *</label>
@@ -392,7 +391,7 @@
                         <input type="text" id="regAddress" placeholder="House/Street, City, Country" required>
                     </div>
 
-                    <button type="submit" class="btn-gold-glow">Confirm & Enter Dashboard</button>
+                    <button type="submit" class="btn-gold-glow" id="modalSubmitBtn">Confirm & Enter Dashboard</button>
                 </form>
             </div>
         </div>
@@ -429,7 +428,7 @@
                 </div>
             </header>
 
-            <!-- ট্যাব ১: ইনফরমেশন -->
+            <!-- ট্যাব ১: ইনফরমেশন (এডিট অপশনসহ) -->
             <div class="dash-card active-tab" id="tabInfo">
                 <h2 class="dash-title">Profile Information</h2>
                 <div class="info-display-box">
@@ -460,16 +459,20 @@
                     </div>
                     <i class="fa-solid fa-location-dot" style="color:var(--gold-solid);"></i>
                 </div>
+
+                <!-- এডিট প্রোফাইল বাটন -->
+                <button class="btn-gold-glow" onclick="openInfoModal('edit')" style="margin-top: 15px;">
+                    <i class="fa-solid fa-pen-to-square"></i> Edit Profile Information
+                </button>
             </div>
 
-            <!-- ট্যাব ২: ভেরিফিকেশন (Google Authenticator Scan & Code Verify with Green Success) -->
+            <!-- ট্যাব ২: ভেরিফিকেশন -->
             <div class="dash-card" id="tabVerification">
                 <h2 class="dash-title">Verification</h2>
                 <p style="font-size: 0.75rem; color: var(--text-gray); text-align: center; margin-bottom: 12px;">
                     Scan with Google Authenticator. Issuer name will appear as <strong>RORRAXY</strong>.
                 </p>
                 
-                <!-- কিউআর কোড এবং কোড সাবমিট বক্স -->
                 <div class="qr-box" id="verificationScanBox">
                     <img id="qrCodeImage" class="qr-image" src="" alt="QR Scanner">
                     <div style="font-size: 0.7rem; color: #fff; margin-bottom: 10px;">Secret Key: <span style="color:var(--gold-solid);">JBSWY3DPEHPK3PXP</span></div>
@@ -481,7 +484,6 @@
                     <button class="btn-gold-glow" onclick="verifyAuthCode()">Verify Code</button>
                 </div>
 
-                <!-- ভেরিফিকেশন কনফার্ম সাকসেস বক্স (সবুজ টিক মার্ক) -->
                 <div class="verified-success-box" id="verificationSuccessBox">
                     <i class="fa-solid fa-circle-check"></i>
                     <h3 style="color: #2ecc71; font-family: var(--font-luxury); font-size: 1.1rem; margin-bottom: 5px;">Verification Confirmed</h3>
@@ -507,7 +509,7 @@
                 <button class="btn-gold-glow" onclick="savePaymentSystem()">Save Payment Method</button>
             </div>
 
-            <!-- ট্যাব ৪: উইথড্র অপশন ($0.00 ব্যালেন্স) -->
+            <!-- ট্যাব ৪: উইথড্র অপশন -->
             <div class="dash-card" id="tabWithdraw">
                 <h2 class="dash-title">Withdraw Funds</h2>
                 <div class="info-display-box" style="margin-bottom: 15px;">
@@ -529,7 +531,6 @@
     </div>
 
     <script>
-        // পৃথিবীর ১৯৫+ দেশের সম্পূর্ণ পতাকা এবং ডায়াল কোড লিস্ট
         const countriesList = [
             { name: "Afghanistan", flag: "🇦🇫", code: "+93" }, { name: "Albania", flag: "🇦🇱", code: "+355" },
             { name: "Algeria", flag: "🇩🇿", code: "+213" }, { name: "Andorra", flag: "🇦🇩", code: "+376" },
@@ -632,7 +633,6 @@
                 dialCodeSelect.value = "+880";
             }
 
-            // কিউআর কোডে শুধু ব্র্যান্ড নেম "RORRAXY" সেট করা হয়েছে
             const otpauth = encodeURIComponent("otpauth://totp/RORRAXY:user@gmail.com?secret=JBSWY3DPEHPK3PXP&issuer=RORRAXY");
             document.getElementById('qrCodeImage').src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${otpauth}`;
         });
@@ -645,15 +645,30 @@
             setTimeout(() => { t.style.display = 'none'; }, 2000);
         }
 
-        function openInfoModal() {
+        // ফর্ম ওপেন করা (নতুন রেজিস্ট্রেশন অথবা এডিট মোড)
+        function openInfoModal(mode) {
             document.getElementById('infoModal').style.display = 'flex';
+            if(mode === 'edit') {
+                document.getElementById('modalHeading').innerText = "Edit Your Information";
+                document.getElementById('modalSubmitBtn').innerText = "Update Information";
+                
+                // বর্তমান ডেটা ফর্ম ইনপুটে লোড করা
+                document.getElementById('regName').value = document.getElementById('dispName').innerText;
+                document.getElementById('regEmail').value = document.getElementById('dispEmail').innerText;
+                document.getElementById('regAddress').value = document.getElementById('dispAddress').innerText;
+            } else {
+                document.getElementById('modalHeading').innerText = "Complete Your Information";
+                document.getElementById('modalSubmitBtn').innerText = "Confirm & Enter Dashboard";
+            }
         }
 
         function submitAffiliateInfo(e) {
             e.preventDefault();
             const name = document.getElementById('regName').value.trim();
             const email = document.getElementById('regEmail').value.trim();
-            const phone = document.getElementById('regDialCode').value + " " + document.getElementById('regWhatsApp').value.trim();
+            const dialCode = document.getElementById('regDialCode').value;
+            const phoneNum = document.getElementById('regWhatsApp').value.trim();
+            const phone = dialCode + " " + phoneNum;
             const address = document.getElementById('regAddress').value.trim();
 
             document.getElementById('dispName').innerText = name;
@@ -664,7 +679,7 @@
             document.getElementById('infoModal').style.display = 'none';
             document.getElementById('authSection').style.display = 'none';
             document.getElementById('dashboardSection').style.display = 'flex';
-            showToast("Information saved successfully!");
+            showToast("Profile information updated successfully!");
         }
 
         function toggleMenu(e) {
@@ -679,7 +694,6 @@
             document.getElementById('dropdownMenu').classList.remove('show');
         }
 
-        // অথেন্টিকেটর কোড ভেরিফাই করার ফাংশন (কোড সাবমিট করলে স্ক্যানার সরে গিয়ে সবুজ টিক মার্ক দেখাবে)
         function verifyAuthCode() {
             const code = document.getElementById('authCodeInput').value.trim();
             if(code.length !== 6) {
