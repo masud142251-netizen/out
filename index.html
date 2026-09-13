@@ -13,12 +13,12 @@
 
     <style>
         :root {
-            --bg-black: #030303;
-            --surface-bg: #090909;
-            --gold-gradient: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            --bg-black: #020202;
+            --surface-bg: #070707;
+            --gold-gradient: linear-gradient(135deg, #d4af37, #fcf6ba, #aa771c);
             --gold-solid: #d4af37;
-            --text-white: #ffffff;
-            --text-gray: #b5b5b5;
+            --text-white: #f5f5f5;
+            --text-gray: #9a9a9a;
             --font-luxury: 'Cinzel', serif;
             --font-body: 'Poppins', sans-serif;
         }
@@ -42,11 +42,11 @@
 
         h1, h2, h3, h4, .brand-title-main { font-family: var(--font-luxury); }
 
-        .custom-toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(15, 15, 15, 0.98); border: 1.5px solid var(--gold-solid); color: var(--gold-solid); padding: 8px 18px; border-radius: 30px; font-size: 0.7rem; font-weight: 700; z-index: 999999; display: none; box-shadow: 0 0 20px rgba(212,175,55,0.35); }
+        .custom-toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(12, 12, 12, 0.98); border: 1px solid rgba(212,175,55,0.4); color: var(--text-white); padding: 8px 18px; border-radius: 30px; font-size: 0.7rem; font-weight: 600; z-index: 999999; display: none; box-shadow: 0 0 15px rgba(212,175,55,0.2); }
 
         .page-container {
             width: 100%;
-            max-width: 500px;
+            max-width: 480px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -55,23 +55,23 @@
         /* ল্যান্ডিং / গুগল ভেরিফিকেশন কার্ড */
         .auth-card {
             background: var(--surface-bg);
-            border-radius: 20px;
+            border-radius: 18px;
             padding: 35px 22px;
             text-align: center;
             box-shadow: 0 15px 40px rgba(0,0,0,0.95);
-            border: 1px solid rgba(212,175,55,0.2);
+            border: 1px solid rgba(212,175,55,0.18);
             width: 100%;
         }
 
         .logo-large {
-            width: 80px;
-            height: 80px;
+            width: 75px;
+            height: 75px;
             object-fit: contain;
             margin-bottom: 10px;
         }
 
         .brand-title-large {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 900;
             background: var(--gold-gradient);
             -webkit-background-clip: text;
@@ -103,16 +103,15 @@
             gap: 10px;
             cursor: pointer;
             transition: 0.3s;
-            box-shadow: 0 4px 15px rgba(255,255,255,0.15);
         }
-        .google-verify-btn:hover { background: #f1f1f1; transform: scale(1.02); }
+        .google-verify-btn:hover { background: #eaeaea; }
 
-        /* ইনফরমেশন ফর্ম পপআপ */
+        /* পপআপ মডাল */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.88);
-            backdrop-filter: blur(8px);
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(6px);
             display: none;
             justify-content: center;
             align-items: center;
@@ -121,11 +120,11 @@
         }
         .modal-card {
             background: var(--surface-bg);
-            border: 1px solid rgba(212,175,55,0.35);
-            border-radius: 18px;
+            border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 16px;
             padding: 24px 18px;
             width: 100%;
-            max-width: 450px;
+            max-width: 440px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.9);
             text-align: left;
             max-height: 90vh;
@@ -152,10 +151,10 @@
             text-align: center;
         }
         .form-group { margin-bottom: 12px; }
-        .form-group label { display: block; font-size: 0.62rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-weight: 800; }
-        .form-group input, .form-group select { width: 100%; background: #000; border: 1.5px solid rgba(212,175,55,0.3); padding: 10px 12px; color: #fff; border-radius: 8px; font-size: 0.78rem; outline: none; }
+        .form-group label { display: block; font-size: 0.62rem; color: var(--gold-solid); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-weight: 700; }
+        .form-group input, .form-group select { width: 100%; background: #000; border: 1px solid rgba(212,175,55,0.25); padding: 10px 12px; color: #fff; border-radius: 8px; font-size: 0.78rem; outline: none; }
         .phone-row { display: flex; gap: 8px; }
-        .phone-row select { width: 130px; flex-shrink: 0; background: #000; color: #fff; border: 1.5px solid rgba(212,175,55,0.3); border-radius: 8px; font-size: 0.72rem; }
+        .phone-row select { width: 130px; flex-shrink: 0; background: #000; color: #fff; border: 1px solid rgba(212,175,55,0.25); border-radius: 8px; font-size: 0.72rem; }
 
         .btn-gold-glow { background: var(--gold-gradient); border: none; padding: 12px; border-radius: 25px; color: #000; font-weight: 900; font-size: 0.75rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); width: 100%; text-align: center; margin-top: 10px; }
 
@@ -163,7 +162,7 @@
         .dashboard-wrapper {
             display: none;
             width: 100%;
-            max-width: 500px;
+            max-width: 480px;
             flex-direction: column;
             gap: 12px;
         }
@@ -171,9 +170,9 @@
         .dash-card {
             background: var(--surface-bg);
             border-radius: 16px;
-            padding: 20px 16px;
+            padding: 18px 14px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.9);
-            border: 1px solid rgba(212,175,55,0.2);
+            border: 1px solid rgba(212,175,55,0.18);
             width: 100%;
             display: block;
         }
@@ -183,7 +182,7 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 15px;
+            margin-bottom: 14px;
             position: relative;
         }
 
@@ -194,13 +193,13 @@
         }
 
         .home-logo { 
-            width: 55px; 
-            height: 55px; 
+            width: 50px; 
+            height: 50px; 
             object-fit: contain; 
             margin-bottom: 4px; 
         }
         .home-brand-name {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 900;
             background: var(--gold-gradient);
             -webkit-background-clip: text;
@@ -210,7 +209,7 @@
             font-family: var(--font-luxury);
         }
         .home-username {
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 700;
             color: #fff;
             margin-top: 2px;
@@ -220,6 +219,12 @@
             color: var(--gold-solid);
             font-weight: 600;
             letter-spacing: 0.5px;
+            margin-top: 1px;
+        }
+        .home-commission-sub {
+            font-size: 0.55rem;
+            color: var(--text-gray);
+            font-weight: 500;
             margin-top: 1px;
         }
 
@@ -246,7 +251,7 @@
             background: var(--surface-bg);
             border: 1px solid rgba(212,175,55,0.3);
             border-radius: 12px;
-            width: 190px;
+            width: 180px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.95);
             display: none;
             flex-direction: column;
@@ -271,7 +276,7 @@
         .menu-item i { color: var(--gold-solid); width: 16px; text-align: center; }
         .menu-item:hover { background: rgba(212,175,55,0.1); color: var(--gold-solid); }
 
-        /* স্ট্যাটস গ্রিড ও ১০% কমিশন নোট */
+        /* স্ট্যাটস গ্রিড */
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -279,35 +284,26 @@
             margin-bottom: 12px;
         }
         .stat-card {
-            background: #050505;
-            border: 1px solid rgba(212,175,55,0.2);
+            background: #040404;
+            border: 1px solid rgba(212,175,55,0.18);
             padding: 12px;
             border-radius: 12px;
             text-align: center;
-            position: relative;
         }
         .stat-lbl { font-size: 0.58rem; color: var(--gold-solid); text-transform: uppercase; font-weight: 700; margin-bottom: 3px; }
         .stat-val { font-size: 1.15rem; font-weight: 900; color: #fff; font-family: var(--font-luxury); }
-        .commission-badge {
-            font-size: 0.55rem;
-            background: var(--gold-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 800;
-            margin-top: 2px;
-            text-transform: uppercase;
-        }
 
-        .sheet-btn-wrapper { margin-bottom: 12px; }
+        /* প্রোডাক্ট আইডি শিট বাটন (মাঝখানে বিন্যস্ত) */
+        .sheet-btn-wrapper { margin-bottom: 12px; display: flex; justify-content: center; }
         .sheet-trigger-btn {
-            background: #050505;
+            background: #040404;
             border: 1px solid rgba(212,175,55,0.3);
             color: var(--gold-solid);
             width: 100%;
             padding: 11px;
             border-radius: 12px;
             font-weight: 700;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             cursor: pointer;
             text-transform: uppercase;
             display: flex;
@@ -315,28 +311,28 @@
             justify-content: space-between;
             transition: 0.3s;
         }
-        .sheet-trigger-btn:hover { background: rgba(212,175,55,0.08); }
+        .sheet-trigger-btn:hover { background: rgba(212,175,55,0.06); }
 
-        /* ক্লিক এনালাইসিস গ্রাফ */
+        /* ভিজিটর ক্লিক এনালিটিক্স গ্রাফ */
         .chart-box {
-            background: #050505;
-            border: 1px solid rgba(212,175,55,0.2);
+            background: #040404;
+            border: 1px solid rgba(212,175,55,0.18);
             padding: 10px;
             border-radius: 12px;
             margin-bottom: 12px;
         }
 
-        /* এফিলিয়েট সাপোর্ট (সাদা রঙ) ও উইথড্র বাটন */
+        /* একশন রো (সাপোর্ট এবং উইথড্র বাটন) */
         .action-row {
             display: flex;
             gap: 8px;
         }
         .support-btn {
             background: transparent;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.18);
             color: #ffffff;
             flex: 1;
-            padding: 10px;
+            padding: 11px;
             font-weight: 700;
             font-size: 0.7rem;
             cursor: pointer;
@@ -357,7 +353,7 @@
             border: none;
             color: #000;
             flex: 1;
-            padding: 10px;
+            padding: 11px;
             font-weight: 800;
             font-size: 0.7rem;
             cursor: pointer;
@@ -390,7 +386,7 @@
             border-radius: 16px;
             padding: 20px 15px;
             width: 100%;
-            max-width: 450px;
+            max-width: 440px;
             max-height: 80vh;
             display: flex;
             flex-direction: column;
@@ -434,8 +430,8 @@
 
         /* ইনফো ডিসপ্লে বক্স ও পলিসি স্টাইল */
         .info-display-box {
-            background: #050505;
-            border: 1px solid rgba(212,175,55,0.2);
+            background: #040404;
+            border: 1px solid rgba(212,175,55,0.18);
             padding: 12px;
             border-radius: 10px;
             margin-bottom: 8px;
@@ -449,9 +445,9 @@
         .qr-box {
             text-align: center;
             padding: 12px;
-            background: #050505;
+            background: #040404;
             border-radius: 10px;
-            border: 1px solid rgba(212,175,55,0.2);
+            border: 1px solid rgba(212,175,55,0.18);
             margin-top: 8px;
         }
         .qr-image { width: 140px; height: 140px; background: #fff; padding: 5px; border-radius: 6px; margin: 0 auto 8px auto; object-fit: contain; }
@@ -476,8 +472,8 @@
             margin-bottom: 12px;
         }
         .pay-option {
-            background: #050505;
-            border: 1.5px solid rgba(212,175,55,0.25);
+            background: #040404;
+            border: 1px solid rgba(212,175,55,0.25);
             padding: 10px 6px;
             border-radius: 8px;
             text-align: center;
@@ -493,10 +489,10 @@
             font-size: 0.74rem;
             color: var(--text-gray);
             line-height: 1.7;
-            background: #050505;
+            background: #040404;
             padding: 14px;
             border-radius: 10px;
-            border: 1px solid rgba(212,175,55,0.2);
+            border: 1px solid rgba(212,175,55,0.18);
             max-height: 65vh;
             overflow-y: auto;
         }
@@ -548,7 +544,7 @@
                     </div>
 
                     <div class="form-group" id="addressFieldGroup" style="display:none;">
-                        <label>Full Address</label>
+                        <label>Full Address *</label>
                         <input type="text" id="regAddress" placeholder="House/Street, City, Country">
                     </div>
 
@@ -563,13 +559,14 @@
             <!-- মেইন ড্যাশবোর্ড হোম কার্ড -->
             <div class="dash-card">
                 
-                <!-- হেডার: বামপাশে লোগো, ব্র্যান্ড, নাম, ইউনিক এফিলিয়েট আইডি এবং ডানপাশে থ্রি-লাইন মেনু -->
+                <!-- হেডার: বামপাশে লোগো, ব্র্যান্ড, নাম, আইডি, ১০% কমিশন এবং ডানপাশে থ্রি-লাইন মেনু -->
                 <div class="home-top-section">
                     <div class="home-left-info">
                         <img src="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400" alt="Logo" class="home-logo">
                         <div class="home-brand-name">RORRAXY</div>
                         <div class="home-username" id="homeDispName">User Name</div>
-                        <div class="home-affiliate-id" id="homeAffId">ID: #ROR-000000</div>
+                        <div class="home-affiliate-id" id="homeAffId">#ROR-000000</div>
+                        <div class="home-commission-sub">10% Commission</div>
                     </div>
 
                     <div class="menu-container">
@@ -597,17 +594,15 @@
                     </div>
                 </div>
 
-                <!-- টোটাল ইনকাম ও টোটাল পেআউট বক্স ($0.00 ও ১০% কমিশন নোট) -->
+                <!-- টোটাল ইনকাম ও টোটাল পেআউট বক্স -->
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-lbl">Total Earn</div>
                         <div class="stat-val" id="totalEarnVal">$0.00</div>
-                        <div class="commission-badge">10% Commission</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-lbl">Total Payout</div>
                         <div class="stat-val" id="totalPayoutVal">$0.00</div>
-                        <div class="commission-badge">10% Commission</div>
                     </div>
                 </div>
 
@@ -625,12 +620,12 @@
                     <canvas id="clicksChart" height="100"></canvas>
                 </div>
 
-                <!-- এফিলিয়েট সাপোর্ট (সাদা রঙ) ও উইথড্র বাটন -->
+                <!-- সাপোর্ট এবং উইথড্র বাটন -->
                 <div class="action-row">
                     <button class="support-btn" onclick="openFirebaseChat()">
                         <i class="fa-solid fa-headset" style="font-size: 0.85rem;"></i> Support
                     </button>
-                    <button class="withdraw-quick-btn" onclick="openPopupModal('tabWithdrawPopup')">
+                    <button class="withdraw-quick-btn" onclick="checkWithdrawSteps()">
                         <i class="fa-solid fa-wallet" style="font-size: 0.85rem;"></i> Withdraw
                     </button>
                 </div>
@@ -640,7 +635,7 @@
 
     </div>
 
-    <!-- প্রোডাক্ট আইডি শিট পপআপ মডাল (স্ক্রোলএবল) -->
+    <!-- প্রোডাক্ট আইডি শিট পপআপ মডাল -->
     <div class="sheet-modal-overlay" id="sheetModal">
         <div class="sheet-modal-card">
             <button class="modal-close-btn" onclick="closeSheetModal()"><i class="fa-solid fa-xmark"></i></button>
@@ -826,7 +821,7 @@
             } else {
                 document.getElementById('modalHeading').innerText = "Complete Your Information";
                 document.getElementById('modalSubmitBtn').innerText = "Confirm & Enter Dashboard";
-                addressGroup.style.display = 'none';
+                addressGroup.style.display = 'block'; // প্রথমবারও অ্যাড্রেস বাধ্যতামূলক
             }
         }
 
@@ -849,21 +844,24 @@
             const dialCode = document.getElementById('regDialCode').value;
             const phoneNum = document.getElementById('regWhatsApp').value.trim();
             const phone = dialCode + " " + phoneNum;
-            const addressInput = document.getElementById('regAddress');
+            const address = document.getElementById('regAddress').value.trim();
+
+            if(!address) {
+                showToast("Please provide your full address!");
+                return;
+            }
 
             const randomId = '#ROR-' + Math.floor(100000 + Math.random() * 900000);
 
             document.getElementById('homeDispName').innerText = name;
-            document.getElementById('homeAffId').innerText = "ID: " + randomId;
+            document.getElementById('homeAffId').innerText = randomId;
 
-            if(document.getElementById('dispName')) {
-                document.getElementById('dispName').innerText = name;
-                document.getElementById('dispEmail').innerText = email;
-                document.getElementById('dispPhone').innerText = phone;
-                if(addressInput && addressInput.value.trim() !== '') {
-                    document.getElementById('dispAddress').innerText = addressInput.value.trim();
-                }
-            }
+            // ডাটা সেভ করে রাখা উইথড্র চেকের জন্য
+            localStorage.setItem('rorraxy_name', name);
+            localStorage.setItem('rorraxy_email', email);
+            localStorage.setItem('rorraxy_phone', phone);
+            localStorage.setItem('rorraxy_address', address);
+            localStorage.setItem('rorraxy_info_done', 'true');
 
             document.getElementById('infoModal').style.display = 'none';
             document.getElementById('authSection').style.display = 'none';
@@ -875,6 +873,32 @@
             e.stopPropagation();
             const menu = document.getElementById('dropdownMenu');
             menu.classList.toggle('show');
+        }
+
+        // উইথড্র করার সময় স্টেপ বাই স্টেপ চেক করা (ইনফরমেশন -> ভেরিফিকেশন -> পেমেন্ট সেটআপ -> উইথড্র)
+        function checkWithdrawSteps() {
+            const hasInfo = localStorage.getItem('rorraxy_info_done') === 'true';
+            const hasVerified = localStorage.getItem('rorraxy_verified') === 'true';
+            const hasPayment = localStorage.getItem('rorraxy_payment_done') === 'true';
+
+            if(!hasInfo) {
+                showToast("Please complete your profile information first!");
+                openInfoModal('edit');
+                return;
+            }
+            if(!hasVerified) {
+                showToast("Please complete Google Authenticator verification!");
+                openPopupModal('tabVerificationPopup');
+                return;
+            }
+            if(!hasPayment) {
+                showToast("Please set up your payment method first!");
+                openPopupModal('tabPaymentPopup');
+                return;
+            }
+
+            // সব ঠিক থাকলে সরাসরি উইথড্র পপআপ ওপেন হবে
+            openPopupModal('tabWithdrawPopup');
         }
 
         function openPopupModal(tabType) {
@@ -892,15 +916,15 @@
                         <i class="fa-solid fa-user" style="color:var(--gold-solid);"></i>
                     </div>
                     <div class="info-display-box">
-                        <div><div class="info-lbl">Gmail Account</div><div class="info-val" id="dispEmail">user@gmail.com</div></div>
+                        <div><div class="info-lbl">Gmail Account</div><div class="info-val" id="dispEmail">${localStorage.getItem('rorraxy_email') || 'user@gmail.com'}</div></div>
                         <i class="fa-solid fa-envelope" style="color:var(--gold-solid);"></i>
                     </div>
                     <div class="info-display-box">
-                        <div><div class="info-lbl">WhatsApp Number</div><div class="info-val" id="dispPhone">+880 17XXXXXXXX</div></div>
+                        <div><div class="info-lbl">WhatsApp Number</div><div class="info-val" id="dispPhone">${localStorage.getItem('rorraxy_phone') || '+880 17XXXXXXXX'}</div></div>
                         <i class="fa-brands fa-whatsapp" style="color:var(--gold-solid);"></i>
                     </div>
                     <div class="info-display-box">
-                        <div><div class="info-lbl">Address</div><div class="info-val" id="dispAddress">Not Provided</div></div>
+                        <div><div class="info-lbl">Address</div><div class="info-val" id="dispAddress">${localStorage.getItem('rorraxy_address') || 'Not Provided'}</div></div>
                         <i class="fa-solid fa-location-dot" style="color:var(--gold-solid);"></i>
                     </div>
                     <button class="btn-gold-glow" onclick="closeModal('popupModalOverlay'); openInfoModal('edit');" style="margin-top: 10px;">
@@ -960,10 +984,10 @@
                 htmlContent += `
                     <h3 class="modal-title">Affiliate Policy & Terms</h3>
                     <div class="policy-content">
-                        <strong>1. Commission Structure:</strong> Affiliate commissions are calculated based on the net total amount after deducting any product discounts. A standard 10% commission is applied to qualifying sales.<br><br>
+                        <strong>1. Commission Structure:</strong> Affiliate commissions are calculated strictly based on the net total amount after deducting any product discounts. A standard 10% commission is applied to qualifying sales.<br><br>
                         <strong>2. Product Status & Payouts:</strong> In the product ID record, affiliate items will remain in 'Pending' status prior to successful delivery. Once the product is fully delivered to the customer, the status automatically shifts to 'Confirm', and earnings become eligible for payout.<br><br>
-                        <strong>3. Marketing Guidelines:</strong> Affiliates must promote products strictly following professional marketing ethics across approved social media platforms. Spamming or misleading promotions will lead to immediate account suspension.<br><br>
-                        <strong>4. Anti-Fraud Policy:</strong> All conversions are subject to strict automated anti-fraud checks to ensure legitimate buyer engagement.
+                        <strong>3. Marketing Guidelines:</strong> Affiliates must promote products following professional marketing ethics across approved social media platforms. Spamming, misleading promotions, or unethical traffic generation will lead to immediate account suspension.<br><br>
+                        <strong>4. Anti-Fraud Policy:</strong> All conversions and visitor clicks are subject to automated anti-fraud checks to ensure legitimate buyer engagement.
                     </div>`;
             }
 
@@ -1027,6 +1051,7 @@
                 showToast("Please enter account details!");
                 return;
             }
+            localStorage.setItem('rorraxy_payment_done', 'true');
             showToast(`Payment method (${selectedGateway.toUpperCase()}) saved successfully!`);
         }
 
@@ -1038,6 +1063,7 @@
             }
             showToast("Withdrawal request submitted successfully!");
             document.getElementById('withdrawAmount').value = "";
+            closeModal('popupModalOverlay');
         }
 
         function openFirebaseChat() {
@@ -1052,7 +1078,7 @@
                     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
                     datasets: [{
                         label: 'Total Clicks',
-                        data: [12, 25, 18, 40, 30, 55, 75],
+                        data: [15, 28, 20, 45, 35, 60, 85],
                         borderColor: '#d4af37',
                         backgroundColor: 'rgba(212, 175, 55, 0.08)',
                         borderWidth: 2,
@@ -1064,8 +1090,8 @@
                     responsive: true,
                     plugins: { legend: { display: false } },
                     scales: {
-                        x: { ticks: { color: '#b5b5b5', font: { size: 9 } }, grid: { color: 'rgba(255,255,255,0.04)' } },
-                        y: { ticks: { color: '#b5b5b5', font: { size: 9 } }, grid: { color: 'rgba(255,255,255,0.04)' } }
+                        x: { ticks: { color: '#9a9a9a', font: { size: 9 } }, grid: { color: 'rgba(255,255,255,0.03)' } },
+                        y: { ticks: { color: '#9a9a9a', font: { size: 9 } }, grid: { color: 'rgba(255,255,255,0.03)' } }
                     }
                 }
             });
