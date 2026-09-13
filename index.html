@@ -157,6 +157,9 @@
         .phone-row select { width: 130px; flex-shrink: 0; background: #000; color: #fff; border: 1px solid rgba(212,175,55,0.25); border-radius: 8px; font-size: 0.72rem; }
 
         .btn-gold-glow { background: var(--gold-gradient); border: none; padding: 12px; border-radius: 25px; color: #000; font-weight: 900; font-size: 0.75rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); width: 100%; text-align: center; margin-top: 10px; }
+        
+        .btn-reset-outline { background: transparent; border: 1px solid #e74c3c; color: #e74c3c; padding: 10px; border-radius: 25px; font-weight: 700; font-size: 0.7rem; cursor: pointer; text-transform: uppercase; width: 100%; text-align: center; margin-top: 12px; transition: 0.3s; }
+        .btn-reset-outline:hover { background: rgba(231,76,60,0.1); }
 
         /* ড্যাশবোর্ড লেআউট */
         .dashboard-wrapper {
@@ -293,7 +296,7 @@
         .stat-lbl { font-size: 0.58rem; color: var(--gold-solid); text-transform: uppercase; font-weight: 700; margin-bottom: 3px; }
         .stat-val { font-size: 1.15rem; font-weight: 900; color: #fff; font-family: var(--font-luxury); }
 
-        /* প্রোডাক্ট আইডি রেকর্ড বাটন (মাঝখানে বিন্যস্ত) */
+        /* প্রোডাক্ট আইডি রেকর্ড বাটন */
         .sheet-btn-wrapper { margin-bottom: 12px; display: flex; justify-content: center; }
         .sheet-trigger-btn {
             background: #040404;
@@ -489,13 +492,13 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 25px;
+            padding: 20px;
             background: rgba(46, 204, 113, 0.08);
             border: 2px solid #2ecc71;
             border-radius: 10px;
             text-align: center;
         }
-        .verified-success-box i { font-size: 2.8rem; color: #2ecc71; margin-bottom: 8px; }
+        .verified-success-box i { font-size: 2.5rem; color: #2ecc71; margin-bottom: 6px; }
 
         .payment-options-grid {
             display: grid;
@@ -633,7 +636,7 @@
                     </div>
                 </div>
 
-                <!-- প্রোডাক্ট আইডি রেকর্ড শিট বাটন (মিডল বরাবর) -->
+                <!-- প্রোডাক্ট আইডি রেকর্ড শিট বাটন -->
                 <div class="sheet-btn-wrapper">
                     <button class="sheet-trigger-btn" onclick="openSheetModal()">
                         <span><i class="fa-solid fa-table-list" style="margin-right: 6px; color: var(--gold-solid);"></i> Product ID Records</span>
@@ -846,7 +849,7 @@
             const phoneNum = document.getElementById('regWhatsApp').value.trim();
             const phone = dialCode + " " + phoneNum;
 
-            const randomId = 'Affiliate ID: #ROR-' + Math.floor(100000 + Math.random() * 900000);
+            const randomId = 'Affiliate ID: #ROR-605473';
 
             document.getElementById('homeDispName').innerText = name;
             document.getElementById('homeAffId').innerText = randomId;
@@ -872,7 +875,6 @@
             menu.classList.toggle('show');
         }
 
-        // উইথড্র করার সিকোয়েন্স চেক
         function checkWithdrawSteps() {
             const hasInfo = localStorage.getItem('rorraxy_info_done') === 'true';
             const hasAddress = localStorage.getItem('rorraxy_address_done') === 'true';
@@ -939,7 +941,6 @@
             } 
             else if(tabType === 'tabVerificationPopup') {
                 const isVerified = localStorage.getItem('rorraxy_verified') === 'true';
-                // পারফেক্ট স্ট্যান্ডার্ড টপটিপি কিউআর কোড ইউআরএল
                 const otpauthData = encodeURIComponent("otpauth://totp/RORRAXY:user@gmail.com?secret=JBSWY3DPEHPK3PXP&issuer=RORRAXY");
                 const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${otpauthData}`;
 
@@ -962,7 +963,8 @@
                     <div class="verified-success-box" id="verificationSuccessBox" style="display:${isVerified ? 'flex' : 'none'};">
                         <i class="fa-solid fa-circle-check" style="color: #2ecc71;"></i>
                         <h3 style="color: #2ecc71; font-family: var(--font-luxury); font-size: 1.05rem; margin-bottom: 4px;">Verification Confirmed</h3>
-                        <p style="font-size: 0.72rem; color: var(--text-gray);">Your account is securely verified.</p>
+                        <p style="font-size: 0.72rem; color: var(--text-gray); margin-bottom: 8px;">Your account is securely verified.</p>
+                        <button class="btn-reset-outline" onclick="resetVerification()">Reset / Re-configure Authenticator</button>
                     </div>`;
             } 
             else if(tabType === 'tabPaymentPopup') {
@@ -1029,12 +1031,16 @@
             }
             localStorage.setItem('rorraxy_verified', 'true');
             showToast("Verification Successful!");
-            
-            // ডায়নামিকভাবে স্ক্যান বক্স হাইড করে সাকসেস বক্স শো করা
-            const scanBox = document.getElementById('verificationScanBox');
-            const succBox = document.getElementById('verificationSuccessBox');
-            if(scanBox) scanBox.style.display = 'none';
-            if(succBox) succBox.style.display = 'flex';
+            openPopupModal('tabVerificationPopup'); // রিফ্রেশ হয়ে সাকসেস বক্স ও রিসেট বাটন নিয়ে আসবে
+        }
+
+        // ইউজার অ্যাপ থেকে ডিলিট করলে রিসেট করার ফাংশন
+        function resetVerification() {
+            if(confirm("Are you sure you want to re-configure Google Authenticator?")) {
+                localStorage.removeItem('rorraxy_verified');
+                showToast("Verification reset. Scan new QR code.");
+                openPopupModal('tabVerificationPopup'); // স্ক্যানার বক্স ফিরিয়ে আনবে
+            }
         }
 
         let selectedGateway = "";
