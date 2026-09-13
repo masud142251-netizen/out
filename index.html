@@ -43,7 +43,6 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-        /* হোলসেল মোড অ্যাক্টিভেটেড স্টাইল */
         body.wholesale-mode {
             background: var(--royal-blue-gradient) !important;
             background-attachment: fixed !important;
@@ -53,21 +52,8 @@
             border-color: rgba(212, 175, 55, 0.35) !important;
             backdrop-filter: blur(10px);
         }
-        body.wholesale-mode header.app-header {
-            background: var(--header-wholesale) !important;
-        }
-        body.wholesale-mode nav.bottom-nav {
-            background: var(--footer-wholesale) !important;
-        }
-        body.wholesale-mode .category-fullscreen-view,
-        body.wholesale-mode .fullscreen-portal-view,
-        body.wholesale-mode .subdomain-iframe-overlay,
-        body.wholesale-mode #productDetailModal {
-            background: var(--royal-blue-gradient) !important;
-        }
-        body.wholesale-mode .basket-modal-box {
-            background: rgba(3, 21, 64, 0.92) !important;
-        }
+        body.wholesale-mode header.app-header { background: var(--header-wholesale) !important; }
+        body.wholesale-mode nav.bottom-nav { background: var(--footer-wholesale) !important; }
 
         /* হেডার লেআউট */
         header.app-header {
@@ -76,7 +62,6 @@
             backdrop-filter: blur(15px); width: 100%; border-bottom: 1px solid rgba(212,175,55,0.15);
             gap: 5px; transition: transform 0.3s ease-in-out, background 0.4s ease;
         }
-        header.app-header.hidden { transform: translateY(-100%); }
 
         .header-top-bar { display: flex; justify-content: center; align-items: center; width: 100%; max-width: 600px; padding: 2px 4px; }
         
@@ -85,8 +70,8 @@
         .brand-title-main { font-size: 0.85rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; }
         .dynamic-flag-img { width: 18px; height: 12px; object-fit: cover; border-radius: 2px; box-shadow: 0 1px 4px rgba(0,0,0,0.8); }
 
-        .header-bottom-row { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 600px; gap: 6px; }
-        .header-buttons-group { display: flex; align-items: center; gap: 5px; flex: 1; }
+        .header-bottom-row { display: flex; justify-content: center; align-items: center; width: 100%; max-width: 600px; gap: 6px; }
+        .header-buttons-group { display: flex; align-items: center; gap: 5px; width: 100%; justify-content: center; }
         
         .portal-btn {
             font-size: 0.52rem; font-weight: 700; background: #161616; border: 1px solid rgba(212,175,55,0.3);
@@ -115,29 +100,6 @@
             box-shadow: none !important;
         }
         .portal-btn:hover { border-color: var(--gold-solid); background: var(--gold-gradient); color: #000; font-weight: 800; }
-
-        /* ঝুড়ি আইকন */
-        .top-basket-icon-btn {
-            position: relative; cursor: pointer; width: 44px; height: 36px;
-            display: flex; align-items: center; justify-content: center; background: none;
-            border: none; flex-shrink: 0; transition: transform 0.2s;
-        }
-        .top-basket-icon-btn:hover { transform: scale(1.12); }
-        .top-basket-icon-btn i {
-            font-size: 1.85rem; background: var(--gold-gradient);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6));
-        }
-        .cart-badge-dot {
-            position: absolute; top: -3px; right: -2px; background: var(--pink-discount); color: #fff;
-            font-size: 0.52rem; font-weight: 900; width: 17px; height: 17px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; border: 1.5px solid #000;
-        }
-        @keyframes bounceBasket {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.35); }
-        }
-        .basket-bounce { animation: bounceBasket 0.4s ease; }
 
         /* ফ্লোটিং লাইভ চ্যাট উইজেট */
         .live-chat-widget {
@@ -198,13 +160,13 @@
         .share-action-btn { display: flex; align-items: center; gap: 6px; background: none; border: none; font-size: 0.75rem; font-weight: 700; cursor: pointer; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .share-action-btn i { font-size: 0.95rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* ১. ফুল-স্ক্রিন ওভারলে ভিউ (Creative Academy & Solutions) - বর্ডারমুক্ত, শতভাগ স্ক্রিন জুড়ে */
+        /* ফুল-স্ক্রিন ওভারলে ভিউ */
         .fullscreen-portal-view {
             display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: #000000; z-index: 9000; flex-direction: column; overflow: hidden;
         }
 
-        /* ২. সাব-ডোমেইন ওভারলে প্যানেল (Affiliate, Seller, You, Basket) - সমস্ত বর্ডার রিমুভ করে মোবাইল ও কম্পিউটারে শতভাগ ফুল স্ক্রিন করা হয়েছে */
+        /* সাব-ডোমেইন ওভারলে প্যানেল (Affiliate, Seller, You) */
         .subdomain-iframe-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: #000000; z-index: 6000; flex-direction: column; padding: 0; margin: 0; overflow: hidden;
@@ -221,13 +183,7 @@
         }
         .product-details-content { padding: 4px; max-width: 440px; margin: 25px auto 0 auto; display: flex; flex-direction: column; gap: 8px; }
 
-        .basket-modal-box {
-            background: #0c0c0c; border: 1px solid rgba(212,175,55,0.35); border-radius: 14px;
-            width: 100%; max-width: 460px; margin: 60px auto; padding: 20px; position: relative;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.9);
-        }
-
-        /* গোল্ডেন ক্লোজ (X) বাটন - একদম নিখুঁত অবস্থানে সেট করা */
+        /* গোল্ডেন ক্লোজ (X) বাটন */
         .golden-close-btn {
             background: #141414; border: 1px solid rgba(212,175,55,0.4); width: 38px; height: 38px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.8);
@@ -235,7 +191,7 @@
         }
         .golden-close-btn i { font-size: 1.1rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* শেয়ার মোডাল */
+        /* শেয়ার মোডাল */
         .share-modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85); z-index: 7000; justify-content: center; align-items: center; padding: 12px;
@@ -286,7 +242,7 @@
 
         .add-to-cart-btn { background: var(--gold-gradient); color: #000; font-weight: 900; font-size: 0.72rem; padding: 10px; border-radius: 6px; border: none; text-transform: uppercase; cursor: pointer; width: 100%; margin-top: 2px; }
 
-        /* সিঙ্গেল ক্লিন সার্চ বার */
+        /* সার্চ পপআপ বার */
         .search-popup-box { display: none; position: fixed; top: 75px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 520px; background: transparent; z-index: 4000; padding: 0; border: none; box-shadow: none; }
         .search-input-field-box { display: flex; align-items: center; background: #000000; border: 1px solid rgba(212,175,55,0.4); border-radius: 30px; padding: 6px 14px; gap: 10px; box-shadow: 0 8px 25px rgba(0,0,0,0.9); }
         .search-input-field-box input { background: none; border: none; outline: none; color: #fff; font-size: 0.85rem; width: 100%; }
@@ -321,7 +277,7 @@
 </head>
 <body id="mainBody">
 
-    <!-- হেডার -->
+    <!-- হেডার (ঝুড়ি বাস্কেট আইকন সম্পূর্ণ রিমুভ করা হয়েছে) -->
     <header class="app-header" id="mainHeader">
         <div class="header-top-bar">
             <div class="header-center-group" onclick="location.href='https://rorraxy.com'">
@@ -338,11 +294,6 @@
                 <button class="portal-btn" onclick="openFullScreenPortal('https://academy.rorraxy.com')">Creative Academy</button>
                 <button class="portal-btn" onclick="openFullScreenPortal('https://solutions.rorraxy.com')">B2B/B2C Solution</button>
                 <button class="portal-btn wholesale-btn" id="wholesaleToggleBtn" onclick="toggleRetailWholesaleMode()">Wholesale</button>
-            </div>
-
-            <div class="top-basket-icon-btn" id="topBasketIcon" onclick="toggleSubdomainOverlay('https://you.rorraxy.com')" title="Basket">
-                <i class="fa-solid fa-basket-shopping"></i>
-                <span class="cart-badge-dot" id="floatingCartCount">0</span>
             </div>
         </div>
     </header>
@@ -371,19 +322,19 @@
         </div>
     </main>
 
-    <!-- ফুল-স্ক্রিন ওভারলে ভিউ (Creative Academy & Solutions) - বর্ডারমুক্ত, শতভাগ স্ক্রিন জুড়ে -->
+    <!-- ফুল-স্ক্রিন একাডেমি ও সলিউশন পোর্টাল ওভারলে -->
     <div id="fullScreenPortal" class="fullscreen-portal-view">
         <div class="golden-close-btn" onclick="closeFullScreenPortal()"><i class="fa-solid fa-xmark"></i></div>
         <iframe id="fullScreenIframe" src="" style="width: 100vw; height: 100vh; border: none; background: #000;"></iframe>
     </div>
 
-    <!-- সাব-ডোমেইন ওভারলে প্যানেল (Affiliate, Seller, You, Basket) - বর্ডারমুক্ত ও শতভাগ ফুল স্ক্রিন -->
+    <!-- সাব-ডোমেইন ওভারলে প্যানেল (Affiliate, Seller, You - ক্যাটাগরির মতো টগল সিস্টেমে কাজ করবে) -->
     <div id="subdomainOverlay" class="subdomain-iframe-overlay">
         <div class="golden-close-btn" onclick="closeSubdomainOverlay()"><i class="fa-solid fa-xmark"></i></div>
         <iframe id="subdomainIframeElement" src="" style="width: 100vw; height: 100vh; border: none; background: #000;"></iframe>
     </div>
 
-    <!-- শেয়ার পপ-আপ মোডাল -->
+    <!-- শেয়ার পপ-আপ মোডাল -->
     <div id="shareModal" class="share-modal">
         <div class="share-modal-box">
             <div class="golden-close-btn" onclick="closeShareModal()" style="position: absolute; top: 12px; right: 12px;"><i class="fa-solid fa-xmark"></i></div>
@@ -466,7 +417,7 @@
 
     <!-- ডেসক্রিপশন পপআপ -->
     <div id="descModal" class="subdomain-iframe-overlay" style="z-index: 6500; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.85);">
-        <div class="basket-modal-box">
+        <div style="background: #0c0c0c; border: 1px solid rgba(212,175,55,0.35); border-radius: 14px; width: 90%; max-width: 400px; padding: 20px; position: relative;">
             <div class="golden-close-btn" onclick="closeDescPopup()" style="position:absolute; top:12px; right:12px;"><i class="fa-solid fa-xmark"></i></div>
             <div style="text-align: center;">
                 <span style="font-size: 1rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase;">Product Description</span>
@@ -479,7 +430,7 @@
 
     <!-- সাইজ ও স্পেক পপআপ -->
     <div id="sizeModal" class="subdomain-iframe-overlay" style="z-index: 6500; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.85);">
-        <div class="basket-modal-box">
+        <div style="background: #0c0c0c; border: 1px solid rgba(212,175,55,0.35); border-radius: 14px; width: 90%; max-width: 400px; padding: 20px; position: relative;">
             <div class="golden-close-btn" onclick="closeSizePopup()" style="position:absolute; top:12px; right:12px;"><i class="fa-solid fa-xmark"></i></div>
             <div style="text-align: center;">
                 <span style="font-size: 1rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase;">Size & Custom Request</span>
@@ -504,7 +455,6 @@
         <div style="margin-bottom: 25px; text-align: center;">
             <span id="categoryViewTitle" style="font-size:1.1rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-transform:uppercase; letter-spacing: 1px;">All Categories</span>
         </div>
-
         <div id="dynamicCategoryContent"></div>
     </div>
 
@@ -573,6 +523,7 @@
             document.getElementById('fullScreenIframe').src = '';
         }
 
+        // ক্যাটাগরির মতো নিখুঁত টগল সিস্টেমে Affiliate, Seller, You ওপেন ও ক্লোজ হবে
         function toggleSubdomainOverlay(url) {
             const overlay = document.getElementById('subdomainOverlay');
             const iframe = document.getElementById('subdomainIframeElement');
@@ -821,21 +772,11 @@
         }
 
         function triggerCoinAnimation(event) {
-            let cart = JSON.parse(localStorage.getItem('rorraxy_cart')) || [];
-            cart.push({ title: 'Item', price: '$100', qty: currentQuantity });
-            localStorage.setItem('rorraxy_cart', JSON.stringify(cart));
-            updateCartBadge();
-            document.getElementById('productDetailModal').style.display = 'none';
             alert("Added to cart successfully!");
-        }
-
-        function updateCartBadge() {
-            let cart = JSON.parse(localStorage.getItem('rorraxy_cart')) || [];
-            document.getElementById('floatingCartCount').innerText = cart.length;
+            document.getElementById('productDetailModal').style.display = 'none';
         }
 
         window.onload = function() {
-            updateCartBadge();
             fetch('https://ipapi.co/json/').then(r => r.json()).then(d => {
                 let cc = d.country_code ? d.country_code.toLowerCase() : 'bd';
                 document.getElementById('visitorFlagImg').src = `https://flagcdn.com/w80/${cc}.png`;
