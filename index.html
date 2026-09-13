@@ -84,20 +84,14 @@
         }
 
         .portal-btn.wholesale-btn { 
-            background: var(--gold-gradient); 
-            color: #000; 
-            border: none; 
-            font-weight: 900; 
+            background: var(--gold-gradient); color: #000; border: none; font-weight: 900; 
             box-shadow: 0 2px 10px rgba(212,175,55,0.4);
         }
         .portal-btn.wholesale-btn:hover { opacity: 0.9; transform: translateY(-1px); }
         
         .portal-btn.wholesale-active { 
-            background: #161616 !important; 
-            color: var(--gold-solid) !important; 
-            font-weight: 900 !important; 
-            border: 1px solid var(--gold-solid) !important; 
-            box-shadow: none !important;
+            background: #161616 !important; color: var(--gold-solid) !important; font-weight: 900 !important; 
+            border: 1px solid var(--gold-solid) !important; box-shadow: none !important;
         }
         .portal-btn:hover { border-color: var(--gold-solid); background: var(--gold-gradient); color: #000; font-weight: 800; }
 
@@ -113,19 +107,6 @@
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             filter: drop-shadow(0 2px 5px rgba(0,0,0,0.8));
         }
-
-        @keyframes coinParabola {
-            0% { transform: translate(0, 0) scale(0.6) rotate(0deg); opacity: 1; }
-            40% { transform: translate(calc(var(--dx) * 0.45), -35vh) scale(1.3) rotate(180deg); opacity: 1; }
-            100% { transform: translate(var(--dx), var(--dy)) scale(0.4) rotate(360deg); opacity: 0; }
-        }
-        .flying-coin {
-            position: fixed; z-index: 9999; width: 28px; height: 28px; background: var(--gold-gradient);
-            border-radius: 50%; border: 2px solid #ffffff; box-shadow: 0 0 18px var(--gold-solid);
-            animation: coinParabola 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .flying-coin::after { content: '$'; font-size: 0.75rem; font-weight: 900; color: #000; }
 
         /* Feed Layout */
         .feed-container {
@@ -160,16 +141,10 @@
         .share-action-btn { display: flex; align-items: center; gap: 6px; background: none; border: none; font-size: 0.75rem; font-weight: 700; cursor: pointer; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .share-action-btn i { font-size: 0.95rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* ফুল-স্ক্রিন ওভারলে ভিউ */
+        /* ফুল-স্ক্রিন ওভারলে ভিউ (যেমন ক্যাটাগরি, এফিলিয়েট, সেলার, ইউ - সব এক সিস্টেমে টগল হবে) */
         .fullscreen-portal-view {
             display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: #000000; z-index: 9000; flex-direction: column; overflow: hidden;
-        }
-
-        /* সাব-ডোমেইন ওভারলে প্যানেল (Affiliate, Seller, You) */
-        .subdomain-iframe-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #000000; z-index: 6000; flex-direction: column; padding: 0; margin: 0; overflow: hidden;
         }
 
         .category-fullscreen-view {
@@ -328,10 +303,46 @@
         <iframe id="fullScreenIframe" src="" style="width: 100vw; height: 100vh; border: none; background: #000;"></iframe>
     </div>
 
-    <!-- সাব-ডোমেইন ওভারলে প্যানেল (Affiliate, Seller, You - ক্যাটাগরির মতো টগল সিস্টেমে কাজ করবে) -->
-    <div id="subdomainOverlay" class="subdomain-iframe-overlay">
-        <div class="golden-close-btn" onclick="closeSubdomainOverlay()"><i class="fa-solid fa-xmark"></i></div>
-        <iframe id="subdomainIframeElement" src="" style="width: 100vw; height: 100vh; border: none; background: #000;"></iframe>
+    <!-- ক্যাটাগরি ওভারলে (ক্যাটাগরির নিজস্ব টগল ভিউ) -->
+    <div id="categoryView" class="category-fullscreen-view">
+        <div class="golden-close-btn" onclick="toggleCategoryView()"><i class="fa-solid fa-xmark"></i></div>
+        <div style="margin-bottom: 25px; text-align: center;">
+            <span id="categoryViewTitle" style="font-size:1.1rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-transform:uppercase; letter-spacing: 1px;">All Categories</span>
+        </div>
+        <div id="dynamicCategoryContent"></div>
+    </div>
+
+    <!-- Affiliate ওভারলে (ঠিক ক্যাটাগরির মতো টগল সিস্টেম) -->
+    <div id="affiliateView" class="category-fullscreen-view">
+        <div class="golden-close-btn" onclick="toggleAffiliateView()"><i class="fa-solid fa-xmark"></i></div>
+        <div style="margin-bottom: 25px; text-align: center;">
+            <span style="font-size:1.1rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-transform:uppercase; letter-spacing: 1px;">Affiliate Center</span>
+        </div>
+        <div style="max-width:500px; margin:0 auto; padding:15px; background:#111; border:1px solid rgba(212,175,55,0.3); border-radius:12px;">
+            <p style="font-size:0.75rem; color:#b0b0b0; line-height:1.6; text-align:center;">Welcome to Rorraxy Affiliate Dashboard. Generate links, track commissions, and expand your global network.</p>
+        </div>
+    </div>
+
+    <!-- Seller ওভারলে (ঠিক ক্যাটাগরির মতো টগল সিস্টেম) -->
+    <div id="sellerView" class="category-fullscreen-view">
+        <div class="golden-close-btn" onclick="toggleSellerView()"><i class="fa-solid fa-xmark"></i></div>
+        <div style="margin-bottom: 25px; text-align: center;">
+            <span style="font-size:1.1rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-transform:uppercase; letter-spacing: 1px;">Seller Dashboard</span>
+        </div>
+        <div style="max-width:500px; margin:0 auto; padding:15px; background:#111; border:1px solid rgba(212,175,55,0.3); border-radius:12px;">
+            <p style="font-size:0.75rem; color:#b0b0b0; line-height:1.6; text-align:center;">Manage your store products, orders, fulfillment, and financial statements seamlessly.</p>
+        </div>
+    </div>
+
+    <!-- You ওভারলে (ঠিক ক্যাটাগরির মতো টগল সিস্টেম) -->
+    <div id="youView" class="category-fullscreen-view">
+        <div class="golden-close-btn" onclick="toggleYouView()"><i class="fa-solid fa-xmark"></i></div>
+        <div style="margin-bottom: 25px; text-align: center;">
+            <span style="font-size:1.1rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-transform:uppercase; letter-spacing: 1px;">User Account & Basket</span>
+        </div>
+        <div style="max-width:500px; margin:0 auto; padding:15px; background:#111; border:1px solid rgba(212,175,55,0.3); border-radius:12px;">
+            <p style="font-size:0.75rem; color:#b0b0b0; line-height:1.6; text-align:center;">Review your personal profile, active orders, saved items, and shopping basket items here.</p>
+        </div>
     </div>
 
     <!-- শেয়ার পপ-আপ মোডাল -->
@@ -416,46 +427,33 @@
     </div>
 
     <!-- ডেসক্রিপশন পপআপ -->
-    <div id="descModal" class="subdomain-iframe-overlay" style="z-index: 6500; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.85);">
-        <div style="background: #0c0c0c; border: 1px solid rgba(212,175,55,0.35); border-radius: 14px; width: 90%; max-width: 400px; padding: 20px; position: relative;">
-            <div class="golden-close-btn" onclick="closeDescPopup()" style="position:absolute; top:12px; right:12px;"><i class="fa-solid fa-xmark"></i></div>
-            <div style="text-align: center;">
-                <span style="font-size: 1rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase;">Product Description</span>
-                <p style="font-size: 0.7rem; color: var(--text-gray); margin-top: 15px; text-align: left; line-height: 1.6;">
-                    Crafted with precision using high-grade Gamar wood and premium luxury finishes. Designed for durability, elegance, and global export standards. Free shipping and tax inclusive worldwide.
-                </p>
-            </div>
+    <div id="descModal" class="category-fullscreen-view" style="z-index: 6500; display:none;">
+        <div class="golden-close-btn" onclick="closeDescPopup()"><i class="fa-solid fa-xmark"></i></div>
+        <div style="max-width: 440px; margin: 40px auto; padding: 20px; text-align: center;">
+            <span style="font-size: 1rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase;">Product Description</span>
+            <p style="font-size: 0.75rem; color: var(--text-gray); margin-top: 15px; text-align: left; line-height: 1.6;">
+                Crafted with precision using high-grade Gamar wood and premium luxury finishes. Designed for durability, elegance, and global export standards. Free shipping and tax inclusive worldwide.
+            </p>
         </div>
     </div>
 
     <!-- সাইজ ও স্পেক পপআপ -->
-    <div id="sizeModal" class="subdomain-iframe-overlay" style="z-index: 6500; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.85);">
-        <div style="background: #0c0c0c; border: 1px solid rgba(212,175,55,0.35); border-radius: 14px; width: 90%; max-width: 400px; padding: 20px; position: relative;">
-            <div class="golden-close-btn" onclick="closeSizePopup()" style="position:absolute; top:12px; right:12px;"><i class="fa-solid fa-xmark"></i></div>
-            <div style="text-align: center;">
-                <span style="font-size: 1rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase;">Size & Custom Request</span>
-                <div style="margin-top: 15px; text-align: left; display: flex; flex-direction: column; gap: 8px;">
-                    <label style="font-size: 0.6rem; color: var(--text-gray); text-transform: uppercase;">Select Size / Variant</label>
-                    <select id="productSizeSelect" style="background:#0a0a0a; border:1px solid rgba(212,175,55,0.3); padding:8px; border-radius:4px; color:#fff; font-size:0.7rem; outline:none;">
-                        <option value="Standard">Standard Size</option>
-                        <option value="Large">Large Size</option>
-                        <option value="Custom">Custom Specification</option>
-                    </select>
-                    <label style="font-size: 0.6rem; color: var(--text-gray); text-transform: uppercase; margin-top: 5px;">Edit / Other Instructions</label>
-                    <textarea id="customSizeNote" placeholder="Write any specific instruction or custom note here..." style="background:#0a0a0a; border:1px solid rgba(212,175,55,0.3); padding:8px; border-radius:4px; color:#fff; font-size:0.7rem; outline:none; height:70px; resize:none;"></textarea>
-                    <button class="add-to-cart-btn" style="margin-top: 10px; padding: 9px; font-size: 0.7rem;" onclick="closeSizePopup()">Apply & Save</button>
-                </div>
+    <div id="sizeModal" class="category-fullscreen-view" style="z-index: 6500; display:none;">
+        <div class="golden-close-btn" onclick="closeSizePopup()"><i class="fa-solid fa-xmark"></i></div>
+        <div style="max-width: 440px; margin: 40px auto; padding: 20px; text-align: center;">
+            <span style="font-size: 1rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase;">Size & Custom Request</span>
+            <div style="margin-top: 15px; text-align: left; display: flex; flex-direction: column; gap: 8px;">
+                <label style="font-size: 0.6rem; color: var(--text-gray); text-transform: uppercase;">Select Size / Variant</label>
+                <select id="productSizeSelect" style="background:#0a0a0a; border:1px solid rgba(212,175,55,0.3); padding:8px; border-radius:4px; color:#fff; font-size:0.7rem; outline:none;">
+                    <option value="Standard">Standard Size</option>
+                    <option value="Large">Large Size</option>
+                    <option value="Custom">Custom Specification</option>
+                </select>
+                <label style="font-size: 0.6rem; color: var(--text-gray); text-transform: uppercase; margin-top: 5px;">Edit / Other Instructions</label>
+                <textarea id="customSizeNote" placeholder="Write any specific instruction or custom note here..." style="background:#0a0a0a; border:1px solid rgba(212,175,55,0.3); padding:8px; border-radius:4px; color:#fff; font-size:0.7rem; outline:none; height:70px; resize:none;"></textarea>
+                <button class="add-to-cart-btn" style="margin-top: 10px; padding: 9px; font-size: 0.7rem;" onclick="closeSizePopup()">Apply & Save</button>
             </div>
         </div>
-    </div>
-
-    <!-- ক্যাটাগরি ওভারলে -->
-    <div id="categoryView" class="category-fullscreen-view">
-        <div class="golden-close-btn" onclick="toggleCategoryView('categoryView')"><i class="fa-solid fa-xmark"></i></div>
-        <div style="margin-bottom: 25px; text-align: center;">
-            <span id="categoryViewTitle" style="font-size:1.1rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-transform:uppercase; letter-spacing: 1px;">All Categories</span>
-        </div>
-        <div id="dynamicCategoryContent"></div>
     </div>
 
     <!-- সার্চ পপআপ -->
@@ -467,21 +465,21 @@
         </div>
     </div>
 
-    <!-- ফিক্সড বটম ন্যাভবার -->
+    <!-- ফিক্সড বটম ন্যাভবার (ক্যাটাগরির মতো টগল ফাংশন যুক্ত) -->
     <nav class="bottom-nav">
-        <div class="nav-item" onclick="toggleSubdomainOverlay('https://affiliate.rorraxy.com')">
+        <div class="nav-item" onclick="toggleAffiliateView()">
             <i class="fa-solid fa-handshake"></i>
             <span>Affiliate</span>
         </div>
-        <div class="nav-item" onclick="toggleSubdomainOverlay('https://seller.rorraxy.com')">
+        <div class="nav-item" onclick="toggleSellerView()">
             <i class="fa-solid fa-chart-line"></i>
             <span>Seller</span>
         </div>
-        <div class="nav-item" onclick="toggleSubdomainOverlay('https://you.rorraxy.com')">
+        <div class="nav-item" onclick="toggleYouView()">
             <i class="fa-solid fa-user-shield"></i>
             <span>You</span>
         </div>
-        <div class="nav-item" onclick="openCategoryView()">
+        <div class="nav-item" onclick="toggleCategoryView()">
             <i class="fa-solid fa-border-all"></i>
             <span>Category</span>
         </div>
@@ -495,7 +493,6 @@
         let isWholesaleMode = false;
         let currentQuantity = 1;
         let baseUnitPrice = 100.00;
-        let activeSubdomainUrl = "";
 
         const dragEl = document.getElementById('draggableChat');
         let isDragging = false, startX, startY, initialX, initialY;
@@ -523,196 +520,96 @@
             document.getElementById('fullScreenIframe').src = '';
         }
 
-        // ক্যাটাগরির মতো নিখুঁত টগল সিস্টেমে Affiliate, Seller, You ওপেন ও ক্লোজ হবে
-        function toggleSubdomainOverlay(url) {
-            const overlay = document.getElementById('subdomainOverlay');
-            const iframe = document.getElementById('subdomainIframeElement');
-
-            if (overlay.style.display === 'flex' && activeSubdomainUrl === url) {
-                closeSubdomainOverlay();
-                return;
-            }
-
-            activeSubdomainUrl = url;
-            iframe.src = url;
-            overlay.style.display = 'flex';
-        }
-        function closeSubdomainOverlay() {
-            document.getElementById('subdomainOverlay').style.display = 'none';
-            document.getElementById('subdomainIframeElement').src = '';
-            activeSubdomainUrl = "";
-        }
-
-        function toggleRetailWholesaleMode() {
-            const qtyContainer = document.getElementById('qtyTierContainer');
-            const toggleBtn = document.getElementById('wholesaleToggleBtn');
-            const discountText = document.getElementById('modalDiscountText');
-
-            isWholesaleMode = !isWholesaleMode;
-            document.body.classList.toggle('wholesale-mode');
-
-            if (isWholesaleMode) {
-                qtyContainer.classList.add('wholesale-mode-active');
-                toggleBtn.innerText = "Retail Mode";
-                toggleBtn.classList.add('wholesale-active');
-                discountText.innerText = "0% OFF";
-                setWholesaleTier(1, 100, null);
+        // ক্যাটাগরির মতো নিখুঁত টগল সিস্টেম (ক্লিক করলে ওপেন, আবার ক্লিক করলে বন্ধ হবে)
+        function toggleCategoryView() {
+            const view = document.getElementById('categoryView');
+            if(view.style.display === 'block') {
+                view.style.display = 'none';
             } else {
-                qtyContainer.classList.remove('wholesale-mode-active');
-                toggleBtn.innerText = "Wholesale";
-                toggleBtn.classList.remove('wholesale-active');
-                discountText.innerText = "5% OFF";
-                currentQuantity = 1;
-                baseUnitPrice = 100.00;
-                document.getElementById('productQtyDisplay').innerText = currentQuantity;
-                updateCalculatedPrice();
+                // প্যানেল ওপেন করার আগে অন্য খোলা প্যানেলগুলো বন্ধ করে দেওয়া
+                closeAllViews();
+                const container = document.getElementById('dynamicCategoryContent');
+                const titleEl = document.getElementById('categoryViewTitle');
+                titleEl.innerText = isWholesaleMode ? "Wholesale Categories" : "Retail Categories";
+                
+                container.innerHTML = `
+                    <section class="category-section">
+                        <div class="category-header-row"><h2 class="category-title">1. Women's Fashion</h2></div>
+                        <div class="app-store-grid">
+                            <div class="app-card" onclick="filterCategory('Clothing')"><div class="app-card-icon"><i class="fa-solid fa-shirt"></i></div><span class="app-card-name">Clothing</span></div>
+                            <div class="app-card" onclick="filterCategory('Handbags')"><div class="app-card-icon"><i class="fa-solid fa-bag-shopping"></i></div><span class="app-card-name">Handbags</span></div>
+                            <div class="app-card" onclick="filterCategory('Shoes')"><div class="app-card-icon"><i class="fa-solid fa-shoe-prints"></i></div><span class="app-card-name">Shoes</span></div>
+                            <div class="app-card" onclick="filterCategory('Jewelry')"><div class="app-card-icon"><i class="fa-solid fa-gem"></i></div><span class="app-card-name">Jewelry</span></div>
+                            <div class="app-card" onclick="filterCategory('Watches')"><div class="app-card-icon"><i class="fa-solid fa-clock"></i></div><span class="app-card-name">Watches</span></div>
+                        </div>
+                    </section>
+                    <section class="category-section">
+                        <div class="category-header-row"><h2 class="category-title">2. Boys' Fashion</h2></div>
+                        <div class="app-store-grid">
+                            <div class="app-card" onclick="filterCategory('Boys Clothing')"><div class="app-card-icon"><i class="fa-solid fa-child"></i></div><span class="app-card-name">Clothing</span></div>
+                            <div class="app-card" onclick="filterCategory('Boys Shoes')"><div class="app-card-icon"><i class="fa-solid fa-socks"></i></div><span class="app-card-name">Shoes</span></div>
+                        </div>
+                    </section>
+                `;
+                view.style.display = 'block';
             }
         }
 
-        function adjustQuantity(amount) {
-            currentQuantity += amount;
-            if (currentQuantity < 1) currentQuantity = 1;
-            document.getElementById('productQtyDisplay').innerText = currentQuantity;
-            updateCalculatedPrice();
-        }
-
-        function setWholesaleTier(qty, unitPrice, eventObj) {
-            currentQuantity = qty;
-            baseUnitPrice = unitPrice;
-            document.getElementById('productQtyDisplay').innerText = currentQuantity;
-            updateCalculatedPrice();
-
-            if(eventObj) {
-                document.querySelectorAll('.tier-btn').forEach(btn => btn.classList.remove('active'));
-                eventObj.target.classList.add('active');
+        // Affiliate টগল সিস্টেম
+        function toggleAffiliateView() {
+            const view = document.getElementById('affiliateView');
+            if(view.style.display === 'block') {
+                view.style.display = 'none';
+            } else {
+                closeAllViews();
+                view.style.display = 'block';
             }
         }
 
-        function updateCalculatedPrice() {
-            let finalPrice = baseUnitPrice * currentQuantity;
-            document.getElementById('modalProductPrice').innerText = `$${finalPrice.toFixed(2)}`;
+        // Seller টগল সিস্টেম
+        function toggleSellerView() {
+            const view = document.getElementById('sellerView');
+            if(view.style.display === 'block') {
+                view.style.display = 'none';
+            } else {
+                closeAllViews();
+                view.style.display = 'block';
+            }
         }
 
-        function openDescriptionPopup() { document.getElementById('descModal').style.display = 'flex'; }
-        function closeDescPopup() { document.getElementById('descModal').style.display = 'none'; }
-        function openSizePopup() { document.getElementById('sizeModal').style.display = 'flex'; }
-        function closeSizePopup() { document.getElementById('sizeModal').style.display = 'none'; }
-        function openLiveChat() { alert("Connecting to live support chatbot..."); }
-
-        function openCategoryView() {
-            const container = document.getElementById('dynamicCategoryContent');
-            const titleEl = document.getElementById('categoryViewTitle');
-            titleEl.innerText = isWholesaleMode ? "Wholesale Categories" : "Retail Categories";
-            
-            container.innerHTML = `
-                <section class="category-section">
-                    <div class="category-header-row"><h2 class="category-title">1. Women's Fashion</h2></div>
-                    <div class="app-store-grid">
-                        <div class="app-card" onclick="filterCategory('Clothing')"><div class="app-card-icon"><i class="fa-solid fa-shirt"></i></div><span class="app-card-name">Clothing</span></div>
-                        <div class="app-card" onclick="filterCategory('Handbags')"><div class="app-card-icon"><i class="fa-solid fa-bag-shopping"></i></div><span class="app-card-name">Handbags</span></div>
-                        <div class="app-card" onclick="filterCategory('Shoes')"><div class="app-card-icon"><i class="fa-solid fa-shoe-prints"></i></div><span class="app-card-name">Shoes</span></div>
-                        <div class="app-card" onclick="filterCategory('Jewelry')"><div class="app-card-icon"><i class="fa-solid fa-gem"></i></div><span class="app-card-name">Jewelry</span></div>
-                        <div class="app-card" onclick="filterCategory('Watches')"><div class="app-card-icon"><i class="fa-solid fa-clock"></i></div><span class="app-card-name">Watches</span></div>
-                        <div class="app-card" onclick="filterCategory('Lingerie')"><div class="app-card-icon"><i class="fa-solid fa-heart"></i></div><span class="app-card-name">Lingerie</span></div>
-                        <div class="app-card" onclick="filterCategory('Beauty')"><div class="app-card-icon"><i class="fa-solid fa-spray-can-sparkles"></i></div><span class="app-card-name">Beauty</span></div>
-                        <div class="app-card" onclick="filterCategory('Activewear')"><div class="app-card-icon"><i class="fa-solid fa-person-running"></i></div><span class="app-card-name">Activewear</span></div>
-                        <div class="app-card" onclick="filterCategory('Traditional')"><div class="app-card-icon"><i class="fa-solid fa-vest"></i></div><span class="app-card-name">Traditional</span></div>
-                        <div class="app-card" onclick="filterCategory('Accessories')"><div class="app-card-icon"><i class="fa-solid fa-glasses"></i></div><span class="app-card-name">Accessories</span></div>
-                    </div>
-                </section>
-
-                <section class="category-section">
-                    <div class="category-header-row"><h2 class="category-title">2. Boys' Fashion</h2></div>
-                    <div class="app-store-grid">
-                        <div class="app-card" onclick="filterCategory('Boys Clothing')"><div class="app-card-icon"><i class="fa-solid fa-child"></i></div><span class="app-card-name">Clothing</span></div>
-                        <div class="app-card" onclick="filterCategory('Boys Shoes')"><div class="app-card-icon"><i class="fa-solid fa-socks"></i></div><span class="app-card-name">Shoes</span></div>
-                        <div class="app-card" onclick="filterCategory('Boys Watches')"><div class="app-card-icon"><i class="fa-solid fa-stopwatch"></i></div><span class="app-card-name">Watches</span></div>
-                        <div class="app-card" onclick="filterCategory('Boys Bags')"><div class="app-card-icon"><i class="fa-solid fa-suitcase"></i></div><span class="app-card-name">Bags</span></div>
-                        <div class="app-card" onclick="filterCategory('Boys Accessories')"><div class="app-card-icon"><i class="fa-solid fa-hat-cowboy"></i></div><span class="app-card-name">Accessories</span></div>
-                    </div>
-                </section>
-
-                <section class="category-section">
-                    <div class="category-header-row"><h2 class="category-title">3. Matching Sets</h2></div>
-                    <div class="app-store-grid">
-                        <div class="app-card" onclick="filterCategory('Couple Sets')"><div class="app-card-icon"><i class="fa-solid fa-user-group"></i></div><span class="app-card-name">Couple Sets</span></div>
-                        <div class="app-card" onclick="filterCategory('Family Sets')"><div class="app-card-icon"><i class="fa-solid fa-house"></i></div><span class="app-card-name">Family Sets</span></div>
-                        <div class="app-card" onclick="filterCategory('Mom & Me')"><div class="app-card-icon"><i class="fa-solid fa-venus"></i></div><span class="app-card-name">Mom & Me</span></div>
-                        <div class="app-card" onclick="filterCategory('Dad & Me')"><div class="app-card-icon"><i class="fa-solid fa-mars"></i></div><span class="app-card-name">Dad & Me</span></div>
-                        <div class="app-card" onclick="filterCategory('Sibling Sets')"><div class="app-card-icon"><i class="fa-solid fa-children"></i></div><span class="app-card-name">Sibling Sets</span></div>
-                        <div class="app-card" onclick="filterCategory('Team Sets')"><div class="app-card-icon"><i class="fa-solid fa-people-group"></i></div><span class="app-card-name">Team Sets</span></div>
-                        <div class="app-card" onclick="filterCategory('BFF Sets')"><div class="app-card-icon"><i class="fa-solid fa-hands-holding-child"></i></div><span class="app-card-name">BFF Sets</span></div>
-                        <div class="app-card" onclick="filterCategory('Pet & Owner')"><div class="app-card-icon"><i class="fa-solid fa-paw"></i></div><span class="app-card-name">Pet & Owner</span></div>
-                        <div class="app-card" onclick="filterCategory('Holiday Sets')"><div class="app-card-icon"><i class="fa-solid fa-gifts"></i></div><span class="app-card-name">Holiday Sets</span></div>
-                        <div class="app-card" onclick="filterCategory('Value Bundles')"><div class="app-card-icon"><i class="fa-solid fa-box-open"></i></div><span class="app-card-name">Value Bundles</span></div>
-                    </div>
-                </section>
-
-                <section class="category-section">
-                    <div class="category-header-row"><h2 class="category-title">4. Luxury Gifts</h2></div>
-                    <div class="app-store-grid">
-                        <div class="app-card" onclick="filterCategory('Corporate Gifts')"><div class="app-card-icon"><i class="fa-solid fa-briefcase"></i></div><span class="app-card-name">Corporate Gifts</span></div>
-                        <div class="app-card" onclick="filterCategory('Luxury Items')"><div class="app-card-icon"><i class="fa-solid fa-gift"></i></div><span class="app-card-name">Luxury Items</span></div>
-                        <div class="app-card" onclick="filterCategory('Handicrafts')"><div class="app-card-icon"><i class="fa-solid fa-palette"></i></div><span class="app-card-name">Handicrafts</span></div>
-                        <div class="app-card" onclick="filterCategory('Wood Resin')"><div class="app-card-icon"><i class="fa-solid fa-tree"></i></div><span class="app-card-name">Wood Resin</span></div>
-                        <div class="app-card" onclick="filterCategory('Gift Hampers')"><div class="app-card-icon"><i class="fa-solid fa-basket-shopping"></i></div><span class="app-card-name">Gift Hampers</span></div>
-                    </div>
-                </section>
-
-                <section class="category-section">
-                    <div class="category-header-row"><h2 class="category-title">5. Girls' Fashion</h2></div>
-                    <div class="app-store-grid">
-                        <div class="app-card" onclick="filterCategory('Girls Clothing')"><div class="app-card-icon"><i class="fa-solid fa-child-dress"></i></div><span class="app-card-name">Clothing</span></div>
-                        <div class="app-card" onclick="filterCategory('Girls Shoes')"><div class="app-card-icon"><i class="fa-solid fa-shoe-prints"></i></div><span class="app-card-name">Shoes</span></div>
-                        <div class="app-card" onclick="filterCategory('Girls Bags')"><div class="app-card-icon"><i class="fa-solid fa-shopping-basket"></i></div><span class="app-card-name">Bags</span></div>
-                        <div class="app-card" onclick="filterCategory('Girls Jewelry')"><div class="app-card-icon"><i class="fa-solid fa-ring"></i></div><span class="app-card-name">Jewelry</span></div>
-                        <div class="app-card" onclick="filterCategory('Girls Watches')"><div class="app-card-icon"><i class="fa-solid fa-clock"></i></div><span class="app-card-name">Watches</span></div>
-                        <div class="app-card" onclick="filterCategory('Girls Hair Acc')"><div class="app-card-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div><span class="app-card-name">Hair Acc.</span></div>
-                        <div class="app-card" onclick="filterCategory('Girls Activewear')"><div class="app-card-icon"><i class="fa-solid fa-person-running"></i></div><span class="app-card-name">Activewear</span></div>
-                        <div class="app-card" onclick="filterCategory('Girls Sleepwear')"><div class="app-card-icon"><i class="fa-solid fa-bed"></i></div><span class="app-card-name">Sleepwear</span></div>
-                        <div class="app-card" onclick="filterCategory('Girls Party Dresses')"><div class="app-card-icon"><i class="fa-solid fa-chess-queen"></i></div><span class="app-card-name">Party Dresses</span></div>
-                        <div class="app-card" onclick="filterCategory('Girls Accessories')"><div class="app-card-icon"><i class="fa-solid fa-glasses"></i></div><span class="app-card-name">Accessories</span></div>
-                    </div>
-                </section>
-
-                <section class="category-section">
-                    <div class="category-header-row"><h2 class="category-title">6. Men's Fashion</h2></div>
-                    <div class="app-store-grid">
-                        <div class="app-card" onclick="filterCategory('Men Clothing')"><div class="app-card-icon"><i class="fa-solid fa-user-tie"></i></div><span class="app-card-name">Clothing</span></div>
-                        <div class="app-card" onclick="filterCategory('Men Shoes')"><div class="app-card-icon"><i class="fa-solid fa-shoe-prints"></i></div><span class="app-card-name">Shoes</span></div>
-                        <div class="app-card" onclick="filterCategory('Men Watches')"><div class="app-card-icon"><i class="fa-solid fa-clock"></i></div><span class="app-card-name">Watches</span></div>
-                        <div class="app-card" onclick="filterCategory('Men Grooming')"><div class="app-card-icon"><i class="fa-solid fa-scissors"></i></div><span class="app-card-name">Grooming</span></div>
-                        <div class="app-card" onclick="filterCategory('Men Accessories')"><div class="app-card-icon"><i class="fa-solid fa-briefcase"></i></div><span class="app-card-name">Accessories</span></div>
-                    </div>
-                </section>
-
-                <section class="category-section">
-                    <div class="category-header-row"><h2 class="category-title">7. Mother & Baby</h2></div>
-                    <div class="app-store-grid">
-                        <div class="app-card" onclick="filterCategory('Baby Clothing')"><div class="app-card-icon"><i class="fa-solid fa-baby"></i></div><span class="app-card-name">Clothing</span></div>
-                        <div class="app-card" onclick="filterCategory('Maternity')"><div class="app-card-icon"><i class="fa-solid fa-person-pregnant"></i></div><span class="app-card-name">Maternity</span></div>
-                        <div class="app-card" onclick="filterCategory('Baby Care')"><div class="app-card-icon"><i class="fa-solid fa-bottle-droplet"></i></div><span class="app-card-name">Baby Care</span></div>
-                        <div class="app-card" onclick="filterCategory('Nursery Gear')"><div class="app-card-icon"><i class="fa-solid fa-baby-carriage"></i></div><span class="app-card-name">Nursery Gear</span></div>
-                        <div class="app-card" onclick="filterCategory('Baby Accessories')"><div class="app-card-icon"><i class="fa-solid fa-puzzle-piece"></i></div><span class="app-card-name">Accessories</span></div>
-                    </div>
-                </section>
-            `;
-            toggleCategoryView('categoryView');
+        // You টগল সিস্টেম
+        function toggleYouView() {
+            const view = document.getElementById('youView');
+            if(view.style.display === 'block') {
+                view.style.display = 'none';
+            } else {
+                closeAllViews();
+                view.style.display = 'block';
+            }
         }
 
-        function toggleCategoryView(viewId) {
-            const view = document.getElementById(viewId);
-            view.style.display = view.style.display === 'block' ? 'none' : 'block';
+        // সব ওভারলে একসঙ্গে বন্ধ করার ফাংশন
+        function closeAllViews() {
+            document.getElementById('categoryView').style.display = 'none';
+            document.getElementById('affiliateView').style.display = 'none';
+            document.getElementById('sellerView').style.display = 'none';
+            document.getElementById('youView').style.display = 'none';
+            document.getElementById('searchPopup').style.display = 'none';
         }
 
         function toggleSearchPopup() {
             const popup = document.getElementById('searchPopup');
-            popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+            if(popup.style.display === 'block') {
+                popup.style.display = 'none';
+            } else {
+                closeAllViews();
+                popup.style.display = 'block';
+            }
         }
 
         function filterCategory(catName) {
             alert(`Filtering: ${catName}`);
-            toggleCategoryView('categoryView');
+            toggleCategoryView();
         }
 
         function executeSearch() {
@@ -775,6 +672,62 @@
             alert("Added to cart successfully!");
             document.getElementById('productDetailModal').style.display = 'none';
         }
+
+        function toggleRetailWholesaleMode() {
+            const qtyContainer = document.getElementById('qtyTierContainer');
+            const toggleBtn = document.getElementById('wholesaleToggleBtn');
+            const discountText = document.getElementById('modalDiscountText');
+
+            isWholesaleMode = !isWholesaleMode;
+            document.body.classList.toggle('wholesale-mode');
+
+            if (isWholesaleMode) {
+                qtyContainer.classList.add('wholesale-mode-active');
+                toggleBtn.innerText = "Retail Mode";
+                toggleBtn.classList.add('wholesale-active');
+                discountText.innerText = "0% OFF";
+                setWholesaleTier(1, 100, null);
+            } else {
+                qtyContainer.classList.remove('wholesale-mode-active');
+                toggleBtn.innerText = "Wholesale";
+                toggleBtn.classList.remove('wholesale-active');
+                discountText.innerText = "5% OFF";
+                currentQuantity = 1;
+                baseUnitPrice = 100.00;
+                document.getElementById('productQtyDisplay').innerText = currentQuantity;
+                updateCalculatedPrice();
+            }
+        }
+
+        function adjustQuantity(amount) {
+            currentQuantity += amount;
+            if (currentQuantity < 1) currentQuantity = 1;
+            document.getElementById('productQtyDisplay').innerText = currentQuantity;
+            updateCalculatedPrice();
+        }
+
+        function setWholesaleTier(qty, unitPrice, eventObj) {
+            currentQuantity = qty;
+            baseUnitPrice = unitPrice;
+            document.getElementById('productQtyDisplay').innerText = currentQuantity;
+            updateCalculatedPrice();
+
+            if(eventObj) {
+                document.querySelectorAll('.tier-btn').forEach(btn => btn.classList.remove('active'));
+                eventObj.target.classList.add('active');
+            }
+        }
+
+        function updateCalculatedPrice() {
+            let finalPrice = baseUnitPrice * currentQuantity;
+            document.getElementById('modalProductPrice').innerText = `$${finalPrice.toFixed(2)}`;
+        }
+
+        function openDescriptionPopup() { document.getElementById('descModal').style.display = 'block'; }
+        function closeDescPopup() { document.getElementById('descModal').style.display = 'none'; }
+        function openSizePopup() { document.getElementById('sizeModal').style.display = 'block'; }
+        function closeSizePopup() { document.getElementById('sizeModal').style.display = 'none'; }
+        function openLiveChat() { alert("Connecting to live support chatbot..."); }
 
         window.onload = function() {
             fetch('https://ipapi.co/json/').then(r => r.json()).then(d => {
