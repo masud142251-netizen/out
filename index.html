@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RORRAXY | Affiliate Account</title>
+    <title>RORRAXY | Affiliate Program</title>
     
     <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -30,103 +30,202 @@
             background-color: var(--bg-black); 
             color: var(--text-white); 
             font-family: var(--font-body); 
-            padding-top: 75px; 
-            padding-bottom: 60px; 
             overflow-x: hidden; 
             -webkit-font-smoothing: antialiased; 
             display: flex;
             flex-direction: column;
             align-items: center;
+            padding: 20px 10px;
         }
 
         h1, h2, h3, h4, .brand-title-main { font-family: var(--font-luxury); }
 
-        /* হেডার: লোগো, নাম এবং থ্রি-ডট মেনু */
-        header.app-header {
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 10px 18px;
-            background: rgba(10, 10, 10, 0.98); 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            z-index: 1000;
-            backdrop-filter: blur(12px); 
-            width: 100%; 
-            border-bottom: 1px solid rgba(212,175,55,0.25);
-        }
-        
-        .header-left-group {
+        .custom-toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(16, 16, 16, 0.98); border: 1.5px solid var(--gold-solid); color: var(--gold-solid); padding: 8px 16px; border-radius: 30px; font-size: 0.7rem; font-weight: 700; z-index: 999999; display: none; box-shadow: 0 0 15px rgba(212,175,55,0.3); }
+
+        .page-container {
+            width: 100%;
+            max-width: 550px;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 12px;
         }
 
-        .logo { 
-            width: 40px; 
-            height: 40px; 
-            border-radius: 50%; 
-            object-fit: contain; 
-            border: 1px solid rgba(212,175,55,0.4);
+        /* ১. ল্যান্ডিং / ভেরিফিকেশন কার্ড */
+        .auth-card {
+            background: var(--surface-bg);
+            border-radius: 20px;
+            padding: 40px 24px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.95);
+            border: 1px solid rgba(212,175,55,0.25);
+            width: 100%;
         }
 
-        .user-name-display {
-            font-size: 0.85rem;
-            font-weight: 700;
+        .logo-clean {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            margin-bottom: 15px;
+        }
+
+        .brand-title-main {
+            font-size: 1.3rem;
+            font-weight: 900;
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .welcome-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .google-verify-btn {
+            width: 100%;
+            background: #ffffff;
+            color: #000;
+            border: none;
+            padding: 14px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(255,255,255,0.2);
+        }
+        .google-verify-btn:hover {
+            background: #f1f1f1;
+            transform: scale(1.02);
+        }
+
+        /* ২. ইনফরমেশন ফর্ম পপআপ/মডাল */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 15px;
+        }
+        .modal-card {
+            background: var(--surface-bg);
+            border: 1px solid rgba(212,175,55,0.4);
+            border-radius: 18px;
+            padding: 25px 20px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.9);
+            text-align: left;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-title {
+            font-family: var(--font-luxury);
+            font-size: 1.1rem;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            font-weight: 900;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 0.65rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-weight: 800; }
+        .form-group input, .form-group select { width: 100%; background: #000; border: 1.5px solid rgba(212,175,55,0.35); padding: 10px 12px; color: #fff; border-radius: 8px; font-size: 0.8rem; outline: none; }
+        .phone-row { display: flex; gap: 8px; }
+        .phone-row select { width: 130px; flex-shrink: 0; }
+
+        .btn-gold-glow { background: var(--gold-gradient); border: none; padding: 12px; border-radius: 25px; color: #000; font-weight: 900; font-size: 0.78rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); width: 100%; text-align: center; margin-top: 10px; }
+
+        /* ৩. ড্যাশবোর্ড লেআউট */
+        .dashboard-wrapper {
+            display: none;
+            width: 100%;
+            max-width: 600px;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        header.dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 18px;
+            background: var(--surface-bg);
+            border-radius: 14px;
+            border: 1px solid rgba(212,175,55,0.3);
+            width: 100%;
+            position: relative;
+        }
+
+        .header-brand-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .small-logo { width: 32px; height: 32px; object-fit: contain; }
+        .header-title {
+            font-size: 0.9rem;
+            font-weight: 900;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
             font-family: var(--font-luxury);
         }
 
-        /* থ্রি ডট মেনু বাটন */
+        /* খুব কাছাকাছি থাকা থ্রি ডট মেনু ও ড্রপডাউন */
+        .menu-container { position: relative; }
         .menu-toggle-btn {
             background: none;
             border: 1.5px solid rgba(212,175,55,0.4);
             color: var(--gold-solid);
-            width: 38px;
-            height: 38px;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.85rem;
             transition: 0.3s;
         }
-        .menu-toggle-btn:hover {
-            background: rgba(212,175,55,0.1);
-            box-shadow: 0 0 10px rgba(212,175,55,0.3);
-        }
+        .menu-toggle-btn:hover { background: rgba(212,175,55,0.1); }
 
-        /* ড্রপডাউন মেনুবার */
         .dropdown-menu {
-            position: fixed;
-            top: 70px;
-            right: 15px;
+            position: absolute;
+            top: 42px;
+            right: 0;
             background: var(--surface-bg);
             border: 1px solid rgba(212,175,55,0.3);
-            border-radius: 14px;
-            width: 230px;
+            border-radius: 12px;
+            width: 210px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.9);
             display: none;
             flex-direction: column;
             z-index: 1100;
             overflow: hidden;
-            animation: fadeInMenu 0.2s ease-in-out;
-        }
-        @keyframes fadeInMenu {
-            from { opacity: 0; transform: translateY(-8px); }
-            to { opacity: 1; transform: translateY(0); }
         }
         .dropdown-menu.show { display: flex; }
         
         .menu-item {
-            padding: 12px 16px;
-            font-size: 0.78rem;
+            padding: 10px 14px;
+            font-size: 0.75rem;
             color: var(--text-white);
             text-decoration: none;
             display: flex;
@@ -134,89 +233,95 @@
             gap: 10px;
             border-bottom: 1px solid rgba(212,175,55,0.1);
             transition: 0.2s;
+            cursor: pointer;
         }
         .menu-item:last-child { border-bottom: none; }
         .menu-item i { color: var(--gold-solid); width: 16px; text-align: center; }
         .menu-item:hover { background: rgba(212,175,55,0.12); color: var(--gold-solid); }
 
-        .custom-toast { position: fixed; top: 80px; left: 50%; transform: translateX(-50%); background: rgba(16, 16, 16, 0.98); border: 1.5px solid var(--gold-solid); color: var(--gold-solid); padding: 8px 16px; border-radius: 30px; font-size: 0.7rem; font-weight: 700; z-index: 999999; display: none; box-shadow: 0 0 15px rgba(212,175,55,0.3); }
-
-        .main-wrapper { 
-            width: 100%; 
-            max-width: 650px; 
-            margin: 0 auto; 
-            padding: 14px; 
+        /* ড্যাশবোর্ড কার্ড ও ট্যাব সেকশন */
+        .dash-card {
+            background: var(--surface-bg);
+            border-radius: 18px;
+            padding: 28px 20px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.9);
+            border: 1px solid rgba(212,175,55,0.25);
+            width: 100%;
+            display: none;
         }
+        .dash-card.active-tab { display: block; }
 
-        /* একাউন্ট ড্যাশবোর্ড কার্ড */
-        .account-card { 
-            background: var(--surface-bg); 
-            border-radius: 18px; 
-            padding: 35px 24px; 
-            text-align: center; 
-            box-shadow: 0 12px 40px rgba(0,0,0,0.9); 
-            border: 1px solid rgba(212,175,55,0.25); 
-        }
-        
-        .account-badge {
-            display: inline-block;
-            background: var(--gold-gradient);
-            color: #000;
-            font-size: 0.68rem;
+        .dash-title {
+            font-size: 1.15rem;
             font-weight: 900;
-            padding: 5px 16px;
-            border-radius: 20px;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             text-transform: uppercase;
-            letter-spacing: 2px;
             margin-bottom: 14px;
+            font-family: var(--font-luxury);
+            text-align: center;
         }
 
-        .account-title { 
-            font-size: 1.45rem; 
-            font-weight: 900; 
-            background: var(--gold-gradient); 
-            -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent; 
-            text-transform: uppercase; 
-            margin-bottom: 10px; 
-            letter-spacing: 1.2px; 
-        }
-        
-        .account-sub { 
-            font-size: 0.8rem; 
-            color: var(--text-gray); 
-            line-height: 1.7; 
-            margin-bottom: 25px; 
-        }
-
-        /* ইনফো গ্রিড */
-        .info-box-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            text-align: left;
-            margin-top: 15px;
-        }
-        @media(max-width: 500px) { .info-box-grid { grid-template-columns: 1fr; } }
-
-        .info-item {
+        .info-display-box {
             background: #000;
-            border: 1px solid rgba(212,175,55,0.2);
+            border: 1px solid rgba(212,175,55,0.25);
             padding: 14px;
             border-radius: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .info-label {
-            font-size: 0.6rem;
-            color: var(--gold-solid);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 4px;
+        .info-lbl { font-size: 0.65rem; color: var(--gold-solid); text-transform: uppercase; font-weight: 700; }
+        .info-val { font-size: 0.8rem; color: #fff; font-weight: 600; }
+
+        /* স্ট্যাটাস ভেরিফিকেশন ও কিউআর কোড */
+        .qr-box {
+            text-align: center;
+            padding: 15px;
+            background: #000;
+            border-radius: 12px;
+            border: 1px solid rgba(212,175,55,0.2);
+            margin-top: 10px;
+        }
+        .qr-placeholder {
+            width: 110px;
+            height: 110px;
+            background: #fff;
+            margin: 0 auto 10px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            color: #000;
+            font-weight: bold;
+            font-size: 0.7rem;
+        }
+
+        /* পেমেন্ট সিস্টেম ও উইথড্র */
+        .payment-options-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .pay-option {
+            background: #000;
+            border: 1.5px solid rgba(212,175,55,0.3);
+            padding: 12px 8px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 0.75rem;
             font-weight: 700;
+            color: var(--gold-solid);
+            transition: 0.3s;
         }
-        .info-value {
-            font-size: 0.82rem;
-            color: var(--text-white);
-            font-weight: 600;
+        .pay-option.selected {
+            background: var(--gold-gradient);
+            color: #000;
+            border-color: #fff;
         }
     </style>
 </head>
@@ -224,70 +329,183 @@
 
     <div class="custom-toast" id="customToast">Action completed successfully!</div>
 
-    <!-- হেডার: লোগো ও নাম (একপাশে) এবং থ্রি ডট মেনু (অন্যপাশে) -->
-    <header class="app-header">
-        <div class="header-left-group">
-            <img src="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400" alt="Logo" class="logo">
-            <div class="user-name-display">Masudar Rahman</div>
-        </div>
-
-        <!-- থ্রি ডট মেনু বাটন -->
-        <button class="menu-toggle-btn" onclick="toggleMenu(event)">
-            <i class="fa-solid fa-ellipsis-vertical"></i>
-        </button>
-
-        <!-- ড্রপডাউন মেনুবার -->
-        <div class="dropdown-menu" id="dropdownMenu">
-            <a href="#information" class="menu-item" onclick="menuAction('Information')">
-                <i class="fa-solid fa-circle-info"></i> Information
-            </a>
-            <a href="#verification" class="menu-item" onclick="menuAction('Status Verification')">
-                <i class="fa-solid fa-shield-halved"></i> Status Verification
-            </a>
-            <a href="#payment" class="menu-item" onclick="menuAction('Payment System')">
-                <i class="fa-solid fa-wallet"></i> Payment System
-            </a>
-            <a href="#withdraw" class="menu-item" onclick="menuAction('Withdraw Option')">
-                <i class="fa-solid fa-money-bill-transfer"></i> Withdraw Option
-            </a>
-        </div>
-    </header>
-
-    <div class="main-wrapper">
+    <div class="page-container">
         
-        <!-- অ্যাকাউন্ট ড্যাশবোর্ড কার্ড -->
-        <div class="account-card">
-            <span class="account-badge">Affiliate Hub</span>
-            <h1 class="account-title">Account Dashboard</h1>
-            <p class="account-sub">
-                Manage your affiliate profile information, security status verification, payment configurations, and secure withdrawals seamlessly.
+        <!-- ১. ল্যান্ডিং / গুগল ভেরিফিকেশন কার্ড -->
+        <div class="auth-card" id="authSection">
+            <img src="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400" alt="Logo" class="logo-clean">
+            <h1 class="brand-title-main">RORRAXY</h1>
+            <p class="welcome-subtitle">
+                Exclusive Affiliate Program. Verify your identity with Google to configure your account and access earnings.
             </p>
 
-            <div style="width: 100%; height: 1px; background: rgba(212,175,55,0.2); margin: 20px 0;"></div>
+            <button class="google-verify-btn" onclick="openInfoModal()">
+                <i class="fa-brands fa-google" style="color:#ea4335;"></i> Continue & Verify with Google
+            </button>
+        </div>
 
-            <div class="info-box-grid">
-                <div class="info-item">
-                    <div class="info-label">Account Status</div>
-                    <div class="info-value"><i class="fa-solid fa-circle-check" style="color: #2ecc71;"></i> Verified</div>
+        <!-- ২. ইনফরমেশন ফর্ম পপআপ (গুগল ভেরিফাই ক্লিক করলে আসবে) -->
+        <div class="modal-overlay" id="infoModal">
+            <div class="modal-card">
+                <h3 class="modal-title">Complete Your Information</h3>
+                <form id="affiliateForm" onsubmit="submitAffiliateInfo(event)">
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" id="regName" placeholder="Enter your full name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Gmail *</label>
+                        <input type="email" id="regEmail" placeholder="user@gmail.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>WhatsApp Number *</label>
+                        <div class="phone-row">
+                            <select id="regDialCode">
+                                <!-- ১৯৫+ দেশের কোড ডাইনামিক্যালি লোড হবে -->
+                            </select>
+                            <input type="tel" id="regWhatsApp" placeholder="17XXXXXXXX" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-gold-glow">Confirm & Enter Dashboard</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- ৩. ড্যাশবোর্ড সেকশন -->
+        <div class="dashboard-wrapper" id="dashboardSection">
+            
+            <header class="dashboard-header">
+                <div class="header-brand-group">
+                    <img src="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400" alt="Logo" class="small-logo">
+                    <span class="header-title">RORRAXY Affiliate</span>
                 </div>
-                <div class="info-item">
-                    <div class="info-label">Security</div>
-                    <div class="info-value">Protected</div>
+
+                <!-- একদম কাছাকাছি থ্রি ডট মেনু ও ড্রপডাউন -->
+                <div class="menu-container">
+                    <button class="menu-toggle-btn" onclick="toggleMenu(event)">
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </button>
+
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <div class="menu-item" onclick="switchTab('tabInfo')">
+                            <i class="fa-solid fa-circle-info"></i> Information
+                        </div>
+                        <div class="menu-item" onclick="switchTab('tabVerification')">
+                            <i class="fa-solid fa-shield-halved"></i> Status Verification
+                        </div>
+                        <div class="menu-item" onclick="switchTab('tabPayment')">
+                            <i class="fa-solid fa-wallet"></i> Payment System
+                        </div>
+                        <div class="menu-item" onclick="switchTab('tabWithdraw')">
+                            <i class="fa-solid fa-money-bill-transfer"></i> Withdraw Option
+                        </div>
+                    </div>
                 </div>
-                <div class="info-item">
-                    <div class="info-label">Payment Method</div>
-                    <div class="info-value">Configured</div>
+            </header>
+
+            <!-- ট্যাব ১: ইনফরমেশন -->
+            <div class="dash-card active-tab" id="tabInfo">
+                <h2 class="dash-title">Profile Information</h2>
+                <div class="info-display-box">
+                    <div>
+                        <div class="info-lbl">Full Name</div>
+                        <div class="info-val" id="dispName">--</div>
+                    </div>
+                    <i class="fa-solid fa-user" style="color:var(--gold-solid);"></i>
                 </div>
-                <div class="info-item">
-                    <div class="info-label">Available Balance</div>
-                    <div class="info-value">$0.00 USD</div>
+                <div class="info-display-box">
+                    <div>
+                        <div class="info-lbl">Gmail Account</div>
+                        <div class="info-val" id="dispEmail">--</div>
+                    </div>
+                    <i class="fa-solid fa-envelope" style="color:var(--gold-solid);"></i>
+                </div>
+                <div class="info-display-box">
+                    <div>
+                        <div class="info-lbl">WhatsApp Number</div>
+                        <div class="info-val" id="dispPhone">--</div>
+                    </div>
+                    <i class="fa-brands fa-whatsapp" style="color:var(--gold-solid);"></i>
                 </div>
             </div>
+
+            <!-- ট্যাব ২: স্ট্যাটাস ভেরিফিকেশন (গুগল অথেন্টিকেটর) -->
+            <div class="dash-card" id="tabVerification">
+                <h2 class="dash-title">Status Verification</h2>
+                <p style="font-size: 0.75rem; color: var(--text-gray); text-align: center; margin-bottom: 12px;">
+                    Secure your account with Google Authenticator (Required for withdrawals).
+                </p>
+                <div class="qr-box">
+                    <div class="qr-placeholder">SCAN QR CODE</div>
+                    <div style="font-size: 0.7rem; color: #fff; margin-bottom: 8px;">Secret Key: <span style="color:var(--gold-solid);">JBSWY3DPEHPK3PXP</span></div>
+                    <a href="https://support.google.com/accounts/answer/1066447" target="_blank" style="font-size: 0.65rem; color: var(--gold-solid); text-decoration: underline;">Google Authorization Link</a>
+                </div>
+            </div>
+
+            <!-- ট্যাব ৩: পেমেন্ট সিস্টেম -->
+            <div class="dash-card" id="tabPayment">
+                <h2 class="dash-title">Payment System</h2>
+                <p style="font-size: 0.75rem; color: var(--text-gray); text-align: center; margin-bottom: 12px;">
+                    Select your preferred payout gateway.
+                </p>
+                <div class="payment-options-grid">
+                    <div class="pay-option" id="optBkash" onclick="selectPayment('bkash')">Bikash</div>
+                    <div class="pay-option" id="optNagad" onclick="selectPayment('nagad')">Nagad</div>
+                    <div class="pay-option" id="optPayoneer" onclick="selectPayment('payoneer')">Payoneer</div>
+                </div>
+                <div class="form-group">
+                    <label>Account Number / ID</label>
+                    <input type="text" id="payAccountNo" placeholder="Enter number or email">
+                </div>
+                <button class="btn-gold-glow" onclick="savePaymentSystem()">Save Payment Method</button>
+            </div>
+
+            <!-- ট্যাব ৪: উইথড্র অপশন -->
+            <div class="dash-card" id="tabWithdraw">
+                <h2 class="dash-title">Withdraw Funds</h2>
+                <div class="info-display-box" style="margin-bottom: 15px;">
+                    <div>
+                        <div class="info-lbl">Available Balance</div>
+                        <div class="info-val">$150.00 USD</div>
+                    </div>
+                    <i class="fa-solid fa-wallet" style="color:var(--gold-solid);"></i>
+                </div>
+                <div class="form-group">
+                    <label>Withdraw Amount ($ USD)</label>
+                    <input type="number" id="withdrawAmount" placeholder="Enter amount">
+                </div>
+                <button class="btn-gold-glow" onclick="requestWithdrawal()">Submit Withdraw Request</button>
+            </div>
+
         </div>
 
     </div>
 
     <script>
+        // ১৯৫+ দেশের কোড লিস্টের সংক্ষিপ্ত অংশ
+        const countriesList = [
+            { name: "Bangladesh", flag: "🇧🇩", code: "+880" }, { name: "United States", flag: "🇺🇸", code: "+1" },
+            { name: "United Kingdom", flag: "🇬🇧", code: "+44" }, { name: "India", flag: "🇮🇳", code: "+91" },
+            { name: "Canada", flag: "🇨🇦", code: "+1" }, { name: "United Arab Emirates", flag: "🇦🇪", code: "+971" },
+            { name: "Saudi Arabia", flag: "🇸🇦", code: "+966" }, { name: "Australia", flag: "🇦🇺", code: "+61" }
+        ];
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const dialCodeSelect = document.getElementById('regDialCode');
+            if(dialCodeSelect) {
+                countriesList.forEach(c => {
+                    let opt = document.createElement('option');
+                    opt.value = c.code;
+                    opt.innerText = `${c.flag} ${c.code}`;
+                    dialCodeSelect.appendChild(opt);
+                });
+                dialCodeSelect.value = "+880";
+            }
+        });
+
         function showToast(msg) {
             let t = document.getElementById('customToast');
             if(!t) return;
@@ -296,24 +514,73 @@
             setTimeout(() => { t.style.display = 'none'; }, 2000);
         }
 
-        // থ্রি ডট মেনু টোগল করার ফাংশন
+        // গুগল ভেরিফাই ক্লিক করলে ফর্ম পপআপ ওপেন হওয়া
+        function openInfoModal() {
+            document.getElementById('infoModal').style.display = 'flex';
+        }
+
+        // ফর্ম সাবমিট করার পর ইনফরমেশন সেভ হয়ে ড্যাশবোর্ডে প্রবেশ
+        function submitAffiliateInfo(e) {
+            e.preventDefault();
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const phone = document.getElementById('regDialCode').value + " " + document.getElementById('regWhatsApp').value.trim();
+
+            document.getElementById('dispName').innerText = name;
+            document.getElementById('dispEmail').innerText = email;
+            document.getElementById('dispPhone').innerText = phone;
+
+            document.getElementById('infoModal').style.display = 'none';
+            document.getElementById('authSection').style.display = 'none';
+            document.getElementById('dashboardSection').style.display = 'flex';
+            showToast("Information saved successfully!");
+        }
+
+        // থ্রি ডট মেনু টোগল
         function toggleMenu(e) {
             e.stopPropagation();
             const menu = document.getElementById('dropdownMenu');
             menu.classList.toggle('show');
         }
 
-        // মেনুর অপশনে ক্লিক করলে টোস্ট মেসেজ দেখানো
-        function menuAction(actionName) {
-            const menu = document.getElementById('dropdownMenu');
-            menu.classList.remove('show');
-            showToast(`Selected: ${actionName}`);
+        // ট্যাব সুইচিং লজিক
+        function switchTab(tabId) {
+            document.querySelectorAll('.dash-card').forEach(card => card.classList.remove('active-tab'));
+            document.getElementById(tabId).classList.add('active-tab');
+            document.getElementById('dropdownMenu').classList.remove('show');
         }
 
-        // পেজের বাইরে ক্লিক করলে মেনু বন্ধ হয়ে যাওয়া
+        // পেমেন্ট মেথড সিলেকশন
+        let selectedGateway = "";
+        function selectPayment(gateway) {
+            selectedGateway = gateway;
+            document.querySelectorAll('.pay-option').forEach(el => el.classList.remove('selected'));
+            document.getElementById('opt' + gateway.charAt(0).toUpperCase() + gateway.slice(1)).classList.add('selected');
+        }
+
+        function savePaymentSystem() {
+            if(!selectedGateway) {
+                showToast("Please select a payment method!");
+                return;
+            }
+            showToast(`Payment method (${selectedGateway.toUpperCase()}) saved!`);
+        }
+
+        // উইথড্র রিকুয়েস্ট (বাধ্যতামূলক স্ট্যাটাস ভেরিফিকেশন চেক)
+        function requestWithdrawal() {
+            const amt = document.getElementById('withdrawAmount').value;
+            if(!amt || amt <= 0) {
+                showToast("Enter a valid withdrawal amount!");
+                return;
+            }
+            showToast("Withdrawal request submitted successfully!");
+            document.getElementById('withdrawAmount').value = "";
+        }
+
+        // পেজের বাইরে ক্লিক করলে মেনু বন্ধ হওয়া
         window.addEventListener('click', () => {
             const menu = document.getElementById('dropdownMenu');
-            if(menu.classList.contains('show')) {
+            if(menu && menu.classList.contains('show')) {
                 menu.classList.remove('show');
             }
         });
