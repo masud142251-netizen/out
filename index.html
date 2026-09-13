@@ -15,11 +15,10 @@
         :root {
             --bg-black: #020202;
             --surface-bg: #070707;
-            /* আপনার ব্র্যান্ডের অরিজিনাল গোল্ডেন গ্রেডিয়েন্ট */
-            --gold-gradient: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            --gold-gradient: linear-gradient(135deg, #d4af37, #fcf6ba, #aa771c);
             --gold-solid: #d4af37;
-            --text-white: #ffffff;
-            --text-gray: #b5b5b5;
+            --text-white: #f3f3f3;
+            --text-gray: #a5a5a5;
             --font-luxury: 'Cinzel', serif;
             --font-body: 'Poppins', sans-serif;
         }
@@ -43,7 +42,7 @@
 
         h1, h2, h3, h4 { font-family: var(--font-luxury); }
 
-        .custom-toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(12, 12, 12, 0.98); border: 1.5px solid var(--gold-solid); color: var(--gold-solid); padding: 8px 18px; border-radius: 30px; font-size: 0.7rem; font-weight: 700; z-index: 999999; display: none; box-shadow: 0 0 20px rgba(212,175,55,0.3); }
+        .custom-toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(12, 12, 12, 0.98); border: 1px solid rgba(212,175,55,0.4); color: var(--gold-solid); padding: 8px 18px; border-radius: 30px; font-size: 0.7rem; font-weight: 600; z-index: 999999; display: none; box-shadow: 0 0 15px rgba(212,175,55,0.2); }
 
         .page-container {
             width: 100%;
@@ -121,7 +120,7 @@
         }
         .modal-card {
             background: var(--surface-bg);
-            border: 1px solid rgba(212,175,55,0.35);
+            border: 1px solid rgba(212,175,55,0.3);
             border-radius: 16px;
             padding: 24px 18px;
             width: 100%;
@@ -152,10 +151,10 @@
             text-align: center;
         }
         .form-group { margin-bottom: 12px; }
-        .form-group label { display: block; font-size: 0.62rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-weight: 800; }
-        .form-group input, .form-group select { width: 100%; background: #000; border: 1.5px solid rgba(212,175,55,0.3); padding: 10px 12px; color: #fff; border-radius: 8px; font-size: 0.78rem; outline: none; }
+        .form-group label { display: block; font-size: 0.62rem; color: var(--gold-solid); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-weight: 700; }
+        .form-group input, .form-group select { width: 100%; background: #000; border: 1px solid rgba(212,175,55,0.25); padding: 10px 12px; color: #fff; border-radius: 8px; font-size: 0.78rem; outline: none; }
         .phone-row { display: flex; gap: 8px; }
-        .phone-row select { width: 130px; flex-shrink: 0; background: #000; color: #fff; border: 1.5px solid rgba(212,175,55,0.3); border-radius: 8px; font-size: 0.72rem; }
+        .phone-row select { width: 130px; flex-shrink: 0; background: #000; color: #fff; border: 1px solid rgba(212,175,55,0.25); border-radius: 8px; font-size: 0.72rem; }
 
         .btn-gold-glow { background: var(--gold-gradient); border: none; padding: 12px; border-radius: 25px; color: #000; font-weight: 900; font-size: 0.75rem; cursor: pointer; text-transform: uppercase; font-family: var(--font-luxury); width: 100%; text-align: center; margin-top: 10px; }
 
@@ -173,7 +172,7 @@
             border-radius: 16px;
             padding: 18px 14px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.9);
-            border: 1px solid rgba(212,175,55,0.2);
+            border: 1px solid rgba(212,175,55,0.18);
             width: 100%;
             display: block;
         }
@@ -212,7 +211,7 @@
         .home-username {
             font-size: 0.95rem;
             font-weight: 700;
-            color: #fff;
+            color: var(--text-white);
             margin-top: 2px;
         }
         .home-affiliate-id {
@@ -277,7 +276,7 @@
         .menu-item i { color: var(--gold-solid); width: 16px; text-align: center; }
         .menu-item:hover { background: rgba(212,175,55,0.1); color: var(--gold-solid); }
 
-        /* টোটাল ইনকাম ও পেআউট গ্রিড */
+        /* স্ট্যাটস গ্রিড */
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -286,7 +285,7 @@
         }
         .stat-card {
             background: #040404;
-            border: 1px solid rgba(212,175,55,0.2);
+            border: 1px solid rgba(212,175,55,0.18);
             padding: 12px;
             border-radius: 12px;
             text-align: center;
@@ -294,7 +293,7 @@
         .stat-lbl { font-size: 0.58rem; color: var(--gold-solid); text-transform: uppercase; font-weight: 700; margin-bottom: 3px; }
         .stat-val { font-size: 1.15rem; font-weight: 900; color: #fff; font-family: var(--font-luxury); }
 
-        /* প্রোডাক্ট আইডি রেকর্ড বাটন (ঠিক মাঝখানে বিন্যস্ত) */
+        /* প্রোডাক্ট আইডি রেকর্ড বাটন (মাঝখানে বিন্যস্ত) */
         .sheet-btn-wrapper { margin-bottom: 12px; display: flex; justify-content: center; }
         .sheet-trigger-btn {
             background: #040404;
@@ -312,12 +311,12 @@
             justify-content: space-between;
             transition: 0.3s;
         }
-        .sheet-trigger-btn:hover { background: rgba(212,175,55,0.08); }
+        .sheet-trigger-btn:hover { background: rgba(212,175,55,0.06); }
 
-        /* ক্লিক অ্যানালাইসিস গ্রাফ সেকশন ও ফিল্টার বাটন */
+        /* ক্লিক অ্যানালাইসিস গ্রাফ সেকশন */
         .chart-box {
             background: #040404;
-            border: 1px solid rgba(212,175,55,0.2);
+            border: 1px solid rgba(212,175,55,0.18);
             padding: 10px;
             border-radius: 12px;
             margin-bottom: 12px;
@@ -355,19 +354,19 @@
             border-color: #fff;
         }
 
-        /* একশন রো (সাপোর্ট এবং ছোট উইথড্র বাটন) */
+        /* একশন রো (সাপোর্ট এবং উইথড্র বাটন) */
         .action-row {
             display: flex;
             gap: 8px;
         }
         .support-btn {
             background: transparent;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.18);
             color: #ffffff;
             flex: 1;
-            padding: 9px;
+            padding: 10px;
             font-weight: 700;
-            font-size: 0.68rem;
+            font-size: 0.7rem;
             cursor: pointer;
             text-transform: uppercase;
             font-family: var(--font-luxury);
@@ -386,9 +385,9 @@
             border: none;
             color: #000;
             flex: 1;
-            padding: 9px;
+            padding: 10px;
             font-weight: 800;
-            font-size: 0.68rem;
+            font-size: 0.7rem;
             cursor: pointer;
             text-transform: uppercase;
             font-family: var(--font-luxury);
@@ -464,7 +463,7 @@
         /* ইনফো ডিসপ্লে বক্স ও পলিসি স্টাইল */
         .info-display-box {
             background: #040404;
-            border: 1px solid rgba(212,175,55,0.2);
+            border: 1px solid rgba(212,175,55,0.18);
             padding: 12px;
             border-radius: 10px;
             margin-bottom: 8px;
@@ -480,7 +479,7 @@
             padding: 12px;
             background: #040404;
             border-radius: 10px;
-            border: 1px solid rgba(212,175,55,0.2);
+            border: 1px solid rgba(212,175,55,0.18);
             margin-top: 8px;
         }
         .qr-image { width: 140px; height: 140px; background: #fff; padding: 5px; border-radius: 6px; margin: 0 auto 8px auto; object-fit: contain; }
@@ -525,7 +524,7 @@
             background: #040404;
             padding: 14px;
             border-radius: 10px;
-            border: 1px solid rgba(212,175,55,0.2);
+            border: 1px solid rgba(212,175,55,0.18);
             max-height: 65vh;
             overflow-y: auto;
         }
@@ -545,16 +544,16 @@
                 Exclusive Affiliate Program. Verify your identity with Google to configure your account and access earnings.
             </p>
 
-            <button class="google-verify-btn" onclick="openInfoModal('new')">
+            <button class="google-verify-btn" onclick="openInfoModal()">
                 <i class="fa-brands fa-google" style="color:#ea4335;"></i> Continue & Verify with Google
             </button>
         </div>
 
-        <!-- ২. ইনফরমেশন ফর্ম পপআপ (অ্যাড্রেস ফিল্ড সহ) -->
+        <!-- ২. ইনফরমেশন ফর্ম পপআপ (শুধু ৩টি ফিল্ড: নাম, জিমেইল, হোয়াটসঅ্যাপ কোডসহ) -->
         <div class="modal-overlay" id="infoModal">
             <div class="modal-card">
                 <button class="modal-close-btn" onclick="closeModal('infoModal')"><i class="fa-solid fa-xmark"></i></button>
-                <h3 class="modal-title" id="modalHeading">Complete Your Information</h3>
+                <h3 class="modal-title">Complete Your Information</h3>
                 <form id="affiliateForm" onsubmit="submitAffiliateInfo(event)">
                     <div class="form-group">
                         <label>Full Name *</label>
@@ -570,18 +569,13 @@
                         <label>WhatsApp Number *</label>
                         <div class="phone-row">
                             <select id="regDialCode">
-                                <!-- ডাইনামিক কান্ট্রি কোড -->
+                                <!-- ১৯৫+ দেশের কোড ডাইনামিক্যালি লোড হবে -->
                             </select>
                             <input type="tel" id="regWhatsApp" placeholder="17XXXXXXXX" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>Full Address *</label>
-                        <input type="text" id="regAddress" placeholder="House/Street, City, Country" required>
-                    </div>
-
-                    <button type="submit" class="btn-gold-glow" id="modalSubmitBtn">Confirm & Enter Dashboard</button>
+                    <button type="submit" class="btn-gold-glow">Confirm & Enter Dashboard</button>
                 </form>
             </div>
         </div>
@@ -592,13 +586,13 @@
             <!-- মেইন ড্যাশবোর্ড হোম কার্ড -->
             <div class="dash-card">
                 
-                <!-- হেডার: লোগো, ব্র্যান্ড, নাম, ইউনিক এফিলিয়েট আইডি এবং ১০% কমিশন নিচে -->
+                <!-- হেডার: লোগো, ব্র্যান্ড, নাম, এফিলিয়েট আইডি এবং ১০% কমিশন নিচে -->
                 <div class="home-top-section">
                     <div class="home-left-info">
                         <img src="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400" alt="Logo" class="home-logo">
                         <div class="home-brand-name">RORRAXY</div>
                         <div class="home-username" id="homeDispName">User Name</div>
-                        <div class="home-affiliate-id" id="homeAffId">#ROR-000000</div>
+                        <div class="home-affiliate-id" id="homeAffId">Affiliate ID: #ROR-605473</div>
                         <div class="home-commission-sub">10% Commission</div>
                     </div>
 
@@ -647,7 +641,7 @@
                     </button>
                 </div>
 
-                <!-- ভিজিটর ক্লিক অ্যানালাইসিস গ্রাফ (৭ দিন, ১ মাস, ১ বছর ও ডাইনামিক বয়স বৃদ্ধি সহ) -->
+                <!-- ভিজিটর ক্লিক অ্যানালাইসিস গ্রাফ (৭ দিন, ১ মাস, ১ বছর ডাইনামিক বয়স বৃদ্ধি সহ) -->
                 <div class="chart-box">
                     <div class="chart-header-row">
                         <div class="chart-title">Visitor Clicks Analytics</div>
@@ -660,7 +654,7 @@
                     <canvas id="clicksChart" height="100"></canvas>
                 </div>
 
-                <!-- সাপোর্ট এবং ছোট উইথড্র বাটন -->
+                <!-- সাপোর্ট এবং উইথড্র বাটন -->
                 <div class="action-row">
                     <button class="support-btn" onclick="openFirebaseChat()">
                         <i class="fa-solid fa-headset" style="font-size: 0.8rem;"></i> Support
@@ -716,9 +710,92 @@
     <script>
         const countriesList = [
             { name: "Afghanistan", flag: "🇦🇫", code: "+93" }, { name: "Albania", flag: "🇦🇱", code: "+355" },
-            { name: "Algeria", flag: "🇩🇿", code: "+213" }, { name: "Bangladesh", flag: "🇧🇩", code: "+880" },
-            { name: "India", flag: "🇮🇳", code: "+91" }, { name: "United Kingdom", flag: "🇬🇧", code: "+44" },
-            { name: "United States", flag: "🇺🇸", code: "+1" }
+            { name: "Algeria", flag: "🇩🇿", code: "+213" }, { name: "Andorra", flag: "🇦🇩", code: "+376" },
+            { name: "Angola", flag: "🇦🇴", code: "+244" }, { name: "Antigua and Barbuda", flag: "🇦🇬", code: "+1-268" },
+            { name: "Argentina", flag: "🇦🇷", code: "+54" }, { name: "Armenia", flag: "🇦🇲", code: "+374" },
+            { name: "Australia", flag: "🇦🇺", code: "+61" }, { name: "Austria", flag: "🇦🇹", code: "+43" },
+            { name: "Azerbaijan", flag: "🇦🇿", code: "+994" }, { name: "Bahamas", flag: "🇧🇸", code: "+1-242" },
+            { name: "Bahrain", flag: "🇧🇭", code: "+973" }, { name: "Bangladesh", flag: "🇧🇩", code: "+880" },
+            { name: "Barbados", flag: "🇧🇧", code: "+1-246" }, { name: "Belarus", flag: "🇧🇾", code: "+375" },
+            { name: "Belgium", flag: "🇧🇪", code: "+32" }, { name: "Belize", flag: "🇧🇿", code: "+501" },
+            { name: "Benin", flag: "🇧🇯", code: "+229" }, { name: "Bhutan", flag: "🇧🇹", code: "+975" },
+            { name: "Bolivia", flag: "🇧🇴", code: "+591" }, { name: "Bosnia and Herzegovina", flag: "🇧🇦", code: "+387" },
+            { name: "Botswana", flag: "🇧🇼", code: "+267" }, { name: "Brazil", flag: "🇧🇷", code: "+55" },
+            { name: "Brunei", flag: "🇧🇳", code: "+673" }, { name: "Bulgaria", flag: "🇧🇬", code: "+359" },
+            { name: "Burkina Faso", flag: "🇧🇫", code: "+226" }, { name: "Burundi", flag: "🇧🇮", code: "+257" },
+            { name: "Cambodia", flag: "🇰🇭", code: "+855" }, { name: "Cameroon", flag: "🇨🇲", code: "+237" },
+            { name: "Canada", flag: "🇨🇦", code: "+1" }, { name: "Cape Verde", flag: "🇨🇻", code: "+238" },
+            { name: "Central African Republic", flag: "🇨🇫", code: "+236" }, { name: "Chad", flag: "🇹🇩", code: "+235" },
+            { name: "Chile", flag: "🇨🇱", code: "+56" }, { name: "China", flag: "🇨🇳", code: "+86" },
+            { name: "Colombia", flag: "🇨🇴", code: "+57" }, { name: "Comoros", flag: "🇰🇲", code: "+269" },
+            { name: "Congo", flag: "🇨🇬", code: "+242" }, { name: "Costa Rica", flag: "🇨🇷", code: "+506" },
+            { name: "Croatia", flag: "🇭🇷", code: "+385" }, { name: "Cuba", flag: "🇨🇺", code: "+53" },
+            { name: "Cyprus", flag: "🇨🇾", code: "+357" }, { name: "Czech Republic", flag: "🇨🇿", code: "+420" },
+            { name: "Denmark", flag: "🇩🇰", code: "+45" }, { name: "Djibouti", flag: "🇩🇯", code: "+253" },
+            { name: "Dominica", flag: "🇩🇲", code: "+1-767" }, { name: "Dominican Republic", flag: "🇩🇴", code: "+1-809" },
+            { name: "Ecuador", flag: "🇪🇨", code: "+593" }, { name: "Egypt", flag: "🇪🇬", code: "+20" },
+            { name: "El Salvador", flag: "🇸🇻", code: "+503" }, { name: "Equatorial Guinea", flag: "🇬🇶", code: "+240" },
+            { name: "Eritrea", flag: "🇪🇷", code: "+291" }, { name: "Estonia", flag: "🇪🇪", code: "+372" },
+            { name: "Eswatini", flag: "🇸🇿", code: "+268" }, { name: "Ethiopia", flag: "🇪🇹", code: "+251" },
+            { name: "Fiji", flag: "🇫🇯", code: "+679" }, { name: "Finland", flag: "🇫🇮", code: "+358" },
+            { name: "France", flag: "🇫🇷", code: "+33" }, { name: "Gabon", flag: "🇬🇦", code: "+241" },
+            { name: "Gambia", flag: "🇬🇲", code: "+220" }, { name: "Georgia", flag: "🇬🇪", code: "+995" },
+            { name: "Germany", flag: "🇩🇪", code: "+49" }, { name: "Ghana", flag: "🇬🇭", code: "+233" },
+            { name: "Greece", flag: "🇬🇷", code: "+30" }, { name: "Grenada", flag: "🇬🇩", code: "+1-473" },
+            { name: "Guatemala", flag: "🇬🇹", code: "+502" }, { name: "Guinea", flag: "🇬🇳", code: "+224" },
+            { name: "Guinea-Bissau", flag: "🇬🇼", code: "+245" }, { name: "Guyana", flag: "🇬🇾", code: "+592" },
+            { name: "Haiti", flag: "🇭🇹", code: "+509" }, { name: "Honduras", flag: "🇭🇳", code: "+504" },
+            { name: "Hungary", flag: "🇭🇺", code: "+36" }, { name: "Iceland", flag: "🇮🇸", code: "+354" },
+            { name: "India", flag: "🇮🇳", code: "+91" }, { name: "Indonesia", flag: "🇮🇩", code: "+62" },
+            { name: "Iran", flag: "🇮🇷", code: "+98" }, { name: "Iraq", flag: "🇮🇶", code: "+964" },
+            { name: "Ireland", flag: "🇮🇪", code: "+353" }, { name: "Israel", flag: "🇮🇱", code: "+972" },
+            { name: "Italy", flag: "🇮🇹", code: "+39" }, { name: "Jamaica", flag: "🇯🇲", code: "+1-876" },
+            { name: "Japan", flag: "🇯🇵", code: "+81" }, { name: "Jordan", flag: "🇯🇴", code: "+962" },
+            { name: "Kazakhstan", flag: "🇰🇿", code: "+7" }, { name: "Kenya", flag: "🇰🇪", code: "+254" },
+            { name: "Kiribati", flag: "🇰🇮", code: "+686" }, { name: "Kuwait", flag: "🇰🇼", code: "+965" },
+            { name: "Kyrgyzstan", flag: "🇰🇬", code: "+996" }, { name: "Laos", flag: "🇱🇦", code: "+856" },
+            { name: "Latvia", flag: "🇱🇻", code: "+371" }, { name: "Lebanon", flag: "🇱🇧", code: "+961" },
+            { name: "Lesotho", flag: "🇱🇸", code: "+266" }, { name: "Liberia", flag: "🇱🇷", code: "+231" },
+            { name: "Libya", flag: "🇱🇾", code: "+218" }, { name: "Liechtenstein", flag: "🇱🇮", code: "+423" },
+            { name: "Lithuania", flag: "🇱🇹", code: "+370" }, { name: "Luxembourg", flag: "🇱🇺", code: "+352" },
+            { name: "Madagascar", flag: "🇲🇬", code: "+261" }, { name: "Malawi", flag: "🇲🇼", code: "+265" },
+            { name: "Malaysia", flag: "🇲🇾", code: "+60" }, { name: "Maldives", flag: "🇲🇻", code: "+960" },
+            { name: "Mali", flag: "🇲🇱", code: "+223" }, { name: "Malta", flag: "🇲🇹", code: "+356" },
+            { name: "Marshall Islands", flag: "🇲🇭", code: "+692" }, { name: "Mauritania", flag: "🇲🇷", code: "+222" },
+            { name: "Mauritius", flag: "🇲🇺", code: "+230" }, { name: "Mexico", flag: "🇲🇽", code: "+52" },
+            { name: "Micronesia", flag: "🇫🇲", code: "+691" }, { name: "Moldova", flag: "🇲🇩", code: "+373" },
+            { name: "Monaco", flag: "🇲🇨", code: "+377" }, { name: "Mongolia", flag: "🇲🇳", code: "+976" },
+            { name: "Montenegro", flag: "🇲🇪", code: "+382" }, { name: "Morocco", flag: "🇲🇦", code: "+212" },
+            { name: "Mozambique", flag: "🇲🇿", code: "+258" }, { name: "Myanmar", flag: "🇲🇲", code: "+95" },
+            { name: "Namibia", flag: "🇳🇦", code: "+264" }, { name: "Nauru", flag: "🇳🇷", code: "+674" },
+            { name: "Nepal", flag: "🇳🇵", code: "+977" }, { name: "Netherlands", flag: "🇳🇱", code: "+31" },
+            { name: "New Zealand", flag: "🇳🇿", code: "+64" }, { name: "Nicaragua", flag: "🇳🇮", code: "+505" },
+            { name: "Niger", flag: "🇳🇪", code: "+227" }, { name: "Nigeria", flag: "🇳🇬", code: "+234" },
+            { name: "North Korea", flag: "🇰🇵", code: "+850" }, { name: "North Macedonia", flag: "🇲🇰", code: "+389" },
+            { name: "Norway", flag: "🇳🇴", code: "+47" }, { name: "Oman", flag: "🇴🇲", code: "+968" },
+            { name: "Pakistan", flag: "🇵🇰", code: "+92" }, { name: "Palau", flag: "🇵🇼", code: "+680" },
+            { name: "Palestine", flag: "🇵🇸", code: "+970" }, { name: "Panama", flag: "🇵🇦", code: "+507" },
+            { name: "Papua New Guinea", flag: "🇵🇬", code: "+675" }, { name: "Paraguay", flag: "🇵🇾", code: "+595" },
+            { name: "Peru", flag: "🇵🇪", code: "+51" }, { name: "Philippines", flag: "🇵🇭", code: "+63" },
+            { name: "Poland", flag: "🇵🇱", code: "+48" }, { name: "Portugal", flag: "🇵🇹", code: "+351" },
+            { name: "Qatar", flag: "🇶🇦", code: "+974" }, { name: "Romania", flag: "🇷🇴", code: "+40" },
+            { name: "Russia", flag: "🇷🇺", code: "+7" }, { name: "Rwanda", flag: "🇷🇼", code: "+250" },
+            { name: "Saudi Arabia", flag: "🇸🇦", code: "+966" }, { name: "Singapore", flag: "🇸🇬", code: "+65" },
+            { name: "South Africa", flag: "🇿🇦", code: "+27" }, { name: "South Korea", flag: "🇰🇷", code: "+82" },
+            { name: "Spain", flag: "🇪🇸", code: "+34" }, { name: "Sri Lanka", flag: "🇱🇰", code: "+94" },
+            { name: "Sweden", flag: "🇸🇪", code: "+46" }, { name: "Switzerland", flag: "🇨🇭", code: "+41" },
+            { name: "Taiwan", flag: "🇹🇼", code: "+886" }, { name: "Tajikistan", flag: "🇹🇯", code: "+992" },
+            { name: "Tanzania", flag: "🇹🇿", code: "+255" }, { name: "Thailand", flag: "🇹🇭", code: "+66" },
+            { name: "Togo", flag: "🇹🇬", code: "+228" }, { name: "Tonga", flag: "🇹🇴", code: "+676" },
+            { name: "Trinidad and Tobago", flag: "🇹🇹", code: "+1-868" }, { name: "Tunisia", flag: "🇹🇳", code: "+216" },
+            { name: "Turkey", flag: "🇹🇷", code: "+90" }, { name: "Turkmenistan", flag: "🇹🇲", code: "+993" },
+            { name: "Uganda", flag: "🇺🇬", code: "+256" }, { name: "Ukraine", flag: "🇺🇦", code: "+380" },
+            { name: "United Arab Emirates", flag: "🇦🇪", code: "+971" }, { name: "United Kingdom", flag: "🇬🇧", code: "+44" },
+            { name: "United States", flag: "🇺🇸", code: "+1" }, { name: "Uruguay", flag: "🇺🇾", code: "+598" },
+            { name: "Uzbekistan", flag: "🇺🇿", code: "+998" }, { name: "Vatican City", flag: "🇻🇦", code: "+379" },
+            { name: "Venezuela", flag: "🇻🇪", code: "+58" }, { name: "Vietnam", flag: "🇻🇳", code: "+84" },
+            { name: "Yemen", flag: "🇾🇪", code: "+967" }, { name: "Zambia", flag: "🇿🇲", code: "+260" },
+            { name: "Zimbabwe", flag: "🇿🇼", code: "+263" }
         ];
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -733,10 +810,6 @@
                 dialCodeSelect.value = "+880";
             }
 
-            const otpauth = encodeURIComponent("otpauth://totp/RORRAXY:user@gmail.com?secret=JBSWY3DPEHPK3PXP&issuer=RORRAXY");
-            document.getElementById('qrCodeImage')?.setAttribute('src', `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${otpauth}`);
-
-            // অ্যাকাউন্ট বয়স হিসাব করা (ডাইনামিক বছর বৃদ্ধি সিস্টেম)
             checkAccountYearSpan();
             renderClicksChart('7d');
         });
@@ -749,26 +822,8 @@
             setTimeout(() => { t.style.display = 'none'; }, 2000);
         }
 
-        function openInfoModal(mode) {
+        function openInfoModal() {
             document.getElementById('infoModal').style.display = 'flex';
-            if(mode === 'edit') {
-                document.getElementById('modalHeading').innerText = "Edit Your Information";
-                document.getElementById('modalSubmitBtn').innerText = "Update Information";
-                
-                document.getElementById('regName').value = document.getElementById('homeDispName').innerText;
-                document.getElementById('regEmail').value = localStorage.getItem('rorraxy_email') || '';
-                document.getElementById('regAddress').value = localStorage.getItem('rorraxy_address') || '';
-                
-                let phoneFull = localStorage.getItem('rorraxy_phone') || '';
-                let parts = phoneFull.split(" ");
-                if(parts.length >= 2) {
-                    document.getElementById('regDialCode').value = parts[0];
-                    document.getElementById('regWhatsApp').value = parts.slice(1).join("");
-                }
-            } else {
-                document.getElementById('modalHeading').innerText = "Complete Your Information";
-                document.getElementById('modalSubmitBtn').innerText = "Confirm & Enter Dashboard";
-            }
         }
 
         function closeModal(modalId) {
@@ -790,23 +845,15 @@
             const dialCode = document.getElementById('regDialCode').value;
             const phoneNum = document.getElementById('regWhatsApp').value.trim();
             const phone = dialCode + " " + phoneNum;
-            const address = document.getElementById('regAddress').value.trim();
 
-            if(!address) {
-                showToast("Please provide your full address!");
-                return;
-            }
-
-            const randomId = '#ROR-' + Math.floor(100000 + Math.random() * 900000);
+            const randomId = 'Affiliate ID: #ROR-' + Math.floor(100000 + Math.random() * 900000);
 
             document.getElementById('homeDispName').innerText = name;
             document.getElementById('homeAffId').innerText = randomId;
 
-            // ডাটা সেভ এবং অ্যাকাউন্ট তৈরির ডেট স্টোর করা (যদি প্রথমবার হয়)
             localStorage.setItem('rorraxy_name', name);
             localStorage.setItem('rorraxy_email', email);
             localStorage.setItem('rorraxy_phone', phone);
-            localStorage.setItem('rorraxy_address', address);
             localStorage.setItem('rorraxy_info_done', 'true');
 
             if(!localStorage.getItem('rorraxy_created_date')) {
@@ -825,15 +872,21 @@
             menu.classList.toggle('show');
         }
 
-        // উইথড্র করার সময় ধাপগুলো চেক করার সিকোয়েন্স (ইনফরমেশন → ভেরিফিকেশন → পেমেন্ট সেটআপ → উইথড্র)
+        // উইথড্র করার সিকোয়েন্স চেক (ইনফরমেশন -> অ্যাড্রেস -> ভেরিফিকেশন -> পেমেন্ট সেটআপ -> উইথড্র)
         function checkWithdrawSteps() {
             const hasInfo = localStorage.getItem('rorraxy_info_done') === 'true';
+            const hasAddress = localStorage.getItem('rorraxy_address_done') === 'true';
             const hasVerified = localStorage.getItem('rorraxy_verified') === 'true';
             const hasPayment = localStorage.getItem('rorraxy_payment_done') === 'true';
 
             if(!hasInfo) {
-                showToast("Please complete your profile information & address first!");
-                openInfoModal('edit');
+                showToast("Please complete your profile information first!");
+                openPopupModal('tabInfoPopup');
+                return;
+            }
+            if(!hasAddress) {
+                showToast("Please add your delivery/shipping address first!");
+                openPopupModal('tabInfoPopup');
                 return;
             }
             if(!hasVerified) {
@@ -858,6 +911,7 @@
             let htmlContent = `<button class="modal-close-btn" onclick="closeModal('popupModalOverlay')"><i class="fa-solid fa-xmark"></i></button>`;
 
             if(tabType === 'tabInfoPopup') {
+                let savedAddress = localStorage.getItem('rorraxy_address') || '';
                 htmlContent += `
                     <h3 class="modal-title">Profile Information</h3>
                     <div class="info-display-box">
@@ -873,12 +927,15 @@
                         <i class="fa-brands fa-whatsapp" style="color:var(--gold-solid);"></i>
                     </div>
                     <div class="info-display-box">
-                        <div><div class="info-lbl">Address</div><div class="info-val">${localStorage.getItem('rorraxy_address') || 'Not Provided'}</div></div>
+                        <div><div class="info-lbl">Address</div><div class="info-val" id="displayAddressVal">${savedAddress || 'Not Provided'}</div></div>
                         <i class="fa-solid fa-location-dot" style="color:var(--gold-solid);"></i>
                     </div>
-                    <button class="btn-gold-glow" onclick="closeModal('popupModalOverlay'); openInfoModal('edit');" style="margin-top: 10px;">
-                        <i class="fa-solid fa-pen-to-square"></i> Edit Profile Information
-                    </button>`;
+                    
+                    <div class="form-group" style="margin-top: 15px;">
+                        <label>Update / Add Address *</label>
+                        <input type="text" id="userAddressInput" placeholder="House/Street, City, Country" value="${savedAddress}">
+                    </div>
+                    <button class="btn-gold-glow" onclick="saveUserAddress()">Save Address</button>`;
             } 
             else if(tabType === 'tabVerificationPopup') {
                 htmlContent += `
@@ -942,6 +999,19 @@
 
             contentBox.innerHTML = htmlContent;
             overlay.style.display = 'flex';
+        }
+
+        function saveUserAddress() {
+            let addr = document.getElementById('userAddressInput').value.trim();
+            if(!addr) {
+                showToast("Please enter a valid address!");
+                return;
+            }
+            localStorage.setItem('rorraxy_address', addr);
+            localStorage.setItem('rorraxy_address_done', 'true');
+            document.getElementById('displayAddressVal').innerText = addr;
+            showToast("Address saved successfully!");
+            closeModal('popupModalOverlay');
         }
 
         function verifyAuthCode() {
@@ -1010,7 +1080,6 @@
             showToast("Connecting to Firebase Live Support...");
         }
 
-        // অ্যাকাউন্ট বয়স অনুযায়ী বছর বৃদ্ধি হিসাব করা
         function checkAccountYearSpan() {
             let createdDateStr = localStorage.getItem('rorraxy_created_date');
             if(!createdDateStr) {
@@ -1020,7 +1089,7 @@
             let createdDate = new Date(createdDateStr);
             let now = new Date();
             let diffYears = now.getFullYear() - createdDate.getFullYear();
-            if(diffYears < 1) diffYears = 1; // সর্বনিম্ন ১ বছর
+            if(diffYears < 1) diffYears = 1;
 
             let btn = document.getElementById('oneYearFilterBtn');
             if(btn) {
@@ -1028,7 +1097,6 @@
             }
         }
 
-        // ক্লিক অ্যানালাইসিস গ্রাফ রেন্ডার উইথ ফিল্টার (7D, 1M, 1Y ডাইনামিক)
         let clicksChartInstance = null;
         function renderClicksChart(filterType) {
             const ctx = document.getElementById('clicksChart').getContext('2d');
@@ -1038,7 +1106,7 @@
 
             if(filterType === '7d') {
                 labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-                dataPoints = [12, 25, 18, 42, 30, 58, 80];
+                dataPoints = [15, 28, 20, 45, 35, 60, 85];
             } else if(filterType === '1m') {
                 labels = ['Week 1', 'Week 2', 'Week 3', 'Week 4'];
                 dataPoints = [120, 195, 240, 310];
@@ -1069,8 +1137,8 @@
                     responsive: true,
                     plugins: { legend: { display: false } },
                     scales: {
-                        x: { ticks: { color: '#b5b5b5', font: { size: 9 } }, grid: { color: 'rgba(255,255,255,0.03)' } },
-                        y: { ticks: { color: '#b5b5b5', font: { size: 9 } }, grid: { color: 'rgba(255,255,255,0.03)' } }
+                        x: { ticks: { color: '#a5a5a5', font: { size: 9 } }, grid: { color: 'rgba(255,255,255,0.03)' } },
+                        y: { ticks: { color: '#a5a5a5', font: { size: 9 } }, grid: { color: 'rgba(255,255,255,0.03)' } }
                     }
                 }
             });
