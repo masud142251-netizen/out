@@ -103,114 +103,106 @@
 
         .main-wrapper { 
             width: 100%; 
-            max-width: 800px; 
+            max-width: 650px; 
             margin: 0 auto; 
             padding: 14px; 
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
         }
 
-        /* হিরো কার্ড */
-        .luxury-card { 
+        /* একটিমাত্র একক গোছালো কার্ড */
+        .single-unified-card { 
             background: var(--surface-bg); 
             border-radius: 18px; 
-            padding: 35px 20px; 
+            padding: 35px 24px; 
             text-align: center; 
             box-shadow: 0 12px 40px rgba(0,0,0,0.9); 
             border: 1px solid rgba(212,175,55,0.25); 
         }
+        
         .coming-soon-badge {
             display: inline-block;
             background: var(--gold-gradient);
             color: #000;
-            font-size: 0.7rem;
+            font-size: 0.68rem;
             font-weight: 900;
-            padding: 6px 18px;
+            padding: 5px 16px;
             border-radius: 20px;
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-bottom: 14px;
-            box-shadow: 0 0 15px rgba(212,175,55,0.5);
-            animation: pulseBadge 2s infinite alternate;
-        }
-        @keyframes pulseBadge {
-            0% { transform: scale(0.95); opacity: 0.8; }
-            100% { transform: scale(1.05); opacity: 1; }
+            margin-bottom: 12px;
         }
 
         .hero-title { 
-            font-size: 1.5rem; 
+            font-size: 1.4rem; 
             font-weight: 900; 
             background: var(--gold-gradient); 
             -webkit-background-clip: text; 
             -webkit-text-fill-color: transparent; 
             text-transform: uppercase; 
-            margin-bottom: 12px; 
+            margin-bottom: 10px; 
             letter-spacing: 1.2px; 
         }
+        
         .hero-sub { 
-            font-size: 0.82rem; 
+            font-size: 0.8rem; 
             color: var(--text-gray); 
-            line-height: 1.8; 
-            max-width: 650px; 
-            margin: 0 auto; 
+            line-height: 1.7; 
+            margin-bottom: 25px; 
         }
 
-        /* ভোট সিস্টেম সেকশন */
-        .voting-container {
-            background: var(--surface-bg);
-            border: 1px solid rgba(212,175,55,0.3);
-            border-radius: 18px;
-            padding: 30px 20px;
-            text-align: center;
-            box-shadow: 0 12px 40px rgba(0,0,0,0.95);
+        /* ভোটের অংশটি একই কার্ডের ভেতরে সুন্দরভাবে সাজানো */
+        .vote-section-divider {
+            width: 100%;
+            height: 1px;
+            background: rgba(212,175,55,0.2);
+            margin: 22px 0;
         }
+
         .voting-title {
             font-family: var(--font-luxury);
-            font-size: 1.15rem;
+            font-size: 1rem;
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-transform: uppercase;
             font-weight: 900;
-            margin-bottom: 8px;
-        }
-        .voting-desc {
-            font-size: 0.78rem;
-            color: var(--text-gray);
-            margin-bottom: 24px;
+            margin-bottom: 6px;
         }
 
-        /* মাঝখানে বড় সংখ্যা ও ইয়েস-নো বাটন লেআউট */
+        .voting-desc {
+            font-size: 0.75rem;
+            color: var(--text-gray);
+            margin-bottom: 20px;
+        }
+
         .voting-interface {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
             flex-wrap: wrap;
         }
+
         .vote-btn {
-            min-width: 140px;
-            padding: 14px 24px;
-            border-radius: 30px;
+            min-width: 120px;
+            padding: 12px 20px;
+            border-radius: 25px;
             font-weight: 900;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             cursor: pointer;
             text-transform: uppercase;
             font-family: var(--font-luxury);
             transition: 0.3s;
             border: none;
         }
+
         .vote-yes {
             background: var(--gold-gradient);
             color: #000;
-            box-shadow: 0 0 15px rgba(212,175,55,0.4);
         }
         .vote-yes:hover {
-            transform: scale(1.06);
-            box-shadow: 0 0 25px rgba(212,175,55,0.8);
+            transform: scale(1.04);
         }
+
         .vote-no {
             background: rgba(20, 20, 20, 0.9);
             color: var(--gold-solid);
@@ -218,41 +210,41 @@
         }
         .vote-no:hover {
             background: rgba(35, 35, 35, 0.9);
-            transform: scale(1.06);
-        }
-        .vote-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none !important;
-            box-shadow: none !important;
+            transform: scale(1.04);
         }
 
-        /* মাঝখানের কাউন্টার বক্স */
+        .vote-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
         .counter-display-box {
             display: flex;
             flex-direction: column;
             align-items: center;
             background: #000;
             border: 1.5px solid rgba(212,175,55,0.4);
-            padding: 10px 24px;
-            border-radius: 15px;
-            min-width: 110px;
-            box-shadow: inset 0 0 10px rgba(212,175,55,0.2);
+            padding: 8px 20px;
+            border-radius: 12px;
+            min-width: 95px;
         }
+
         .counter-number {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             font-weight: 900;
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-family: var(--font-luxury);
         }
+
         .counter-label {
-            font-size: 0.6rem;
+            font-size: 0.55rem;
             color: var(--text-gray);
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-top: 2px;
+            margin-top: 1px;
         }
     </style>
 </head>
@@ -270,17 +262,16 @@
 
     <div class="main-wrapper">
         
-        <!-- হিরো কার্ড -->
-        <div class="luxury-card">
+        <!-- একটিমাত্র একক গোছালো কার্ড -->
+        <div class="single-unified-card">
             <span class="coming-soon-badge">Coming Soon</span>
             <h1 class="hero-title">Creative Academy</h1>
             <p class="hero-sub">
                 Empowering the future with revolutionary <strong>Win-Win Fee Courses</strong>. Learn by building cutting-edge real-world applications.
             </p>
-        </div>
 
-        <!-- ভোট সিস্টেম -->
-        <div class="voting-container">
+            <div class="vote-section-divider"></div>
+
             <h3 class="voting-title">Community Vote</h3>
             <p class="voting-desc">Do You Support Win-Win Creative Academy?</p>
             
@@ -291,7 +282,7 @@
                 
                 <div class="counter-display-box">
                     <span class="counter-number" id="voteCounter">490</span>
-                    <span class="counter-label">Total Votes</span>
+                    <span class="counter-label">Votes</span>
                 </div>
 
                 <button class="vote-btn vote-no" id="noBtn" onclick="handleVote('no')">
@@ -311,7 +302,7 @@
             setTimeout(() => { t.style.display = 'none'; }, 2000);
         }
 
-        // চেক করা যে ব্রাউজার থেকে ইতিমধ্যে ভোট দেওয়া হয়েছে কি না
+        // একবার ভোট দেওয়ার নিয়ম (Single Vote Validation)
         window.addEventListener('DOMContentLoaded', () => {
             const hasVoted = localStorage.getItem('rorraxy_academy_voted');
             if(hasVoted) {
@@ -323,7 +314,6 @@
         });
 
         async function handleVote(choice) {
-            // ডাবল ভোট আটকানোর লজিক
             if(localStorage.getItem('rorraxy_academy_voted')) {
                 showToast("You can only vote once!");
                 return;
@@ -342,7 +332,6 @@
 
             counterEl.innerText = currentVal;
 
-            // লোকাল স্টোরেজে সেভ করে দেওয়া যাতে পুনরায় ভোট দিতে না পারে
             localStorage.setItem('rorraxy_academy_voted', choice);
             document.getElementById('yesBtn').disabled = true;
             document.getElementById('noBtn').disabled = true;
@@ -353,7 +342,7 @@
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 });
             } catch (error) {
-                // ফায়ারবেস কানেকশন না থাকলেও লোকাল কাউন্টার ও ভ্যালিডেশন পারফেক্ট কাজ করবে
+                // ফায়ারবেস কানেকশন না থাকলেও লোকাল কাউন্টার ও ভ্যালিডেশন কাজ করবে
             }
         }
 
@@ -361,7 +350,6 @@
             try {
                 const snapshot = await db.collection("academy_votes").get();
                 if(!snapshot.empty) {
-                    // ফায়ারবেসের মোট ভোটের সাথে বেস ৪৯০ যোগ হবে
                     let total = 490 + snapshot.size;
                     document.getElementById('voteCounter').innerText = total;
                 }
