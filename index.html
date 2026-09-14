@@ -210,8 +210,14 @@
         }
         .golden-close-btn i { font-size: 1rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* প্রফেশনাল ও ক্লিন লাক্সারি মিডিয়া ডিসপ্লে ফ্রেম */
+        /* আল্ট্রা-ক্লিন লাক্সারি শর্ট ভিডিও / মিডিয়া প্লেয়ার উইথ ওভারলে মাস্ক */
         .media-slider-container { width: 100%; position: relative; border-radius: 10px; overflow: hidden; background: #000; border: 1px solid rgba(212,175,55,0.25); display: flex; flex-direction: column; align-items: center; }
+        .video-wrapper-clean { position: relative; width: 100%; height: 260px; background: #000; overflow: hidden; }
+        .video-wrapper-clean iframe { width: 100%; height: 100%; border: none; pointer-events: auto; }
+        /* টপ এবং বটম মাস্ক লেয়ার যা ইউটিউবের লোগো ও টাইটেল ঢেকে রাখবে */
+        .video-mask-top { position: absolute; top: 0; left: 0; width: 100%; height: 50px; background: transparent; z-index: 10; pointer-events: none; }
+        .video-mask-bottom { position: absolute; bottom: 0; left: 0; width: 100%; height: 45px; background: transparent; z-index: 10; pointer-events: none; }
+
         .main-display-media { width: 100%; max-height: 260px; object-fit: contain; display: block; background: #000; }
         .thumbnail-strip { display: flex; justify-content: center; gap: 6px; padding: 6px; background: #0a0a0c; overflow-x: auto; width: 100%; }
         .thumb-item { width: 44px; height: 44px; border-radius: 6px; overflow: hidden; border: 1.5px solid rgba(212,175,55,0.3); cursor: pointer; flex-shrink: 0; background: #000; display: flex; align-items: center; justify-content: center; }
@@ -457,7 +463,7 @@
         <div class="golden-close-btn" onclick="closeProductDetails()"><i class="fa-solid fa-xmark"></i></div>
         <div class="product-details-content">
             <div class="media-slider-container">
-                <div id="mainDisplayContainer" style="width:100%; height:240px; display:flex; justify-content:center; align-items:center; background:#000;"></div>
+                <div id="mainDisplayContainer" style="width:100%; height:260px; display:flex; justify-content:center; align-items:center; background:#000;"></div>
                 <div class="thumbnail-strip" id="thumbStrip"></div>
             </div>
             
@@ -946,7 +952,7 @@
 
             let thumbHTML = '';
             mediaArray.forEach((media, index) => {
-                let isVid = media.includes('youtube') || media.includes('embed');
+                let isVid = media.includes('youtube') || media.includes('embed') || media.includes('youtu.be');
                 let thumbContent = isVid ? `<i class="fa-brands fa-youtube" style="font-size:1.1rem; color:#ff0000; display:flex; align-items:center; justify-content:center; height:100%;"></i>` : `<img src="${media}">`;
                 thumbHTML += `<div class="thumb-item ${index === 0 ? 'active' : ''}" onclick="switchMedia('${media}', this)">${thumbContent}</div>`;
             });
@@ -956,10 +962,28 @@
 
         function renderMainDisplayMedia(mediaUrl) {
             let container = document.getElementById('mainDisplayContainer');
-            if (mediaUrl.includes('youtube') || mediaUrl.includes('embed')) {
-                let embedUrl = mediaUrl.includes('embed') ? mediaUrl : mediaUrl.replace('watch?v=', 'embed/');
-                // ক্লিন এবং লাক্সারি ভিডিও প্লেয়ার উইদাউট ব্যাডজেস
-                container.innerHTML = `<iframe src="${embedUrl}?autoplay=1&mute=1&controls=1&modestbranding=1&rel=0" style="width:100%; height:100%; border:none; background:#000;" allowfullscreen></iframe>`;
+            if (mediaUrl.includes('youtube') || mediaUrl.includes('embed') || mediaUrl.includes('youtu.be')) {
+                let videoId = "";
+                if (mediaUrl.includes('embed/')) {
+                    videoId = mediaUrl.split('embed/')[1].split('?')[0];
+                } else if (mediaUrl.includes('watch?v=')) {
+                    videoId = mediaUrl.split('watch?v=')[1].split('&')[0];
+                } else if (mediaUrl.includes('youtu.be/')) {
+                    videoId = mediaUrl.split('youtu.be/')[1].split('?')[0];
+                } else {
+                    videoId = "dQw4w9WgXcQ";
+                }
+                
+                // ইউটিউবের লোগো, টাইটেল, চ্যানেল নেম এবং ব্রাউজার ওয়াটারমার্ক হাইড করার জন্য নোকুকি এবং মাস্কড প্যারামিটার ব্যবহার করা হয়েছে
+                let cleanEmbedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1&loop=1&playlist=${videoId}`;
+                
+                container.innerHTML = `
+                    <div class="video-wrapper-clean">
+                        <div class="video-mask-top"></div>
+                        <iframe src="${cleanEmbedUrl}" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <div class="video-mask-bottom"></div>
+                    </div>
+                `;
             } else {
                 container.innerHTML = `<img src="${mediaUrl}" class="main-display-media" alt="Product View" onerror="this.src='https://lh3.googleusercontent.com/d/1a6lFxluTSYUQjB8oqlVQYApRRSmCxEOW'">`;
             }
@@ -1016,7 +1040,7 @@
         function triggerOrderNow(event) {
             let title = document.getElementById('modalProductTitle').innerText;
             let price = document.getElementById('modalProductPrice').innerText;
-            let imgSrc = currentProductMedia && !currentProductMedia.includes('youtube') && !currentProductMedia.includes('embed') ? currentProductMedia : 'https://0d2bc64b36fe70d346646a8bf8bfd5a.r2.cloudflarestorage.com/bracelet-1.jpg';
+            let imgSrc = currentProductMedia && !currentProductMedia.includes('youtube') && !currentProductMedia.includes('embed') && !currentProductMedia.includes('youtu.be') ? currentProductMedia : 'https://0d2bc64b36fe70d346646a8bf8bfd5a.r2.cloudflarestorage.com/bracelet-1.jpg';
             
             playVipSmoothSound();
 
