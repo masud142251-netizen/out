@@ -210,9 +210,9 @@
         }
         .golden-close-btn i { font-size: 1rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* 9:16 বা 1:1 রেশিওর ছবি নিখুঁতভাবে দেখানোর জন্য মিডিয়া কন্টেইনার */
+        /* 9:16 বা 1:1 রেশিও ছবি ক্রপিং ফিক্সড ও একদম স্পষ্ট দেখানোর জন্য */
         .media-slider-container { width: 100%; position: relative; border-radius: 8px; overflow: hidden; background: #000; display: flex; justify-content: center; align-items: center; }
-        .main-display-media { width: 100%; max-height: 280px; object-fit: contain; display: block; background: #000; }
+        .main-display-media { width: 100%; max-height: 260px; object-fit: contain; display: block; background: #000; }
         .thumbnail-strip { display: flex; justify-content: center; gap: 4px; padding: 4px; background: #0c0c0c; overflow-x: auto; }
         .thumb-item { width: 36px; height: 36px; border-radius: 4px; overflow: hidden; border: 1.5px solid rgba(212,175,55,0.3); cursor: pointer; flex-shrink: 0; }
         .thumb-item img { width: 100%; height: 100%; object-fit: cover; }
@@ -235,7 +235,6 @@
         .tier-btn { background: #161616; border: 1px solid rgba(212,175,55,0.3); color: #fff; font-size: 0.44rem; font-weight: 700; padding: 5px 2px; border-radius: 5px; cursor: pointer; text-align: center; }
         .tier-btn.active { background: var(--gold-gradient); color: #000; font-weight: 900; border: none; }
 
-        /* কোয়ান্টিটি অংশ ওপরের দিকে এবং প্লাস-মাইনাস মাঝখানে পারফেক্ট অ্যালাইনমেন্ট */
         .quantity-row { display: flex; flex-direction: column; align-items: center; background: #111; padding: 5px 8px; border-radius: 6px; border: 1px solid rgba(212,175,55,0.2); gap: 3px; }
         .qty-label-top { font-size: 0.5rem; font-weight: 700; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; }
         .qty-box { display: flex; align-items: center; justify-content: center; gap: 15px; width: 100%; }
@@ -295,7 +294,7 @@
 </head>
 <body id="mainBody">
 
-    <!-- প্রফেশনাল ও ভিআইপি সফট স্মুথ সাউন্ড ইফেক্ট (Web Audio API Synthesizer) -->
+    <!-- ভিআইপি প্রফেশনাল স্মুথ সাউন্ড এফেক্ট -->
     <script>
         function playVipSmoothSound() {
             try {
@@ -304,8 +303,8 @@
                 const gainNode = audioCtx.createGain();
                 
                 osc.type = 'sine';
-                osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5 note
-                osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15); // A5 note
+                osc.frequency.setValueAtTime(587.33, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15);
                 
                 gainNode.gain.setValueAtTime(0.12, audioCtx.currentTime);
                 gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.35);
@@ -444,7 +443,7 @@
         </div>
     </div>
 
-    <!-- ইনফো পপআপ মডাল -->
+    <!-- ইনফো পপআপ মডাল (ডেসক্রিপশন, সাইজ, প্যাকেজিং, স্টক এবং সাইজ আদার অপশন সহ) -->
     <div id="infoPopupModal" onclick="if(event.target === this) closeInfoPopup()">
         <div class="info-popup-box">
             <div class="golden-close-btn" style="position:absolute; top:10px; right:10px; width:28px; height:28px;" onclick="closeInfoPopup()"><i class="fa-solid fa-xmark" style="font-size:0.8rem;"></i></div>
@@ -479,7 +478,7 @@
                 <button class="extra-action-btn" onclick="openInfoPopup('description')"><i class="fa-solid fa-file-lines"></i> Desc</button>
                 <button class="extra-action-btn" onclick="openInfoPopup('size')"><i class="fa-solid fa-ruler"></i> Size</button>
                 <button class="extra-action-btn" onclick="openInfoPopup('packaging')"><i class="fa-solid fa-box"></i> Pack</button>
-                <button class="extra-action-btn" style="color:var(--gold-solid);" onclick="openInfoPopup('stock')"><i class="fa-solid fa-cubes"></i> Stock</button>
+                <button class="extra-action-btn" style="color:var(--gold-solid); border-color:var(--gold-solid);" onclick="openInfoPopup('stock')"><i class="fa-solid fa-cubes"></i> Stock</button>
             </div>
 
             <div class="quantity-tier-container" id="qtyTierContainer">
@@ -488,7 +487,6 @@
                     <button class="tier-btn" onclick="setWholesaleTier(200, 75, event)">200+ Pcs</button>
                     <button class="tier-btn" onclick="setWholesaleTier(600, 60, event)">600+ Pcs</button>
                 </div>
-                <!-- কোয়ান্টিটি লেখা উপরে এবং প্লাস-মাইনাস মাঝখানে পারফেক্ট অ্যালাইনমেন্ট -->
                 <div class="quantity-row">
                     <span class="qty-label-top">Quantity</span>
                     <div class="qty-box">
@@ -553,6 +551,7 @@
         let baseUnitPrice = 100.00;
         let activeSubdomainUrl = "";
         let currentProductImg = "";
+        let selectedProductSize = "Standard";
 
         function closeAllPanels() {
             document.getElementById('subdomainOverlay').style.display = 'none';
@@ -627,13 +626,14 @@
                 let itemTotal = priceNum * item.qty;
                 totalAmt += itemTotal;
                 let modeTag = item.isWholesale ? '(Wholesale)' : '(Retail)';
+                let sizeInfo = item.size ? ` | Size: ${item.size}` : '';
                 let imgSrc = item.img || 'https://0d2bc64b36fe70d346646a8bf8bfd5a.r2.cloudflarestorage.com/bracelet-1.jpg';
                 html += `
                 <div class="cart-item-row">
                     <img src="${imgSrc}" class="cart-item-img" onerror="this.src='https://lh3.googleusercontent.com/d/1a6lFxluTSYUQjB8oqlVQYApRRSmCxEOW'">
                     <div class="cart-item-info">
                         <span class="cart-item-title">${item.title} <span style="color:var(--pink-love); font-weight:800;">${modeTag}</span></span>
-                        <span class="cart-item-qty-price">Qty: ${item.qty} | $${itemTotal.toFixed(2)}</span>
+                        <span class="cart-item-qty-price">Qty: ${item.qty}${sizeInfo} | $${itemTotal.toFixed(2)}</span>
                     </div>
                     <button class="cart-item-delete" onclick="removeCartItem(${index})" title="Delete"><i class="fa-solid fa-trash-can"></i></button>
                 </div>`;
@@ -727,6 +727,7 @@
             document.getElementById('modalProductPrice').innerText = `$${finalPrice.toFixed(2)}`;
         }
 
+        /* সাইজ ও আদার কাস্টম ইনপুট অপশন সহ ইনফো পপআপ */
         function openInfoPopup(type) {
             const titleEl = document.getElementById('infoPopupTitle');
             const bodyEl = document.getElementById('infoPopupBody');
@@ -736,8 +737,21 @@
                 titleEl.innerText = "Product Description";
                 bodyEl.innerHTML = "Crafted with supreme precision, this luxury item defines global elegance. Made from premium materials featuring high-gloss lacquer and superior durability, tailored for elite fashion connoisseurs.";
             } else if (type === 'size') {
-                titleEl.innerText = "Size & Specifications";
-                bodyEl.innerHTML = "• Standard Length: Adjustable (7.5 - 8.5 inches)<br>• Finish: Golden Teak & High Gloss Lacquer<br>• Weight: 45g<br>• Material Grade: Premium alloy with gold plating.";
+                titleEl.innerText = "Select or Custom Size";
+                bodyEl.innerHTML = `
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                        <span style="font-size:0.6rem; color:var(--text-gray);">Seller Provided Sizes:</span>
+                        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                            <button onclick="selectSizeOption('Standard')" style="background:#1a1a1a; border:1px solid var(--gold-solid); color:#fff; padding:6px 10px; border-radius:4px; font-size:0.6rem; cursor:pointer;">Standard</button>
+                            <button onclick="selectSizeOption('Medium')" style="background:#1a1a1a; border:1px solid rgba(212,175,55,0.3); color:#fff; padding:6px 10px; border-radius:4px; font-size:0.6rem; cursor:pointer;">Medium</button>
+                            <button onclick="selectSizeOption('Large')" style="background:#1a1a1a; border:1px solid rgba(212,175,55,0.3); color:#fff; padding:6px 10px; border-radius:4px; font-size:0.6rem; cursor:pointer;">Large</button>
+                        </div>
+                        <hr style="border-color:rgba(212,175,55,0.2); margin:4px 0;">
+                        <span style="font-size:0.6rem; color:var(--gold-solid); font-weight:bold;">Other / Custom Size (Seller Option):</span>
+                        <input type="text" id="customSizeInput" placeholder="Type custom size or specifications..." value="${selectedProductSize}" style="background:#141414; border:1px solid rgba(212,175,55,0.4); padding:8px; border-radius:6px; color:#fff; font-size:0.68rem; width:100%; outline:none;">
+                        <button onclick="saveCustomSize()" style="background:var(--gold-gradient); color:#000; font-weight:800; font-size:0.65rem; padding:8px; border-radius:6px; border:none; cursor:pointer; text-transform:uppercase; margin-top:4px;">Save & Apply Size</button>
+                    </div>
+                `;
             } else if (type === 'packaging') {
                 titleEl.innerText = "Courier & Packaging Info";
                 bodyEl.innerHTML = "• Package Weight: 0.15 kg<br>• Dimensions: 12cm x 8cm x 4cm<br>• Box Type: Eco-friendly Luxury Hard Box<br>• Courier Ready: Drop-test certified for international logistics.";
@@ -750,6 +764,21 @@
                 }
             }
             modal.style.display = 'flex';
+        }
+
+        function selectSizeOption(sizeVal) {
+            selectedProductSize = sizeVal;
+            let input = document.getElementById('customSizeInput');
+            if(input) input.value = sizeVal;
+        }
+
+        function saveCustomSize() {
+            let input = document.getElementById('customSizeInput');
+            if(input && input.value.trim() !== "") {
+                selectedProductSize = input.value.trim();
+            }
+            alert("Size saved successfully: " + selectedProductSize);
+            closeInfoPopup();
         }
 
         function closeInfoPopup() {
@@ -908,6 +937,7 @@
             currentQuantity = 1;
             baseUnitPrice = parseFloat(price.replace('$', ''));
             currentProductImg = images[0];
+            selectedProductSize = "Standard";
             document.getElementById('productQtyDisplay').innerText = currentQuantity;
             document.getElementById('mainDisplayMedia').src = images[0];
             document.getElementById('modalProductPrice').innerText = price;
@@ -1009,7 +1039,7 @@
             }, 720);
 
             let cart = JSON.parse(localStorage.getItem('rorraxy_cart')) || [];
-            cart.push({ title: title, price: price, qty: currentQuantity, img: imgSrc, isWholesale: isWholesaleMode, addedAt: new Date().toISOString() });
+            cart.push({ title: title, price: price, qty: currentQuantity, size: selectedProductSize, img: imgSrc, isWholesale: isWholesaleMode, addedAt: new Date().toISOString() });
             localStorage.setItem('rorraxy_cart', JSON.stringify(cart));
             
             updateCartBadge();
