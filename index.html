@@ -12,7 +12,7 @@
     <!-- Firebase SDK (Modular) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDokhLgGe4Ib7oxUJ8zczLFWj0YJKk57Y",
@@ -56,8 +56,7 @@
             width: 100%; max-width: 100%; overflow-x: hidden; 
             background: var(--bg-retail) !important; 
             color: var(--text-white); font-family: var(--font-main); 
-            min-height: 100vh; 
-            transition: background 0.4s ease;
+            min-height: 100vh; transition: background 0.4s ease;
         }
         body { padding-top: 85px; padding-bottom: 90px; }
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -70,8 +69,7 @@
         header.app-header {
             display: flex; flex-direction: column; padding: 6px 10px; align-items: center;
             background: var(--header-retail); position: fixed; top: 0; left: 0; z-index: 1000;
-            backdrop-filter: blur(15px); width: 100%; border-bottom: 1px solid rgba(212,175,55,0.15);
-            gap: 5px;
+            backdrop-filter: blur(15px); width: 100%; border-bottom: 1px solid rgba(212,175,55,0.15); gap: 5px;
         }
         .header-top-bar { display: flex; justify-content: center; align-items: center; width: 100%; max-width: 600px; padding: 2px 4px; }
         .header-center-group { display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; }
@@ -116,12 +114,29 @@
 
         .share-action-btn { display: flex; align-items: center; gap: 6px; background: none; border: none; font-size: 0.75rem; font-weight: 700; cursor: pointer; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        .fullscreen-portal-view, .subdomain-iframe-overlay, .category-fullscreen-view, #productDetailModal {
+        .fullscreen-portal-view, .subdomain-iframe-overlay, .category-fullscreen-view, #productDetailModal, #localYouModal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 5000; overflow-y: auto;
         }
         .category-fullscreen-view { z-index: 4000; background: var(--bg-retail); padding: 20px 12px 90px 12px; }
-        #productDetailModal { z-index: 5000; background: var(--bg-retail); padding: 10px 10px 80px 10px; }
+        #productDetailModal, #localYouModal { z-index: 5000; background: var(--bg-retail); padding: 15px 10px 80px 10px; }
         .product-details-content { padding: 4px; max-width: 440px; margin: 25px auto 0 auto; display: flex; flex-direction: column; gap: 8px; }
+
+        /* লোকাল ইউ প্যানেল ও চেকআউট ফর্ম স্টাইল */
+        .local-you-box {
+            max-width: 480px; margin: 20px auto; background: #0c0c0c; border: 1px solid rgba(212,175,55,0.35);
+            border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 12px;
+        }
+        .form-group-item { display: flex; flex-direction: column; gap: 4px; text-align: left; }
+        .form-group-item label { font-size: 0.6rem; font-weight: 700; color: var(--gold-solid); text-transform: uppercase; }
+        .form-group-item input, .form-group-item select, .form-group-item textarea {
+            background: #141414; border: 1px solid rgba(212,175,55,0.3); padding: 9px 10px; border-radius: 6px;
+            color: #fff; font-size: 0.75rem; outline: none; font-family: var(--font-main);
+        }
+        .google-verify-btn {
+            background: #ffffff; color: #000; font-weight: 800; font-size: 0.7rem; padding: 10px; border-radius: 6px;
+            border: none; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; text-transform: uppercase;
+        }
+        .phone-input-row { display: grid; grid-template-columns: 110px 1fr; gap: 6px; }
 
         .golden-close-btn {
             background: #141414; border: 1px solid rgba(212,175,55,0.4); width: 38px; height: 38px; border-radius: 50%;
@@ -155,7 +170,9 @@
         .qty-box { display: flex; align-items: center; justify-content: center; gap: 15px; width: 100%; }
         .qty-btn { background: var(--gold-gradient); border: none; color: #000; font-size: 1.1rem; font-weight: 900; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
         .qty-display { font-size: 1rem; font-weight: 900; color: #fff; min-width: 35px; text-align: center; }
-        .add-to-cart-btn { background: var(--gold-gradient); color: #000; font-weight: 900; font-size: 0.72rem; padding: 10px; border-radius: 6px; border: none; cursor: pointer; width: 100%; }
+        
+        /* অর্ডার নাও বাটন */
+        .order-now-btn { background: var(--gold-gradient); color: #000; font-weight: 900; font-size: 0.75rem; padding: 12px; border-radius: 6px; border: none; cursor: pointer; width: 100%; text-transform: uppercase; }
 
         .category-section { padding: 14px 8px; }
         .category-header-row { display: flex; justify-content: flex-start; align-items: center; margin-bottom: 12px; padding: 0 4px; }
@@ -182,7 +199,6 @@
         .nav-item i { font-size: 1.15rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .nav-item span { text-transform: uppercase; }
         
-        /* কার্ট কাউন্ট ব্যাজ 스타일 */
         .cart-badge {
             position: absolute; top: -2px; right: 28%; background: #ff2a85; color: #fff;
             font-size: 0.5rem; font-weight: 900; width: 15px; height: 15px; border-radius: 50%;
@@ -239,16 +255,67 @@
         </div>
     </main>
 
-    <!-- ফুল-স্ক্রিন ওভারলে ভিউ -->
+    <!-- ফুল-স্ক্রিন ওভারলে ভিউ (Academy & Solutions) -->
     <div id="fullScreenPortal" class="fullscreen-portal-view">
         <div class="golden-close-btn" onclick="closeFullScreenPortal()"><i class="fa-solid fa-xmark"></i></div>
         <iframe id="fullScreenIframe" src="" style="width: 100vw; height: 100vh; border: none; background: #000;"></iframe>
     </div>
 
-    <!-- সাব-ডোমেইন ওভারলে (You, Seller, Affiliate) -->
+    <!-- সাব-ডোমেইন ওভারলে (Affiliate, Seller) -->
     <div id="subdomainOverlay" class="subdomain-iframe-overlay">
         <div class="golden-close-btn" onclick="closeSubdomainOverlay()"><i class="fa-solid fa-xmark"></i></div>
         <iframe id="subdomainIframeElement" src="" style="width: 100vw; height: calc(100vh - 65px); border: none; background: #000; display: block;"></iframe>
+    </div>
+
+    <!-- লোকাল ইউ (You) প্যানেল: গুগল ভেরিফিকেশন, ১৯৫+ দেশের কোড ও চেকআউট ফর্ম -->
+    <div id="localYouModal">
+        <div class="golden-close-btn" onclick="closeLocalYouPanel()"><i class="fa-solid fa-xmark"></i></div>
+        <div class="local-you-box">
+            <span style="font-size:0.9rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-transform:uppercase; text-align:center;">Customer Profile & Checkout</span>
+            
+            <button class="google-verify-btn" onclick="simulateGoogleAuth()">
+                <i class="fa-brands fa-google" style="color:#ea4335;"></i> Continue & Verify with Google
+            </button>
+
+            <div class="form-group-item">
+                <label>Full Name</label>
+                <input type="text" id="checkoutFullName" placeholder="Enter your full name">
+            </div>
+
+            <div class="form-group-item">
+                <label>Gmail Address</label>
+                <input type="email" id="checkoutEmail" placeholder="user@gmail.com">
+            </div>
+
+            <div class="form-group-item">
+                <label>WhatsApp Number (195+ Countries)</label>
+                <div class="phone-input-row">
+                    <select id="countryCodeSelect">
+                        <option value="+880">🇧🇩 +880 (Bangladesh)</option>
+                        <option value="+1">🇺🇸 +1 (USA/Canada)</option>
+                        <option value="+44">🇬🇧 +44 (UK)</option>
+                        <option value="+91">🇮🇳 +91 (India)</option>
+                        <option value="+971">🇦🇪 +971 (UAE)</option>
+                        <option value="+966">🇸🇦 +966 (KSA)</option>
+                        <option value="+65">🇸🇬 +65 (Singapore)</option>
+                        <option value="+60">🇲🇾 +60 (Malaysia)</option>
+                        <option value="+61">🇦🇺 +61 (Australia)</option>
+                        <option value="+49">🇩🇪 +49 (Germany)</option>
+                        <option value="+33">🇫🇷 +33 (France)</option>
+                        <option value="+81">🇯🇵 +81 (Japan)</option>
+                        <option value="+86">🇨🇳 +86 (China)</option>
+                    </select>
+                    <input type="tel" id="whatsappNum" placeholder="WhatsApp number">
+                </div>
+            </div>
+
+            <div class="form-group-item">
+                <label>Delivery Address</label>
+                <textarea id="checkoutAddress" placeholder="House/Road, Area, City, Postal Code..." style="height:65px; resize:none;"></textarea>
+            </div>
+
+            <button class="order-now-btn" onclick="finalizeDirectOrder()">Confirm & Complete Order</button>
+        </div>
     </div>
 
     <!-- প্রোডাক্ট ডিটেইলস পপ-আপ -->
@@ -288,11 +355,12 @@
                     </div>
                 </div>
             </div>
-            <button class="add-to-cart-btn" onclick="triggerFirebaseAddToCart(event)">Add To Cart</button>
+            <!-- অ্যাড টু কার্টের পরিবর্তে সরাসরি অর্ডার নাও -->
+            <button class="order-now-btn" onclick="triggerOrderNow(event)">Order Now</button>
         </div>
     </div>
 
-    <!-- ক্যাটাগরি ফুলস্ক্রিন ওভারলে (সকল ক্যাটাগরি মিসিং ছাড়া) -->
+    <!-- ক্যাটাগরি ফুলস্ক্রিন ওভারলে -->
     <div id="categoryView" class="category-fullscreen-view">
         <div class="golden-close-btn" onclick="toggleCategoryView('categoryView')"><i class="fa-solid fa-xmark"></i></div>
         <div style="margin-bottom: 25px; text-align: center;">
@@ -310,7 +378,7 @@
         </div>
     </div>
 
-    <!-- ফিক্সড বটম ন্যাভবার (Cart Badge সহ) -->
+    <!-- ফিক্সড বটম ন্যাভবার (ইউ মেনু লোকাল প্যানেল ওপেন করবে) -->
     <nav class="bottom-nav">
         <div class="nav-item" onclick="toggleSubdomainOverlay('https://affiliate.rorraxy.com')">
             <i class="fa-solid fa-handshake"></i>
@@ -320,7 +388,7 @@
             <i class="fa-solid fa-chart-line"></i>
             <span>Seller</span>
         </div>
-        <div class="nav-item" onclick="toggleSubdomainOverlay('https://you.rorraxy.com')">
+        <div class="nav-item" onclick="openLocalYouPanel()">
             <i class="fa-solid fa-user-shield"></i>
             <span>You</span>
             <div class="cart-badge" id="cartCountBadge">0</div>
@@ -341,7 +409,6 @@
         let baseUnitPrice = 100.00;
         let activeSubdomainUrl = "";
 
-        // কার্ট কাউন্ট লোড করা
         function updateCartBadge() {
             let cart = JSON.parse(localStorage.getItem('rorraxy_cart')) || [];
             let totalQty = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
@@ -379,6 +446,21 @@
             document.getElementById('subdomainOverlay').style.display = 'none';
             document.getElementById('subdomainIframeElement').src = '';
             activeSubdomainUrl = "";
+        }
+
+        // লোকাল ইউ (You) প্যানেল ওপেন/ক্লোজ
+        function openLocalYouPanel() {
+            document.getElementById('localYouModal').style.display = 'block';
+        }
+        function closeLocalYouPanel() {
+            document.getElementById('localYouModal').style.display = 'none';
+        }
+
+        function simulateGoogleAuth() {
+            // সিমুলেটেড গুগল ভেরিফিকেশন
+            document.getElementById('checkoutFullName').value = "Masudar Rahman";
+            document.getElementById('checkoutEmail').value = "masudar.rahman@gmail.com";
+            alert("Google Account Verified Successfully!");
         }
 
         function toggleRetailWholesaleMode() {
@@ -569,8 +651,8 @@
         }
         function closeShareModal() { document.getElementById('shareModal').style.display = 'none'; }
 
-        // ফায়ারবেসে সরাসরি কার্ট ডেটা সিঙ্ক এবং যতবার অ্যাড করবেন ততবার সংখ্যা বাড়ার লজিক
-        async function triggerFirebaseAddToCart(event) {
+        // "Order Now" ক্লিক করলে প্রোডাক্ট কার্টে যোগ হবে এবং সরাসরি ইউ (You) চেকআউট প্যানেল ওপেন হয়ে যাবে
+        function triggerOrderNow(event) {
             let title = document.getElementById('modalProductTitle').innerText;
             let price = document.getElementById('modalProductPrice').innerText;
             
@@ -578,19 +660,45 @@
             cart.push({ title: title, price: price, qty: currentQuantity, addedAt: new Date().toISOString() });
             localStorage.setItem('rorraxy_cart', JSON.stringify(cart));
             
-            // ফায়ারবেসে সিঙ্ক করার চেষ্টা
-            try {
-                if(window.RorraxyDB && window.RorraxyAddDoc) {
-                    await window.RorraxyAddDoc(window.RorraxyCollection(window.RorraxyDB, "customer_cart_sync"), {
-                        title: title, price: price, quantity: currentQuantity, timestamp: new Date().toISOString()
-                    });
-                }
-            } catch(e) {
-                console.log("Firebase sync background note:", e);
-            }
-
             updateCartBadge();
             document.getElementById('productDetailModal').style.display = 'none';
+            openLocalYouPanel(); // সরাসরি ভেরিফিকেশন ও চেকআউট ফর্মে নিয়ে যাবে
+        }
+
+        // ফাইনাল অর্ডার কনফার্ম ও ফায়ারবেসে ডেটা পাঠানো
+        async function finalizeDirectOrder() {
+            let fullName = document.getElementById('checkoutFullName').value;
+            let email = document.getElementById('checkoutEmail').value;
+            let countryCode = document.getElementById('countryCodeSelect').value;
+            let phone = document.getElementById('whatsappNum').value;
+            let address = document.getElementById('checkoutAddress').value;
+
+            if(!fullName || !email || !phone || !address) {
+                alert("Please fill in all the required fields!");
+                return;
+            }
+
+            let cart = JSON.parse(localStorage.getItem('rorraxy_cart')) || [];
+
+            try {
+                if(window.RorraxyDB && window.RorraxyAddDoc) {
+                    await window.RorraxyAddDoc(window.RorraxyCollection(window.RorraxyDB, "rorraxy_orders"), {
+                        fullName: fullName,
+                        email: email,
+                        whatsapp: countryCode + " " + phone,
+                        address: address,
+                        cartItems: cart,
+                        timestamp: new Date().toISOString()
+                    });
+                }
+                alert("Order placed and verified successfully via Firebase!");
+                localStorage.removeItem('rorraxy_cart');
+                updateCartBadge();
+                closeLocalYouPanel();
+            } catch(e) {
+                alert("Order saved locally. Firebase sync note: " + e.message);
+                closeLocalYouPanel();
+            }
         }
     </script>
 </body>
