@@ -57,7 +57,7 @@
             color: var(--text-white); font-family: var(--font-main); 
             min-height: 100vh; transition: background 0.4s ease;
         }
-        body { padding-top: 85px; padding-bottom: 90px; }
+        body { padding-top: 80px; padding-bottom: 85px; }
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body.wholesale-mode { background: var(--royal-blue-gradient) !important; background-attachment: fixed !important; }
@@ -72,22 +72,22 @@
         body.wholesale-mode #infoPopupModal { background: var(--royal-blue-gradient) !important; }
 
         header.app-header {
-            display: flex; flex-direction: column; padding: 8px 10px; align-items: center;
+            display: flex; flex-direction: column; padding: 6px 10px; align-items: center;
             background: var(--header-retail); position: fixed; top: 0; left: 0; z-index: 1000;
-            backdrop-filter: blur(15px); width: 100%; border-bottom: 1px solid rgba(212,175,55,0.15); gap: 6px;
+            backdrop-filter: blur(15px); width: 100%; border-bottom: 1px solid rgba(212,175,55,0.15); gap: 4px;
         }
         .header-top-bar { display: flex; justify-content: center; align-items: center; width: 100%; max-width: 1400px; padding: 2px 4px; }
         .header-center-group { display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; }
-        .brand-logo-img { width: 26px; height: 26px; object-fit: contain; }
-        .brand-title-main { font-size: 0.9rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; }
-        .dynamic-flag-img { width: 18px; height: 12px; object-fit: cover; border-radius: 2px; }
+        .brand-logo-img { width: 24px; height: 24px; object-fit: contain; }
+        .brand-title-main { font-size: 0.85rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; }
+        .dynamic-flag-img { width: 16px; height: 11px; object-fit: cover; border-radius: 2px; }
 
         .header-bottom-row { display: flex; justify-content: center; align-items: center; width: 100%; max-width: 1400px; gap: 6px; }
         .header-buttons-group { display: flex; align-items: center; gap: 6px; width: 100%; max-width: 600px; justify-content: center; }
         
         .portal-btn {
-            font-size: 0.58rem; font-weight: 700; background: #161616; border: 1px solid rgba(212,175,55,0.35);
-            color: var(--text-white); padding: 8px 10px; border-radius: 6px; text-transform: uppercase; cursor: pointer;
+            font-size: 0.55rem; font-weight: 700; background: #161616; border: 1px solid rgba(212,175,55,0.3);
+            color: var(--text-white); padding: 7px 8px; border-radius: 6px; text-transform: uppercase; cursor: pointer;
             transition: 0.3s; white-space: nowrap; text-align: center; flex: 1; display: flex; align-items: center; justify-content: center;
         }
         .portal-btn.wholesale-btn { background: var(--gold-gradient); color: #000; border: none; font-weight: 900; }
@@ -95,15 +95,15 @@
 
         .live-chat-widget {
             position: fixed; bottom: 70px; right: 20px; z-index: 3500; cursor: grab;
-            width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; background: none; touch-action: none;
+            width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: none; touch-action: none;
         }
-        .live-chat-widget i { font-size: 1.8rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .live-chat-widget i { font-size: 1.7rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
         .feed-container {
-            padding: 15px 12px;
+            padding: 12px 10px;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 14px;
+            gap: 12px;
             width: 100%;
             max-width: 1400px;
             margin: 0 auto;
@@ -126,34 +126,37 @@
         .product-media-box { position: relative; width: 100%; cursor: pointer; background: #000; overflow: hidden; aspect-ratio: 4/5; }
         .product-media-box img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform 0.4s ease; }
         .product-media-box:hover img { transform: scale(1.05); }
-        .card-footer-actions { display: flex; justify-content: center; align-items: center; padding: 10px; background: rgba(15, 15, 15, 0.95); }
-        .love-share-group { display: flex; align-items: center; gap: 20px; justify-content: center; width: 100%; }
+        .card-footer-actions { display: flex; justify-content: center; align-items: center; padding: 8px; background: rgba(15, 15, 15, 0.95); }
+        .love-share-group { display: flex; align-items: center; gap: 15px; justify-content: center; width: 100%; }
         
-        .love-action { display: flex; align-items: center; gap: 5px; cursor: pointer; font-size: 0.75rem; font-weight: 700; color: var(--pink-love); transition: 0.3s; }
-        .love-action i { font-size: 0.95rem; color: var(--pink-love); transition: 0.3s; }
+        .love-action { display: flex; align-items: center; gap: 4px; cursor: pointer; font-size: 0.7rem; font-weight: 700; color: var(--pink-love); transition: 0.3s; }
+        .love-action i { font-size: 0.9rem; color: var(--pink-love); transition: 0.3s; }
         .love-action.gold-active { color: var(--gold-solid) !important; }
         .love-action.gold-active i { color: var(--gold-solid) !important; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        .share-action-btn { display: flex; align-items: center; gap: 5px; background: none; border: none; font-size: 0.75rem; font-weight: 700; cursor: pointer; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .share-action-btn { display: flex; align-items: center; gap: 4px; background: none; border: none; font-size: 0.7rem; font-weight: 700; cursor: pointer; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
         .fullscreen-portal-view, .subdomain-iframe-overlay, .category-fullscreen-view, #productDetailModal, #localYouModal, #infoPopupModal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 5000; overflow-y: auto;
         }
-        .category-fullscreen-view { z-index: 4000; background: var(--bg-retail); padding: 20px 12px 90px 12px; }
-        #productDetailModal, #localYouModal { z-index: 5000; background: var(--bg-retail); padding: 15px 10px 80px 10px; }
-        #infoPopupModal { z-index: 6000; background: rgba(0,0,0,0.85); align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+        .category-fullscreen-view { z-index: 4000; background: var(--bg-retail); padding: 15px 10px 80px 10px; }
         
-        .product-details-content { padding: 4px; max-width: 440px; margin: 25px auto 0 auto; display: flex; flex-direction: column; gap: 8px; }
+        /* অত্যন্ত কম্প্যাক্ট এবং এক স্ক্রিন ফিট প্রোডাক্ট ডিটেইলস পপআপ */
+        #productDetailModal { z-index: 5000; background: var(--bg-retail); padding: 10px 10px 70px 10px; }
+        .product-details-content { padding: 2px; max-width: 400px; margin: 10px auto 0 auto; display: flex; flex-direction: column; gap: 6px; }
+
+        #localYouModal { z-index: 5000; background: var(--bg-retail); padding: 15px 10px 80px 10px; }
+        #infoPopupModal { z-index: 6000; background: rgba(0,0,0,0.85); align-items: center; justify-content: center; backdrop-filter: blur(8px); }
 
         .local-you-box {
-            max-width: 440px; width: 92%; margin: 30px auto; background: #0c0c0c; border: 1px solid rgba(212,175,55,0.35);
-            border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.9);
+            max-width: 420px; width: 92%; margin: 20px auto; background: #0c0c0c; border: 1px solid rgba(212,175,55,0.35);
+            border-radius: 12px; padding: 15px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.9);
         }
 
         .info-popup-box {
-            max-width: 400px; width: 92%; background: #0c0c0c; border: 1.5px solid rgba(212,175,55,0.5);
-            border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 12px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.95); position: relative; animation: popIn 0.25s ease;
+            max-width: 380px; width: 92%; background: #111; border: 1.5px solid var(--gold-solid);
+            border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 10px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.95); position: relative; animation: popIn 0.2s ease;
         }
 
         #shareModal {
@@ -162,9 +165,9 @@
             backdrop-filter: blur(5px);
         }
         .share-box-content {
-            max-width: 420px; width: 92%; background: #0c0c0c; border: 1.5px solid rgba(212,175,55,0.5);
-            border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 12px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.95); position: relative; animation: popIn 0.25s ease;
+            max-width: 400px; width: 92%; background: #0c0c0c; border: 1.5px solid rgba(212,175,55,0.5);
+            border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 10px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.95); position: relative; animation: popIn 0.2s ease;
         }
         @keyframes popIn {
             from { transform: scale(0.9); opacity: 0; }
@@ -172,141 +175,121 @@
         }
 
         .cart-items-preview-box {
-            background: #141414; border: 1px solid rgba(212,175,55,0.2); border-radius: 8px; padding: 8px; max-height: 190px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px;
+            background: #141414; border: 1px solid rgba(212,175,55,0.2); border-radius: 8px; padding: 6px; max-height: 160px; overflow-y: auto; display: flex; flex-direction: column; gap: 5px;
         }
         .cart-item-row {
-            display: flex; align-items: center; justify-content: space-between; background: #1a1a1a; padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(212,175,55,0.1); gap: 8px;
+            display: flex; align-items: center; justify-content: space-between; background: #1a1a1a; padding: 5px 7px; border-radius: 6px; border: 1px solid rgba(212,175,55,0.1); gap: 6px;
         }
-        .cart-item-img { width: 36px; height: 36px; object-fit: cover; border-radius: 4px; border: 1px solid var(--gold-solid); background: #000; flex-shrink: 0; }
+        .cart-item-img { width: 32px; height: 32px; object-fit: cover; border-radius: 4px; border: 1px solid var(--gold-solid); background: #000; flex-shrink: 0; }
         .cart-item-info { flex: 1; display: flex; flex-direction: column; text-align: left; }
-        .cart-item-title { font-size: 0.6rem; font-weight: 700; color: #fff; }
-        .cart-item-qty-price { font-size: 0.52rem; color: var(--text-gray); }
+        .cart-item-title { font-size: 0.58rem; font-weight: 700; color: #fff; }
+        .cart-item-qty-price { font-size: 0.5rem; color: var(--text-gray); }
         
-        .cart-item-delete { background: none; border: none; color: #ff0000; cursor: pointer; font-size: 0.95rem; padding: 4px; transition: transform 0.2s; }
-        .cart-item-delete:hover { transform: scale(1.15); }
+        .cart-item-delete { background: none; border: none; color: #ff0000; cursor: pointer; font-size: 0.9rem; padding: 3px; }
 
-        #checkoutFormSection { display: none; flex-direction: column; gap: 8px; }
+        #checkoutFormSection { display: none; flex-direction: column; gap: 6px; }
 
-        .form-group-item { display: flex; flex-direction: column; gap: 3px; text-align: left; }
-        .form-group-item label { font-size: 0.55rem; font-weight: 700; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; }
+        .form-group-item { display: flex; flex-direction: column; gap: 2px; text-align: left; }
+        .form-group-item label { font-size: 0.52rem; font-weight: 700; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; }
         .form-group-item input, .form-group-item select, .form-group-item textarea {
-            background: #141414; border: 1px solid rgba(212,175,55,0.3); padding: 8px 10px; border-radius: 6px;
-            color: #fff; font-size: 0.7rem; outline: none; font-family: var(--font-main); width: 100%;
+            background: #141414; border: 1px solid rgba(212,175,55,0.3); padding: 7px 8px; border-radius: 6px;
+            color: #fff; font-size: 0.68rem; outline: none; font-family: var(--font-main); width: 100%;
         }
         
         .google-verify-btn {
-            background: #ffffff; color: #000000; font-weight: 800; font-size: 0.68rem; padding: 11px; border-radius: 6px;
+            background: #ffffff; color: #000000; font-weight: 800; font-size: 0.65rem; padding: 10px; border-radius: 6px;
             border: none; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; text-transform: uppercase;
             box-shadow: 0 4px 15px rgba(255,255,255,0.2); transition: 0.3s;
         }
         .google-verify-btn:hover { background: #f0f0f0; }
 
-        .phone-input-row { display: grid; grid-template-columns: 100px 1fr; gap: 6px; }
+        .phone-input-row { display: grid; grid-template-columns: 95px 1fr; gap: 5px; }
 
         .golden-close-btn {
-            background: #141414; border: 1px solid rgba(212,175,55,0.4); width: 36px; height: 36px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; cursor: pointer; position: fixed; top: 15px; right: 15px; z-index: 99999;
+            background: #141414; border: 1px solid rgba(212,175,55,0.4); width: 32px; height: 32px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; cursor: pointer; position: fixed; top: 12px; right: 12px; z-index: 99999;
         }
-        .golden-close-btn i { font-size: 1.1rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .golden-close-btn i { font-size: 1rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
         .media-slider-container { width: 100%; position: relative; border-radius: 8px; overflow: hidden; background: #000; }
-        .main-display-media { width: 100%; height: 250px; object-fit: contain; display: block; background: #000; }
-        .thumbnail-strip { display: flex; justify-content: center; gap: 5px; padding: 6px; background: #0c0c0c; overflow-x: auto; }
-        .thumb-item { width: 42px; height: 42px; border-radius: 4px; overflow: hidden; border: 1.5px solid rgba(212,175,55,0.3); cursor: pointer; flex-shrink: 0; }
+        .main-display-media { width: 100%; height: 180px; object-fit: contain; display: block; background: #000; }
+        .thumbnail-strip { display: flex; justify-content: center; gap: 4px; padding: 4px; background: #0c0c0c; overflow-x: auto; }
+        .thumb-item { width: 36px; height: 36px; border-radius: 4px; overflow: hidden; border: 1.5px solid rgba(212,175,55,0.3); cursor: pointer; flex-shrink: 0; }
         .thumb-item img { width: 100%; height: 100%; object-fit: cover; }
         .thumb-item.active { border-color: var(--gold-solid); }
 
-        .price-chat-row { display: flex; justify-content: space-between; align-items: center; gap: 6px; background: #111111; padding: 8px 10px; border-radius: 6px; }
-        .detail-price { font-size: 1.05rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .discount-badge-btn { background: var(--pink-discount); color: #fff; font-size: 0.52rem; font-weight: 800; padding: 5px 8px; border-radius: 5px; border: none; display: flex; align-items: center; gap: 3px; }
-        .chat-with-seller-btn { background: var(--gold-gradient); color: #000; font-size: 0.55rem; font-weight: 800; padding: 6px 10px; border-radius: 5px; border: none; cursor: pointer; }
+        .price-chat-row { display: flex; justify-content: space-between; align-items: center; gap: 5px; background: #111; padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(212,175,55,0.2); }
+        .detail-price { font-size: 0.95rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .discount-badge-btn { background: var(--pink-discount); color: #fff; font-size: 0.48rem; font-weight: 800; padding: 4px 6px; border-radius: 4px; border: none; display: flex; align-items: center; gap: 2px; }
+        .chat-with-seller-btn { background: var(--gold-gradient); color: #000; font-size: 0.52rem; font-weight: 800; padding: 5px 8px; border-radius: 4px; border: none; cursor: pointer; }
 
-        .product-title-bottom { font-size: 0.85rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; text-align: center; letter-spacing: 0.5px; }
+        .product-title-bottom { font-size: 0.8rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; text-align: center; letter-spacing: 0.5px; }
         
-        /* ডেসক্রিপশন, সাইজ ও প্যাকেজিং বাটন গ্রিড (৩টি বাটন) */
-        .desc-size-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
-        .extra-action-btn { background: #161616; border: 1px solid rgba(212,175,55,0.3); color: #fff; font-size: 0.52rem; font-weight: 700; padding: 7px 2px; border-radius: 6px; cursor: pointer; text-align: center; text-transform: uppercase; }
+        /* ছোট ও সুন্দর বাটন বার (স্টক সহ) */
+        .desc-size-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
+        .extra-action-btn { background: #161616; border: 1px solid rgba(212,175,55,0.3); color: #fff; font-size: 0.48rem; font-weight: 700; padding: 6px 2px; border-radius: 5px; cursor: pointer; text-align: center; text-transform: uppercase; transition: 0.2s; }
+        .extra-action-btn:hover { border-color: var(--gold-solid); background: #222; }
 
-        .inventory-status-box { background: #121212; border: 1px solid rgba(212,175,55,0.25); border-radius: 6px; padding: 6px 10px; display: flex; justify-content: space-between; align-items: center; font-size: 0.6rem; font-weight: 600; color: var(--text-gray); }
-
-        .quantity-tier-container { display: flex; flex-direction: column; gap: 6px; }
-        .wholesale-tiers-row { display: none; gap: 5px; }
+        .quantity-tier-container { display: flex; flex-direction: column; gap: 4px; }
+        .wholesale-tiers-row { display: none; gap: 4px; }
         .wholesale-mode-active .wholesale-tiers-row { display: grid; grid-template-columns: repeat(3, 1fr); }
-        .tier-btn { background: #161616; border: 1px solid rgba(212,175,55,0.3); color: #fff; font-size: 0.45rem; font-weight: 700; padding: 6px 2px; border-radius: 6px; cursor: pointer; text-align: center; }
+        .tier-btn { background: #161616; border: 1px solid rgba(212,175,55,0.3); color: #fff; font-size: 0.44rem; font-weight: 700; padding: 5px 2px; border-radius: 5px; cursor: pointer; text-align: center; }
         .tier-btn.active { background: var(--gold-gradient); color: #000; font-weight: 900; border: none; }
 
-        .quantity-row { display: flex; flex-direction: column; align-items: center; gap: 3px; }
-        .qty-box { display: flex; align-items: center; justify-content: center; gap: 15px; width: 100%; }
-        .qty-btn { background: var(--gold-gradient); border: none; color: #000; font-size: 1.1rem; font-weight: 900; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        .qty-display { font-size: 1rem; font-weight: 900; color: #fff; min-width: 35px; text-align: center; }
+        .quantity-row { display: flex; flex-direction: row; justify-content: space-between; align-items: center; background: #111; padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(212,175,55,0.2); }
+        .qty-box { display: flex; align-items: center; justify-content: center; gap: 12px; }
+        .qty-btn { background: var(--gold-gradient); border: none; color: #000; font-size: 1rem; font-weight: 900; cursor: pointer; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .qty-display { font-size: 0.9rem; font-weight: 900; color: #fff; min-width: 25px; text-align: center; }
         
-        .order-now-btn { background: var(--gold-gradient); color: #000; font-weight: 900; font-size: 0.72rem; padding: 11px; border-radius: 6px; border: none; cursor: pointer; width: 100%; text-transform: uppercase; }
+        .order-now-btn { background: var(--gold-gradient); color: #000; font-weight: 900; font-size: 0.68rem; padding: 10px; border-radius: 6px; border: none; cursor: pointer; width: 100%; text-transform: uppercase; box-shadow: 0 4px 15px rgba(212,175,55,0.3); }
 
-        .category-section { padding: 14px 8px; }
-        .category-header-row { display: flex; justify-content: flex-start; align-items: center; margin-bottom: 12px; padding: 0 4px; }
-        .category-title { font-size: 0.9rem; font-weight: 800; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; }
+        .category-section { padding: 12px 6px; }
+        .category-header-row { display: flex; justify-content: flex-start; align-items: center; margin-bottom: 10px; padding: 0 4px; }
+        .category-title { font-size: 0.85rem; font-weight: 800; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; }
         
-        .app-store-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; width: 100%; }
+        .app-store-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; width: 100%; }
         @media (min-width: 576px) { .app-store-grid { grid-template-columns: repeat(3, 1fr); } }
-        @media (min-width: 768px) { .app-store-grid { grid-template-columns: repeat(5, 1fr); gap: 12px; } }
+        @media (min-width: 768px) { .app-store-grid { grid-template-columns: repeat(5, 1fr); gap: 10px; } }
 
-        .app-card { background: #131315; border-radius: 10px; border: 1px solid rgba(255,255,255,0.04); padding: 14px 10px; display: flex; align-items: center; cursor: pointer; gap: 12px; min-height: 70px; }
+        .app-card { background: #131315; border-radius: 8px; border: 1px solid rgba(255,255,255,0.04); padding: 12px 8px; display: flex; align-items: center; cursor: pointer; gap: 10px; min-height: 60px; }
         .app-card:hover { background: #1a1a1e; border-color: rgba(212, 175, 55, 0.3); }
-        .app-card-icon i { font-size: 1.3rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .app-card-name { font-size: 0.7rem; font-weight: 600; color: var(--text-white); text-transform: uppercase; }
+        .app-card-icon i { font-size: 1.1rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .app-card-name { font-size: 0.65rem; font-weight: 600; color: var(--text-white); text-transform: uppercase; }
 
         nav.bottom-nav {
             position: fixed; bottom: 0; left: 0; width: 100%; background: var(--footer-retail);
-            display: flex; justify-content: space-around; align-items: center; padding: 8px 4px;
+            display: flex; justify-content: space-around; align-items: center; padding: 6px 4px;
             z-index: 6500; border-top: 1px solid rgba(212,175,55,0.15); backdrop-filter: blur(15px);
         }
         .nav-item {
             display: flex; flex-direction: column; align-items: center; text-decoration: none;
-            color: var(--text-gray); font-size: 0.6rem; font-weight: 700; cursor: pointer; text-align: center; gap: 3px; flex: 1; position: relative;
+            color: var(--text-gray); font-size: 0.58rem; font-weight: 700; cursor: pointer; text-align: center; gap: 2px; flex: 1; position: relative;
         }
-        .nav-item i { font-size: 1.15rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-item i { font-size: 1.1rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .nav-item span { text-transform: uppercase; }
         
-        .cart-badge-container {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
+        .cart-badge-container { position: relative; display: inline-flex; align-items: center; justify-content: center; }
         .cart-badge {
-            position: absolute; 
-            top: -6px; 
-            right: -10px; 
-            background: #ff2a85; 
-            color: #fff;
-            font-size: 0.52rem; 
-            font-weight: 900; 
-            width: 17px; 
-            height: 17px; 
-            border-radius: 50%;
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            border: 1.5px solid #000;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.8); 
-            z-index: 20;
+            position: absolute; top: -5px; right: -8px; background: #ff2a85; color: #fff;
+            font-size: 0.48rem; font-weight: 900; width: 15px; height: 15px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; border: 1.5px solid #000; z-index: 20;
         }
 
-        .search-popup-box { display: none; position: fixed; top: 75px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 520px; z-index: 4000; }
-        .search-input-field-box { display: flex; align-items: center; background: #000000; border: 1px solid rgba(212,175,55,0.4); border-radius: 30px; padding: 6px 14px; gap: 10px; }
-        .search-input-field-box input { background: none; border: none; outline: none; color: #fff; font-size: 0.85rem; width: 100%; }
-        .search-submit-btn { background: var(--gold-gradient); border: none; color: #000; font-weight: 800; font-size: 0.65rem; padding: 5px 12px; border-radius: 20px; cursor: pointer; }
+        .search-popup-box { display: none; position: fixed; top: 70px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 500px; z-index: 4000; }
+        .search-input-field-box { display: flex; align-items: center; background: #000000; border: 1px solid rgba(212,175,55,0.4); border-radius: 30px; padding: 5px 12px; gap: 8px; }
+        .search-input-field-box input { background: none; border: none; outline: none; color: #fff; font-size: 0.8rem; width: 100%; }
+        .search-submit-btn { background: var(--gold-gradient); border: none; color: #000; font-weight: 800; font-size: 0.6rem; padding: 4px 10px; border-radius: 20px; cursor: pointer; }
 
         .flying-product-ghost {
-            position: fixed; z-index: 999999; width: 55px; height: 55px; object-fit: cover;
+            position: fixed; z-index: 999999; width: 45px; height: 45px; object-fit: cover;
             border-radius: 50%; border: 2px solid var(--gold-solid);
-            transition: all 0.75s cubic-bezier(0.15, 0.85, 0.35, 1);
-            pointer-events: none; box-shadow: 0 5px 25px rgba(212,175,55,0.9);
+            transition: all 0.7s cubic-bezier(0.15, 0.85, 0.35, 1);
+            pointer-events: none; box-shadow: 0 5px 20px rgba(212,175,55,0.9);
         }
 
-        .share-options-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0; max-height: 260px; overflow-y: auto; }
-        .share-opt-btn { background: #161616; border: 1px solid rgba(212,175,55,0.3); border-radius: 8px; padding: 10px 4px; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; color: var(--text-white); font-size: 0.55rem; font-weight: 700; }
-        .share-opt-btn i { font-size: 1.2rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .share-options-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 10px 0; max-height: 220px; overflow-y: auto; }
+        .share-opt-btn { background: #161616; border: 1px solid rgba(212,175,55,0.3); border-radius: 8px; padding: 8px 4px; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; color: var(--text-white); font-size: 0.52rem; font-weight: 700; }
+        .share-opt-btn i { font-size: 1.1rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     </style>
 </head>
 <body id="mainBody">
@@ -370,8 +353,8 @@
     <!-- ফ্লোটিং শেয়ার পপআপ মডাল -->
     <div id="shareModal" onclick="if(event.target === this) toggleShareModal();">
         <div class="share-box-content">
-            <div class="golden-close-btn" style="position:absolute; top:12px; right:12px; width:30px; height:30px;" onclick="toggleShareModal()"><i class="fa-solid fa-xmark" style="font-size:0.9rem;"></i></div>
-            <h3 style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:0.85rem; text-transform:uppercase; text-align:center;">Share Product</h3>
+            <div class="golden-close-btn" style="position:absolute; top:10px; right:10px; width:28px; height:28px;" onclick="toggleShareModal()"><i class="fa-solid fa-xmark" style="font-size:0.8rem;"></i></div>
+            <h3 style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:0.8rem; text-transform:uppercase; text-align:center;">Share Product</h3>
             <div class="share-options-grid">
                 <div class="share-opt-btn" onclick="shareToSocial('whatsapp')"><i class="fa-brands fa-whatsapp"></i><span>WhatsApp</span></div>
                 <div class="share-opt-btn" onclick="shareToSocial('facebook')"><i class="fa-brands fa-facebook"></i><span>Facebook</span></div>
@@ -383,9 +366,9 @@
                 <div class="share-opt-btn" onclick="shareToSocial('linkedin')"><i class="fa-brands fa-linkedin"></i><span>LinkedIn</span></div>
                 <div class="share-opt-btn" onclick="shareToSocial('gmail')"><i class="fa-solid fa-envelope"></i><span>Gmail</span></div>
             </div>
-            <div style="display:flex; gap:6px; margin-top:5px;">
-                <input type="text" id="shareUrlInput" readonly value="https://rorraxy.com" style="background:#141414; border:1px solid rgba(212,175,55,0.3); padding:8px; border-radius:6px; color:#fff; font-size:0.7rem; width:100%; outline:none;">
-                <button onclick="copyShareLink()" style="background:var(--gold-gradient); border:none; color:#000; font-weight:800; font-size:0.65rem; padding:8px 12px; border-radius:6px; cursor:pointer; white-space:nowrap;">Copy</button>
+            <div style="display:flex; gap:5px;">
+                <input type="text" id="shareUrlInput" readonly value="https://rorraxy.com" style="background:#141414; border:1px solid rgba(212,175,55,0.3); padding:7px; border-radius:6px; color:#fff; font-size:0.65rem; width:100%; outline:none;">
+                <button onclick="copyShareLink()" style="background:var(--gold-gradient); border:none; color:#000; font-weight:800; font-size:0.6rem; padding:7px 10px; border-radius:6px; cursor:pointer; white-space:nowrap;">Copy</button>
             </div>
         </div>
     </div>
@@ -396,9 +379,9 @@
         <div class="local-you-box">
             <div style="text-align:center;">
                 <div class="cart-badge-container" style="display:inline-block; margin-bottom:2px;">
-                    <i class="fa-solid fa-cart-shopping" style="font-size:1.4rem; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;"></i>
+                    <i class="fa-solid fa-cart-shopping" style="font-size:1.3rem; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;"></i>
                 </div>
-                <h3 style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:0.8rem; margin-top:2px; text-transform:uppercase;">Cart & Secure Checkout</h3>
+                <h3 style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:0.75rem; margin-top:2px; text-transform:uppercase;">Cart & Secure Checkout</h3>
             </div>
             
             <div id="cartItemsPreviewBox" class="cart-items-preview-box"></div>
@@ -410,52 +393,44 @@
             <div id="checkoutFormSection">
                 <div class="form-group-item">
                     <label>Full Name</label>
-                    <input type="text" id="checkoutFullName" placeholder="Enter your full name">
+                    <input type="text" id="checkoutFullName" placeholder="Enter full name">
                 </div>
-
                 <div class="form-group-item">
                     <label>Gmail Address</label>
                     <input type="email" id="checkoutEmail" placeholder="user@gmail.com">
                 </div>
-
                 <div class="form-group-item">
-                    <label>WhatsApp Number (195+ Countries)</label>
+                    <label>WhatsApp Number</label>
                     <div class="phone-input-row">
                         <select id="countryCodeSelect">
-                            <option value="+880">🇧🇩 +880 (BD)</option>
-                            <option value="+1">🇺🇸 +1 (USA)</option>
-                            <option value="+44">🇬🇧 +44 (UK)</option>
-                            <option value="+91">🇮🇳 +91 (IN)</option>
-                            <option value="+971">🇦🇪 +971 (UAE)</option>
-                            <option value="+966">🇸🇦 +966 (KSA)</option>
-                            <option value="+65">🇸🇬 +65 (SG)</option>
-                            <option value="+60">🇲🇾 +60 (MY)</option>
-                            <option value="+61">🇦🇺 +61 (AU)</option>
+                            <option value="+880">🇧🇩 +880</option>
+                            <option value="+1">🇺🇸 +1</option>
+                            <option value="+44">🇬🇧 +44</option>
+                            <option value="+91">🇮🇳 +91</option>
+                            <option value="+971">🇦🇪 +971</option>
                         </select>
                         <input type="tel" id="whatsappNum" placeholder="WhatsApp number">
                     </div>
                 </div>
-
                 <div class="form-group-item">
                     <label>Delivery Address</label>
-                    <textarea id="checkoutAddress" placeholder="House/Road, Area, City..." style="height:45px; resize:none;"></textarea>
+                    <textarea id="checkoutAddress" placeholder="House, Area, City..." style="height:38px; resize:none;"></textarea>
                 </div>
-
                 <button class="order-now-btn" onclick="finalizeDirectOrder()">Confirm Order</button>
             </div>
         </div>
     </div>
 
-    <!-- ইনফো পপআপ মডাল (ডেসক্রিপশন, সাইজ ও প্যাকেজিংয়ের জন্য) -->
+    <!-- ইনফো পপআপ মডাল (ডেসক্রিপশন, সাইজ, প্যাকেজিং ও স্টক এক পপআপে) -->
     <div id="infoPopupModal" onclick="if(event.target === this) closeInfoPopup()">
         <div class="info-popup-box">
-            <div class="golden-close-btn" style="position:absolute; top:12px; right:12px; width:30px; height:30px;" onclick="closeInfoPopup()"><i class="fa-solid fa-xmark" style="font-size:0.9rem;"></i></div>
-            <h3 id="infoPopupTitle" style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:0.85rem; text-transform:uppercase; text-align:center;">Information</h3>
-            <div id="infoPopupBody" style="font-size:0.68rem; color:var(--text-gray); line-height:1.5; max-height:220px; overflow-y:auto; text-align:left;"></div>
+            <div class="golden-close-btn" style="position:absolute; top:10px; right:10px; width:28px; height:28px;" onclick="closeInfoPopup()"><i class="fa-solid fa-xmark" style="font-size:0.8rem;"></i></div>
+            <h3 id="infoPopupTitle" style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:0.8rem; text-transform:uppercase; text-align:center;">Info</h3>
+            <div id="infoPopupBody" style="font-size:0.65rem; color:var(--text-gray); line-height:1.5; max-height:200px; overflow-y:auto; text-align:left;"></div>
         </div>
     </div>
 
-    <!-- প্রোডাক্ট ডিটেইলস পপ-আপ -->
+    <!-- প্রোডাক্ট ডিটেইলস পপ-আপ (এক স্ক্রিন ফিট এবং সুন্দর বাটন সহ) -->
     <div id="productDetailModal">
         <div class="golden-close-btn" onclick="closeProductDetails()"><i class="fa-solid fa-xmark"></i></div>
         <div class="product-details-content">
@@ -463,7 +438,8 @@
                 <img id="mainDisplayMedia" class="main-display-media" src="" alt="Product Preview">
                 <div class="thumbnail-strip" id="thumbStrip"></div>
             </div>
-            <div style="display:flex; justify-content:center; gap:20px; padding:4px 0;">
+            
+            <div style="display:flex; justify-content:center; gap:15px; padding:2px 0;">
                 <div class="love-action modal-love-btn" onclick="toggleModalLove(this)"><i class="fa-solid fa-heart"></i> <span class="modal-love-count">343</span></div>
                 <button class="share-action-btn" onclick="toggleShareModal()"><i class="fa-solid fa-share-nodes"></i> Share</button>
             </div>
@@ -472,21 +448,16 @@
 
             <div class="price-chat-row">
                 <span class="detail-price" id="modalProductPrice">$100.00</span>
-                <button class="discount-badge-btn"><span id="modalDiscountText">5% OFF (BD)</span></button>
+                <button class="discount-badge-btn"><span id="modalDiscountText">5% OFF</span></button>
                 <button class="chat-with-seller-btn" onclick="chatWithSeller()">Chat with Seller</button>
             </div>
 
-            <!-- স্টক ও ইনভেন্টরি স্ট্যাটাস বক্স -->
-            <div class="inventory-status-box" id="inventoryStatusDisplay">
-                <span>Stock Status:</span>
-                <span id="stockCountText" style="color:var(--gold-solid); font-weight:800;">Retail: 125 Pcs Available</span>
-            </div>
-
-            <!-- ডেসক্রিপশন, সাইজ ও প্যাকেজিং বাটনসমূহ -->
+            <!-- ডেসক্রিপশন, সাইজ, প্যাকেজিং এবং ছোট স্টক বাটন (এক লাইনে একদম সুন্দরভাবে) -->
             <div class="desc-size-row">
-                <button class="extra-action-btn" onclick="openInfoPopup('description')"><i class="fa-solid fa-file-lines"></i> Description</button>
-                <button class="extra-action-btn" onclick="openInfoPopup('size')"><i class="fa-solid fa-ruler"></i> Size & Spec</button>
-                <button class="extra-action-btn" onclick="openInfoPopup('packaging')"><i class="fa-solid fa-box"></i> Packaging</button>
+                <button class="extra-action-btn" onclick="openInfoPopup('description')"><i class="fa-solid fa-file-lines"></i> Desc</button>
+                <button class="extra-action-btn" onclick="openInfoPopup('size')"><i class="fa-solid fa-ruler"></i> Size</button>
+                <button class="extra-action-btn" onclick="openInfoPopup('packaging')"><i class="fa-solid fa-box"></i> Pack</button>
+                <button class="extra-action-btn" style="color:var(--gold-solid);" onclick="openInfoPopup('stock')"><i class="fa-solid fa-cubes"></i> Stock</button>
             </div>
 
             <div class="quantity-tier-container" id="qtyTierContainer">
@@ -511,8 +482,8 @@
     <!-- ক্যাটাগরি ওভারলে -->
     <div id="categoryView" class="category-fullscreen-view">
         <div class="golden-close-btn" onclick="closeCategoryView()"><i class="fa-solid fa-xmark"></i></div>
-        <div style="margin-bottom: 25px; text-align: center;">
-            <span id="categoryViewTitle" style="font-size:1.1rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-transform:uppercase;">All Categories</span>
+        <div style="margin-bottom: 20px; text-align: center;">
+            <span id="categoryViewTitle" style="font-size:1rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-transform:uppercase;">All Categories</span>
         </div>
         <div id="dynamicCategoryContent"></div>
     </div>
@@ -624,7 +595,7 @@
             let cart = JSON.parse(localStorage.getItem('rorraxy_cart')) || [];
             let container = document.getElementById('cartItemsPreviewBox');
             if(cart.length === 0) {
-                container.innerHTML = '<div style="color:var(--text-gray); text-align:center; font-size:0.65rem; padding:12px;">Your Cart is empty.</div>';
+                container.innerHTML = '<div style="color:var(--text-gray); text-align:center; font-size:0.6rem; padding:10px;">Your Cart is empty.</div>';
                 return;
             }
             let html = '', totalAmt = 0;
@@ -641,13 +612,13 @@
                         <span class="cart-item-title">${item.title} <span style="color:var(--pink-love); font-weight:800;">${modeTag}</span></span>
                         <span class="cart-item-qty-price">Qty: ${item.qty} | $${itemTotal.toFixed(2)}</span>
                     </div>
-                    <button class="cart-item-delete" onclick="removeCartItem(${index})" title="Delete Item"><i class="fa-solid fa-trash-can"></i></button>
+                    <button class="cart-item-delete" onclick="removeCartItem(${index})" title="Delete"><i class="fa-solid fa-trash-can"></i></button>
                 </div>`;
             });
             html += `
-            <div style="display:flex; justify-content:space-between; margin-top:4px; border-top:1px solid rgba(212,175,55,0.3); padding-top:5px;">
-                <span style="font-size:0.7rem; font-weight:bold;">Total Amount:</span>
-                <span style="font-size:0.75rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">$${totalAmt.toFixed(2)}</span>
+            <div style="display:flex; justify-content:space-between; margin-top:4px; border-top:1px solid rgba(212,175,55,0.3); padding-top:4px;">
+                <span style="font-size:0.65rem; font-weight:bold;">Total Amount:</span>
+                <span style="font-size:0.7rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">$${totalAmt.toFixed(2)}</span>
             </div>`;
             container.innerHTML = html;
         }
@@ -688,7 +659,6 @@
             const qtyContainer = document.getElementById('qtyTierContainer');
             const toggleBtn = document.getElementById('wholesaleToggleBtn');
             const discountText = document.getElementById('modalDiscountText');
-            const stockText = document.getElementById('stockCountText');
 
             isWholesaleMode = !isWholesaleMode;
             document.body.classList.toggle('wholesale-mode');
@@ -697,15 +667,13 @@
                 qtyContainer.classList.add('wholesale-mode-active');
                 toggleBtn.innerText = "Retail Mode";
                 toggleBtn.classList.add('wholesale-active');
-                discountText.innerText = "0% OFF (BD)";
-                stockText.innerText = "Wholesale Bulk Inventory: 5,000+ Pcs Ready";
+                discountText.innerText = "0% OFF";
                 setWholesaleTier(1, 100, null);
             } else {
                 qtyContainer.classList.remove('wholesale-mode-active');
                 toggleBtn.innerText = "Wholesale";
                 toggleBtn.classList.remove('wholesale-active');
-                discountText.innerText = "5% OFF (BD)";
-                stockText.innerText = "Retail Stock: 125 Pcs Available";
+                discountText.innerText = "5% OFF";
                 currentQuantity = 1;
                 baseUnitPrice = 100.00;
                 document.getElementById('productQtyDisplay').innerText = currentQuantity;
@@ -736,7 +704,7 @@
             document.getElementById('modalProductPrice').innerText = `$${finalPrice.toFixed(2)}`;
         }
 
-        /* ইনফো পপআপ ওপেন করার ফাংশন (ডেসক্রিপশন, সাইজ ও প্যাকেজিংয়ের জন্য) */
+        /* সমস্ত তথ্য (Description, Size, Packaging, Stock) আলাদা বা এক পপআপে দেখানোর ফাংশন */
         function openInfoPopup(type) {
             const titleEl = document.getElementById('infoPopupTitle');
             const bodyEl = document.getElementById('infoPopupBody');
@@ -749,8 +717,15 @@
                 titleEl.innerText = "Size & Specifications";
                 bodyEl.innerHTML = "• Standard Length: Adjustable (7.5 - 8.5 inches)<br>• Finish: Golden Teak & High Gloss Lacquer<br>• Weight: 45g<br>• Material Grade: Premium alloy with gold plating.";
             } else if (type === 'packaging') {
-                titleEl.innerText = "Courier & Packaging Info (Amazon/Daraz Spec)";
+                titleEl.innerText = "Courier & Packaging Info (Amazon/Daraz)";
                 bodyEl.innerHTML = "• Package Weight: 0.15 kg<br>• Dimensions: 12cm x 8cm x 4cm<br>• Box Type: Eco-friendly Luxury Hard Box<br>• Courier Ready: Drop-test certified for international logistics.";
+            } else if (type === 'stock') {
+                titleEl.innerText = "Inventory & Stock Status";
+                if(isWholesaleMode) {
+                    bodyEl.innerHTML = "• Mode: Wholesale (Bulk Inventory)<br>• Available Stock: 5,000+ Pcs Ready in Warehouse<br>• Status: Immediate Bulk Dispatch Available.";
+                } else {
+                    bodyEl.innerHTML = "• Mode: Retail (Single/Direct)<br>• Available Stock: 125 Pcs In-Stock<br>• Status: Ready for Immediate Delivery.";
+                }
             }
             modal.style.display = 'flex';
         }
@@ -996,20 +971,20 @@
             let ghost = document.createElement('img');
             ghost.src = imgSrc;
             ghost.className = 'flying-product-ghost';
-            ghost.style.left = rect.left + (rect.width / 2) - 27 + 'px';
-            ghost.style.top = rect.top + (rect.height / 2) - 27 + 'px';
+            ghost.style.left = rect.left + (rect.width / 2) - 22 + 'px';
+            ghost.style.top = rect.top + (rect.height / 2) - 22 + 'px';
             document.body.appendChild(ghost);
 
             setTimeout(() => {
-                ghost.style.left = (navTarget.left + (navTarget.width / 2) - 27) + 'px';
+                ghost.style.left = (navTarget.left + (navTarget.width / 2) - 22) + 'px';
                 ghost.style.top = (navTarget.top + 5) + 'px';
                 ghost.style.transform = 'scale(0.15) rotate(360deg)';
                 ghost.style.opacity = '0.2';
-            }, 40);
+            }, 30);
 
             setTimeout(() => {
                 ghost.remove();
-            }, 780);
+            }, 720);
 
             let cart = JSON.parse(localStorage.getItem('rorraxy_cart')) || [];
             cart.push({ title: title, price: price, qty: currentQuantity, img: imgSrc, isWholesale: isWholesaleMode, addedAt: new Date().toISOString() });
