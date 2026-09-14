@@ -122,7 +122,7 @@
         #productDetailModal, #localYouModal { z-index: 5000; background: var(--bg-retail); padding: 15px 10px 80px 10px; }
         .product-details-content { padding: 4px; max-width: 440px; margin: 25px auto 0 auto; display: flex; flex-direction: column; gap: 8px; }
 
-        /* ঝুড়ি ও চেকআউট প্যানেল স্টাইল */
+        /* কার্ট ও সিকিউর চেকআউট প্যানেল স্টাইল */
         .local-you-box {
             max-width: 480px; margin: 20px auto; background: #0c0c0c; border: 1px solid rgba(212,175,55,0.35);
             border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 12px;
@@ -138,6 +138,9 @@
         .cart-item-title { font-size: 0.65rem; font-weight: 700; color: #fff; }
         .cart-item-qty-price { font-size: 0.58rem; color: var(--text-gray); }
         .cart-item-delete { background: none; border: none; color: #ff2a85; cursor: pointer; font-size: 0.9rem; padding: 4px; }
+
+        /* চেকআউট ফর্ম শুরুতে লুকিয়ে থাকবে, ভেরিফাই করার পর শো করবে */
+        #checkoutFormSection { display: none; flex-direction: column; gap: 12px; }
 
         .form-group-item { display: flex; flex-direction: column; gap: 4px; text-align: left; }
         .form-group-item label { font-size: 0.6rem; font-weight: 700; color: var(--gold-solid); text-transform: uppercase; }
@@ -199,6 +202,7 @@
         .app-card-icon i { font-size: 1.3rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .app-card-name { font-size: 0.7rem; font-weight: 600; color: var(--text-white); text-transform: uppercase; }
 
+        /* বটম ন্যাভবার ও কার্ট ব্যাজ ফিক্সড */
         nav.bottom-nav {
             position: fixed; bottom: 0; left: 0; width: 100%; background: var(--footer-retail);
             display: flex; justify-content: space-around; align-items: center; padding: 8px 4px;
@@ -211,10 +215,12 @@
         .nav-item i { font-size: 1.15rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .nav-item span { text-transform: uppercase; }
         
+        /* নোটিফিকেশন ব্যাজ কার্ট আইকনের ঠিক উপরে নিখুঁতভাবে সেট করা */
         .cart-badge {
-            position: absolute; top: -2px; right: 28%; background: #ff2a85; color: #fff;
-            font-size: 0.5rem; font-weight: 900; width: 15px; height: 15px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; border: 1px solid #000;
+            position: absolute; top: -4px; right: 28%; background: #ff2a85; color: #fff;
+            font-size: 0.5rem; font-weight: 900; width: 16px; height: 16px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; border: 1.5px solid #000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5); z-index: 10;
         }
 
         .search-popup-box { display: none; position: fixed; top: 75px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 520px; z-index: 4000; }
@@ -279,58 +285,62 @@
         <iframe id="subdomainIframeElement" src="" style="width: 100vw; height: calc(100vh - 65px); border: none; background: #000; display: block;"></iframe>
     </div>
 
-    <!-- মূল ঝুড়ি (Cart) ও চেকআউট প্যানেল -->
+    <!-- কার্ট ও সিকিউর চেকআউট প্যানেল -->
     <div id="localYouModal">
         <div class="golden-close-btn" onclick="closeLocalYouPanel()"><i class="fa-solid fa-xmark"></i></div>
         <div class="local-you-box">
             <div style="text-align:center;">
                 <i class="fa-solid fa-cart-shopping" style="font-size:1.4rem; color:var(--gold-solid);"></i>
-                <h3 style="color:var(--gold-solid); font-size:0.9rem; margin-top:4px; text-transform:uppercase;">Your Luxury Cart & Checkout</h3>
+                <h3 style="color:var(--gold-solid); font-size:0.85rem; margin-top:4px; text-transform:uppercase;">Cart & Secure Checkout</h3>
             </div>
             
             <!-- ঝুড়িতে থাকা প্রোডাক্টগুলোর তালিকা (ছবিসহ ও ডিলিট অপশন) -->
             <div id="cartItemsPreviewBox" class="cart-items-preview-box">
-                <!-- JS Inject Cart Items with Image & Delete Button -->
+                <!-- JS Inject Cart Items -->
             </div>
 
-            <button class="google-verify-btn" onclick="simulateGoogleAuth()">
+            <!-- সিকোয়েন্স অনুযায়ী প্রথমে শুধু গুগল ভেরিফাই বাটন থাকবে -->
+            <button class="google-verify-btn" id="googleVerifyBtn" onclick="simulateGoogleAuth()">
                 <i class="fa-brands fa-google" style="color:#ea4335;"></i> Continue & Verify with Google
             </button>
 
-            <div class="form-group-item">
-                <label>Full Name</label>
-                <input type="text" id="checkoutFullName" placeholder="Enter your full name">
-            </div>
-
-            <div class="form-group-item">
-                <label>Gmail Address</label>
-                <input type="email" id="checkoutEmail" placeholder="user@gmail.com">
-            </div>
-
-            <div class="form-group-item">
-                <label>WhatsApp Number (195+ Countries)</label>
-                <div class="phone-input-row">
-                    <select id="countryCodeSelect">
-                        <option value="+880">🇧🇩 +880 (Bangladesh)</option>
-                        <option value="+1">🇺🇸 +1 (USA/Canada)</option>
-                        <option value="+44">🇬🇧 +44 (UK)</option>
-                        <option value="+91">🇮🇳 +91 (India)</option>
-                        <option value="+971">🇦🇪 +971 (UAE)</option>
-                        <option value="+966">🇸🇦 +966 (KSA)</option>
-                        <option value="+65">🇸🇬 +65 (Singapore)</option>
-                        <option value="+60">🇲🇾 +60 (Malaysia)</option>
-                        <option value="+61">🇦🇺 +61 (Australia)</option>
-                    </select>
-                    <input type="tel" id="whatsappNum" placeholder="WhatsApp number">
+            <!-- ভেরিফাই হওয়ার পর ফর্ম এবং অর্ডার কনফার্ম বাটন শো করবে -->
+            <div id="checkoutFormSection">
+                <div class="form-group-item">
+                    <label>Full Name</label>
+                    <input type="text" id="checkoutFullName" placeholder="Enter your full name">
                 </div>
-            </div>
 
-            <div class="form-group-item">
-                <label>Delivery Address</label>
-                <textarea id="checkoutAddress" placeholder="House/Road, Area, City, Postal Code..." style="height:55px; resize:none;"></textarea>
-            </div>
+                <div class="form-group-item">
+                    <label>Gmail Address</label>
+                    <input type="email" id="checkoutEmail" placeholder="user@gmail.com">
+                </div>
 
-            <button class="order-now-btn" onclick="finalizeDirectOrder()">Confirm & Complete Order</button>
+                <div class="form-group-item">
+                    <label>WhatsApp Number (195+ Countries)</label>
+                    <div class="phone-input-row">
+                        <select id="countryCodeSelect">
+                            <option value="+880">🇧🇩 +880 (Bangladesh)</option>
+                            <option value="+1">🇺🇸 +1 (USA/Canada)</option>
+                            <option value="+44">🇬🇧 +44 (UK)</option>
+                            <option value="+91">🇮🇳 +91 (India)</option>
+                            <option value="+971">🇦🇪 +971 (UAE)</option>
+                            <option value="+966">🇸🇦 +966 (KSA)</option>
+                            <option value="+65">🇸🇬 +65 (Singapore)</option>
+                            <option value="+60">🇲🇾 +60 (Malaysia)</option>
+                            <option value="+61">🇦🇺 +61 (Australia)</option>
+                        </select>
+                        <input type="tel" id="whatsappNum" placeholder="WhatsApp number">
+                    </div>
+                </div>
+
+                <div class="form-group-item">
+                    <label>Delivery Address</label>
+                    <textarea id="checkoutAddress" placeholder="House/Road, Area, City, Postal Code..." style="height:50px; resize:none;"></textarea>
+                </div>
+
+                <button class="order-now-btn" onclick="finalizeDirectOrder()">Confirm & Complete Order</button>
+            </div>
         </div>
     </div>
 
@@ -371,6 +381,7 @@
                     </div>
                 </div>
             </div>
+            <!-- Order Now বাটনে ক্লিক করলে শুধু পপআপ বন্ধ হয়ে কার্টে জমা হবে -->
             <button class="order-now-btn" onclick="triggerOrderNow(event)">Order Now</button>
         </div>
     </div>
@@ -393,7 +404,7 @@
         </div>
     </div>
 
-    <!-- ফিক্সড বটম ন্যাভবার (মানুষের আইকনের পরিবর্তে লাক্সারি ঝুড়ি বা Cart) -->
+    <!-- বটম ন্যাভবার (নিচে ঝুড়ি এবং 'CART' টেক্সট) -->
     <nav class="bottom-nav">
         <div class="nav-item" onclick="toggleSubdomainOverlay('https://affiliate.rorraxy.com')">
             <i class="fa-solid fa-handshake"></i>
@@ -465,7 +476,7 @@
             activeSubdomainUrl = "";
         }
 
-        // ঝুড়ির ভেতরে প্রোডাক্টগুলোর তালিকা, ছবি ও ডিলিট অপشن রেন্ডার করা
+        // ঝুড়ির ভেতরে প্রোডাক্টগুলোর তালিকা, ছবি ও ডিলিট অপশন রেন্ডার করা
         function renderCartInYouPanel() {
             let cart = JSON.parse(localStorage.getItem('rorraxy_cart')) || [];
             let container = document.getElementById('cartItemsPreviewBox');
@@ -506,16 +517,24 @@
 
         function openLocalYouPanel() {
             renderCartInYouPanel();
+            // রিসেট সিকোয়েন্স: প্যানেল খুললে প্রথমে ফর্ম লুকিয়ে থাকবে, শুধু গুগল ভেরিফাই বাটন থাকবে
+            document.getElementById('checkoutFormSection').style.display = 'none';
+            document.getElementById('googleVerifyBtn').style.display = 'flex';
             document.getElementById('localYouModal').style.display = 'block';
         }
+
         function closeLocalYouPanel() {
             document.getElementById('localYouModal').style.display = 'none';
         }
 
+        // গুগল ভেরিফাই করার পর সিকোয়েন্স অনুযায়ী ফর্ম ওপেন হবে
         function simulateGoogleAuth() {
             document.getElementById('checkoutFullName').value = "Masudar Rahman";
             document.getElementById('checkoutEmail').value = "masudar.rahman@gmail.com";
-            alert("Google Account Verified Successfully!");
+            
+            // ভেরিফিকেশন সফল হওয়ার পর ফর্ম এবং কনফার্ম বাটন শো করবে
+            document.getElementById('googleVerifyBtn').style.display = 'none';
+            document.getElementById('checkoutFormSection').style.display = 'flex';
         }
 
         function toggleRetailWholesaleMode() {
@@ -567,7 +586,6 @@
             document.getElementById('modalProductPrice').innerText = `$${finalPrice.toFixed(2)}`;
         }
 
-        // ক্যাটাগরি রেন্ডার সিস্টেম
         function openCategoryView() {
             const container = document.getElementById('dynamicCategoryContent');
             const titleEl = document.getElementById('categoryViewTitle');
@@ -680,7 +698,7 @@
         function openProductDetails(title, price, images) {
             currentQuantity = 1;
             baseUnitPrice = parseFloat(price.replace('$', ''));
-            currentProductImg = images[0]; // সঠিক ছবি সংরক্ষণ
+            currentProductImg = images[0];
             document.getElementById('productQtyDisplay').innerText = currentQuantity;
             document.getElementById('mainDisplayMedia').src = images[0];
             document.getElementById('modalProductPrice').innerText = price;
@@ -697,7 +715,7 @@
         function closeProductDetails() { document.getElementById('productDetailModal').style.display = 'none'; }
         
         function switchMedia(src, element) {
-            currentProductImg = src; // থাম্বনেইল পাল্টালে ছবি আপডেট হবে
+            currentProductImg = src;
             document.getElementById('mainDisplayMedia').src = src;
             document.querySelectorAll('.thumb-item').forEach(t => t.classList.remove('active'));
             element.classList.add('active');
@@ -711,7 +729,7 @@
         }
         function closeShareModal() { document.getElementById('shareModal').style.display = 'none'; }
 
-        // "Order Now" ক্লিক করলে ঝুড়িতে ছবিসহ প্রোডাক্ট জমা হবে এবং ঝুড়ি প্যানেল খুলবে
+        // "Order Now" ক্লিক করলে পপআপ বন্ধ হবে এবং প্রোডাক্ট কার্টে জমা হয়ে ব্যাজ আপডেট হবে (কার্টে ডাইরেক্ট যাবে না)
         function triggerOrderNow(event) {
             let title = document.getElementById('modalProductTitle').innerText;
             let price = document.getElementById('modalProductPrice').innerText;
@@ -723,13 +741,12 @@
             
             updateCartBadge();
             document.getElementById('productDetailModal').style.display = 'none';
-            openLocalYouPanel(); 
         }
 
         // ফাইনাল অর্ডার কনফার্ম ও ফায়ারবেসে ডেটা পাঠানো
         async function finalizeDirectOrder() {
             let cart = JSON.parse(localStorage.getItem('rorraxy_cart')) || [];
-            if(cart.length === 0) { alert("Your cart (ঝুড়ি) is empty!"); return; }
+            if(cart.length === 0) { alert("Your cart is empty!"); return; }
 
             let fullName = document.getElementById('checkoutFullName').value;
             let email = document.getElementById('checkoutEmail').value;
