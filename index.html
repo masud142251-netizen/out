@@ -75,14 +75,14 @@
             background: var(--header-retail); position: fixed; top: 0; left: 0; z-index: 1000;
             backdrop-filter: blur(15px); width: 100%; border-bottom: 1px solid rgba(212,175,55,0.15); gap: 6px;
         }
-        .header-top-bar { display: flex; justify-content: center; align-items: center; width: 100%; max-width: 600px; padding: 2px 4px; }
+        .header-top-bar { display: flex; justify-content: center; align-items: center; width: 100%; max-width: 1400px; padding: 2px 4px; }
         .header-center-group { display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; }
         .brand-logo-img { width: 26px; height: 26px; object-fit: contain; }
         .brand-title-main { font-size: 0.9rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; }
         .dynamic-flag-img { width: 18px; height: 12px; object-fit: cover; border-radius: 2px; }
 
-        .header-bottom-row { display: flex; justify-content: center; align-items: center; width: 100%; max-width: 600px; gap: 6px; }
-        .header-buttons-group { display: flex; align-items: center; gap: 6px; width: 100%; justify-content: center; }
+        .header-bottom-row { display: flex; justify-content: center; align-items: center; width: 100%; max-width: 1400px; gap: 6px; }
+        .header-buttons-group { display: flex; align-items: center; gap: 6px; width: 100%; max-width: 600px; justify-content: center; }
         
         .portal-btn {
             font-size: 0.58rem; font-weight: 700; background: #161616; border: 1px solid rgba(212,175,55,0.35);
@@ -98,26 +98,32 @@
         }
         .live-chat-widget i { font-size: 1.8rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* পিন্টারেস্ট স্টাইল ফিড লেআউট */
+        /* পিন্টারেস্ট ও বড় স্ক্রিনের জন্য অপ্টিমাইজড ফিড লেআউট */
         .feed-container {
-            padding: 12px 10px;
+            padding: 15px 12px;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            gap: 14px;
             width: 100%;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
         @media (min-width: 768px) {
             .feed-container {
                 grid-template-columns: repeat(3, 1fr);
-                gap: 16px;
-                padding: 20px;
+                gap: 20px;
+                padding: 24px;
             }
         }
         @media (min-width: 1024px) {
             .feed-container {
                 grid-template-columns: repeat(4, 1fr);
+                gap: 24px;
+            }
+        }
+        @media (min-width: 1440px) {
+            .feed-container {
+                grid-template-columns: repeat(5, 1fr);
             }
         }
 
@@ -129,21 +135,24 @@
         .product-media-box { position: relative; width: 100%; cursor: pointer; background: #000; overflow: hidden; aspect-ratio: 4/5; }
         .product-media-box img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform 0.4s ease; }
         .product-media-box:hover img { transform: scale(1.05); }
-        .card-footer-actions { display: flex; justify-content: center; align-items: center; padding: 8px; background: rgba(15, 15, 15, 0.95); }
-        .love-share-group { display: flex; align-items: center; gap: 18px; justify-content: center; width: 100%; }
+        .card-footer-actions { display: flex; justify-content: center; align-items: center; padding: 10px; background: rgba(15, 15, 15, 0.95); }
+        .love-share-group { display: flex; align-items: center; gap: 20px; justify-content: center; width: 100%; }
         
-        .love-action { display: flex; align-items: center; gap: 5px; cursor: pointer; font-size: 0.72rem; font-weight: 700; color: var(--pink-love); }
-        .love-action i { font-size: 0.9rem; background: var(--pink-love); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .share-action-btn { display: flex; align-items: center; gap: 5px; background: none; border: none; font-size: 0.72rem; font-weight: 700; cursor: pointer; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .love-action { display: flex; align-items: center; gap: 5px; cursor: pointer; font-size: 0.75rem; font-weight: 700; color: #ff8c00; transition: 0.3s; }
+        .love-action i { font-size: 0.95rem; color: #ff8c00; transition: 0.3s; }
+        .love-action.gold-active { color: var(--gold-solid) !important; }
+        .love-action.gold-active i { color: var(--gold-solid) !important; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        .fullscreen-portal-view, .subdomain-iframe-overlay, .category-fullscreen-view, #productDetailModal, #localYouModal {
+        .share-action-btn { display: flex; align-items: center; gap: 5px; background: none; border: none; font-size: 0.75rem; font-weight: 700; cursor: pointer; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .fullscreen-portal-view, .subdomain-iframe-overlay, .category-fullscreen-view, #productDetailModal, #localYouModal, #shareModal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 5000; overflow-y: auto;
         }
         .category-fullscreen-view { z-index: 4000; background: var(--bg-retail); padding: 20px 12px 90px 12px; }
-        #productDetailModal, #localYouModal { z-index: 5000; background: var(--bg-retail); padding: 15px 10px 80px 10px; }
+        #productDetailModal, #localYouModal, #shareModal { z-index: 5000; background: var(--bg-retail); padding: 15px 10px 80px 10px; }
         .product-details-content { padding: 4px; max-width: 440px; margin: 25px auto 0 auto; display: flex; flex-direction: column; gap: 8px; }
 
-        .local-you-box {
+        .local-you-box, .share-box-content {
             max-width: 440px; width: 92%; margin: 30px auto; background: #0c0c0c; border: 1px solid rgba(212,175,55,0.35);
             border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.9);
         }
@@ -168,7 +177,6 @@
             color: #fff; font-size: 0.7rem; outline: none; font-family: var(--font-main); width: 100%;
         }
         
-        /* গুগল ভেরিফাই বাটন সুন্দর সাদা ব্যাকগ্রাউন্ডে */
         .google-verify-btn {
             background: #ffffff; color: #000000; font-weight: 800; font-size: 0.68rem; padding: 11px; border-radius: 6px;
             border: none; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; text-transform: uppercase;
@@ -185,7 +193,7 @@
         .golden-close-btn i { font-size: 1.1rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
         .media-slider-container { width: 100%; position: relative; border-radius: 8px; overflow: hidden; background: #000; }
-        .main-display-media { width: 100%; height: 230px; object-fit: contain; display: block; background: #000; }
+        .main-display-media { width: 100%; height: 250px; object-fit: contain; display: block; background: #000; }
         .thumbnail-strip { display: flex; justify-content: center; gap: 5px; padding: 6px; background: #0c0c0c; overflow-x: auto; }
         .thumb-item { width: 42px; height: 42px; border-radius: 4px; overflow: hidden; border: 1.5px solid rgba(212,175,55,0.3); cursor: pointer; flex-shrink: 0; }
         .thumb-item img { width: 100%; height: 100%; object-fit: cover; }
@@ -268,18 +276,22 @@
         .search-input-field-box input { background: none; border: none; outline: none; color: #fff; font-size: 0.85rem; width: 100%; }
         .search-submit-btn { background: var(--gold-gradient); border: none; color: #000; font-weight: 800; font-size: 0.65rem; padding: 5px 12px; border-radius: 20px; cursor: pointer; }
 
-        /* ফ্লাইং প্রোডাক্ট এনিমেশন ஸ்டাইল */
+        /* সঠিক মাঝ বরাবর এন্ট্রি নেওয়ার জন্য ফ্লাইং প্রোডাক্ট এনিমেশন ঘোস্ট */
         .flying-product-ghost {
-            position: fixed; z-index: 999999; width: 60px; height: 60px; object-fit: cover;
+            position: fixed; z-index: 999999; width: 55px; height: 55px; object-fit: cover;
             border-radius: 50%; border: 2px solid var(--gold-solid);
-            transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-            pointer-events: none; box-shadow: 0 5px 20px rgba(212,175,55,0.8);
+            transition: all 0.75s cubic-bezier(0.15, 0.85, 0.35, 1);
+            pointer-events: none; box-shadow: 0 5px 25px rgba(212,175,55,0.9);
         }
+
+        .share-options-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 15px 0; }
+        .share-opt-btn { background: #161616; border: 1px solid rgba(212,175,55,0.3); border-radius: 8px; padding: 12px 6px; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; color: #fff; font-size: 0.6rem; font-weight: 700; }
+        .share-opt-btn i { font-size: 1.3rem; }
     </style>
 </head>
 <body id="mainBody">
 
-    <!-- প্রফেশনাল অডিও ইফেক্ট অবজেক্ট (সাউন্ডের জন্য) -->
+    <!-- প্রফেশনাল সাকসেস সাউন্ড -->
     <audio id="successSound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
 
     <header class="app-header" id="mainHeader">
@@ -305,7 +317,7 @@
         <i class="fa-solid fa-comments"></i>
     </div>
 
-    <!-- পিন্টারেস্ট স্টাইল ফিড লেআউট -->
+    <!-- ফিড লেআউট (পিন্টারেস্ট স্টাইল ও বড় স্ক্রিনের জন্য অপ্টিমাইজড) -->
     <main class="feed-container" id="productFeed">
         <div class="product-card" id="card-prod-1">
             <div class="product-media-box" onclick="openProductDetails('PREMIUM BRACELET', '$100.00', ['https://0d2bc64b36fe70d346646a8bf8bfd5a.r2.cloudflarestorage.com/bracelet-1.jpg', 'https://lh3.googleusercontent.com/d/1qyOXxZ8s2cJMEo66NDE4BdoxiC4hy_sG'])">
@@ -314,7 +326,7 @@
             <div class="card-footer-actions">
                 <div class="love-share-group">
                     <div class="love-action card-love-btn" onclick="toggleLove(this)">
-                        <i class="fa-solid fa-heart"></i> <span class="love-count">142</span>
+                        <i class="fa-solid fa-heart"></i> <span class="love-count">342</span>
                     </div>
                     <button class="share-action-btn" onclick="openShareModal()">
                         <i class="fa-solid fa-share-nodes"></i> Share
@@ -324,7 +336,7 @@
         </div>
     </main>
 
-    <!-- ফুল-স্ক্রিন ওভারলে ভিউ -->
+    <!-- ফুল-স্ক্রিন পোর্টাল ওভারলে -->
     <div id="fullScreenPortal" class="fullscreen-portal-view">
         <div class="golden-close-btn" onclick="closeFullScreenPortal()"><i class="fa-solid fa-xmark"></i></div>
         <iframe id="fullScreenIframe" src="" style="width: 100vw; height: 100vh; border: none; background: #000;"></iframe>
@@ -334,6 +346,24 @@
     <div id="subdomainOverlay" class="subdomain-iframe-overlay">
         <div class="golden-close-btn" onclick="closeSubdomainOverlay()"><i class="fa-solid fa-xmark"></i></div>
         <iframe id="subdomainIframeElement" src="" style="width: 100vw; height: calc(100vh - 65px); border: none; background: #000; display: block;"></iframe>
+    </div>
+
+    <!-- শেয়ার মডাল (WhatsApp, Facebook, Telegram, Imo & Copy Link) -->
+    <div id="shareModal">
+        <div class="golden-close-btn" onclick="closeShareModal()"><i class="fa-solid fa-xmark"></i></div>
+        <div class="share-box-content">
+            <h3 style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:0.85srem; text-transform:uppercase; text-align:center;">Share Product</h3>
+            <div class="share-options-grid">
+                <div class="share-opt-btn" onclick="shareToSocial('whatsapp')" style="color:#25d366;"><i class="fa-brands fa-whatsapp"></i><span>WhatsApp</span></div>
+                <div class="share-opt-btn" onclick="shareToSocial('facebook')" style="color:#1877f2;"><i class="fa-brands fa-facebook"></i><span>Facebook</span></div>
+                <div class="share-opt-btn" onclick="shareToSocial('telegram')" style="color:#229ed9;"><i class="fa-brands fa-telegram"></i><span>Telegram</span></div>
+                <div class="share-opt-btn" onclick="shareToSocial('imo')" style="color:#00aff0;"><i class="fa-solid fa-video"></i><span>Imo</span></div>
+            </div>
+            <div style="display:flex; gap:6px; margin-top:5px;">
+                <input type="text" id="shareUrlInput" readonly style="background:#141414; border:1px solid rgba(212,175,55,0.3); padding:8px; border-radius:6px; color:#fff; font-size:0.7rem; width:100%; outline:none;">
+                <button onclick="copyShareLink()" style="background:var(--gold-gradient); border:none; color:#000; font-weight:800; font-size:0.65rem; padding:8px 12px; border-radius:6px; cursor:pointer; white-space:nowrap;">Copy</button>
+            </div>
+        </div>
     </div>
 
     <!-- লাক্সারি ঝুড়ি ও সিকিউর চেকআউট প্যানেল -->
@@ -348,15 +378,13 @@
             </div>
             
             <div id="cartItemsPreviewBox" class="cart-items-preview-box">
-                <!-- JS Inject Cart Items -->
+                <!-- JS Inject Cart Items with Retail/Wholesale Tag -->
             </div>
 
-            <!-- সাদা ব্যাকগ্রাউন্ডের প্রিমিয়াম গুগল ভেরিফাই বাটন -->
             <button class="google-verify-btn" id="googleVerifyBtn" onclick="simulateGoogleAuth()">
                 <i class="fa-brands fa-google" style="color:#ea4335;"></i> Continue & Verify with Google
             </button>
 
-            <!-- গুগল ভেরিফাই করার পর চেকআউট ফর্ম এবং কনফার্ম অর্ডার বাটন আসবে -->
             <div id="checkoutFormSection">
                 <div class="form-group-item">
                     <label>Full Name</label>
@@ -405,7 +433,7 @@
                 <div class="thumbnail-strip" id="thumbStrip"></div>
             </div>
             <div style="display:flex; justify-content:center; gap:20px; padding:4px 0;">
-                <div class="love-action modal-love-btn" onclick="toggleModalLove(this)"><i class="fa-solid fa-heart"></i> <span class="modal-love-count">142</span></div>
+                <div class="love-action modal-love-btn" onclick="toggleModalLove(this)"><i class="fa-solid fa-heart"></i> <span class="modal-love-count">342</span></div>
                 <button class="share-action-btn" onclick="openShareModal()"><i class="fa-solid fa-share-nodes"></i> Share</button>
             </div>
             <div class="price-chat-row">
@@ -497,6 +525,7 @@
             document.getElementById('categoryView').style.display = 'none';
             document.getElementById('searchPopup').style.display = 'none';
             document.getElementById('productDetailModal').style.display = 'none';
+            document.getElementById('shareModal').style.display = 'none';
         }
 
         function updateCartBadge() {
@@ -543,6 +572,7 @@
             activeSubdomainUrl = "";
         }
 
+        // কার্টে রিটেইল এবং হোলসেলের সঠিক ট্যাগসহ রেন্ডার করার ফাংশন
         function renderCartInYouPanel() {
             let cart = JSON.parse(localStorage.getItem('rorraxy_cart')) || [];
             let container = document.getElementById('cartItemsPreviewBox');
@@ -555,11 +585,12 @@
                 let priceNum = parseFloat(item.price.replace('$', ''));
                 let itemTotal = priceNum * item.qty;
                 totalAmt += itemTotal;
+                let modeTag = item.isWholesale ? '(Wholesale)' : '(Retail)';
                 html += `
                 <div class="cart-item-row">
                     <img src="${item.img}" class="cart-item-img" onerror="this.src='https://lh3.googleusercontent.com/d/1a6lFxluTSYUQjB8oqlVQYApRRSmCxEOW'">
                     <div class="cart-item-info">
-                        <span class="cart-item-title">${item.title}</span>
+                        <span class="cart-item-title">${item.title} <span style="color:var(--gold-solid); font-weight:800;">${modeTag}</span></span>
                         <span class="cart-item-qty-price">Qty: ${item.qty} | $${itemTotal.toFixed(2)}</span>
                     </div>
                     <button class="cart-item-delete" onclick="removeCartItem(${index})" title="Delete Item"><i class="fa-solid fa-trash-can"></i></button>
@@ -699,66 +730,6 @@
                         <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-hat-cowboy"></i></div><span class="app-card-name">Accessories</span></div>
                     </div>
                 </section>
-                <section class="category-section">
-                    <div class="category-header-row"><h2 class="category-title">3. Matching Sets</h2></div>
-                    <div class="app-store-grid">
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-user-group"></i></div><span class="app-card-name">Couple Sets</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-house"></i></div><span class="app-card-name">Family Sets</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-venus"></i></div><span class="app-card-name">Mom & Me</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-mars"></i></div><span class="app-card-name">Dad & Me</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-children"></i></div><span class="app-card-name">Sibling Sets</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-people-group"></i></div><span class="app-card-name">Team Sets</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-hands-holding-child"></i></div><span class="app-card-name">BFF Sets</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-paw"></i></div><span class="app-card-name">Pet & Owner</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-gifts"></i></div><span class="app-card-name">Holiday Sets</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-box-open"></i></div><span class="app-card-name">Value Bundles</span></div>
-                    </div>
-                </section>
-                <section class="category-section">
-                    <div class="category-header-row"><h2 class="category-title">4. Luxury Gifts</h2></div>
-                    <div class="app-store-grid">
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-briefcase"></i></div><span class="app-card-name">Corporate Gifts</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-gift"></i></div><span class="app-card-name">Luxury Items</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-palette"></i></div><span class="app-card-name">Handicrafts</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-tree"></i></div><span class="app-card-name">Wood Resin</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-basket-shopping"></i></div><span class="app-card-name">Gift Hampers</span></div>
-                    </div>
-                </section>
-                <section class="category-section">
-                    <div class="category-header-row"><h2 class="category-title">5. Girls' Fashion</h2></div>
-                    <div class="app-store-grid">
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-child-dress"></i></div><span class="app-card-name">Clothing</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-shoe-prints"></i></div><span class="app-card-name">Shoes</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-shopping-basket"></i></div><span class="app-card-name">Bags</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-ring"></i></div><span class="app-card-name">Jewelry</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-clock"></i></div><span class="app-card-name">Watches</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div><span class="app-card-name">Hair Acc.</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-person-running"></i></div><span class="app-card-name">Activewear</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-bed"></i></div><span class="app-card-name">Sleepwear</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-chess-queen"></i></div><span class="app-card-name">Party Dresses</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-glasses"></i></div><span class="app-card-name">Accessories</span></div>
-                    </div>
-                </section>
-                <section class="category-section">
-                    <div class="category-header-row"><h2 class="category-title">6. Men's Fashion</h2></div>
-                    <div class="app-store-grid">
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-user-tie"></i></div><span class="app-card-name">Clothing</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-shoe-prints"></i></div><span class="app-card-name">Shoes</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-clock"></i></div><span class="app-card-name">Watches</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-scissors"></i></div><span class="app-card-name">Grooming</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-briefcase"></i></div><span class="app-card-name">Accessories</span></div>
-                    </div>
-                </section>
-                <section class="category-section">
-                    <div class="category-header-row"><h2 class="category-title">7. Mother & Baby</h2></div>
-                    <div class="app-store-grid">
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-baby"></i></div><span class="app-card-name">Clothing</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-person-pregnant"></i></div><span class="app-card-name">Maternity</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-bottle-droplet"></i></div><span class="app-card-name">Baby Care</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-baby-carriage"></i></div><span class="app-card-name">Nursery Gear</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-puzzle-piece"></i></div><span class="app-card-name">Accessories</span></div>
-                    </div>
-                </section>
             `;
         }
 
@@ -773,8 +744,27 @@
         }
         function executeSearch() { document.getElementById('searchPopup').style.display = 'none'; }
 
-        function toggleLove(el) { el.classList.toggle('gold-active'); }
-        function toggleModalLove(el) { el.classList.toggle('gold-active'); }
+        // অটো-ইনক্রিমেন্ট লাভ সিস্টেম ও গোল্ডেন কালার টগল
+        function toggleLove(el) {
+            el.classList.toggle('gold-active');
+            let countSpan = el.querySelector('.love-count');
+            let current = parseInt(countSpan.innerText);
+            if(el.classList.contains('gold-active')) {
+                countSpan.innerText = current + 1;
+            } else {
+                countSpan.innerText = current - 1;
+            }
+        }
+        function toggleModalLove(el) {
+            el.classList.toggle('gold-active');
+            let countSpan = el.querySelector('.modal-love-count');
+            let current = parseInt(countSpan.innerText);
+            if(el.classList.contains('gold-active')) {
+                countSpan.innerText = current + 1;
+            } else {
+                countSpan.innerText = current - 1;
+            }
+        }
 
         function openProductDetails(title, price, images) {
             currentQuantity = 1;
@@ -802,7 +792,6 @@
             element.classList.add('active');
         }
 
-        // চ্যাট উইথ সেলার ফাংশন (কাস্টমারকে ফর্মের মাধ্যমে কানেক্ট করা)
         function chatWithSeller() {
             closeProductDetails();
             toggleLocalYouPanel();
@@ -816,40 +805,60 @@
         }
         function closeShareModal() { document.getElementById('shareModal').style.display = 'none'; }
 
-        // প্রিমিয়াম ফ্লাইং এনিমেশন এবং সাউন্ড ইফেক্টসহ "Order Now" হ্যান্ডেলার
+        function copyShareLink() {
+            let input = document.getElementById('shareUrlInput');
+            input.select();
+            input.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(input.value);
+            alert("Product share link copied successfully!");
+        }
+
+        function shareToSocial(platform) {
+            let url = encodeURIComponent(window.location.href);
+            let text = encodeURIComponent("Check out this luxury product on Rorraxy!");
+            if(platform === 'whatsapp') {
+                window.open(`https://api.whatsapp.com/send?text=${text}%20${url}`, '_blank');
+            } else if(platform === 'facebook') {
+                window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+            } else if(platform === 'telegram') {
+                window.open(`https://t.me/share/url?url=${url}&text=${text}`, '_blank');
+            } else if(platform === 'imo') {
+                alert("Opening Imo Share...");
+            }
+        }
+
+        // সঠিক মাঝ বরাবর প্রবেশ করার জন্য ফ্লাইং এনিমেশন ও সাউন্ড ইফেক্ট
         function triggerOrderNow(event) {
             let title = document.getElementById('modalProductTitle').innerText;
             let price = document.getElementById('modalProductPrice').innerText;
             let imgSrc = currentProductImg || 'https://0d2bc64b36fe70d346646a8bf8bfd5a.r2.cloudflarestorage.com/bracelet-1.jpg';
             
-            // সাউন্ড প্লে করা
             let sound = document.getElementById('successSound');
             if(sound) { sound.currentTime = 0; sound.play().catch(() => {}); }
 
-            // ফ্লাইং এনিমেশন তৈরি
             let rect = document.getElementById('orderNowActionBtn').getBoundingClientRect();
             let navTarget = document.getElementById('navCartItem').getBoundingClientRect();
 
             let ghost = document.createElement('img');
             ghost.src = imgSrc;
             ghost.className = 'flying-product-ghost';
-            ghost.style.left = rect.left + 'px';
-            ghost.style.top = rect.top + 'px';
+            ghost.style.left = rect.left + (rect.width / 2) - 27 + 'px';
+            ghost.style.top = rect.top + (rect.height / 2) - 27 + 'px';
             document.body.appendChild(ghost);
 
             setTimeout(() => {
-                ghost.style.left = (navTarget.left + 15) + 'px';
-                ghost.style.top = (navTarget.top - 10) + 'px';
-                ghost.style.transform = 'scale(0.2)';
-                ghost.style.opacity = '0.3';
-            }, 50);
+                ghost.style.left = (navTarget.left + (navTarget.width / 2) - 27) + 'px';
+                ghost.style.top = (navTarget.top + 5) + 'px';
+                ghost.style.transform = 'scale(0.15) rotate(360deg)';
+                ghost.style.opacity = '0.2';
+            }, 40);
 
             setTimeout(() => {
                 ghost.remove();
-            }, 850);
+            }, 780);
 
             let cart = JSON.parse(localStorage.getItem('rorraxy_cart')) || [];
-            cart.push({ title: title, price: price, qty: currentQuantity, img: imgSrc, addedAt: new Date().toISOString() });
+            cart.push({ title: title, price: price, qty: currentQuantity, img: imgSrc, isWholesale: isWholesaleMode, addedAt: new Date().toISOString() });
             localStorage.setItem('rorraxy_cart', JSON.stringify(cart));
             
             updateCartBadge();
