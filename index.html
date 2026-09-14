@@ -151,16 +151,19 @@
             border-radius: 18px; padding: 25px 20px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 20px 50px rgba(0,0,0,0.95);
         }
 
-        /* ইনফো ও কাস্টম সাইজ পপআপ মডাল (ব্যাকড্রপ ক্লিকের ব্যবস্থা সহ) */
+        /* আরও প্রশস্ত ও প্রিমিয়াম অল ইনফো পপআপ মডাল */
         #infoPopupModal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.85); z-index: 99990; align-items: center; justify-content: center;
-            backdrop-filter: blur(6px); padding: 10px;
+            backdrop-filter: blur(6px); padding: 12px;
         }
         .info-popup-box {
-            max-width: 440px; width: 100%; background: #111; border: 1.5px solid var(--gold-solid);
-            border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 12px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.95); position: relative; animation: popIn 0.2s ease;
+            max-width: 600px; width: 95%; background: #111; border: 1.5px solid var(--gold-solid);
+            border-radius: 16px; padding: 22px; display: flex; flex-direction: column; gap: 14px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.95); position: relative; animation: popIn 0.2s ease;
+        }
+        @media (min-width: 768px) {
+            .info-popup-box { max-width: 680px; padding: 28px; }
         }
 
         #shareModal {
@@ -453,12 +456,12 @@
         </div>
     </div>
 
-    <!-- পরিপূর্ণ অল ইনফো ও কাস্টম সাইজ পপআপ মডাল (ব্যাকড্রপ ক্লিক করলে বন্ধ হবে) -->
+    <!-- পরিপূর্ণ অল ইনফো ও কাস্টম সাইজ পপআপ মডাল (ব্র্যান্ড কালার ও ফাঁকা ইনপুটসহ) -->
     <div id="infoPopupModal" onclick="if(event.target === this) closeInfoPopup()">
         <div class="info-popup-box">
-            <div class="golden-close-btn" style="position:absolute; top:10px; right:10px; width:28px; height:28px;" onclick="closeInfoPopup()"><i class="fa-solid fa-xmark" style="font-size:0.8rem;"></i></div>
-            <h3 id="infoPopupTitle" style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:0.9rem; text-transform:uppercase; text-align:center; letter-spacing:0.5px;">Product Specification & Info</h3>
-            <div id="infoPopupBody" style="font-size:0.74rem; color:var(--text-gray); line-height:1.6; max-height:340px; overflow-y:auto; text-align:left; display:flex; flex-direction:column; gap:12px; padding-right:4px;"></div>
+            <div class="golden-close-btn" style="position:absolute; top:12px; right:12px; width:30px; height:30px;" onclick="closeInfoPopup()"><i class="fa-solid fa-xmark" style="font-size:0.85rem;"></i></div>
+            <h3 id="infoPopupTitle" style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:0.95rem; text-transform:uppercase; text-align:center; letter-spacing:0.5px;">Product Specification & Info</h3>
+            <div id="infoPopupBody" style="font-size:0.76rem; color:var(--text-gray); line-height:1.6; max-height:420px; overflow-y:auto; text-align:left; display:flex; flex-direction:column; gap:14px; padding-right:6px;"></div>
         </div>
     </div>
 
@@ -560,7 +563,7 @@
         let baseUnitPrice = 100.00;
         let activeSubdomainUrl = "";
         let currentProductMedia = "";
-        let selectedProductSize = "Medium";
+        let selectedProductSize = "";
         let currentMediaList = [];
         let visitorCountryCode = "bd";
 
@@ -747,37 +750,37 @@
             const bodyEl = document.getElementById('infoPopupBody');
             const modal = document.getElementById('infoPopupModal');
 
-            let stockStatus = isWholesaleMode ? "5,000+ Pcs Ready in Wholesale Warehouse" : "125 Pcs In-Stock (Retail)";
+            let stockStatus = isWholesaleMode ? "5,000+ Pcs Ready in Wholesale Warehouse" : "125 Pcs In-Stock";
             let modeTitle = isWholesaleMode ? "Wholesale Inventory" : "Retail Inventory";
 
             bodyEl.innerHTML = `
                 <div>
-                    <strong style="color:var(--gold-solid);"><i class="fa-solid fa-file-lines"></i> Description:</strong>
-                    <p style="margin-top:3px; color:#ddd;">Crafted with supreme global elegance, this luxury item defines ultimate sophistication. Designed with superior durability, high-gloss finish, and exquisite attention to detail.</p>
+                    <strong style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:0.82rem; text-transform:uppercase; letter-spacing:0.5px;"><i class="fa-solid fa-file-lines"></i> Description:</strong>
+                    <p style="margin-top:4px; color:#ddd; font-size:0.75rem;">Crafted with supreme global elegance, this luxury item defines ultimate sophistication. Designed with superior durability, high-gloss finish, and exquisite attention to detail.</p>
                 </div>
                 <div>
-                    <strong style="color:var(--gold-solid);"><i class="fa-solid fa-ruler-combined"></i> Size & Custom Selection:</strong>
-                    <div style="display:flex; gap:6px; margin-top:5px; flex-wrap:wrap;">
-                        <button onclick="selectCustomSize('Medium (M)')" style="background:#1c1c21; border:1px solid rgba(212,175,55,0.4); color:#fff; padding:5px 10px; border-radius:4px; font-size:0.6rem; cursor:pointer;">Medium (M)</button>
-                        <button onclick="selectCustomSize('Large (L)')" style="background:#1c1c21; border:1px solid rgba(212,175,55,0.4); color:#fff; padding:5px 10px; border-radius:4px; font-size:0.6rem; cursor:pointer;">Large (L)</button>
-                        <button onclick="selectCustomSize('XL')" style="background:#1c1c21; border:1px solid rgba(212,175,55,0.4); color:#fff; padding:5px 10px; border-radius:4px; font-size:0.6rem; cursor:pointer;">XL</button>
+                    <strong style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:0.82rem; text-transform:uppercase; letter-spacing:0.5px;"><i class="fa-solid fa-ruler-combined"></i> Size & Custom Selection:</strong>
+                    <div style="display:flex; gap:6px; margin-top:6px; flex-wrap:wrap;">
+                        <button onclick="selectCustomSize('Medium (M)')" style="background:#1c1c21; border:1px solid rgba(212,175,55,0.4); color:#fff; padding:6px 12px; border-radius:5px; font-size:0.62rem; cursor:pointer; font-weight:600;">Medium (M)</button>
+                        <button onclick="selectCustomSize('Large (L)')" style="background:#1c1c21; border:1px solid rgba(212,175,55,0.4); color:#fff; padding:6px 12px; border-radius:5px; font-size:0.62rem; cursor:pointer; font-weight:600;">Large (L)</button>
+                        <button onclick="selectCustomSize('XL')" style="background:#1c1c21; border:1px solid rgba(212,175,55,0.4); color:#fff; padding:6px 12px; border-radius:5px; font-size:0.62rem; cursor:pointer; font-weight:600;">XL</button>
                     </div>
-                    <div style="display:flex; gap:6px; margin-top:6px;">
-                        <input type="text" id="customSizeInputField" value="${selectedProductSize}" placeholder="Enter custom size (X, Y, Z)..." style="background:#141414; border:1px solid rgba(212,175,55,0.4); padding:7px 10px; border-radius:6px; color:#fff; font-size:0.72rem; width:100%; outline:none;">
-                        <button onclick="saveCustomSizeSelection()" style="background:var(--gold-gradient); color:#000; font-weight:900; font-size:0.65rem; padding:7px 12px; border-radius:6px; border:none; cursor:pointer; text-transform:uppercase; white-space:nowrap;">Save</button>
+                    <div style="display:flex; gap:8px; margin-top:8px;">
+                        <input type="text" id="customSizeInputField" value="${selectedProductSize}" placeholder="Enter custom size (X, Y, Z)..." style="background:#141414; border:1px solid rgba(212,175,55,0.4); padding:8px 12px; border-radius:6px; color:#fff; font-size:0.75rem; width:100%; outline:none;">
+                        <button onclick="saveCustomSizeSelection()" style="background:var(--gold-gradient); color:#000; font-weight:900; font-size:0.65rem; padding:8px 16px; border-radius:6px; border:none; cursor:pointer; text-transform:uppercase; white-space:nowrap; box-shadow:0 2px 8px rgba(212,175,55,0.3);">Save</button>
                     </div>
                 </div>
                 <div>
-                    <strong style="color:var(--gold-solid);"><i class="fa-solid fa-boxes-stacked"></i> Inventory & Stock:</strong>
-                    <p style="margin-top:3px; color:#ddd;">${modeTitle}: ${stockStatus}</p>
+                    <strong style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:0.82rem; text-transform:uppercase; letter-spacing:0.5px;"><i class="fa-solid fa-boxes-stacked"></i> Inventory & Stock:</strong>
+                    <p style="margin-top:4px; color:#ddd; font-size:0.75rem;">${modeTitle}: ${stockStatus}</p>
                 </div>
                 <div>
-                    <strong style="color:var(--gold-solid);"><i class="fa-solid fa-box-open"></i> International Packaging:</strong>
-                    <p style="margin-top:3px; color:#ddd;">Weight: 0.15 kg | Height: 4.5 cm | Width: 8.2 cm<br>Packed in Hard Luxury Presentation Gift Box with protective cushioning.</p>
+                    <strong style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:0.82rem; text-transform:uppercase; letter-spacing:0.5px;"><i class="fa-solid fa-box-open"></i> International Packaging:</strong>
+                    <p style="margin-top:4px; color:#ddd; font-size:0.75rem;">Weight: 0.15 kg | Height: 4.5 cm | Width: 8.2 cm<br>Packed in Hard Luxury Presentation Gift Box with protective cushioning.</p>
                 </div>
                 <div>
-                    <strong style="color:var(--gold-solid);"><i class="fa-solid fa-gem"></i> Materials & Finish:</strong>
-                    <p style="margin-top:3px; color:#ddd;">Premium Gamar Wood with Golden Teak finish and High Gloss Lacquer coating.</p>
+                    <strong style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:0.82rem; text-transform:uppercase; letter-spacing:0.5px;"><i class="fa-solid fa-gem"></i> Materials & Finish:</strong>
+                    <p style="margin-top:4px; color:#ddd; font-size:0.75rem;">Premium Gamar Wood with Golden Teak finish and High Gloss Lacquer coating.</p>
                 </div>
             `;
             modal.style.display = 'flex';
@@ -955,7 +958,7 @@
             baseUnitPrice = parseFloat(price.replace('$', ''));
             currentMediaList = mediaArray;
             currentProductMedia = mediaArray[0];
-            selectedProductSize = "Medium";
+            selectedProductSize = "";
 
             document.getElementById('productQtyDisplay').innerText = currentQuantity;
             document.getElementById('modalProductPrice').innerText = price;
@@ -1078,7 +1081,7 @@
             }, 720);
 
             let cart = JSON.parse(localStorage.getItem('rorraxy_cart')) || [];
-            cart.push({ title: title, price: price, qty: currentQuantity, size: selectedProductSize, img: imgSrc, isWholesale: isWholesaleMode, addedAt: new Date().toISOString() });
+            cart.push({ title: title, price: price, qty: currentQuantity, size: selectedProductSize || 'Standard', img: imgSrc, isWholesale: isWholesaleMode, addedAt: new Date().toISOString() });
             localStorage.setItem('rorraxy_cart', JSON.stringify(cart));
             
             updateCartBadge();
