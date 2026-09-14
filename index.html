@@ -37,7 +37,6 @@
             --header-retail: rgba(10, 10, 12, 0.95);
             --footer-retail: rgba(10, 10, 12, 0.95);
 
-            /* হোলসেলের জন্য আরও কুল ও প্রিমিয়াম ডিপ রয়্যাল ব্লু ব্যাকগ্রাউন্ড গ্রেডিয়েন্ট */
             --royal-blue-gradient: linear-gradient(135deg, #02091d 0%, #081d4a 45%, #0f347a 100%);
             --card-wholesale: rgba(15, 52, 122, 0.35);
             --header-wholesale: rgba(5, 20, 55, 0.95);
@@ -475,11 +474,11 @@
         </div>
     </div>
 
-    <!-- ক্যাটাগরি ওভারলে (অরিজিনাল ৭টি প্রধান ক্যাটাগরি ও সাব-ক্যাটাগরি সহ) -->
+    <!-- ক্যাটাগরি ওভারলে (সঠিক সাব-ক্যাটাগরি সংখ্যা সহ ৭টি মূল ক্যাটাগরি) -->
     <div id="categoryView" class="category-fullscreen-view">
         <div class="golden-close-btn" onclick="closeCategoryView()"><i class="fa-solid fa-xmark"></i></div>
         <div style="margin-bottom: 25px; text-align: center;">
-            <span id="categoryViewTitle" style="font-size:1.1rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-transform:uppercase;">All 7 Core Categories</span>
+            <span id="categoryViewTitle" style="font-size:1.1rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-transform:uppercase;">All Categories</span>
         </div>
         <div id="dynamicCategoryContent"></div>
     </div>
@@ -713,15 +712,15 @@
             document.getElementById('categoryView').style.display = 'none';
         }
 
-        /* অরিজিনাল ৭টি প্রধান ক্যাটাগরি ও সাব-ক্যাটাগরি ডেটা */
+        /* সাব-ক্যাটাগরির সঠিক সংখ্যা অনুযায়ী ৭টি মূল ক্যাটাগরি ডেটা (Women's:10, Men's:5, Boys':5, Girls':10, Luxury Gifts:5, Matching Sets:5/10, Mother & Baby:5) */
         function openCategoryContent() {
             const container = document.getElementById('dynamicCategoryContent');
             const titleEl = document.getElementById('categoryViewTitle');
-            titleEl.innerText = isWholesaleMode ? "Wholesale - 7 Core Categories" : "Retail - 7 Core Categories";
+            titleEl.innerText = "All Categories";
             
             container.innerHTML = `
                 <section class="category-section">
-                    <div class="category-header-row"><h2 class="category-title">1. Women's Fashion</h2></div>
+                    <div class="category-header-row"><h2 class="category-title">1. Women's Fashion (10 Items)</h2></div>
                     <div class="app-store-grid">
                         <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-shirt"></i></div><span class="app-card-name">Clothing</span></div>
                         <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-bag-shopping"></i></div><span class="app-card-name">Handbags</span></div>
@@ -737,7 +736,7 @@
                 </section>
 
                 <section class="category-section">
-                    <div class="category-header-row"><h2 class="category-title">2. Men's Fashion</h2></div>
+                    <div class="category-header-row"><h2 class="category-title">2. Men's Fashion (5 Items)</h2></div>
                     <div class="app-store-grid">
                         <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-user-tie"></i></div><span class="app-card-name">Suits & Blazers</span></div>
                         <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-shirt"></i></div><span class="app-card-name">Shirts & Polos</span></div>
@@ -748,7 +747,7 @@
                 </section>
 
                 <section class="category-section">
-                    <div class="category-header-row"><h2 class="category-title">3. Boys' Fashion</h2></div>
+                    <div class="category-header-row"><h2 class="category-title">3. Boys' Fashion (5 Items)</h2></div>
                     <div class="app-store-grid">
                         <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-child"></i></div><span class="app-card-name">Clothing</span></div>
                         <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-socks"></i></div><span class="app-card-name">Shoes</span></div>
@@ -759,41 +758,51 @@
                 </section>
 
                 <section class="category-section">
-                    <div class="category-header-row"><h2 class="category-title">4. Girls' Fashion</h2></div>
+                    <div class="category-header-row"><h2 class="category-title">4. Girls' Fashion (10 Items)</h2></div>
                     <div class="app-store-grid">
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-child-dress"></i></div><span class="app-card-name">Dresses & Frocks</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-shoe-prints"></i></div><span class="app-card-name">Shoes & Sandals</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-child-dress"></i></div><span class="app-card-name">Dresses</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-shoe-prints"></i></div><span class="app-card-name">Shoes</span></div>
                         <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-crown"></i></div><span class="app-card-name">Hair Accessories</span></div>
                         <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-bag-shopping"></i></div><span class="app-card-name">Mini Bags</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-gem"></i></div><span class="app-card-name">Jewelry Sets</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-shirt"></i></div><span class="app-card-name">Party Wear</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-person-running"></i></div><span class="app-card-name">Activewear</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-socks"></i></div><span class="app-card-name">Hosiery</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-hat-wizard"></i></div><span class="app-card-name">Caps & Hats</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-glasses"></i></div><span class="app-card-name">Eyewear</span></div>
                     </div>
                 </section>
 
                 <section class="category-section">
-                    <div class="category-header-row"><h2 class="category-title">5. Luxury Gifts</h2></div>
+                    <div class="category-header-row"><h2 class="category-title">5. Luxury Gifts (5 Items)</h2></div>
                     <div class="app-store-grid">
                         <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-gift"></i></div><span class="app-card-name">Gift Hampers</span></div>
                         <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-gem"></i></div><span class="app-card-name">Premium Jewelry</span></div>
                         <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-champagne-glasses"></i></div><span class="app-card-name">Exclusive Decor</span></div>
                         <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-box-open"></i></div><span class="app-card-name">Custom Souvenirs</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-clock"></i></div><span class="app-card-name">Luxury Timepieces</span></div>
                     </div>
                 </section>
 
                 <section class="category-section">
-                    <div class="category-header-row"><h2 class="category-title">6. Matching Sets</h2></div>
+                    <div class="category-header-row"><h2 class="category-title">6. Matching Sets (5 Items)</h2></div>
                     <div class="app-store-grid">
                         <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-people-group"></i></div><span class="app-card-name">Family Outfits</span></div>
                         <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-shirt"></i></div><span class="app-card-name">Couple Sets</span></div>
                         <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-vest-patches"></i></div><span class="app-card-name">Mom & Me</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-children"></i></div><span class="app-card-name">Siblings Match</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-puzzle-piece"></i></div><span class="app-card-name">Group Uniforms</span></div>
                     </div>
                 </section>
 
                 <section class="category-section">
-                    <div class="category-header-row"><h2 class="category-title">7. Electronics & Gadgets</h2></div>
+                    <div class="category-header-row"><h2 class="category-title">7. Mother & Baby (5 Items)</h2></div>
                     <div class="app-store-grid">
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-mobile-screen"></i></div><span class="app-card-name">Smartphones</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-laptop"></i></div><span class="app-card-name">Laptops & PCs</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-headphones"></i></div><span class="app-card-name">Audio & Sound</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-camera"></i></div><span class="app-card-name">Cameras & Drones</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-child-reaching"></i></div><span class="app-card-name">Baby Clothing</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-baby-carriage"></i></div><span class="app-card-name">Strollers & Gear</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-gamepad"></i></div><span class="app-card-name">Toys & Games</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-heart-pulse"></i></div><span class="app-card-name">Maternity Care</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-bottle-droplet"></i></div><span class="app-card-name">Feeding & Nursing</span></div>
                     </div>
                 </section>
             `;
