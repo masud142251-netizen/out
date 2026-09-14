@@ -128,7 +128,6 @@
         .card-footer-actions { display: flex; justify-content: center; align-items: center; padding: 10px; background: rgba(15, 15, 15, 0.95); }
         .love-share-group { display: flex; align-items: center; gap: 20px; justify-content: center; width: 100%; }
         
-        /* গোল্ডেন কালার কনভার্শন লাভ বাটন */
         .love-action { display: flex; align-items: center; gap: 5px; cursor: pointer; font-size: 0.75rem; font-weight: 700; color: var(--pink-love); transition: 0.3s; }
         .love-action i { font-size: 0.95rem; color: var(--pink-love); transition: 0.3s; }
         .love-action.gold-active { color: var(--gold-solid) !important; }
@@ -136,17 +135,33 @@
 
         .share-action-btn { display: flex; align-items: center; gap: 5px; background: none; border: none; font-size: 0.75rem; font-weight: 700; cursor: pointer; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        .fullscreen-portal-view, .subdomain-iframe-overlay, .category-fullscreen-view, #productDetailModal, #localYouModal, #shareModal {
+        .fullscreen-portal-view, .subdomain-iframe-overlay, .category-fullscreen-view, #productDetailModal, #localYouModal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 5000; overflow-y: auto;
         }
         .category-fullscreen-view { z-index: 4000; background: var(--bg-retail); padding: 20px 12px 90px 12px; }
-        #productDetailModal, #localYouModal, #shareModal { z-index: 5000; background: var(--bg-retail); padding: 15px 10px 80px 10px; }
+        #productDetailModal, #localYouModal { z-index: 5000; background: var(--bg-retail); padding: 15px 10px 80px 10px; }
         .product-details-content { padding: 4px; max-width: 440px; margin: 25px auto 0 auto; display: flex; flex-direction: column; gap: 8px; }
 
-        .local-you-box, .share-box-content {
+        .local-you-box {
             max-width: 440px; width: 92%; margin: 30px auto; background: #0c0c0c; border: 1px solid rgba(212,175,55,0.35);
             border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.9);
         }
+
+        #shareModal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.75); z-index: 99999; align-items: center; justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+        .share-box-content {
+            max-width: 420px; width: 92%; background: #0c0c0c; border: 1.5px solid rgba(212,175,55,0.5);
+            border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 12px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.95); position: relative; animation: popIn 0.25s ease;
+        }
+        @keyframes popIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
         .cart-items-preview-box {
             background: #141414; border: 1px solid rgba(212,175,55,0.2); border-radius: 8px; padding: 8px; max-height: 190px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px;
         }
@@ -276,7 +291,6 @@
             pointer-events: none; box-shadow: 0 5px 25px rgba(212,175,55,0.9);
         }
 
-        /* প্রিমিয়াম গোল্ডেন গ্রেডিয়েন্ট আইকনযুক্ত শেয়ার অপশন গ্রিড */
         .share-options-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0; max-height: 260px; overflow-y: auto; }
         .share-opt-btn { background: #161616; border: 1px solid rgba(212,175,55,0.3); border-radius: 8px; padding: 10px 4px; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; color: var(--text-white); font-size: 0.55rem; font-weight: 700; }
         .share-opt-btn i { font-size: 1.2rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -340,10 +354,10 @@
         <iframe id="subdomainIframeElement" src="" style="width: 100vw; height: calc(100vh - 65px); border: none; background: #000; display: block;"></iframe>
     </div>
 
-    <!-- ইন-পেস টগলযোগ্য শেয়ার মডাল (rorraxy.com লিঙ্ক এবং গোল্ডেন আইকনসহ) -->
-    <div id="shareModal">
-        <div class="golden-close-btn" onclick="toggleShareModal()"><i class="fa-solid fa-xmark"></i></div>
+    <!-- ফ্লোটিং শেয়ার পপআপ মডাল -->
+    <div id="shareModal" onclick="if(event.target === this) toggleShareModal();">
         <div class="share-box-content">
+            <div class="golden-close-btn" style="position:absolute; top:12px; right:12px; width:30px; height:30px;" onclick="toggleShareModal()"><i class="fa-solid fa-xmark" style="font-size:0.9rem;"></i></div>
             <h3 style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:0.85rem; text-transform:uppercase; text-align:center;">Share Product</h3>
             <div class="share-options-grid">
                 <div class="share-opt-btn" onclick="shareToSocial('whatsapp')"><i class="fa-brands fa-whatsapp"></i><span>WhatsApp</span></div>
@@ -460,7 +474,7 @@
         </div>
     </div>
 
-    <!-- ক্যাটাগরি ওভারলে -->
+    <!-- ক্যাটাগরি ওভারলে (৭টি প্রধান ক্যাটাগরি ও সাব-ক্যাটাগরি সহ সম্পূর্ণ তথ্য) -->
     <div id="categoryView" class="category-fullscreen-view">
         <div class="golden-close-btn" onclick="closeCategoryView()"><i class="fa-solid fa-xmark"></i></div>
         <div style="margin-bottom: 25px; text-align: center;">
@@ -698,10 +712,11 @@
             document.getElementById('categoryView').style.display = 'none';
         }
 
+        // ৭টি প্রধান ক্যাটাগরি ও তাদের সাব-ক্যাটাগরি সম্পূর্ণ তথ্য সহ লোড করার ফাংশন
         function openCategoryContent() {
             const container = document.getElementById('dynamicCategoryContent');
             const titleEl = document.getElementById('categoryViewTitle');
-            titleEl.innerText = isWholesaleMode ? "Wholesale Categories" : "Retail Categories";
+            titleEl.innerText = isWholesaleMode ? "All Wholesale Categories (7 Core)" : "All Retail Categories (7 Core)";
             
             container.innerHTML = `
                 <section class="category-section">
@@ -719,6 +734,68 @@
                         <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-glasses"></i></div><span class="app-card-name">Accessories</span></div>
                     </div>
                 </section>
+
+                <section class="category-section">
+                    <div class="category-header-row"><h2 class="category-title">2. Men's Fashion</h2></div>
+                    <div class="app-store-grid">
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-user-tie"></i></div><span class="app-card-name">Suits & Blazers</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-shirt"></i></div><span class="app-card-name">Shirts & Polos</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-socks"></i></div><span class="app-card-name">Footwear</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-stopwatch"></i></div><span class="app-card-name">Luxury Watches</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-wallet"></i></div><span class="app-card-name">Wallets & Belts</span></div>
+                    </div>
+                </section>
+
+                <section class="category-section">
+                    <div class="category-header-row"><h2 class="category-title">3. Electronics & Gadgets</h2></div>
+                    <div class="app-store-grid">
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-mobile-screen"></i></div><span class="app-card-name">Smartphones</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-laptop"></i></div><span class="app-card-name">Laptops & PCs</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-headphones"></i></div><span class="app-card-name">Audio & Sound</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-camera"></i></div><span class="app-card-name">Cameras & Drones</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-plug"></i></div><span class="app-card-name">Accessories</span></div>
+                    </div>
+                </section>
+
+                <section class="category-section">
+                    <div class="category-header-row"><h2 class="category-title">4. Home & Living</h2></div>
+                    <div class="app-store-grid">
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-couch"></i></div><span class="app-card-name">Furniture (Gamar)</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-bed"></i></div><span class="app-card-name">Bedding & Linens</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-utensils"></i></div><span class="app-card-name">Kitchenware</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-lightbulb"></i></div><span class="app-card-name">Lighting & Decor</span></div>
+                    </div>
+                </section>
+
+                <section class="category-section">
+                    <div class="category-header-row"><h2 class="category-title">5. Beauty & Personal Care</h2></div>
+                    <div class="app-store-grid">
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-spa"></i></div><span class="app-card-name">Skincare</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-palette"></i></div><span class="app-card-name">Makeup</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-wind"></i></div><span class="app-card-name">Hair Care</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-droplet"></i></div><span class="app-card-name">Fragrances</span></div>
+                    </div>
+                </section>
+
+                <section class="category-section">
+                    <div class="category-header-row"><h2 class="category-title">6. Baby & Kids</h2></div>
+                    <div class="app-store-grid">
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-child-reaching"></i></div><span class="app-card-name">Baby Clothing</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-baby-carriage"></i></div><span class="app-card-name">Strollers & Gear</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-gamepad"></i></div><span class="app-card-name">Toys & Games</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-book-open"></i></div><span class="app-card-name">Kids Education</span></div>
+                    </div>
+                </section>
+
+                <section class="category-section">
+                    <div class="category-header-row"><h2 class="category-title">7. Groceries & Agro</h2></div>
+                    <div class="app-store-grid">
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-carrot"></i></div><span class="app-card-name">Fresh Veggies</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-seedling"></i></div><span class="app-card-name">Rooftop Garden</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-jar"></i></div><span class="app-card-name">Organic Food</span></div>
+                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-wheat-awn"></i></div><span class="app-card-name">Grains & Spices</span></div>
+                    </div>
+                </section>
             `;
         }
 
@@ -733,7 +810,6 @@
         }
         function executeSearch() { document.getElementById('searchPopup').style.display = 'none'; }
 
-        // কার্ড এবং পপআপের লাভ কাউন্টার ও সোনালী কালার সিঙ্ক করার ফাংশন
         function syncLoveCounters(newVal, isActive) {
             document.querySelectorAll('.love-count').forEach(el => el.innerText = newVal);
             document.querySelectorAll('.modal-love-count').forEach(el => el.innerText = newVal);
@@ -788,25 +864,22 @@
             element.classList.add('active');
         }
 
-        // চ্যাট উইথ সেলারের আগে কাস্টমার ইনফরমেশন সিকোয়েন্স
         function chatWithSeller() {
             closeProductDetails();
             toggleLocalYouPanel();
             alert("Please verify with Google and fill in your customer details before connecting with the seller.");
         }
 
-        // ইন-পেস শেয়ার মোডাল টগল সিস্টেম
         function toggleShareModal() {
             const modal = document.getElementById('shareModal');
-            if (modal.style.display === 'block') {
+            if (modal.style.display === 'flex') {
                 modal.style.display = 'none';
             } else {
                 document.getElementById('shareUrlInput').value = "https://rorraxy.com";
-                modal.style.display = 'block';
+                modal.style.display = 'flex';
             }
         }
 
-        // কোনো পারমিশন বা প্রম্পট ছাড়াই সরাসরি rorraxy.com লিঙ্ক কপি করা
         function copyShareLink() {
             let input = document.getElementById('shareUrlInput');
             input.select();
@@ -837,6 +910,7 @@
             } else {
                 alert("Opening " + platform + " share...");
             }
+            toggleShareModal();
         }
 
         function triggerOrderNow(event) {
