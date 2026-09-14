@@ -68,7 +68,8 @@
         body.wholesale-mode .fullscreen-portal-view,
         body.wholesale-mode .subdomain-iframe-overlay,
         body.wholesale-mode #productDetailModal,
-        body.wholesale-mode #localYouModal { background: var(--royal-blue-gradient) !important; }
+        body.wholesale-mode #localYouModal,
+        body.wholesale-mode #infoPopupModal { background: var(--royal-blue-gradient) !important; }
 
         header.app-header {
             display: flex; flex-direction: column; padding: 8px 10px; align-items: center;
@@ -135,16 +136,24 @@
 
         .share-action-btn { display: flex; align-items: center; gap: 5px; background: none; border: none; font-size: 0.75rem; font-weight: 700; cursor: pointer; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        .fullscreen-portal-view, .subdomain-iframe-overlay, .category-fullscreen-view, #productDetailModal, #localYouModal {
+        .fullscreen-portal-view, .subdomain-iframe-overlay, .category-fullscreen-view, #productDetailModal, #localYouModal, #infoPopupModal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 5000; overflow-y: auto;
         }
         .category-fullscreen-view { z-index: 4000; background: var(--bg-retail); padding: 20px 12px 90px 12px; }
         #productDetailModal, #localYouModal { z-index: 5000; background: var(--bg-retail); padding: 15px 10px 80px 10px; }
+        #infoPopupModal { z-index: 6000; background: rgba(0,0,0,0.85); align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+        
         .product-details-content { padding: 4px; max-width: 440px; margin: 25px auto 0 auto; display: flex; flex-direction: column; gap: 8px; }
 
         .local-you-box {
             max-width: 440px; width: 92%; margin: 30px auto; background: #0c0c0c; border: 1px solid rgba(212,175,55,0.35);
             border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.9);
+        }
+
+        .info-popup-box {
+            max-width: 400px; width: 92%; background: #0c0c0c; border: 1.5px solid rgba(212,175,55,0.5);
+            border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 12px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.95); position: relative; animation: popIn 0.25s ease;
         }
 
         #shareModal {
@@ -212,9 +221,13 @@
         .discount-badge-btn { background: var(--pink-discount); color: #fff; font-size: 0.52rem; font-weight: 800; padding: 5px 8px; border-radius: 5px; border: none; display: flex; align-items: center; gap: 3px; }
         .chat-with-seller-btn { background: var(--gold-gradient); color: #000; font-size: 0.55rem; font-weight: 800; padding: 6px 10px; border-radius: 5px; border: none; cursor: pointer; }
 
-        .product-title-bottom { font-size: 0.8rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; text-align: center; }
-        .desc-size-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
-        .extra-action-btn { background: #161616; border: 1px solid rgba(212,175,55,0.3); color: #fff; font-size: 0.58rem; font-weight: 700; padding: 7px; border-radius: 6px; cursor: pointer; text-align: center; text-transform: uppercase; }
+        .product-title-bottom { font-size: 0.85rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; text-align: center; letter-spacing: 0.5px; }
+        
+        /* ডেসক্রিপশন, সাইজ ও প্যাকেজিং বাটন গ্রিড (৩টি বাটন) */
+        .desc-size-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+        .extra-action-btn { background: #161616; border: 1px solid rgba(212,175,55,0.3); color: #fff; font-size: 0.52rem; font-weight: 700; padding: 7px 2px; border-radius: 6px; cursor: pointer; text-align: center; text-transform: uppercase; }
+
+        .inventory-status-box { background: #121212; border: 1px solid rgba(212,175,55,0.25); border-radius: 6px; padding: 6px 10px; display: flex; justify-content: space-between; align-items: center; font-size: 0.6rem; font-weight: 600; color: var(--text-gray); }
 
         .quantity-tier-container { display: flex; flex-direction: column; gap: 6px; }
         .wholesale-tiers-row { display: none; gap: 5px; }
@@ -433,6 +446,15 @@
         </div>
     </div>
 
+    <!-- ইনফো পপআপ মডাল (ডেসক্রিপশন, সাইজ ও প্যাকেজিংয়ের জন্য) -->
+    <div id="infoPopupModal" onclick="if(event.target === this) closeInfoPopup()">
+        <div class="info-popup-box">
+            <div class="golden-close-btn" style="position:absolute; top:12px; right:12px; width:30px; height:30px;" onclick="closeInfoPopup()"><i class="fa-solid fa-xmark" style="font-size:0.9rem;"></i></div>
+            <h3 id="infoPopupTitle" style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:0.85rem; text-transform:uppercase; text-align:center;">Information</h3>
+            <div id="infoPopupBody" style="font-size:0.68rem; color:var(--text-gray); line-height:1.5; max-height:220px; overflow-y:auto; text-align:left;"></div>
+        </div>
+    </div>
+
     <!-- প্রোডাক্ট ডিটেইলস পপ-আপ -->
     <div id="productDetailModal">
         <div class="golden-close-btn" onclick="closeProductDetails()"><i class="fa-solid fa-xmark"></i></div>
@@ -445,16 +467,28 @@
                 <div class="love-action modal-love-btn" onclick="toggleModalLove(this)"><i class="fa-solid fa-heart"></i> <span class="modal-love-count">343</span></div>
                 <button class="share-action-btn" onclick="toggleShareModal()"><i class="fa-solid fa-share-nodes"></i> Share</button>
             </div>
+            
+            <div class="product-title-bottom" id="modalProductTitle">PREMIUM BRACELET</div>
+
             <div class="price-chat-row">
                 <span class="detail-price" id="modalProductPrice">$100.00</span>
                 <button class="discount-badge-btn"><span id="modalDiscountText">5% OFF (BD)</span></button>
                 <button class="chat-with-seller-btn" onclick="chatWithSeller()">Chat with Seller</button>
             </div>
-            <div class="product-title-bottom" id="modalProductTitle">PREMIUM BRACELET</div>
-            <div class="desc-size-row">
-                <button class="extra-action-btn" onclick="openDescriptionPopup()"><i class="fa-solid fa-file-lines"></i> Description</button>
-                <button class="extra-action-btn" onclick="openSizePopup()"><i class="fa-solid fa-ruler"></i> Size & Spec</button>
+
+            <!-- স্টক ও ইনভেন্টরি স্ট্যাটাস বক্স -->
+            <div class="inventory-status-box" id="inventoryStatusDisplay">
+                <span>Stock Status:</span>
+                <span id="stockCountText" style="color:var(--gold-solid); font-weight:800;">Retail: 125 Pcs Available</span>
             </div>
+
+            <!-- ডেসক্রিপশন, সাইজ ও প্যাকেজিং বাটনসমূহ -->
+            <div class="desc-size-row">
+                <button class="extra-action-btn" onclick="openInfoPopup('description')"><i class="fa-solid fa-file-lines"></i> Description</button>
+                <button class="extra-action-btn" onclick="openInfoPopup('size')"><i class="fa-solid fa-ruler"></i> Size & Spec</button>
+                <button class="extra-action-btn" onclick="openInfoPopup('packaging')"><i class="fa-solid fa-box"></i> Packaging</button>
+            </div>
+
             <div class="quantity-tier-container" id="qtyTierContainer">
                 <div class="wholesale-tiers-row">
                     <button class="tier-btn active" onclick="setWholesaleTier(1, 100, event)">Sample (1 Pcs)</button>
@@ -474,7 +508,7 @@
         </div>
     </div>
 
-    <!-- ক্যাটাগরি ওভারলে (সঠিক সাব-ক্যাটাগরি সংখ্যা সহ ৭টি মূল ক্যাটাগরি) -->
+    <!-- ক্যাটাগরি ওভারলে -->
     <div id="categoryView" class="category-fullscreen-view">
         <div class="golden-close-btn" onclick="closeCategoryView()"><i class="fa-solid fa-xmark"></i></div>
         <div style="margin-bottom: 25px; text-align: center;">
@@ -535,6 +569,7 @@
             document.getElementById('searchPopup').style.display = 'none';
             document.getElementById('productDetailModal').style.display = 'none';
             document.getElementById('shareModal').style.display = 'none';
+            document.getElementById('infoPopupModal').style.display = 'none';
         }
 
         function updateCartBadge() {
@@ -653,6 +688,7 @@
             const qtyContainer = document.getElementById('qtyTierContainer');
             const toggleBtn = document.getElementById('wholesaleToggleBtn');
             const discountText = document.getElementById('modalDiscountText');
+            const stockText = document.getElementById('stockCountText');
 
             isWholesaleMode = !isWholesaleMode;
             document.body.classList.toggle('wholesale-mode');
@@ -662,12 +698,14 @@
                 toggleBtn.innerText = "Retail Mode";
                 toggleBtn.classList.add('wholesale-active');
                 discountText.innerText = "0% OFF (BD)";
+                stockText.innerText = "Wholesale Bulk Inventory: 5,000+ Pcs Ready";
                 setWholesaleTier(1, 100, null);
             } else {
                 qtyContainer.classList.remove('wholesale-mode-active');
                 toggleBtn.innerText = "Wholesale";
                 toggleBtn.classList.remove('wholesale-active');
                 discountText.innerText = "5% OFF (BD)";
+                stockText.innerText = "Retail Stock: 125 Pcs Available";
                 currentQuantity = 1;
                 baseUnitPrice = 100.00;
                 document.getElementById('productQtyDisplay').innerText = currentQuantity;
@@ -698,6 +736,29 @@
             document.getElementById('modalProductPrice').innerText = `$${finalPrice.toFixed(2)}`;
         }
 
+        /* ইনফো পপআপ ওপেন করার ফাংশন (ডেসক্রিপশন, সাইজ ও প্যাকেজিংয়ের জন্য) */
+        function openInfoPopup(type) {
+            const titleEl = document.getElementById('infoPopupTitle');
+            const bodyEl = document.getElementById('infoPopupBody');
+            const modal = document.getElementById('infoPopupModal');
+
+            if (type === 'description') {
+                titleEl.innerText = "Product Description";
+                bodyEl.innerHTML = "Crafted with supreme precision, this luxury item defines global elegance. Made from premium materials featuring high-gloss lacquer and superior durability, tailored for elite fashion connoisseurs.";
+            } else if (type === 'size') {
+                titleEl.innerText = "Size & Specifications";
+                bodyEl.innerHTML = "• Standard Length: Adjustable (7.5 - 8.5 inches)<br>• Finish: Golden Teak & High Gloss Lacquer<br>• Weight: 45g<br>• Material Grade: Premium alloy with gold plating.";
+            } else if (type === 'packaging') {
+                titleEl.innerText = "Courier & Packaging Info (Amazon/Daraz Spec)";
+                bodyEl.innerHTML = "• Package Weight: 0.15 kg<br>• Dimensions: 12cm x 8cm x 4cm<br>• Box Type: Eco-friendly Luxury Hard Box<br>• Courier Ready: Drop-test certified for international logistics.";
+            }
+            modal.style.display = 'flex';
+        }
+
+        function closeInfoPopup() {
+            document.getElementById('infoPopupModal').style.display = 'none';
+        }
+
         function toggleCategoryView() {
             const view = document.getElementById('categoryView');
             if (view.style.display === 'block') {
@@ -712,7 +773,6 @@
             document.getElementById('categoryView').style.display = 'none';
         }
 
-        /* সাব-ক্যাটাগরির সঠিক সংখ্যা অনুযায়ী ৭টি মূল ক্যাটাগরি ডেটা (Women's:10, Men's:5, Boys':5, Girls':10, Luxury Gifts:5, Matching Sets:5/10, Mother & Baby:5) */
         function openCategoryContent() {
             const container = document.getElementById('dynamicCategoryContent');
             const titleEl = document.getElementById('categoryViewTitle');
