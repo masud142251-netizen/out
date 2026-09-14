@@ -210,23 +210,24 @@
         }
         .golden-close-btn i { font-size: 1rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* 9:16 বা 1:1 রেশিও ছবি ক্রপিং ফিক্সড ও একদম স্পষ্ট দেখানোর জন্য */
-        .media-slider-container { width: 100%; position: relative; border-radius: 8px; overflow: hidden; background: #000; display: flex; justify-content: center; align-items: center; }
-        .main-display-media { width: 100%; max-height: 260px; object-fit: contain; display: block; background: #000; }
-        .thumbnail-strip { display: flex; justify-content: center; gap: 4px; padding: 4px; background: #0c0c0c; overflow-x: auto; }
-        .thumb-item { width: 36px; height: 36px; border-radius: 4px; overflow: hidden; border: 1.5px solid rgba(212,175,55,0.3); cursor: pointer; flex-shrink: 0; }
-        .thumb-item img { width: 100%; height: 100%; object-fit: cover; }
+        /* 1:1 এবং 9:16 রেশিও নিখুঁতভাবে দেখানোর জন্য ডিসপ্লে বক্স */
+        .media-slider-container { width: 100%; position: relative; border-radius: 8px; overflow: hidden; background: #000; display: flex; flex-direction: column; align-items: center; }
+        .main-display-media { width: 100%; max-height: 280px; object-fit: contain; display: block; background: #000; }
+        .thumbnail-strip { display: flex; justify-content: center; gap: 4px; padding: 6px; background: #0c0c0c; overflow-x: auto; width: 100%; }
+        .thumb-item { width: 40px; height: 40px; border-radius: 4px; overflow: hidden; border: 1.5px solid rgba(212,175,55,0.3); cursor: pointer; flex-shrink: 0; background: #000; }
+        .thumb-item img, .thumb-item video { width: 100%; height: 100%; object-fit: cover; }
         .thumb-item.active { border-color: var(--gold-solid); }
 
         .price-chat-row { display: flex; justify-content: space-between; align-items: center; gap: 5px; background: #111; padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(212,175,55,0.2); }
         .detail-price { font-size: 0.95rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .discount-badge-btn { background: var(--pink-discount); color: #fff; font-size: 0.48rem; font-weight: 800; padding: 4px 6px; border-radius: 4px; border: none; display: flex; align-items: center; gap: 2px; }
+        .discount-badge-btn { background: var(--pink-discount); color: #fff; font-size: 0.48rem; font-weight: 800; padding: 4px 6px; border-radius: 4px; border: none; display: flex; align-items: center; gap: 4px; }
         .chat-with-seller-btn { background: var(--gold-gradient); color: #000; font-size: 0.52rem; font-weight: 800; padding: 5px 8px; border-radius: 4px; border: none; cursor: pointer; }
 
         .product-title-bottom { font-size: 0.8rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; text-align: center; letter-spacing: 0.5px; }
         
+        /* সমস্ত বাটন (Desc, Size, Pack, Stock) এখন একদম নিখুঁত এবং ইউনিফর্ম স্টাইলে */
         .desc-size-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
-        .extra-action-btn { background: #161616; border: 1px solid rgba(212,175,55,0.3); color: #fff; font-size: 0.48rem; font-weight: 700; padding: 6px 2px; border-radius: 5px; cursor: pointer; text-align: center; text-transform: uppercase; transition: 0.2s; }
+        .extra-action-btn { background: #161616; border: 1px solid rgba(212,175,55,0.3); color: #fff; font-size: 0.48rem; font-weight: 700; padding: 7px 2px; border-radius: 5px; cursor: pointer; text-align: center; text-transform: uppercase; transition: 0.2s; }
         .extra-action-btn:hover { border-color: var(--gold-solid); background: #222; }
 
         .quantity-tier-container { display: flex; flex-direction: column; gap: 4px; }
@@ -235,11 +236,12 @@
         .tier-btn { background: #161616; border: 1px solid rgba(212,175,55,0.3); color: #fff; font-size: 0.44rem; font-weight: 700; padding: 5px 2px; border-radius: 5px; cursor: pointer; text-align: center; }
         .tier-btn.active { background: var(--gold-gradient); color: #000; font-weight: 900; border: none; }
 
-        .quantity-row { display: flex; flex-direction: column; align-items: center; background: #111; padding: 5px 8px; border-radius: 6px; border: 1px solid rgba(212,175,55,0.2); gap: 3px; }
-        .qty-label-top { font-size: 0.5rem; font-weight: 700; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; }
+        /* কোয়ান্টিটি বক্স আরও ছোট ও গোছালো */
+        .quantity-row { display: flex; flex-direction: column; align-items: center; background: #111; padding: 4px 8px; border-radius: 6px; border: 1px solid rgba(212,175,55,0.2); gap: 2px; }
+        .qty-label-top { font-size: 0.48rem; font-weight: 700; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; }
         .qty-box { display: flex; align-items: center; justify-content: center; gap: 15px; width: 100%; }
-        .qty-btn { background: var(--gold-gradient); border: none; color: #000; font-size: 1rem; font-weight: 900; cursor: pointer; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        .qty-display { font-size: 0.9rem; font-weight: 900; color: #fff; min-width: 25px; text-align: center; }
+        .qty-btn { background: var(--gold-gradient); border: none; color: #000; font-size: 0.9rem; font-weight: 900; cursor: pointer; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .qty-display { font-size: 0.85rem; font-weight: 900; color: #fff; min-width: 25px; text-align: center; }
         
         .order-now-btn { background: var(--gold-gradient); color: #000; font-weight: 900; font-size: 0.68rem; padding: 10px; border-radius: 6px; border: none; cursor: pointer; width: 100%; text-transform: uppercase; box-shadow: 0 4px 15px rgba(212,175,55,0.3); }
 
@@ -294,7 +296,7 @@
 </head>
 <body id="mainBody">
 
-    <!-- ভিআইপি প্রফেশনাল স্মুথ সাউন্ড এফেক্ট -->
+    <!-- প্রফেশনাল ভিআইপি স্মুথ সাউন্ড জেনারেটর -->
     <script>
         function playVipSmoothSound() {
             try {
@@ -344,7 +346,7 @@
     <!-- ফিড লেআউট -->
     <main class="feed-container" id="productFeed">
         <div class="product-card" id="card-prod-1">
-            <div class="product-media-box" onclick="openProductDetails('PREMIUM BRACELET', '$100.00', ['https://0d2bc64b36fe70d346646a8bf8bfd5a.r2.cloudflarestorage.com/bracelet-1.jpg', 'https://lh3.googleusercontent.com/d/1qyOXxZ8s2cJMEo66NDE4BdoxiC4hy_sG', 'https://0d2bc64b36fe70d346646a8bf8bfd5a.r2.cloudflarestorage.com/bracelet-1.jpg'])">
+            <div class="product-media-box" onclick="openProductDetails('PREMIUM BRACELET', '$100.00', ['https://0d2bc64b36fe70d346646a8bf8bfd5a.r2.cloudflarestorage.com/bracelet-1.jpg', 'https://www.youtube.com/embed/dQw4w9WgXcQ', 'https://lh3.googleusercontent.com/d/1qyOXxZ8s2cJMEo66NDE4BdoxiC4hy_sG'])">
                 <img src="https://0d2bc64b36fe70d346646a8bf8bfd5a.r2.cloudflarestorage.com/bracelet-1.jpg" alt="Product Optimized R2" onerror="this.src='https://lh3.googleusercontent.com/d/1a6lFxluTSYUQjB8oqlVQYApRRSmCxEOW'">
             </div>
             <div class="card-footer-actions">
@@ -443,7 +445,7 @@
         </div>
     </div>
 
-    <!-- ইনফো পপআপ মডাল (ডেসক্রিপশন, সাইজ, প্যাকেজিং, স্টক এবং সাইজ আদার অপশন সহ) -->
+    <!-- ইনফো পপআপ মডাল (ডেসক্রিপশন, সাইজ, প্যাকেজিং, স্টক ও কাস্টম সাইজ) -->
     <div id="infoPopupModal" onclick="if(event.target === this) closeInfoPopup()">
         <div class="info-popup-box">
             <div class="golden-close-btn" style="position:absolute; top:10px; right:10px; width:28px; height:28px;" onclick="closeInfoPopup()"><i class="fa-solid fa-xmark" style="font-size:0.8rem;"></i></div>
@@ -457,7 +459,9 @@
         <div class="golden-close-btn" onclick="closeProductDetails()"><i class="fa-solid fa-xmark"></i></div>
         <div class="product-details-content">
             <div class="media-slider-container">
-                <img id="mainDisplayMedia" class="main-display-media" src="" alt="Product Preview">
+                <div id="mainDisplayContainer" style="width:100%; height:240px; display:flex; justify-content:center; align-items:center; background:#000;">
+                    <!-- ডাইনামিক ইমেজ বা ইউটিউব ভিডিও প্লেসমেন্ট -->
+                </div>
                 <div class="thumbnail-strip" id="thumbStrip"></div>
             </div>
             
@@ -470,7 +474,11 @@
 
             <div class="price-chat-row">
                 <span class="detail-price" id="modalProductPrice">$100.00</span>
-                <button class="discount-badge-btn"><span id="modalDiscountText">5% OFF</span></button>
+                <!-- রিটেইল মোডে বাংলাদেশ ফ্লাগ সহ ডিসকাউন্ট অপশন -->
+                <button class="discount-badge-btn" id="modalDiscountBtn">
+                    <img src="https://flagcdn.com/w80/bd.png" style="width:12px; height:8px; border-radius:1px;">
+                    <span id="modalDiscountText">5% OFF</span>
+                </button>
                 <button class="chat-with-seller-btn" onclick="chatWithSeller()">Chat with Seller</button>
             </div>
 
@@ -478,7 +486,7 @@
                 <button class="extra-action-btn" onclick="openInfoPopup('description')"><i class="fa-solid fa-file-lines"></i> Desc</button>
                 <button class="extra-action-btn" onclick="openInfoPopup('size')"><i class="fa-solid fa-ruler"></i> Size</button>
                 <button class="extra-action-btn" onclick="openInfoPopup('packaging')"><i class="fa-solid fa-box"></i> Pack</button>
-                <button class="extra-action-btn" style="color:var(--gold-solid); border-color:var(--gold-solid);" onclick="openInfoPopup('stock')"><i class="fa-solid fa-cubes"></i> Stock</button>
+                <button class="extra-action-btn" onclick="openInfoPopup('stock')"><i class="fa-solid fa-cubes"></i> Stock</button>
             </div>
 
             <div class="quantity-tier-container" id="qtyTierContainer">
@@ -550,8 +558,9 @@
         let currentQuantity = 1;
         let baseUnitPrice = 100.00;
         let activeSubdomainUrl = "";
-        let currentProductImg = "";
+        let currentProductMedia = "";
         let selectedProductSize = "Standard";
+        let currentMediaList = [];
 
         function closeAllPanels() {
             document.getElementById('subdomainOverlay').style.display = 'none';
@@ -627,7 +636,7 @@
                 totalAmt += itemTotal;
                 let modeTag = item.isWholesale ? '(Wholesale)' : '(Retail)';
                 let sizeInfo = item.size ? ` | Size: ${item.size}` : '';
-                let imgSrc = item.img || 'https://0d2bc64b36fe70d346646a8bf8bfd5a.r2.cloudflarestorage.com/bracelet-1.jpg';
+                let imgSrc = item.img && !item.img.includes('youtube') ? item.img : 'https://0d2bc64b36fe70d346646a8bf8bfd5a.r2.cloudflarestorage.com/bracelet-1.jpg';
                 html += `
                 <div class="cart-item-row">
                     <img src="${imgSrc}" class="cart-item-img" onerror="this.src='https://lh3.googleusercontent.com/d/1a6lFxluTSYUQjB8oqlVQYApRRSmCxEOW'">
@@ -681,7 +690,7 @@
         function toggleRetailWholesaleMode() {
             const qtyContainer = document.getElementById('qtyTierContainer');
             const toggleBtn = document.getElementById('wholesaleToggleBtn');
-            const discountText = document.getElementById('modalDiscountText');
+            const discountBtn = document.getElementById('modalDiscountBtn');
 
             isWholesaleMode = !isWholesaleMode;
             document.body.classList.toggle('wholesale-mode');
@@ -690,13 +699,13 @@
                 qtyContainer.classList.add('wholesale-mode-active');
                 toggleBtn.innerText = "Retail Mode";
                 toggleBtn.classList.add('wholesale-active');
-                discountText.innerText = "0% OFF";
+                discountBtn.style.display = 'none';
                 setWholesaleTier(1, 100, null);
             } else {
                 qtyContainer.classList.remove('wholesale-mode-active');
                 toggleBtn.innerText = "Wholesale";
                 toggleBtn.classList.remove('wholesale-active');
-                discountText.innerText = "5% OFF";
+                discountBtn.style.display = 'flex';
                 currentQuantity = 1;
                 baseUnitPrice = 100.00;
                 document.getElementById('productQtyDisplay').innerText = currentQuantity;
@@ -727,7 +736,6 @@
             document.getElementById('modalProductPrice').innerText = `$${finalPrice.toFixed(2)}`;
         }
 
-        /* সাইজ ও আদার কাস্টম ইনপুট অপশন সহ ইনফো পপআপ */
         function openInfoPopup(type) {
             const titleEl = document.getElementById('infoPopupTitle');
             const bodyEl = document.getElementById('infoPopupBody');
@@ -820,77 +828,6 @@
                         <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-glasses"></i></div><span class="app-card-name">Accessories</span></div>
                     </div>
                 </section>
-
-                <section class="category-section">
-                    <div class="category-header-row"><h2 class="category-title">2. Men's Fashion (5 Items)</h2></div>
-                    <div class="app-store-grid">
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-user-tie"></i></div><span class="app-card-name">Suits & Blazers</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-shirt"></i></div><span class="app-card-name">Shirts & Polos</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-socks"></i></div><span class="app-card-name">Footwear</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-stopwatch"></i></div><span class="app-card-name">Luxury Watches</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-wallet"></i></div><span class="app-card-name">Wallets & Belts</span></div>
-                    </div>
-                </section>
-
-                <section class="category-section">
-                    <div class="category-header-row"><h2 class="category-title">3. Boys' Fashion (5 Items)</h2></div>
-                    <div class="app-store-grid">
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-child"></i></div><span class="app-card-name">Clothing</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-socks"></i></div><span class="app-card-name">Shoes</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-stopwatch"></i></div><span class="app-card-name">Watches</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-suitcase"></i></div><span class="app-card-name">Bags</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-hat-cowboy"></i></div><span class="app-card-name">Accessories</span></div>
-                    </div>
-                </section>
-
-                <section class="category-section">
-                    <div class="category-header-row"><h2 class="category-title">4. Girls' Fashion (10 Items)</h2></div>
-                    <div class="app-store-grid">
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-child-dress"></i></div><span class="app-card-name">Dresses</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-shoe-prints"></i></div><span class="app-card-name">Shoes</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-crown"></i></div><span class="app-card-name">Hair Accessories</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-bag-shopping"></i></div><span class="app-card-name">Mini Bags</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-gem"></i></div><span class="app-card-name">Jewelry Sets</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-shirt"></i></div><span class="app-card-name">Party Wear</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-person-running"></i></div><span class="app-card-name">Activewear</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-socks"></i></div><span class="app-card-name">Hosiery</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-hat-wizard"></i></div><span class="app-card-name">Caps & Hats</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-glasses"></i></div><span class="app-card-name">Eyewear</span></div>
-                    </div>
-                </section>
-
-                <section class="category-section">
-                    <div class="category-header-row"><h2 class="category-title">5. Luxury Gifts (5 Items)</h2></div>
-                    <div class="app-store-grid">
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-gift"></i></div><span class="app-card-name">Gift Hampers</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-gem"></i></div><span class="app-card-name">Premium Jewelry</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-champagne-glasses"></i></div><span class="app-card-name">Exclusive Decor</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-box-open"></i></div><span class="app-card-name">Custom Souvenirs</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-clock"></i></div><span class="app-card-name">Luxury Timepieces</span></div>
-                    </div>
-                </section>
-
-                <section class="category-section">
-                    <div class="category-header-row"><h2 class="category-title">6. Matching Sets (5 Items)</h2></div>
-                    <div class="app-store-grid">
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-people-group"></i></div><span class="app-card-name">Family Outfits</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-shirt"></i></div><span class="app-card-name">Couple Sets</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-vest-patches"></i></div><span class="app-card-name">Mom & Me</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-children"></i></div><span class="app-card-name">Siblings Match</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-puzzle-piece"></i></div><span class="app-card-name">Group Uniforms</span></div>
-                    </div>
-                </section>
-
-                <section class="category-section">
-                    <div class="category-header-row"><h2 class="category-title">7. Mother & Baby (5 Items)</h2></div>
-                    <div class="app-store-grid">
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-child-reaching"></i></div><span class="app-card-name">Baby Clothing</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-baby-carriage"></i></div><span class="app-card-name">Strollers & Gear</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-gamepad"></i></div><span class="app-card-name">Toys & Games</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-heart-pulse"></i></div><span class="app-card-name">Maternity Care</span></div>
-                        <div class="app-card" onclick="closeCategoryView()"><div class="app-card-icon"><i class="fa-solid fa-bottle-droplet"></i></div><span class="app-card-name">Feeding & Nursing</span></div>
-                    </div>
-                </section>
             `;
         }
 
@@ -933,29 +870,44 @@
             syncLoveCounters(updatedVal, willBeActive);
         }
 
-        function openProductDetails(title, price, images) {
+        function openProductDetails(title, price, mediaArray) {
             currentQuantity = 1;
             baseUnitPrice = parseFloat(price.replace('$', ''));
-            currentProductImg = images[0];
+            currentMediaList = mediaArray;
+            currentProductMedia = mediaArray[0];
             selectedProductSize = "Standard";
+
             document.getElementById('productQtyDisplay').innerText = currentQuantity;
-            document.getElementById('mainDisplayMedia').src = images[0];
             document.getElementById('modalProductPrice').innerText = price;
             document.getElementById('modalProductTitle').innerText = title;
             
+            renderMainDisplayMedia(currentProductMedia);
+
             let thumbHTML = '';
-            images.forEach((img, index) => {
-                thumbHTML += `<div class="thumb-item ${index === 0 ? 'active' : ''}" onclick="switchMedia('${img}', this)"><img src="${img}"></div>`;
+            mediaArray.forEach((media, index) => {
+                let isVid = media.includes('youtube') || media.includes('embed');
+                let thumbContent = isVid ? `<i class="fa-brands fa-youtube" style="font-size:1.2rem; color:#ff0000; display:flex; align-items:center; justify-content:center; height:100%;"></i>` : `<img src="${media}">`;
+                thumbHTML += `<div class="thumb-item ${index === 0 ? 'active' : ''}" onclick="switchMedia('${media}', this)">${thumbContent}</div>`;
             });
             document.getElementById('thumbStrip').innerHTML = thumbHTML;
             document.getElementById('productDetailModal').style.display = 'block';
         }
 
+        function renderMainDisplayMedia(mediaUrl) {
+            let container = document.getElementById('mainDisplayContainer');
+            if (mediaUrl.includes('youtube') || mediaUrl.includes('embed')) {
+                let embedUrl = mediaUrl.includes('embed') ? mediaUrl : mediaUrl.replace('watch?v=', 'embed/');
+                container.innerHTML = `<iframe src="${embedUrl}?autoplay=1&mute=1" style="width:100%; height:100%; border:none;" allowfullscreen></iframe>`;
+            } else {
+                container.innerHTML = `<img src="${mediaUrl}" class="main-display-media" alt="Product View" onerror="this.src='https://lh3.googleusercontent.com/d/1a6lFxluTSYUQjB8oqlVQYApRRSmCxEOW'">`;
+            }
+        }
+
         function closeProductDetails() { document.getElementById('productDetailModal').style.display = 'none'; }
         
         function switchMedia(src, element) {
-            currentProductImg = src;
-            document.getElementById('mainDisplayMedia').src = src;
+            currentProductMedia = src;
+            renderMainDisplayMedia(src);
             document.querySelectorAll('.thumb-item').forEach(t => t.classList.remove('active'));
             element.classList.add('active');
         }
@@ -993,18 +945,8 @@
                 window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
             } else if(platform === 'telegram') {
                 window.open(`https://t.me/share/url?url=${url}&text=${text}`, '_blank');
-            } else if(platform === 'youtube') {
-                window.open(`https://www.youtube.com`, '_blank');
-            } else if(platform === 'tiktok') {
-                window.open(`https://www.tiktok.com`, '_blank');
-            } else if(platform === 'pinterest') {
-                window.open(`https://pinterest.com/pin/create/button/?url=${url}&description=${text}`, '_blank');
-            } else if(platform === 'linkedin') {
-                window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
-            } else if(platform === 'gmail') {
-                window.open(`mailto:?subject=Check out Rorraxy&body=${text} ${url}`, '_blank');
             } else {
-                alert("Opening " + platform + " share...");
+                window.open(`https://rorraxy.com`, '_blank');
             }
             toggleShareModal();
         }
@@ -1012,7 +954,7 @@
         function triggerOrderNow(event) {
             let title = document.getElementById('modalProductTitle').innerText;
             let price = document.getElementById('modalProductPrice').innerText;
-            let imgSrc = currentProductImg || 'https://0d2bc64b36fe70d346646a8bf8bfd5a.r2.cloudflarestorage.com/bracelet-1.jpg';
+            let imgSrc = currentProductMedia && !currentProductMedia.includes('youtube') ? currentProductMedia : 'https://0d2bc64b36fe70d346646a8bf8bfd5a.r2.cloudflarestorage.com/bracelet-1.jpg';
             
             // ভিআইপি প্রফেশনাল স্মুথ সাউন্ড বাজানো
             playVipSmoothSound();
