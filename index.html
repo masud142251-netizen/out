@@ -99,7 +99,7 @@
         }
         .live-chat-widget i { font-size: 1.7rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* Pinterest স্টাইল ফিড লেআউট (প্রোডাক্ট কখনো কাটা যাবে না) */
+        /* Pinterest অটো-রেশিও ফিড লেআউট (ছবি বা ভিডিওর সাইজ অনুযায়ী বক্স অ্যাডজাস্ট হবে) */
         .feed-container {
             padding: 12px 10px;
             display: grid;
@@ -124,9 +124,9 @@
             box-shadow: 0 6px 20px rgba(0,0,0,0.8); display: flex; flex-direction: column; transition: 0.3s; position: relative;
             border: 1px solid rgba(212, 175, 55, 0.15);
         }
-        /* Pinterest ফ্লেক্সিবল সাইজ: ছবি বা ভিডিও পুরোপুরি দেখাবে, কোনো অংশ কাটা পড়বে না */
-        .product-media-box { position: relative; width: 100%; cursor: pointer; background: #000; overflow: hidden; aspect-ratio: 9/16; display: flex; align-items: center; justify-content: center; }
-        .product-media-box img { width: 100%; height: 100%; display: block; object-fit: contain; transition: transform 0.4s ease; background: #000; }
+        /* অটো-রেশিও কন্টেইনার: ১:১ বা ৯:১৬ মিডিয়া নিখুঁতভাবে ফিট হবে, কোনো কালো অংশ বা কাটা পড়বে না */
+        .product-media-box { position: relative; width: 100%; cursor: pointer; background: #000; overflow: hidden; display: flex; align-items: center; justify-content: center; min-height: 200px; }
+        .product-media-box img { width: 100%; height: auto; display: block; object-fit: contain; transition: transform 0.4s ease; background: #000; }
         .product-media-box:hover img { transform: scale(1.03); }
         .card-footer-actions { display: flex; justify-content: center; align-items: center; padding: 8px; background: rgba(15, 15, 15, 0.95); }
         .love-share-group { display: flex; align-items: center; gap: 15px; justify-content: center; width: 100%; }
@@ -144,19 +144,19 @@
         .category-fullscreen-view { z-index: 4000; background: var(--bg-retail); padding: 15px 10px 80px 10px; }
         
         #productDetailModal { z-index: 5000; background: var(--bg-retail); padding: 10px 10px 70px 10px; }
-        .product-details-content { padding: 2px; max-width: 420px; margin: 10px auto 0 auto; display: flex; flex-direction: column; gap: 8px; }
+        .product-details-content { padding: 4px; max-width: 440px; width: 95%; margin: 10px auto 0 auto; display: flex; flex-direction: column; gap: 8px; }
 
         #localYouModal { z-index: 5000; background: var(--bg-retail); padding: 15px 10px 80px 10px; display: none; align-items: center; justify-content: center; }
         
-        /* চেকআউট প্যানেল: ভেতরের সমস্ত অতিরিক্ত বর্ডার রিমুভ করে স্পেস বড় ও প্রিমিয়াম করা হয়েছে */
+        /* চেকআউট প্যানেল: ক্লিন স্পেস ও বড় বর্ডার */
         .local-you-box {
             max-width: 620px; width: 95%; margin: auto; background: #0c0c0c; border: 2px solid rgba(212,175,55,0.5);
             border-radius: 18px; padding: 25px 20px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 20px 50px rgba(0,0,0,0.95);
         }
 
         .info-popup-box {
-            max-width: 380px; width: 92%; background: #111; border: 1.5px solid var(--gold-solid);
-            border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 10px;
+            max-width: 420px; width: 94%; background: #111; border: 1.5px solid var(--gold-solid);
+            border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 12px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.95); position: relative; animation: popIn 0.2s ease;
         }
 
@@ -175,7 +175,6 @@
             to { transform: scale(1); opacity: 1; }
         }
 
-        /* ভেতরের বর্ডার সম্পূর্ণ রিমুভ করে ক্লিন স্পেস তৈরি করা হয়েছে */
         .cart-items-preview-box {
             background: #111113; border: none; border-radius: 10px; padding: 6px 4px; max-height: 260px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;
         }
@@ -213,43 +212,46 @@
         }
         .golden-close-btn i { font-size: 1.1rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* ৯:১৬ শর্ট ভিডিও মাস্কড ফ্রেম */
+        /* অটো-রেশিও ভিডিও মাস্কড ফ্রেম (১:১ অথবা ৯:১৬ সাপোর্ট) */
         .media-slider-container { width: 100%; position: relative; border-radius: 12px; overflow: hidden; background: #000; border: 1px solid rgba(212,175,55,0.25); display: flex; flex-direction: column; align-items: center; }
-        .video-wrapper-clean { position: relative; width: 100%; height: 380px; background: #000; overflow: hidden; }
-        .video-wrapper-clean iframe { width: 100%; height: calc(100% + 120px); margin-top: -60px; border: none; pointer-events: auto; }
-        .video-mask-top { position: absolute; top: 0; left: 0; width: 100%; height: 65px; background: #000; z-index: 10; pointer-events: none; }
-        .video-mask-bottom { position: absolute; bottom: 0; left: 0; width: 100%; height: 60px; background: #000; z-index: 10; pointer-events: none; }
+        .video-wrapper-clean { position: relative; width: 100%; min-height: 350px; background: #000; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        .video-wrapper-clean iframe { width: 100%; height: calc(100% + 120px); border: none; pointer-events: auto; }
+        .video-mask-top { position: absolute; top: 0; left: 0; width: 100%; height: 50px; background: #000; z-index: 10; pointer-events: none; }
+        .video-mask-bottom { position: absolute; bottom: 0; left: 0; width: 100%; height: 50px; background: #000; z-index: 10; pointer-events: none; }
 
-        .main-display-media { width: 100%; max-height: 380px; object-fit: contain; display: block; background: #000; aspect-ratio: 9/16; }
+        .main-display-media { width: 100%; height: auto; max-height: 400px; object-fit: contain; display: block; background: #000; }
         .thumbnail-strip { display: flex; justify-content: center; gap: 6px; padding: 6px; background: #0a0a0c; overflow-x: auto; width: 100%; }
         .thumb-item { width: 44px; height: 44px; border-radius: 6px; overflow: hidden; border: 1.5px solid rgba(212,175,55,0.3); cursor: pointer; flex-shrink: 0; background: #000; display: flex; align-items: center; justify-content: center; }
         .thumb-item img, .thumb-item video { width: 100%; height: 100%; object-fit: cover; }
         .thumb-item.active { border-color: var(--gold-solid); box-shadow: 0 0 10px rgba(212,175,55,0.4); }
 
-        .price-chat-row { display: flex; justify-content: space-between; align-items: center; gap: 5px; background: #111; padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(212,175,55,0.2); }
-        .detail-price { font-size: 0.95rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .discount-badge-btn { background: var(--pink-discount); color: #fff; font-size: 0.48rem; font-weight: 800; padding: 4px 6px; border-radius: 4px; border: none; display: flex; align-items: center; gap: 4px; }
-        .chat-with-seller-btn { background: var(--gold-gradient); color: #000; font-size: 0.52rem; font-weight: 800; padding: 5px 8px; border-radius: 4px; border: none; cursor: pointer; }
-
-        .product-title-bottom { font-size: 0.8rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; text-align: center; letter-spacing: 0.5px; }
+        /* অ্যাট্রাক্টিভ প্রিমিয়াম প্রাইস ডিসপ্লে */
+        .price-chat-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; background: #111; padding: 10px 12px; border-radius: 8px; border: 1.5px solid rgba(212,175,55,0.35); }
+        .detail-price { font-size: 1.25rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 0.5px; }
+        .discount-badge-btn { background: var(--pink-discount); color: #fff; font-size: 0.52rem; font-weight: 800; padding: 5px 8px; border-radius: 4px; border: none; display: flex; align-items: center; gap: 4px; }
         
-        .desc-size-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
-        .extra-action-btn { background: #161616; border: 1px solid rgba(212,175,55,0.3); color: #fff; font-size: 0.48rem; font-weight: 700; padding: 7px 2px; border-radius: 5px; cursor: pointer; text-align: center; text-transform: uppercase; transition: 0.2s; }
-        .extra-action-btn:hover { border-color: var(--gold-solid); background: #222; }
+        /* Product Info বাটন স্টাইল */
+        .product-info-btn { background: #1a1a1e; border: 1px solid rgba(212,175,55,0.4); color: var(--gold-solid); font-size: 0.6rem; font-weight: 800; padding: 7px 10px; border-radius: 6px; cursor: pointer; text-transform: uppercase; display: flex; align-items: center; gap: 5px; transition: 0.3s; }
+        .product-info-btn:hover { background: rgba(212,175,55,0.15); border-color: var(--gold-solid); }
 
-        .quantity-tier-container { display: flex; flex-direction: column; gap: 4px; }
+        .chat-with-seller-btn { background: var(--gold-gradient); color: #000; font-size: 0.58rem; font-weight: 800; padding: 7px 10px; border-radius: 6px; border: none; cursor: pointer; text-transform: uppercase; white-space: nowrap; }
+
+        .product-title-bottom { font-size: 0.9rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; text-align: center; letter-spacing: 0.5px; }
+        
+        .quantity-tier-container { display: flex; flex-direction: column; gap: 6px; }
         .wholesale-tiers-row { display: none; gap: 4px; }
         .wholesale-mode-active .wholesale-tiers-row { display: grid; grid-template-columns: repeat(3, 1fr); }
         .tier-btn { background: #161616; border: 1px solid rgba(212,175,55,0.3); color: #fff; font-size: 0.44rem; font-weight: 700; padding: 5px 2px; border-radius: 5px; cursor: pointer; text-align: center; }
         .tier-btn.active { background: var(--gold-gradient); color: #000; font-weight: 900; border: none; }
 
-        .quantity-row { display: flex; flex-direction: column; align-items: center; background: #111; padding: 4px 8px; border-radius: 6px; border: 1px solid rgba(212,175,55,0.2); gap: 2px; }
-        .qty-label-top { font-size: 0.48rem; font-weight: 700; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; }
-        .qty-box { display: flex; align-items: center; justify-content: center; gap: 15px; width: 100%; }
-        .qty-btn { background: var(--gold-gradient); border: none; color: #000; font-size: 0.9rem; font-weight: 900; cursor: pointer; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        .qty-display { font-size: 0.85rem; font-weight: 900; color: #fff; min-width: 25px; text-align: center; }
+        /* বাইরে রাখা কোয়ান্টিটি সিলেক্টর বক্স */
+        .quantity-row { display: flex; justify-content: space-between; align-items: center; background: #111; padding: 8px 14px; border-radius: 8px; border: 1px solid rgba(212,175,55,0.3); }
+        .qty-label-top { font-size: 0.6rem; font-weight: 800; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; }
+        .qty-box { display: flex; align-items: center; justify-content: center; gap: 18px; }
+        .qty-btn { background: var(--gold-gradient); border: none; color: #000; font-size: 1rem; font-weight: 900; cursor: pointer; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .qty-display { font-size: 0.95rem; font-weight: 900; color: #fff; min-width: 25px; text-align: center; }
         
-        .order-now-btn { background: var(--gold-gradient); color: #000; font-weight: 900; font-size: 0.78rem; padding: 13px; border-radius: 8px; border: none; cursor: pointer; width: 100%; text-transform: uppercase; box-shadow: 0 4px 15px rgba(212,175,55,0.3); }
+        .order-now-btn { background: var(--gold-gradient); color: #000; font-weight: 900; font-size: 0.8rem; padding: 14px; border-radius: 8px; border: none; cursor: pointer; width: 100%; text-transform: uppercase; box-shadow: 0 4px 15px rgba(212,175,55,0.3); }
 
         .category-section { padding: 12px 6px; }
         .category-header-row { display: flex; justify-content: flex-start; align-items: center; margin-bottom: 10px; padding: 0 4px; }
@@ -349,7 +351,7 @@
         <i class="fa-solid fa-comments"></i>
     </div>
 
-    <!-- হোম পেজ ফিড লেআউট (Pinterest স্টাইল) -->
+    <!-- হোম পেজ ফিড লেআউট (Pinterest অটো-রেশিও স্টাইল) -->
     <main class="feed-container" id="productFeed">
         <div class="product-card" id="card-prod-1">
             <div class="product-media-box" onclick="openProductDetails('PREMIUM BRACELET', '$100.00', ['https://0d2bc64b36fe70d346646a8bf8bfd5a.r2.cloudflarestorage.com/bracelet-1.jpg', 'https://www.youtube.com/embed/dQw4w9WgXcQ', 'https://lh3.googleusercontent.com/d/1qyOXxZ8s2cJMEo66NDE4BdoxiC4hy_sG'])">
@@ -403,7 +405,7 @@
         </div>
     </div>
 
-    <!-- লাক্সারি ঝুড়ি ও সিকিউর চেকআউট প্যানেল (ক্লিন ও বর্ডারহীন বড় ভিউ) -->
+    <!-- লাক্সারি ঝুড়ি ও সিকিউর চেকআউট প্যানেল -->
     <div id="localYouModal">
         <div class="golden-close-btn" onclick="closeLocalYouPanel()"><i class="fa-solid fa-xmark"></i></div>
         <div class="local-you-box">
@@ -451,12 +453,12 @@
         </div>
     </div>
 
-    <!-- ইনফো পপআপ মডাল -->
+    <!-- ইনফো পপআপ মডাল (Product Info-এর জন্য গোছালো পপআপ) -->
     <div id="infoPopupModal" onclick="if(event.target === this) closeInfoPopup()">
         <div class="info-popup-box">
-            <div class="golden-close-btn" style="position:absolute; top:10px; right:10px; width:28px; height:28px;" onclick="closeInfoPopup()"><i class="fa-solid fa-xmark" style="font-size:0.8rem;"></i></div>
-            <h3 id="infoPopupTitle" style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:0.8rem; text-transform:uppercase; text-align:center;">Info</h3>
-            <div id="infoPopupBody" style="font-size:0.65rem; color:var(--text-gray); line-height:1.5; max-height:200px; overflow-y:auto; text-align:left;"></div>
+            <div class="golden-close-btn" style="position:absolute; top:12px; right:12px; width:30px; height:30px;" onclick="closeInfoPopup()"><i class="fa-solid fa-xmark" style="font-size:0.9rem;"></i></div>
+            <h3 id="infoPopupTitle" style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:0.9rem; text-transform:uppercase; text-align:center;">Product Info</h3>
+            <div id="infoPopupBody" style="font-size:0.75rem; color:var(--text-gray); line-height:1.6; max-height:280px; overflow-y:auto; text-align:left; display:flex; flex-direction:column; gap:10px;"></div>
         </div>
     </div>
 
@@ -465,7 +467,7 @@
         <div class="golden-close-btn" onclick="closeProductDetails()"><i class="fa-solid fa-xmark"></i></div>
         <div class="product-details-content">
             <div class="media-slider-container">
-                <div id="mainDisplayContainer" style="width:100%; height:380px; display:flex; justify-content:center; align-items:center; background:#000;"></div>
+                <div id="mainDisplayContainer" style="width:100%; min-height:280px; display:flex; justify-content:center; align-items:center; background:#000;"></div>
                 <div class="thumbnail-strip" id="thumbStrip"></div>
             </div>
             
@@ -476,22 +478,20 @@
             
             <div class="product-title-bottom" id="modalProductTitle">PREMIUM BRACELET</div>
 
+            <!-- অ্যাট্রাক্টিভ প্রাইস ও প্রোডাক্ট ইনফো বাটন রো -->
             <div class="price-chat-row">
                 <span class="detail-price" id="modalProductPrice">$100.00</span>
                 <button class="discount-badge-btn" id="modalDiscountBtn">
                     <img src="https://flagcdn.com/w80/bd.png" style="width:12px; height:8px; border-radius:1px;">
                     <span id="modalDiscountText">5% OFF</span>
                 </button>
+                <button class="product-info-btn" onclick="openProductInfoModal()">
+                    <i class="fa-solid fa-circle-info"></i> Product Info
+                </button>
                 <button class="chat-with-seller-btn" onclick="chatWithSeller()">Chat with Seller</button>
             </div>
 
-            <div class="desc-size-row">
-                <button class="extra-action-btn" onclick="openInfoPopup('description')"><i class="fa-solid fa-file-lines"></i> Desc</button>
-                <button class="extra-action-btn" onclick="openInfoPopup('size')"><i class="fa-solid fa-ruler"></i> Size</button>
-                <button class="extra-action-btn" onclick="openInfoPopup('packaging')"><i class="fa-solid fa-box"></i> Pack</button>
-                <button class="extra-action-btn" onclick="openInfoPopup('stock')"><i class="fa-solid fa-cubes"></i> Stock</button>
-            </div>
-
+            <!-- বাইরে রাখা কোয়ান্টিটি এবং হোলসেল টিয়ার্স -->
             <div class="quantity-tier-container" id="qtyTierContainer">
                 <div class="wholesale-tiers-row">
                     <button class="tier-btn active" onclick="setWholesaleTier(1, 100, event)">Sample (1 Pcs)</button>
@@ -507,6 +507,7 @@
                     </div>
                 </div>
             </div>
+            
             <button class="order-now-btn" id="orderNowActionBtn" onclick="triggerOrderNow(event)">Order Now</button>
         </div>
     </div>
@@ -562,7 +563,7 @@
         let baseUnitPrice = 100.00;
         let activeSubdomainUrl = "";
         let currentProductMedia = "";
-        let selectedProductSize = "";
+        let selectedProductSize = "Medium";
         let currentMediaList = [];
 
         function closeAllPanels() {
@@ -740,52 +741,36 @@
             document.getElementById('modalProductPrice').innerText = `$${finalPrice.toFixed(2)}`;
         }
 
-        function openInfoPopup(type) {
+        function openProductInfoModal() {
             const titleEl = document.getElementById('infoPopupTitle');
             const bodyEl = document.getElementById('infoPopupBody');
             const modal = document.getElementById('infoPopupModal');
 
-            if (type === 'description') {
-                titleEl.innerText = "Product Description";
-                bodyEl.innerHTML = "Crafted with supreme precision, this luxury item defines global elegance. Made from premium materials featuring high-gloss lacquer and superior durability, tailored for elite fashion connoisseurs.";
-            } else if (type === 'size') {
-                titleEl.innerText = "Size";
-                bodyEl.innerHTML = `
-                    <div style="display:flex; flex-direction:column; gap:8px;">
-                        <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                            <button onclick="selectSizeOption('Medium')" style="background:#1a1a1a; border:1px solid rgba(212,175,55,0.3); color:#fff; padding:6px 10px; border-radius:4px; font-size:0.6rem; cursor:pointer;">Medium</button>
-                            <button onclick="selectSizeOption('Large')" style="background:#1a1a1a; border:1px solid rgba(212,175,55,0.3); color:#fff; padding:6px 10px; border-radius:4px; font-size:0.6rem; cursor:pointer;">Large</button>
-                        </div>
-                        <input type="text" id="customSizeInput" placeholder="" value="${selectedProductSize}" style="background:#141414; border:1px solid rgba(212,175,55,0.4); padding:8px; border-radius:6px; color:#fff; font-size:0.68rem; width:100%; outline:none;">
-                        <button onclick="saveCustomSize()" style="background:var(--gold-gradient); color:#000; font-weight:800; font-size:0.65rem; padding:8px; border-radius:6px; border:none; cursor:pointer; text-transform:uppercase; margin-top:4px;">SAVE</button>
+            titleEl.innerText = "Complete Product Info";
+            let stockStatus = isWholesaleMode ? "5,000+ Pcs Ready in Wholesale Warehouse" : "125 Pcs In-Stock (Retail)";
+            let modeTitle = isWholesaleMode ? "Wholesale Mode" : "Retail Mode";
+
+            bodyEl.innerHTML = `
+                <div style="display:flex; flex-direction:column; gap:12px;">
+                    <div>
+                        <strong style="color:var(--gold-solid); font-size:0.8rem;"><i class="fa-solid fa-file-lines"></i> Description:</strong>
+                        <p style="margin-top:2px; color:#cfcfcf;">Crafted with supreme precision, this luxury item defines global elegance. Made from premium materials featuring high-gloss lacquer and superior durability, tailored for elite fashion connoisseurs.</p>
                     </div>
-                `;
-            } else if (type === 'packaging') {
-                titleEl.innerText = "Courier & Packaging Info";
-                bodyEl.innerHTML = "• Package Weight: 0.15 kg<br>• Dimensions: 12cm x 8cm x 4cm<br>• Box Type: Eco-friendly Luxury Hard Box";
-            } else if (type === 'stock') {
-                titleEl.innerText = "Inventory & Stock Status";
-                if(isWholesaleMode) {
-                    bodyEl.innerHTML = "• Mode: Wholesale<br>• Available Stock: 5,000+ Pcs Ready in Warehouse";
-                } else {
-                    bodyEl.innerHTML = "• Mode: Retail<br>• Available Stock: 125 Pcs In-Stock";
-                }
-            }
+                    <div>
+                        <strong style="color:var(--gold-solid); font-size:0.8rem;"><i class="fa-solid fa-ruler"></i> Available Size:</strong>
+                        <p style="margin-top:2px; color:#cfcfcf;">Standard Sizes: Medium (M) & Large (L). Custom sizing available upon request.</p>
+                    </div>
+                    <div>
+                        <strong style="color:var(--gold-solid); font-size:0.8rem;"><i class="fa-solid fa-box"></i> Packaging & Courier:</strong>
+                        <p style="margin-top:2px; color:#cfcfcf;">Package Weight: 0.15 kg | Dimensions: 12cm x 8cm x 4cm | Eco-friendly Luxury Hard Box.</p>
+                    </div>
+                    <div>
+                        <strong style="color:var(--gold-solid); font-size:0.8rem;"><i class="fa-solid fa-cubes"></i> Inventory & Stock:</strong>
+                        <p style="margin-top:2px; color:#cfcfcf;">Mode: ${modeTitle}<br>Available Stock: ${stockStatus}</p>
+                    </div>
+                </div>
+            `;
             modal.style.display = 'flex';
-        }
-
-        function selectSizeOption(sizeVal) {
-            selectedProductSize = sizeVal;
-            let input = document.getElementById('customSizeInput');
-            if(input) input.value = sizeVal;
-        }
-
-        function saveCustomSize() {
-            let input = document.getElementById('customSizeInput');
-            if(input) {
-                selectedProductSize = input.value.trim();
-            }
-            closeInfoPopup();
         }
 
         function closeInfoPopup() {
@@ -945,7 +930,7 @@
             baseUnitPrice = parseFloat(price.replace('$', ''));
             currentMediaList = mediaArray;
             currentProductMedia = mediaArray[0];
-            selectedProductSize = "";
+            selectedProductSize = "Medium";
 
             document.getElementById('productQtyDisplay').innerText = currentQuantity;
             document.getElementById('modalProductPrice').innerText = price;
