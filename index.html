@@ -122,37 +122,37 @@
         #productDetailModal, #localYouModal { z-index: 5000; background: var(--bg-retail); padding: 15px 10px 80px 10px; }
         .product-details-content { padding: 4px; max-width: 440px; margin: 25px auto 0 auto; display: flex; flex-direction: column; gap: 8px; }
 
-        /* কার্ট ও সিকিউর চেকআউট প্যানেল স্টাইল */
+        /* লাক্সারি ঝুড়ি ও চেকআউট প্যানেল */
         .local-you-box {
             max-width: 480px; margin: 20px auto; background: #0c0c0c; border: 1px solid rgba(212,175,55,0.35);
             border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 12px;
         }
         .cart-items-preview-box {
-            background: #141414; border: 1px solid rgba(212,175,55,0.2); border-radius: 8px; padding: 10px; max-height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;
+            background: #141414; border: 1px solid rgba(212,175,55,0.2); border-radius: 8px; padding: 10px; max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px;
         }
         .cart-item-row {
             display: flex; align-items: center; justify-content: space-between; background: #1a1a1a; padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(212,175,55,0.1); gap: 8px;
         }
-        .cart-item-img { width: 40px; height: 40px; object-fit: cover; border-radius: 4px; border: 1px solid var(--gold-solid); }
+        .cart-item-img { width: 36px; height: 36px; object-fit: cover; border-radius: 4px; border: 1px solid var(--gold-solid); }
         .cart-item-info { flex: 1; display: flex; flex-direction: column; text-align: left; }
-        .cart-item-title { font-size: 0.65rem; font-weight: 700; color: #fff; }
-        .cart-item-qty-price { font-size: 0.58rem; color: var(--text-gray); }
-        .cart-item-delete { background: none; border: none; color: #ff2a85; cursor: pointer; font-size: 0.9rem; padding: 4px; }
+        .cart-item-title { font-size: 0.62rem; font-weight: 700; color: #fff; }
+        .cart-item-qty-price { font-size: 0.55rem; color: var(--text-gray); }
+        .cart-item-delete { background: none; border: none; color: #ff2a85; cursor: pointer; font-size: 0.85rem; padding: 4px; }
 
-        /* চেকআউট ফর্ম শুরুতে লুকিয়ে থাকবে, ভেরিফাই করার পর শো করবে */
-        #checkoutFormSection { display: none; flex-direction: column; gap: 12px; }
+        /* চেকআউট ফর্ম শুরুতে লুকায়ে থাকবে, ভেরিফাই করার পর স্মুথলি আসবে */
+        #checkoutFormSection { display: none; flex-direction: column; gap: 10px; }
 
-        .form-group-item { display: flex; flex-direction: column; gap: 4px; text-align: left; }
-        .form-group-item label { font-size: 0.6rem; font-weight: 700; color: var(--gold-solid); text-transform: uppercase; }
+        .form-group-item { display: flex; flex-direction: column; gap: 3px; text-align: left; }
+        .form-group-item label { font-size: 0.58rem; font-weight: 700; color: var(--gold-solid); text-transform: uppercase; }
         .form-group-item input, .form-group-item select, .form-group-item textarea {
-            background: #141414; border: 1px solid rgba(212,175,55,0.3); padding: 9px 10px; border-radius: 6px;
-            color: #fff; font-size: 0.75rem; outline: none; font-family: var(--font-main);
+            background: #141414; border: 1px solid rgba(212,175,55,0.3); padding: 8px 10px; border-radius: 6px;
+            color: #fff; font-size: 0.72rem; outline: none; font-family: var(--font-main);
         }
         .google-verify-btn {
-            background: #ffffff; color: #000; font-weight: 800; font-size: 0.7rem; padding: 10px; border-radius: 6px;
+            background: #ffffff; color: #000; font-weight: 800; font-size: 0.68rem; padding: 10px; border-radius: 6px;
             border: none; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; text-transform: uppercase;
         }
-        .phone-input-row { display: grid; grid-template-columns: 110px 1fr; gap: 6px; }
+        .phone-input-row { display: grid; grid-template-columns: 105px 1fr; gap: 6px; }
 
         .golden-close-btn {
             background: #141414; border: 1px solid rgba(212,175,55,0.4); width: 38px; height: 38px; border-radius: 50%;
@@ -187,7 +187,7 @@
         .qty-btn { background: var(--gold-gradient); border: none; color: #000; font-size: 1.1rem; font-weight: 900; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
         .qty-display { font-size: 1rem; font-weight: 900; color: #fff; min-width: 35px; text-align: center; }
         
-        .order-now-btn { background: var(--gold-gradient); color: #000; font-weight: 900; font-size: 0.75rem; padding: 12px; border-radius: 6px; border: none; cursor: pointer; width: 100%; text-transform: uppercase; }
+        .order-now-btn { background: var(--gold-gradient); color: #000; font-weight: 900; font-size: 0.72rem; padding: 11px; border-radius: 6px; border: none; cursor: pointer; width: 100%; text-transform: uppercase; }
 
         .category-section { padding: 14px 8px; }
         .category-header-row { display: flex; justify-content: flex-start; align-items: center; margin-bottom: 12px; padding: 0 4px; }
@@ -202,7 +202,7 @@
         .app-card-icon i { font-size: 1.3rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .app-card-name { font-size: 0.7rem; font-weight: 600; color: var(--text-white); text-transform: uppercase; }
 
-        /* বটম ন্যাভবার ও কার্ট ব্যাজ ফিক্সড */
+        /* বটম ন্যাভবার এবং নিচে 'YOU' টেক্সট ফিক্স */
         nav.bottom-nav {
             position: fixed; bottom: 0; left: 0; width: 100%; background: var(--footer-retail);
             display: flex; justify-content: space-around; align-items: center; padding: 8px 4px;
@@ -215,10 +215,10 @@
         .nav-item i { font-size: 1.15rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .nav-item span { text-transform: uppercase; }
         
-        /* নোটিফিকেশন ব্যাজ কার্ট আইকনের ঠিক উপরে নিখুঁতভাবে সেট করা */
+        /* নোটিফিকেশন ব্যাজ একদম ঝুড়ি আইকনের ঠিক উপরে নিখুঁতভাবে সেট করা */
         .cart-badge {
             position: absolute; top: -4px; right: 28%; background: #ff2a85; color: #fff;
-            font-size: 0.5rem; font-weight: 900; width: 16px; height: 16px; border-radius: 50%;
+            font-size: 0.48rem; font-weight: 900; width: 15px; height: 15px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center; border: 1.5px solid #000;
             box-shadow: 0 2px 5px rgba(0,0,0,0.5); z-index: 10;
         }
@@ -285,13 +285,13 @@
         <iframe id="subdomainIframeElement" src="" style="width: 100vw; height: calc(100vh - 65px); border: none; background: #000; display: block;"></iframe>
     </div>
 
-    <!-- কার্ট ও সিকিউর চেকআউট প্যানেল -->
+    <!-- লাক্সারি ঝুড়ি ও সিকিউর চেকআউট প্যানেল -->
     <div id="localYouModal">
         <div class="golden-close-btn" onclick="closeLocalYouPanel()"><i class="fa-solid fa-xmark"></i></div>
         <div class="local-you-box">
             <div style="text-align:center;">
-                <i class="fa-solid fa-cart-shopping" style="font-size:1.4rem; color:var(--gold-solid);"></i>
-                <h3 style="color:var(--gold-solid); font-size:0.85rem; margin-top:4px; text-transform:uppercase;">Cart & Secure Checkout</h3>
+                <i class="fa-solid fa-cart-shopping" style="font-size:1.3rem; color:var(--gold-solid);"></i>
+                <h3 style="color:var(--gold-solid); font-size:0.8rem; margin-top:3px; text-transform:uppercase;">Cart & Secure Checkout</h3>
             </div>
             
             <!-- ঝুড়িতে থাকা প্রোডাক্টগুলোর তালিকা (ছবিসহ ও ডিলিট অপশন) -->
@@ -304,7 +304,7 @@
                 <i class="fa-brands fa-google" style="color:#ea4335;"></i> Continue & Verify with Google
             </button>
 
-            <!-- ভেরিফাই হওয়ার পর ফর্ম এবং অর্ডার কনফার্ম বাটন শো করবে -->
+            <!-- গুগল ভেরিফাই করার পর চেকআউট ফর্ম এবং কনফার্ম বাটন আসবে -->
             <div id="checkoutFormSection">
                 <div class="form-group-item">
                     <label>Full Name</label>
@@ -320,15 +320,15 @@
                     <label>WhatsApp Number (195+ Countries)</label>
                     <div class="phone-input-row">
                         <select id="countryCodeSelect">
-                            <option value="+880">🇧🇩 +880 (Bangladesh)</option>
-                            <option value="+1">🇺🇸 +1 (USA/Canada)</option>
+                            <option value="+880">🇧🇩 +880 (BD)</option>
+                            <option value="+1">🇺🇸 +1 (USA)</option>
                             <option value="+44">🇬🇧 +44 (UK)</option>
-                            <option value="+91">🇮🇳 +91 (India)</option>
+                            <option value="+91">🇮🇳 +91 (IN)</option>
                             <option value="+971">🇦🇪 +971 (UAE)</option>
                             <option value="+966">🇸🇦 +966 (KSA)</option>
-                            <option value="+65">🇸🇬 +65 (Singapore)</option>
-                            <option value="+60">🇲🇾 +60 (Malaysia)</option>
-                            <option value="+61">🇦🇺 +61 (Australia)</option>
+                            <option value="+65">🇸🇬 +65 (SG)</option>
+                            <option value="+60">🇲🇾 +60 (MY)</option>
+                            <option value="+61">🇦🇺 +61 (AU)</option>
                         </select>
                         <input type="tel" id="whatsappNum" placeholder="WhatsApp number">
                     </div>
@@ -336,7 +336,7 @@
 
                 <div class="form-group-item">
                     <label>Delivery Address</label>
-                    <textarea id="checkoutAddress" placeholder="House/Road, Area, City, Postal Code..." style="height:50px; resize:none;"></textarea>
+                    <textarea id="checkoutAddress" placeholder="House/Road, Area, City..." style="height:45px; resize:none;"></textarea>
                 </div>
 
                 <button class="order-now-btn" onclick="finalizeDirectOrder()">Confirm & Complete Order</button>
@@ -373,7 +373,7 @@
                     <button class="tier-btn" onclick="setWholesaleTier(600, 60, event)">600+ Pcs</button>
                 </div>
                 <div class="quantity-row">
-                    <span style="font-size:0.58rem; font-weight:700; color:var(--gold-solid);">QUANTITY</span>
+                    <span style="font-size:0.55rem; font-weight:700; color:var(--gold-solid);">QUANTITY</span>
                     <div class="qty-box">
                         <button class="qty-btn" onclick="adjustQuantity(-1)">-</button>
                         <span class="qty-display" id="productQtyDisplay">1</span>
@@ -381,7 +381,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Order Now বাটনে ক্লিক করলে শুধু পপআপ বন্ধ হয়ে কার্টে জমা হবে -->
             <button class="order-now-btn" onclick="triggerOrderNow(event)">Order Now</button>
         </div>
     </div>
@@ -404,7 +403,7 @@
         </div>
     </div>
 
-    <!-- বটম ন্যাভবার (নিচে ঝুড়ি এবং 'CART' টেক্সট) -->
+    <!-- বটম ন্যাভবার (ঝুড়ির নিচে 'YOU' টেক্সট এবং নিখুঁত ব্যাজ পজিশন) -->
     <nav class="bottom-nav">
         <div class="nav-item" onclick="toggleSubdomainOverlay('https://affiliate.rorraxy.com')">
             <i class="fa-solid fa-handshake"></i>
@@ -416,7 +415,7 @@
         </div>
         <div class="nav-item" onclick="openLocalYouPanel()">
             <i class="fa-solid fa-cart-shopping"></i>
-            <span>Cart</span>
+            <span>You</span>
             <div class="cart-badge" id="cartCountBadge">0</div>
         </div>
         <div class="nav-item" onclick="openCategoryView()">
@@ -476,12 +475,12 @@
             activeSubdomainUrl = "";
         }
 
-        // ঝুড়ির ভেতরে প্রোডাক্টগুলোর তালিকা, ছবি ও ডিলিট অপশন রেন্ডার করা
+        // ঝুড়ির ভেতরে প্রোডাক্টগুলোর তালিকা, ছবি, ডিলিট অপশন এবং টোটাল অ্যামাউন্ট রেন্ডার করা
         function renderCartInYouPanel() {
             let cart = JSON.parse(localStorage.getItem('rorraxy_cart')) || [];
             let container = document.getElementById('cartItemsPreviewBox');
             if(cart.length === 0) {
-                container.innerHTML = '<div style="color:var(--text-gray); text-align:center; font-size:0.7rem; padding:15px;">Your Cart (ঝুড়ি) is empty.</div>';
+                container.innerHTML = '<div style="color:var(--text-gray); text-align:center; font-size:0.68rem; padding:12px;">Your Cart is empty.</div>';
                 return;
             }
             let html = '', totalAmt = 0;
@@ -496,13 +495,13 @@
                         <span class="cart-item-title">${item.title}</span>
                         <span class="cart-item-qty-price">Qty: ${item.qty} | $${itemTotal.toFixed(2)}</span>
                     </div>
-                    <button class="cart-item-delete" onclick="removeCartItem(${index})" title="Remove Item"><i class="fa-solid fa-trash-can"></i></button>
+                    <button class="cart-item-delete" onclick="removeCartItem(${index})" title="Delete Item"><i class="fa-solid fa-trash-can"></i></button>
                 </div>`;
             });
             html += `
-            <div style="display:flex; justify-content:space-between; margin-top:5px; border-top:1px solid rgba(212,175,55,0.3); padding-top:6px;">
-                <span style="font-size:0.75rem; font-weight:bold;">Total Amount:</span>
-                <span style="font-size:0.8rem; font-weight:900; color:var(--gold-solid);">$${totalAmt.toFixed(2)}</span>
+            <div style="display:flex; justify-content:space-between; margin-top:4px; border-top:1px solid rgba(212,175,55,0.3); padding-top:5px;">
+                <span style="font-size:0.72rem; font-weight:bold;">Total Amount:</span>
+                <span style="font-size:0.78rem; font-weight:900; color:var(--gold-solid);">$${totalAmt.toFixed(2)}</span>
             </div>`;
             container.innerHTML = html;
         }
@@ -517,7 +516,7 @@
 
         function openLocalYouPanel() {
             renderCartInYouPanel();
-            // রিসেট সিকোয়েন্স: প্যানেল খুললে প্রথমে ফর্ম লুকিয়ে থাকবে, শুধু গুগল ভেরিফাই বাটন থাকবে
+            // সিকোয়েন্স অনুযায়ী প্যানেল খুললে প্রথমে ফর্ম লুকানো থাকবে, শুধু গুগল ভেরিফাই বাটন থাকবে
             document.getElementById('checkoutFormSection').style.display = 'none';
             document.getElementById('googleVerifyBtn').style.display = 'flex';
             document.getElementById('localYouModal').style.display = 'block';
@@ -527,12 +526,11 @@
             document.getElementById('localYouModal').style.display = 'none';
         }
 
-        // গুগল ভেরিফাই করার পর সিকোয়েন্স অনুযায়ী ফর্ম ওপেন হবে
+        // গুগল ভেরিফাই করার পর সিকোয়েন্স অনুযায়ী শুধু ফরম এবং কনফার্ম বাটন আসবে
         function simulateGoogleAuth() {
             document.getElementById('checkoutFullName').value = "Masudar Rahman";
             document.getElementById('checkoutEmail').value = "masudar.rahman@gmail.com";
             
-            // ভেরিফিকেশন সফল হওয়ার পর ফর্ম এবং কনফার্ম বাটন শো করবে
             document.getElementById('googleVerifyBtn').style.display = 'none';
             document.getElementById('checkoutFormSection').style.display = 'flex';
         }
@@ -729,7 +727,7 @@
         }
         function closeShareModal() { document.getElementById('shareModal').style.display = 'none'; }
 
-        // "Order Now" ক্লিক করলে পপআপ বন্ধ হবে এবং প্রোডাক্ট কার্টে জমা হয়ে ব্যাজ আপডেট হবে (কার্টে ডাইরেক্ট যাবে না)
+        // "Order Now" ক্লিক করলে পপআপ বন্ধ হবে এবং প্রোডাক্ট কার্টে জমা হয়ে ব্যাজ আপডেট হবে
         function triggerOrderNow(event) {
             let title = document.getElementById('modalProductTitle').innerText;
             let price = document.getElementById('modalProductPrice').innerText;
