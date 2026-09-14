@@ -71,22 +71,22 @@
         body.wholesale-mode #localYouModal { background: var(--royal-blue-gradient) !important; }
 
         header.app-header {
-            display: flex; flex-direction: column; padding: 6px 10px; align-items: center;
+            display: flex; flex-direction: column; padding: 8px 10px; align-items: center;
             background: var(--header-retail); position: fixed; top: 0; left: 0; z-index: 1000;
-            backdrop-filter: blur(15px); width: 100%; border-bottom: 1px solid rgba(212,175,55,0.15); gap: 5px;
+            backdrop-filter: blur(15px); width: 100%; border-bottom: 1px solid rgba(212,175,55,0.15); gap: 6px;
         }
         .header-top-bar { display: flex; justify-content: center; align-items: center; width: 100%; max-width: 600px; padding: 2px 4px; }
         .header-center-group { display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; }
-        .brand-logo-img { width: 24px; height: 24px; object-fit: contain; }
-        .brand-title-main { font-size: 0.85rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; }
+        .brand-logo-img { width: 26px; height: 26px; object-fit: contain; }
+        .brand-title-main { font-size: 0.9rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; }
         .dynamic-flag-img { width: 18px; height: 12px; object-fit: cover; border-radius: 2px; }
 
         .header-bottom-row { display: flex; justify-content: center; align-items: center; width: 100%; max-width: 600px; gap: 6px; }
-        .header-buttons-group { display: flex; align-items: center; gap: 5px; width: 100%; justify-content: center; }
+        .header-buttons-group { display: flex; align-items: center; gap: 6px; width: 100%; justify-content: center; }
         
         .portal-btn {
-            font-size: 0.52rem; font-weight: 700; background: #161616; border: 1px solid rgba(212,175,55,0.3);
-            color: var(--text-white); padding: 7px 8px; border-radius: 5px; text-transform: uppercase; cursor: pointer;
+            font-size: 0.58rem; font-weight: 700; background: #161616; border: 1px solid rgba(212,175,55,0.35);
+            color: var(--text-white); padding: 8px 10px; border-radius: 6px; text-transform: uppercase; cursor: pointer;
             transition: 0.3s; white-space: nowrap; text-align: center; flex: 1; display: flex; align-items: center; justify-content: center;
         }
         .portal-btn.wholesale-btn { background: var(--gold-gradient); color: #000; border: none; font-weight: 900; }
@@ -94,26 +94,47 @@
 
         .live-chat-widget {
             position: fixed; bottom: 70px; right: 20px; z-index: 3500; cursor: grab;
-            width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: none; touch-action: none;
+            width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; background: none; touch-action: none;
         }
         .live-chat-widget i { font-size: 1.8rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        .feed-container { padding: 12px 10px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; width: 100%; max-width: 1400px; margin: 0 auto; }
-        @media (min-width: 768px) { .feed-container { grid-template-columns: repeat(3, 1fr); padding: 20px; gap: 16px; } }
+        /* পিন্টারেস্ট স্টাইল ফিড লেআউট */
+        .feed-container {
+            padding: 12px 10px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        @media (min-width: 768px) {
+            .feed-container {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 16px;
+                padding: 20px;
+            }
+        }
+        @media (min-width: 1024px) {
+            .feed-container {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
 
         .product-card {
             background: var(--card-retail); border-radius: 12px; overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.85); display: flex; flex-direction: column; transition: 0.3s; position: relative;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.8); display: flex; flex-direction: column; transition: 0.3s; position: relative;
             border: 1px solid rgba(212, 175, 55, 0.15);
         }
-        .product-media-box { position: relative; width: 100%; cursor: pointer; background: #000; overflow: hidden; aspect-ratio: 1/1; }
-        .product-media-box img { width: 100%; height: 100%; display: block; object-fit: cover; }
-        .card-footer-actions { display: flex; justify-content: center; align-items: center; padding: 10px; background: rgba(15, 15, 15, 0.95); }
-        .love-share-group { display: flex; align-items: center; gap: 20px; justify-content: center; width: 100%; }
+        .product-media-box { position: relative; width: 100%; cursor: pointer; background: #000; overflow: hidden; aspect-ratio: 4/5; }
+        .product-media-box img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform 0.4s ease; }
+        .product-media-box:hover img { transform: scale(1.05); }
+        .card-footer-actions { display: flex; justify-content: center; align-items: center; padding: 8px; background: rgba(15, 15, 15, 0.95); }
+        .love-share-group { display: flex; align-items: center; gap: 18px; justify-content: center; width: 100%; }
         
-        .love-action { display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 700; color: var(--pink-love); }
-        .love-action i { font-size: 0.95rem; background: var(--pink-love); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .share-action-btn { display: flex; align-items: center; gap: 6px; background: none; border: none; font-size: 0.75rem; font-weight: 700; cursor: pointer; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .love-action { display: flex; align-items: center; gap: 5px; cursor: pointer; font-size: 0.72rem; font-weight: 700; color: var(--pink-love); }
+        .love-action i { font-size: 0.9rem; background: var(--pink-love); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .share-action-btn { display: flex; align-items: center; gap: 5px; background: none; border: none; font-size: 0.72rem; font-weight: 700; cursor: pointer; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
         .fullscreen-portal-view, .subdomain-iframe-overlay, .category-fullscreen-view, #productDetailModal, #localYouModal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 5000; overflow-y: auto;
@@ -146,10 +167,15 @@
             background: #141414; border: 1px solid rgba(212,175,55,0.3); padding: 8px 10px; border-radius: 6px;
             color: #fff; font-size: 0.7rem; outline: none; font-family: var(--font-main); width: 100%;
         }
+        
+        /* গুগল ভেরিফাই বাটন সুন্দর সাদা ব্যাকগ্রাউন্ডে */
         .google-verify-btn {
-            background: var(--gold-gradient); color: #000; font-weight: 900; font-size: 0.65rem; padding: 10px; border-radius: 6px;
+            background: #ffffff; color: #000000; font-weight: 800; font-size: 0.68rem; padding: 11px; border-radius: 6px;
             border: none; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(255,255,255,0.2); transition: 0.3s;
         }
+        .google-verify-btn:hover { background: #f0f0f0; }
+
         .phone-input-row { display: grid; grid-template-columns: 100px 1fr; gap: 6px; }
 
         .golden-close-btn {
@@ -159,9 +185,9 @@
         .golden-close-btn i { font-size: 1.1rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
         .media-slider-container { width: 100%; position: relative; border-radius: 8px; overflow: hidden; background: #000; }
-        .main-display-media { width: 100%; height: 210px; object-fit: contain; display: block; background: #000; }
-        .thumbnail-strip { display: flex; justify-content: center; gap: 5px; padding: 4px; background: #0c0c0c; overflow-x: auto; }
-        .thumb-item { width: 38px; height: 38px; border-radius: 4px; overflow: hidden; border: 1.5px solid rgba(212,175,55,0.3); cursor: pointer; flex-shrink: 0; }
+        .main-display-media { width: 100%; height: 230px; object-fit: contain; display: block; background: #000; }
+        .thumbnail-strip { display: flex; justify-content: center; gap: 5px; padding: 6px; background: #0c0c0c; overflow-x: auto; }
+        .thumb-item { width: 42px; height: 42px; border-radius: 4px; overflow: hidden; border: 1.5px solid rgba(212,175,55,0.3); cursor: pointer; flex-shrink: 0; }
         .thumb-item img { width: 100%; height: 100%; object-fit: cover; }
         .thumb-item.active { border-color: var(--gold-solid); }
 
@@ -200,7 +226,6 @@
         .app-card-icon i { font-size: 1.3rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .app-card-name { font-size: 0.7rem; font-weight: 600; color: var(--text-white); text-transform: uppercase; }
 
-        /* বটম ন্যাভবার ও কার্ট আইটেম কন্টেইনার (যেখানে ব্যাজটি নিখুঁতভাবে ঝুড়ির ওপর পজিশন করা হয়েছে) */
         nav.bottom-nav {
             position: fixed; bottom: 0; left: 0; width: 100%; background: var(--footer-retail);
             display: flex; justify-content: space-around; align-items: center; padding: 8px 4px;
@@ -213,7 +238,6 @@
         .nav-item i { font-size: 1.15rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .nav-item span { text-transform: uppercase; }
         
-        /* নোটিফিকেশন ব্যাজ - ঝুড়ি আইকনের ঠিক ওপরের ডান কোণায় নিখুঁতভাবে সেট করা */
         .cart-badge-container {
             position: relative;
             display: inline-flex;
@@ -243,9 +267,20 @@
         .search-input-field-box { display: flex; align-items: center; background: #000000; border: 1px solid rgba(212,175,55,0.4); border-radius: 30px; padding: 6px 14px; gap: 10px; }
         .search-input-field-box input { background: none; border: none; outline: none; color: #fff; font-size: 0.85rem; width: 100%; }
         .search-submit-btn { background: var(--gold-gradient); border: none; color: #000; font-weight: 800; font-size: 0.65rem; padding: 5px 12px; border-radius: 20px; cursor: pointer; }
+
+        /* ফ্লাইং প্রোডাক্ট এনিমেশন ஸ்டাইল */
+        .flying-product-ghost {
+            position: fixed; z-index: 999999; width: 60px; height: 60px; object-fit: cover;
+            border-radius: 50%; border: 2px solid var(--gold-solid);
+            transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            pointer-events: none; box-shadow: 0 5px 20px rgba(212,175,55,0.8);
+        }
     </style>
 </head>
 <body id="mainBody">
+
+    <!-- প্রফেশনাল অডিও ইফেক্ট অবজেক্ট (সাউন্ডের জন্য) -->
+    <audio id="successSound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
 
     <header class="app-header" id="mainHeader">
         <div class="header-top-bar">
@@ -270,7 +305,7 @@
         <i class="fa-solid fa-comments"></i>
     </div>
 
-    <!-- Feed Layout -->
+    <!-- পিন্টারেস্ট স্টাইল ফিড লেআউট -->
     <main class="feed-container" id="productFeed">
         <div class="product-card" id="card-prod-1">
             <div class="product-media-box" onclick="openProductDetails('PREMIUM BRACELET', '$100.00', ['https://0d2bc64b36fe70d346646a8bf8bfd5a.r2.cloudflarestorage.com/bracelet-1.jpg', 'https://lh3.googleusercontent.com/d/1qyOXxZ8s2cJMEo66NDE4BdoxiC4hy_sG'])">
@@ -307,19 +342,18 @@
         <div class="local-you-box">
             <div style="text-align:center;">
                 <div class="cart-badge-container" style="display:inline-block; margin-bottom:2px;">
-                    <i class="fa-solid fa-cart-shopping" style="font-size:1.4rem; color:var(--gold-solid);"></i>
+                    <i class="fa-solid fa-cart-shopping" style="font-size:1.4rem; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;"></i>
                 </div>
                 <h3 style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:0.8rem; margin-top:2px; text-transform:uppercase;">Cart & Secure Checkout</h3>
             </div>
             
-            <!-- ঝুড়িতে থাকা প্রোডাক্টগুলোর তালিকা (ছবিসহ ও ডিলিট অপশন) -->
             <div id="cartItemsPreviewBox" class="cart-items-preview-box">
                 <!-- JS Inject Cart Items -->
             </div>
 
-            <!-- সিকোয়েন্স অনুযায়ী প্রথমে শুধু গুগল ভেরিফাই বাটন থাকবে -->
+            <!-- সাদা ব্যাকগ্রাউন্ডের প্রিমিয়াম গুগল ভেরিফাই বাটন -->
             <button class="google-verify-btn" id="googleVerifyBtn" onclick="simulateGoogleAuth()">
-                <i class="fa-brands fa-google" style="color:#000;"></i> Continue & Verify with Google
+                <i class="fa-brands fa-google" style="color:#ea4335;"></i> Continue & Verify with Google
             </button>
 
             <!-- গুগল ভেরিফাই করার পর চেকআউট ফর্ম এবং কনফার্ম অর্ডার বাটন আসবে -->
@@ -357,7 +391,6 @@
                     <textarea id="checkoutAddress" placeholder="House/Road, Area, City..." style="height:45px; resize:none;"></textarea>
                 </div>
 
-                <!-- সুনির্দিষ্টভাবে 'Confirm Order' নামকরণ করা হয়েছে -->
                 <button class="order-now-btn" onclick="finalizeDirectOrder()">Confirm Order</button>
             </div>
         </div>
@@ -400,7 +433,7 @@
                     </div>
                 </div>
             </div>
-            <button class="order-now-btn" onclick="triggerOrderNow(event)">Order Now</button>
+            <button class="order-now-btn" id="orderNowActionBtn" onclick="triggerOrderNow(event)">Order Now</button>
         </div>
     </div>
 
@@ -422,7 +455,7 @@
         </div>
     </div>
 
-    <!-- বটম ন্যাভবার (ব্যাজটি ঝুড়ি আইকনের ঠিক ওপরের ডান কোণায় নিখুঁতভাবে বসানো হয়েছে) -->
+    <!-- বটম ন্যাভবার -->
     <nav class="bottom-nav">
         <div class="nav-item" onclick="toggleSubdomainOverlay('https://affiliate.rorraxy.com')">
             <i class="fa-solid fa-handshake"></i>
@@ -432,7 +465,7 @@
             <i class="fa-solid fa-chart-line"></i>
             <span>Seller</span>
         </div>
-        <div class="nav-item" onclick="toggleLocalYouPanel()">
+        <div class="nav-item" id="navCartItem" onclick="toggleLocalYouPanel()">
             <div class="cart-badge-container">
                 <i class="fa-solid fa-cart-shopping"></i>
                 <div class="cart-badge" id="cartCountBadge">0</div>
@@ -768,7 +801,13 @@
             document.querySelectorAll('.thumb-item').forEach(t => t.classList.remove('active'));
             element.classList.add('active');
         }
-        function chatWithSeller() {}
+
+        // চ্যাট উইথ সেলার ফাংশন (কাস্টমারকে ফর্মের মাধ্যমে কানেক্ট করা)
+        function chatWithSeller() {
+            closeProductDetails();
+            toggleLocalYouPanel();
+            alert("Please verify with Google and fill in your details to start live chat with the seller.");
+        }
 
         function openShareModal() {
             let baseUrl = window.location.href.split('?')[0];
@@ -777,11 +816,38 @@
         }
         function closeShareModal() { document.getElementById('shareModal').style.display = 'none'; }
 
+        // প্রিমিয়াম ফ্লাইং এনিমেশন এবং সাউন্ড ইফেক্টসহ "Order Now" হ্যান্ডেলার
         function triggerOrderNow(event) {
             let title = document.getElementById('modalProductTitle').innerText;
             let price = document.getElementById('modalProductPrice').innerText;
             let imgSrc = currentProductImg || 'https://0d2bc64b36fe70d346646a8bf8bfd5a.r2.cloudflarestorage.com/bracelet-1.jpg';
             
+            // সাউন্ড প্লে করা
+            let sound = document.getElementById('successSound');
+            if(sound) { sound.currentTime = 0; sound.play().catch(() => {}); }
+
+            // ফ্লাইং এনিমেশন তৈরি
+            let rect = document.getElementById('orderNowActionBtn').getBoundingClientRect();
+            let navTarget = document.getElementById('navCartItem').getBoundingClientRect();
+
+            let ghost = document.createElement('img');
+            ghost.src = imgSrc;
+            ghost.className = 'flying-product-ghost';
+            ghost.style.left = rect.left + 'px';
+            ghost.style.top = rect.top + 'px';
+            document.body.appendChild(ghost);
+
+            setTimeout(() => {
+                ghost.style.left = (navTarget.left + 15) + 'px';
+                ghost.style.top = (navTarget.top - 10) + 'px';
+                ghost.style.transform = 'scale(0.2)';
+                ghost.style.opacity = '0.3';
+            }, 50);
+
+            setTimeout(() => {
+                ghost.remove();
+            }, 850);
+
             let cart = JSON.parse(localStorage.getItem('rorraxy_cart')) || [];
             cart.push({ title: title, price: price, qty: currentQuantity, img: imgSrc, addedAt: new Date().toISOString() });
             localStorage.setItem('rorraxy_cart', JSON.stringify(cart));
