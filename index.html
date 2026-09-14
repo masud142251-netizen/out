@@ -123,9 +123,11 @@
             box-shadow: 0 6px 20px rgba(0,0,0,0.8); display: flex; flex-direction: column; transition: 0.3s; position: relative;
             border: 1px solid rgba(212, 175, 55, 0.15);
         }
-        .product-media-box { position: relative; width: 100%; cursor: pointer; background: #000; overflow: hidden; display: flex; align-items: center; justify-content: center; min-height: 180px; }
-        .product-media-box img { width: 100%; height: auto; display: block; object-fit: contain; transition: transform 0.4s ease; background: #000; }
+        /* হোম পেজে কার্ডের ছবি যাতে পুরোপুরি বসে এবং কোনো কালো জায়গা না থাকে */
+        .product-media-box { position: relative; width: 100%; cursor: pointer; background: #000; overflow: hidden; display: flex; align-items: center; justify-content: center; aspect-ratio: 1/1; }
+        .product-media-box img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform 0.4s ease; background: #000; }
         .product-media-box:hover img { transform: scale(1.03); }
+        
         .card-footer-actions { display: flex; justify-content: center; align-items: center; padding: 6px; background: rgba(15, 15, 15, 0.95); }
         .love-share-group { display: flex; align-items: center; gap: 15px; justify-content: center; width: 100%; }
         
@@ -142,7 +144,7 @@
         .category-fullscreen-view { z-index: 4000; background: var(--bg-retail); padding: 15px 10px 80px 10px; }
         
         #productDetailModal { z-index: 5000; background: var(--bg-retail); padding: 8px 8px 60px 8px; }
-        .product-details-content { padding: 2px; max-width: 420px; width: 95%; margin: 5px auto 0 auto; display: flex; flex-direction: column; gap: 6px; }
+        .product-details-content { padding: 2px; max-width: 420px; width: 95%; margin: 5px auto 0 auto; display: flex; flex-direction: column; gap: 8px; }
 
         #localYouModal { z-index: 5000; background: var(--bg-retail); padding: 15px 10px 80px 10px; display: none; align-items: center; justify-content: center; }
         
@@ -151,7 +153,7 @@
             border-radius: 18px; padding: 25px 20px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 20px 50px rgba(0,0,0,0.95);
         }
 
-        /* আরও প্রশস্ত ও প্রিমিয়াম অল ইনফো পপআপ মডাল */
+        /* প্রশস্ত ও প্রিমিয়াম অল ইনফো পপআপ মডাল */
         #infoPopupModal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.85); z-index: 99990; align-items: center; justify-content: center;
@@ -222,7 +224,7 @@
         .video-wrapper-clean { position: relative; width: 100%; min-height: 280px; background: #000; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         .video-wrapper-clean iframe { width: 100%; height: calc(100% + 120px); border: none; pointer-events: auto; }
         .video-mask-top { position: absolute; top: 0; left: 0; width: 100%; height: 40px; background: #000; z-index: 10; pointer-events: none; }
-        .video-mask-bottom { position: absolute; bottom: 0; left: 0; width: 100%; height: 40px; background: #000; z-index: 10; pointer-events: none; }
+        .video-mask-bottom { position: absolute; bottom: 0; left: 0; width: 100% ; height: 40px; background: #000; z-index: 10; pointer-events: none; }
 
         .main-display-media { width: 100%; height: auto; max-height: 320px; object-fit: contain; display: block; background: #000; }
         .thumbnail-strip { display: flex; justify-content: center; gap: 5px; padding: 4px; background: #0a0a0c; overflow-x: auto; width: 100%; }
@@ -230,21 +232,35 @@
         .thumb-item img, .thumb-item video { width: 100%; height: 100%; object-fit: cover; }
         .thumb-item.active { border-color: var(--gold-solid); box-shadow: 0 0 8px rgba(212,175,55,0.4); }
 
-        /* এক লাইনে সুসজ্জিত অ্যাকশন বার */
-        .price-chat-row { display: flex; align-items: center; justify-content: space-between; gap: 6px; background: #111; padding: 8px 10px; border-radius: 8px; border: 1.5px solid rgba(212,175,55,0.35); }
+        /* লাভ ও শেয়ারের ঠিক মাঝখানে প্রিমিয়াম 'CHAT SELLER' বাটন */
+        .modal-interactive-top-bar { display: flex; align-items: center; justify-content: center; gap: 16px; padding: 4px 0; }
+        .chat-seller-badge-btn {
+            background: var(--gold-gradient); color: #000; font-size: 0.62rem; font-weight: 900;
+            padding: 5px 14px; border-radius: 20px; border: none; cursor: pointer; text-transform: uppercase;
+            box-shadow: 0 2px 10px rgba(212,175,55,0.4); display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
+        }
+        .chat-seller-badge-btn i { font-size: 0.75rem; color: #000; }
+
+        /* এক লাইনে সুসজ্জিত অ্যাকশন বার (Price, All Info, Quantity) - হোলসেলের বড় অ্যামাউন্টের জন্য ফ্লেক্সিবল ও প্রিমিয়াম ডিজাইন */
+        .price-chat-row { 
+            display: flex; align-items: center; justify-content: space-between; gap: 8px; 
+            background: #111; padding: 10px 12px; border-radius: 10px; border: 1.5px solid rgba(212,175,55,0.35); 
+            flex-wrap: nowrap; overflow-x: auto;
+        }
         
-        .price-discount-stack { display: flex; flex-direction: column; gap: 2px; }
-        .detail-price { font-size: 1.25rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 0.5px; line-height: 1.1; }
+        .price-discount-stack { display: flex; flex-direction: column; gap: 2px; flex-shrink: 0; }
+        /* প্রাইস হোয়াইট, বড় এবং বোল্ড */
+        .detail-price { font-size: 1.25rem; font-weight: 900; color: #ffffff; letter-spacing: 0.5px; line-height: 1.1; white-space: nowrap; }
         .discount-badge-inline { background: var(--pink-discount); color: #fff; font-size: 0.48rem; font-weight: 800; padding: 2px 5px; border-radius: 3px; display: inline-flex; align-items: center; gap: 3px; width: max-content; }
         
-        .product-info-btn { background: var(--gold-gradient); color: #000; font-size: 0.58rem; font-weight: 900; padding: 7px 10px; border-radius: 6px; border: none; cursor: pointer; text-transform: uppercase; white-space: nowrap; box-shadow: 0 2px 8px rgba(212,175,55,0.3); }
+        .product-info-btn { background: var(--gold-gradient); color: #000; font-size: 0.62rem; font-weight: 900; padding: 8px 12px; border-radius: 6px; border: none; cursor: pointer; text-transform: uppercase; white-space: nowrap; box-shadow: 0 2px 8px rgba(212,175,55,0.3); flex-shrink: 0; }
         
-        .inline-qty-box { display: flex; align-items: center; gap: 6px; background: transparent; padding: 0; border: none; }
-        .qty-btn-inline { background: var(--pink-love); border: none; color: #fff; font-size: 0.75rem; font-weight: 900; cursor: pointer; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(255,42,133,0.4); }
-        .qty-display-inline { font-size: 0.85rem; font-weight: 900; color: #fff; min-width: 16px; text-align: center; }
-
-        .chat-with-seller-btn { background: #1a1a1e; border: 1px solid rgba(212,175,55,0.5); color: var(--gold-solid); font-size: 0.56rem; font-weight: 800; padding: 7px 10px; border-radius: 6px; cursor: pointer; text-transform: uppercase; white-space: nowrap; transition: 0.3s; }
-        .chat-with-seller-btn:hover { background: rgba(212,175,55,0.15); border-color: var(--gold-solid); }
+        /* কোয়ান্টিটি উইথ লেবেল উপরে */
+        .inline-qty-box { display: flex; flex-direction: column; align-items: center; gap: 2px; flex-shrink: 0; }
+        .qty-label-top { font-size: 0.5rem; font-weight: 800; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 0.5px; }
+        .qty-controls-row { display: flex; align-items: center; gap: 5px; background: #18181b; padding: 2px 6px; border-radius: 6px; border: 1px solid rgba(212,175,55,0.3); }
+        .qty-btn-inline { background: var(--pink-love); border: none; color: #fff; font-size: 0.7rem; font-weight: 900; cursor: pointer; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(255,42,133,0.4); }
+        .qty-display-inline { font-size: 0.8rem; font-weight: 900; color: #fff; min-width: 18px; text-align: center; }
 
         .product-title-bottom { font-size: 0.85rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; text-align: center; letter-spacing: 0.5px; }
         
@@ -354,7 +370,7 @@
         <i class="fa-solid fa-comments"></i>
     </div>
 
-    <!-- হোম পেজ ফিড লেআউট (Pinterest অটো-রেশিও স্টাইল) -->
+    <!-- হোম পেজ ফিড লেআউট -->
     <main class="feed-container" id="productFeed">
         <div class="product-card" id="card-prod-1">
             <div class="product-media-box" onclick="openProductDetails('PREMIUM BRACELET', '$100.00', ['https://0d2bc64b36fe70d346646a8bf8bfd5a.r2.cloudflarestorage.com/bracelet-1.jpg', 'https://www.youtube.com/embed/dQw4w9WgXcQ', 'https://lh3.googleusercontent.com/d/1qyOXxZ8s2cJMEo66NDE4BdoxiC4hy_sG'])">
@@ -456,7 +472,7 @@
         </div>
     </div>
 
-    <!-- পরিপূর্ণ অল ইনফো ও কাস্টম সাইজ পপআপ মডাল (ব্র্যান্ড কালার ও ফাঁকা ইনপুটসহ) -->
+    <!-- পরিপূর্ণ অল ইনফো ও কাস্টম সাইজ পপআপ মডাল -->
     <div id="infoPopupModal" onclick="if(event.target === this) closeInfoPopup()">
         <div class="info-popup-box">
             <div class="golden-close-btn" style="position:absolute; top:12px; right:12px; width:30px; height:30px;" onclick="closeInfoPopup()"><i class="fa-solid fa-xmark" style="font-size:0.85rem;"></i></div>
@@ -474,14 +490,16 @@
                 <div class="thumbnail-strip" id="thumbStrip"></div>
             </div>
             
-            <div style="display:flex; justify-content:center; gap:12px; padding:2px 0;">
+            <!-- লাভ এবং শেয়ার বাটনের মাঝখানে প্রিমিয়াম 'CHAT SELLER' বাটন -->
+            <div class="modal-interactive-top-bar">
                 <div class="love-action modal-love-btn" onclick="toggleModalLove(this)"><i class="fa-solid fa-heart"></i> <span class="modal-love-count">343</span></div>
+                <button class="chat-seller-badge-btn" onclick="chatWithSeller()"><i class="fa-solid fa-comments"></i> CHAT SELLER</button>
                 <button class="share-action-btn" onclick="toggleShareModal()"><i class="fa-solid fa-share-nodes"></i> Share</button>
             </div>
             
             <div class="product-title-bottom" id="modalProductTitle">PREMIUM BRACELET</div>
 
-            <!-- এক লাইনে সুসজ্জিত অ্যাকশন বার -->
+            <!-- সুসজ্জিত এক লাইনের অ্যাকশন বার (Price & Discount, All Info, Quantity) -->
             <div class="price-chat-row">
                 <div class="price-discount-stack">
                     <span class="detail-price" id="modalProductPrice">$100.00</span>
@@ -492,11 +510,13 @@
                 </div>
                 <button class="product-info-btn" onclick="openProductInfoModal()">ALL INFO</button>
                 <div class="inline-qty-box">
-                    <button class="qty-btn-inline" onclick="adjustQuantity(-1)">-</button>
-                    <span class="qty-display-inline" id="productQtyDisplay">1</span>
-                    <button class="qty-btn-inline" onclick="adjustQuantity(1)">+</button>
+                    <span class="qty-label-top">Quantity</span>
+                    <div class="qty-controls-row">
+                        <button class="qty-btn-inline" onclick="adjustQuantity(-1)">-</button>
+                        <span class="qty-display-inline" id="productQtyDisplay">1</span>
+                        <button class="qty-btn-inline" onclick="adjustQuantity(1)">+</button>
+                    </div>
                 </div>
-                <button class="chat-with-seller-btn" onclick="chatWithSeller()">CHAT SELLER</button>
             </div>
 
             <!-- হোলসেল টিয়ার্স -->
@@ -641,7 +661,7 @@
             }
             let html = '', totalAmt = 0;
             cart.forEach((item, index) => {
-                let priceNum = parseFloat(item.price.replace('$', ''));
+                let priceNum = parseFloat(item.price.replace('$', '').replace(/,/g, ''));
                 let itemTotal = priceNum * item.qty;
                 totalAmt += itemTotal;
                 let modeTag = item.isWholesale ? '(Wholesale)' : '(Retail)';
@@ -652,7 +672,7 @@
                     <img src="${imgSrc}" class="cart-item-img" onerror="this.src='https://lh3.googleusercontent.com/d/1a6lFxluTSYUQjB8oqlVQYApRRSmCxEOW'">
                     <div class="cart-item-info">
                         <span class="cart-item-title">${item.title} <span style="color:var(--pink-love); font-weight:800;">${modeTag}</span></span>
-                        <span class="cart-item-qty-price">Qty: ${item.qty}${sizeInfo} | $${itemTotal.toFixed(2)}</span>
+                        <span class="cart-item-qty-price">Qty: ${item.qty}${sizeInfo} | $${itemTotal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
                     </div>
                     <button class="cart-item-delete" onclick="removeCartItem(${index})" title="Delete"><i class="fa-solid fa-trash-can"></i></button>
                 </div>`;
@@ -660,7 +680,7 @@
             html += `
             <div style="display:flex; justify-content:space-between; margin-top:8px; padding:4px 6px;">
                 <span style="font-size:0.8rem; font-weight:bold;">Total Amount:</span>
-                <span style="font-size:0.95rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">$${totalAmt.toFixed(2)}</span>
+                <span style="font-size:0.95rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">$${totalAmt.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
             </div>`;
             container.innerHTML = html;
         }
@@ -743,7 +763,7 @@
 
         function updateCalculatedPrice() {
             let finalPrice = baseUnitPrice * currentQuantity;
-            document.getElementById('modalProductPrice').innerText = `$${finalPrice.toFixed(2)}`;
+            document.getElementById('modalProductPrice').innerText = `$${finalPrice.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
         }
 
         function openProductInfoModal() {
@@ -955,7 +975,7 @@
 
         function openProductDetails(title, price, mediaArray) {
             currentQuantity = 1;
-            baseUnitPrice = parseFloat(price.replace('$', ''));
+            baseUnitPrice = parseFloat(price.replace('$', '').replace(/,/g, ''));
             currentMediaList = mediaArray;
             currentProductMedia = mediaArray[0];
             selectedProductSize = "";
