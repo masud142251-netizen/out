@@ -210,12 +210,13 @@
         }
         .golden-close-btn i { font-size: 1rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        .media-slider-container { width: 100%; position: relative; border-radius: 8px; overflow: hidden; background: #000; display: flex; flex-direction: column; align-items: center; }
-        .main-display-media { width: 100%; max-height: 280px; object-fit: contain; display: block; background: #000; }
-        .thumbnail-strip { display: flex; justify-content: center; gap: 4px; padding: 6px; background: #0c0c0c; overflow-x: auto; width: 100%; }
-        .thumb-item { width: 40px; height: 40px; border-radius: 4px; overflow: hidden; border: 1.5px solid rgba(212,175,55,0.3); cursor: pointer; flex-shrink: 0; background: #000; }
+        /* ক্লিন ও প্রিমিয়াম লাক্সারি মিডিয়া ডিসপ্লে ফ্রেম */
+        .media-slider-container { width: 100%; position: relative; border-radius: 10px; overflow: hidden; background: #000; border: 1px solid rgba(212,175,55,0.25); display: flex; flex-direction: column; align-items: center; }
+        .main-display-media { width: 100%; max-height: 260px; object-fit: contain; display: block; background: #000; }
+        .thumbnail-strip { display: flex; justify-content: center; gap: 6px; padding: 6px; background: #0a0a0c; overflow-x: auto; width: 100%; }
+        .thumb-item { width: 44px; height: 44px; border-radius: 6px; overflow: hidden; border: 1.5px solid rgba(212,175,55,0.3); cursor: pointer; flex-shrink: 0; background: #000; display: flex; align-items: center; justify-content: center; }
         .thumb-item img, .thumb-item video { width: 100%; height: 100%; object-fit: cover; }
-        .thumb-item.active { border-color: var(--gold-solid); }
+        .thumb-item.active { border-color: var(--gold-solid); box-shadow: 0 0 10px rgba(212,175,55,0.4); }
 
         .price-chat-row { display: flex; justify-content: space-between; align-items: center; gap: 5px; background: #111; padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(212,175,55,0.2); }
         .detail-price { font-size: 0.95rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -293,7 +294,7 @@
 </head>
 <body id="mainBody">
 
-    <!-- ভিআইপি প্রফেশনাল স্মুথ সাউন্ড জেনারেটর -->
+    <!-- প্রফেশনাল ভিআইপি স্মুথ সাউন্ড জেনারেটর -->
     <script>
         function playVipSmoothSound() {
             try {
@@ -630,7 +631,7 @@
                 totalAmt += itemTotal;
                 let modeTag = item.isWholesale ? '(Wholesale)' : '(Retail)';
                 let sizeInfo = item.size ? ` | Size: ${item.size}` : '';
-                let imgSrc = item.img && !item.img.includes('youtube') ? item.img : 'https://0d2bc64b36fe70d346646a8bf8bfd5a.r2.cloudflarestorage.com/bracelet-1.jpg';
+                let imgSrc = item.img && !item.img.includes('youtube') && !item.img.includes('embed') ? item.img : 'https://0d2bc64b36fe70d346646a8bf8bfd5a.r2.cloudflarestorage.com/bracelet-1.jpg';
                 html += `
                 <div class="cart-item-row">
                     <img src="${imgSrc}" class="cart-item-img" onerror="this.src='https://lh3.googleusercontent.com/d/1a6lFxluTSYUQjB8oqlVQYApRRSmCxEOW'">
@@ -911,7 +912,7 @@
             let thumbHTML = '';
             mediaArray.forEach((media, index) => {
                 let isVid = media.includes('youtube') || media.includes('embed');
-                let thumbContent = isVid ? `<i class="fa-brands fa-youtube" style="font-size:1.2rem; color:#ff0000; display:flex; align-items:center; justify-content:center; height:100%;"></i>` : `<img src="${media}">`;
+                let thumbContent = isVid ? `<i class="fa-brands fa-youtube" style="font-size:1.1rem; color:#ff0000; display:flex; align-items:center; justify-content:center; height:100%;"></i>` : `<img src="${media}">`;
                 thumbHTML += `<div class="thumb-item ${index === 0 ? 'active' : ''}" onclick="switchMedia('${media}', this)">${thumbContent}</div>`;
             });
             document.getElementById('thumbStrip').innerHTML = thumbHTML;
@@ -922,7 +923,8 @@
             let container = document.getElementById('mainDisplayContainer');
             if (mediaUrl.includes('youtube') || mediaUrl.includes('embed')) {
                 let embedUrl = mediaUrl.includes('embed') ? mediaUrl : mediaUrl.replace('watch?v=', 'embed/');
-                container.innerHTML = `<iframe src="${embedUrl}?autoplay=1&mute=1" style="width:100%; height:100%; border:none;" allowfullscreen></iframe>`;
+                // প্রফেশনাল ও ক্লিন ভিডিও এম্বেড (কন্ট্রোলস এবং রিলেটেড ভিডিও হাইড করা)
+                container.innerHTML = `<iframe src="${embedUrl}?autoplay=1&mute=1&controls=1&modestbranding=1&rel=0" style="width:100%; height:100%; border:none; background:#000;" allowfullscreen></iframe>`;
             } else {
                 container.innerHTML = `<img src="${mediaUrl}" class="main-display-media" alt="Product View" onerror="this.src='https://lh3.googleusercontent.com/d/1a6lFxluTSYUQjB8oqlVQYApRRSmCxEOW'">`;
             }
@@ -979,7 +981,7 @@
         function triggerOrderNow(event) {
             let title = document.getElementById('modalProductTitle').innerText;
             let price = document.getElementById('modalProductPrice').innerText;
-            let imgSrc = currentProductMedia && !currentProductMedia.includes('youtube') ? currentProductMedia : 'https://0d2bc64b36fe70d346646a8bf8bfd5a.r2.cloudflarestorage.com/bracelet-1.jpg';
+            let imgSrc = currentProductMedia && !currentProductMedia.includes('youtube') && !currentProductMedia.includes('embed') ? currentProductMedia : 'https://0d2bc64b36fe70d346646a8bf8bfd5a.r2.cloudflarestorage.com/bracelet-1.jpg';
             
             playVipSmoothSound();
 
