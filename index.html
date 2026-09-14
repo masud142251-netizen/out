@@ -60,7 +60,6 @@
         body { padding-top: 85px; padding-bottom: 90px; }
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-        /* হোলসেল মোড স্টাইল */
         body.wholesale-mode { background: var(--royal-blue-gradient) !important; background-attachment: fixed !important; }
         body.wholesale-mode .product-card { background: var(--card-wholesale) !important; border-color: rgba(212, 175, 55, 0.35) !important; backdrop-filter: blur(10px); }
         body.wholesale-mode header.app-header { background: var(--header-wholesale) !important; }
@@ -71,7 +70,6 @@
         body.wholesale-mode #productDetailModal,
         body.wholesale-mode #localYouModal { background: var(--royal-blue-gradient) !important; }
 
-        /* হেডার */
         header.app-header {
             display: flex; flex-direction: column; padding: 6px 10px; align-items: center;
             background: var(--header-retail); position: fixed; top: 0; left: 0; z-index: 1000;
@@ -94,14 +92,12 @@
         .portal-btn.wholesale-btn { background: var(--gold-gradient); color: #000; border: none; font-weight: 900; }
         .portal-btn.wholesale-active { background: #161616 !important; color: var(--gold-solid) !important; border: 1px solid var(--gold-solid) !important; }
 
-        /* লাইভ চ্যাট উইজেট */
         .live-chat-widget {
             position: fixed; bottom: 70px; right: 20px; z-index: 3500; cursor: grab;
             width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: none; touch-action: none;
         }
         .live-chat-widget i { font-size: 1.8rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* ফিড লেআউট */
         .feed-container { padding: 12px 10px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; width: 100%; max-width: 1400px; margin: 0 auto; }
         @media (min-width: 768px) { .feed-container { grid-template-columns: repeat(3, 1fr); padding: 20px; gap: 16px; } }
 
@@ -119,7 +115,6 @@
         .love-action i { font-size: 0.95rem; background: var(--pink-love); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .share-action-btn { display: flex; align-items: center; gap: 6px; background: none; border: none; font-size: 0.75rem; font-weight: 700; cursor: pointer; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* ওভারলে এবং মোডাল */
         .fullscreen-portal-view, .subdomain-iframe-overlay, .category-fullscreen-view, #productDetailModal, #localYouModal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 5000; overflow-y: auto;
         }
@@ -127,14 +122,23 @@
         #productDetailModal, #localYouModal { z-index: 5000; background: var(--bg-retail); padding: 15px 10px 80px 10px; }
         .product-details-content { padding: 4px; max-width: 440px; margin: 25px auto 0 auto; display: flex; flex-direction: column; gap: 8px; }
 
-        /* "You" প্যানেল ও ঝুড়ি (Cart) স্টাইল */
+        /* ঝুড়ি ও চেকআউট প্যানেল স্টাইল */
         .local-you-box {
             max-width: 480px; margin: 20px auto; background: #0c0c0c; border: 1px solid rgba(212,175,55,0.35);
             border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 12px;
         }
         .cart-items-preview-box {
-            background: #141414; border: 1px solid rgba(212,175,55,0.2); border-radius: 8px; padding: 10px; max-height: 180px; overflow-y: auto;
+            background: #141414; border: 1px solid rgba(212,175,55,0.2); border-radius: 8px; padding: 10px; max-height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;
         }
+        .cart-item-row {
+            display: flex; align-items: center; justify-content: space-between; background: #1a1a1a; padding: 6px 8px; border-radius: 6px; border: 1px solid rgba(212,175,55,0.1); gap: 8px;
+        }
+        .cart-item-img { width: 40px; height: 40px; object-fit: cover; border-radius: 4px; border: 1px solid var(--gold-solid); }
+        .cart-item-info { flex: 1; display: flex; flex-direction: column; text-align: left; }
+        .cart-item-title { font-size: 0.65rem; font-weight: 700; color: #fff; }
+        .cart-item-qty-price { font-size: 0.58rem; color: var(--text-gray); }
+        .cart-item-delete { background: none; border: none; color: #ff2a85; cursor: pointer; font-size: 0.9rem; padding: 4px; }
+
         .form-group-item { display: flex; flex-direction: column; gap: 4px; text-align: left; }
         .form-group-item label { font-size: 0.6rem; font-weight: 700; color: var(--gold-solid); text-transform: uppercase; }
         .form-group-item input, .form-group-item select, .form-group-item textarea {
@@ -182,7 +186,6 @@
         
         .order-now-btn { background: var(--gold-gradient); color: #000; font-weight: 900; font-size: 0.75rem; padding: 12px; border-radius: 6px; border: none; cursor: pointer; width: 100%; text-transform: uppercase; }
 
-        /* ক্যাটাগরি সেকশন */
         .category-section { padding: 14px 8px; }
         .category-header-row { display: flex; justify-content: flex-start; align-items: center; margin-bottom: 12px; padding: 0 4px; }
         .category-title { font-size: 0.9rem; font-weight: 800; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; }
@@ -196,7 +199,6 @@
         .app-card-icon i { font-size: 1.3rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .app-card-name { font-size: 0.7rem; font-weight: 600; color: var(--text-white); text-transform: uppercase; }
 
-        /* বটম ন্যাভবার ও কার্ট ব্যাজ */
         nav.bottom-nav {
             position: fixed; bottom: 0; left: 0; width: 100%; background: var(--footer-retail);
             display: flex; justify-content: space-around; align-items: center; padding: 8px 4px;
@@ -246,7 +248,7 @@
         <i class="fa-solid fa-comments"></i>
     </div>
 
-    <!-- Feed Layout (Cloudflare R2 Link নিশ্চিত করা হয়েছে যাতে ছবি ১০০% লোড হয়) -->
+    <!-- Feed Layout -->
     <main class="feed-container" id="productFeed">
         <div class="product-card" id="card-prod-1">
             <div class="product-media-box" onclick="openProductDetails('PREMIUM BRACELET', '$100.00', ['https://0d2bc64b36fe70d346646a8bf8bfd5a.r2.cloudflarestorage.com/bracelet-1.jpg', 'https://lh3.googleusercontent.com/d/1qyOXxZ8s2cJMEo66NDE4BdoxiC4hy_sG'])">
@@ -271,24 +273,24 @@
         <iframe id="fullScreenIframe" src="" style="width: 100vw; height: 100vh; border: none; background: #000;"></iframe>
     </div>
 
-    <!-- সাব-ডোমেইন ওভারলে (Affiliate, Seller) -->
+    <!-- সাব-ডোমেইন ওভারলে -->
     <div id="subdomainOverlay" class="subdomain-iframe-overlay">
         <div class="golden-close-btn" onclick="closeSubdomainOverlay()"><i class="fa-solid fa-xmark"></i></div>
         <iframe id="subdomainIframeElement" src="" style="width: 100vw; height: calc(100vh - 65px); border: none; background: #000; display: block;"></iframe>
     </div>
 
-    <!-- লোকাল ইউ (You) প্যানেল = ঝুড়ি (Cart) ও চেকআউট ফর্ম -->
+    <!-- মূল ঝুড়ি (Cart) ও চেকআউট প্যানেল -->
     <div id="localYouModal">
         <div class="golden-close-btn" onclick="closeLocalYouPanel()"><i class="fa-solid fa-xmark"></i></div>
         <div class="local-you-box">
             <div style="text-align:center;">
                 <i class="fa-solid fa-cart-shopping" style="font-size:1.4rem; color:var(--gold-solid);"></i>
-                <h3 style="color:var(--gold-solid); font-size:0.9rem; margin-top:4px; text-transform:uppercase;">Your Cart & Checkout</h3>
+                <h3 style="color:var(--gold-solid); font-size:0.9rem; margin-top:4px; text-transform:uppercase;">Your Luxury Cart & Checkout</h3>
             </div>
             
-            <!-- ঝুড়িতে থাকা প্রোডাক্টগুলোর লিস্ট এখানে দেখাবে -->
+            <!-- ঝুড়িতে থাকা প্রোডাক্টগুলোর তালিকা (ছবিসহ ও ডিলিট অপশন) -->
             <div id="cartItemsPreviewBox" class="cart-items-preview-box">
-                <!-- JS Inject Cart Items -->
+                <!-- JS Inject Cart Items with Image & Delete Button -->
             </div>
 
             <button class="google-verify-btn" onclick="simulateGoogleAuth()">
@@ -369,12 +371,11 @@
                     </div>
                 </div>
             </div>
-            <!-- অর্ডার নাও বাটন - ক্লিক করলেই ঝুড়িতে যাবে এবং ইউ প্যানেল খুলবে -->
             <button class="order-now-btn" onclick="triggerOrderNow(event)">Order Now</button>
         </div>
     </div>
 
-    <!-- ক্যাটাগরি ফুলস্ক্রিন ওভারলে (সমস্ত ক্যাটাগরি সংযুক্ত) -->
+    <!-- ক্যাটাগরি ওভারলে -->
     <div id="categoryView" class="category-fullscreen-view">
         <div class="golden-close-btn" onclick="toggleCategoryView('categoryView')"><i class="fa-solid fa-xmark"></i></div>
         <div style="margin-bottom: 25px; text-align: center;">
@@ -392,7 +393,7 @@
         </div>
     </div>
 
-    <!-- ফিক্সড বটম ন্যাভবার (You মেনু হলো মূল ঝুড়ি) -->
+    <!-- ফিক্সড বটম ন্যাভবার (মানুষের আইকনের পরিবর্তে লাক্সারি ঝুড়ি বা Cart) -->
     <nav class="bottom-nav">
         <div class="nav-item" onclick="toggleSubdomainOverlay('https://affiliate.rorraxy.com')">
             <i class="fa-solid fa-handshake"></i>
@@ -403,8 +404,8 @@
             <span>Seller</span>
         </div>
         <div class="nav-item" onclick="openLocalYouPanel()">
-            <i class="fa-solid fa-user-shield"></i>
-            <span>You</span>
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span>Cart</span>
             <div class="cart-badge" id="cartCountBadge">0</div>
         </div>
         <div class="nav-item" onclick="openCategoryView()">
@@ -422,8 +423,8 @@
         let currentQuantity = 1;
         let baseUnitPrice = 100.00;
         let activeSubdomainUrl = "";
+        let currentProductImg = "";
 
-        // কার্ট কাউন্ট এবং ব্যাজ আপডেট
         function updateCartBadge() {
             let cart = JSON.parse(localStorage.getItem('rorraxy_cart')) || [];
             let totalQty = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
@@ -464,34 +465,43 @@
             activeSubdomainUrl = "";
         }
 
-        // ঝুড়ি (Cart) রেন্ডার করা You প্যানেলে
+        // ঝুড়ির ভেতরে প্রোডাক্টগুলোর তালিকা, ছবি ও ডিলিট অপشن রেন্ডার করা
         function renderCartInYouPanel() {
             let cart = JSON.parse(localStorage.getItem('rorraxy_cart')) || [];
             let container = document.getElementById('cartItemsPreviewBox');
             if(cart.length === 0) {
-                container.innerHTML = '<div style="color:var(--text-gray); text-align:center; font-size:0.7rem; padding:10px;">Your cart (ঝুড়ি) is empty.</div>';
+                container.innerHTML = '<div style="color:var(--text-gray); text-align:center; font-size:0.7rem; padding:15px;">Your Cart (ঝুড়ি) is empty.</div>';
                 return;
             }
             let html = '', totalAmt = 0;
-            cart.forEach(item => {
+            cart.forEach((item, index) => {
                 let priceNum = parseFloat(item.price.replace('$', ''));
                 let itemTotal = priceNum * item.qty;
                 totalAmt += itemTotal;
                 html += `
-                <div style="display:flex; justify-content:space-between; align-items:center; background:#1a1a1a; padding:6px 8px; border-radius:5px; margin-bottom:4px;">
-                    <div>
-                        <div style="font-size:0.68rem; color:#fff; font-weight:700;">${item.title}</div>
-                        <div style="font-size:0.58rem; color:var(--text-gray);">Qty: ${item.qty}</div>
+                <div class="cart-item-row">
+                    <img src="${item.img}" class="cart-item-img" onerror="this.src='https://lh3.googleusercontent.com/d/1a6lFxluTSYUQjB8oqlVQYApRRSmCxEOW'">
+                    <div class="cart-item-info">
+                        <span class="cart-item-title">${item.title}</span>
+                        <span class="cart-item-qty-price">Qty: ${item.qty} | $${itemTotal.toFixed(2)}</span>
                     </div>
-                    <div style="font-size:0.72rem; color:var(--gold-solid); font-weight:800;">$${itemTotal.toFixed(2)}</div>
+                    <button class="cart-item-delete" onclick="removeCartItem(${index})" title="Remove Item"><i class="fa-solid fa-trash-can"></i></button>
                 </div>`;
             });
             html += `
-            <div style="display:flex; justify-content:space-between; margin-top:8px; border-top:1px solid rgba(212,175,55,0.3); padding-top:6px;">
+            <div style="display:flex; justify-content:space-between; margin-top:5px; border-top:1px solid rgba(212,175,55,0.3); padding-top:6px;">
                 <span style="font-size:0.75rem; font-weight:bold;">Total Amount:</span>
                 <span style="font-size:0.8rem; font-weight:900; color:var(--gold-solid);">$${totalAmt.toFixed(2)}</span>
             </div>`;
             container.innerHTML = html;
+        }
+
+        function removeCartItem(index) {
+            let cart = JSON.parse(localStorage.getItem('rorraxy_cart')) || [];
+            cart.splice(index, 1);
+            localStorage.setItem('rorraxy_cart', JSON.stringify(cart));
+            updateCartBadge();
+            renderCartInYouPanel();
         }
 
         function openLocalYouPanel() {
@@ -670,6 +680,7 @@
         function openProductDetails(title, price, images) {
             currentQuantity = 1;
             baseUnitPrice = parseFloat(price.replace('$', ''));
+            currentProductImg = images[0]; // সঠিক ছবি সংরক্ষণ
             document.getElementById('productQtyDisplay').innerText = currentQuantity;
             document.getElementById('mainDisplayMedia').src = images[0];
             document.getElementById('modalProductPrice').innerText = price;
@@ -682,8 +693,11 @@
             document.getElementById('thumbStrip').innerHTML = thumbHTML;
             document.getElementById('productDetailModal').style.display = 'block';
         }
+
         function closeProductDetails() { document.getElementById('productDetailModal').style.display = 'none'; }
+        
         function switchMedia(src, element) {
+            currentProductImg = src; // থাম্বনেইল পাল্টালে ছবি আপডেট হবে
             document.getElementById('mainDisplayMedia').src = src;
             document.querySelectorAll('.thumb-item').forEach(t => t.classList.remove('active'));
             element.classList.add('active');
@@ -697,21 +711,22 @@
         }
         function closeShareModal() { document.getElementById('shareModal').style.display = 'none'; }
 
-        // "Order Now" ক্লিক করলে ঝুড়িতে (Cart) যোগ হবে এবং সরাসরি 'You' প্যানেল ওপেন হবে
+        // "Order Now" ক্লিক করলে ঝুড়িতে ছবিসহ প্রোডাক্ট জমা হবে এবং ঝুড়ি প্যানেল খুলবে
         function triggerOrderNow(event) {
             let title = document.getElementById('modalProductTitle').innerText;
             let price = document.getElementById('modalProductPrice').innerText;
+            let imgSrc = currentProductImg || 'https://0d2bc64b36fe70d346646a8bf8bfd5a.r2.cloudflarestorage.com/bracelet-1.jpg';
             
             let cart = JSON.parse(localStorage.getItem('rorraxy_cart')) || [];
-            cart.push({ title: title, price: price, qty: currentQuantity, addedAt: new Date().toISOString() });
+            cart.push({ title: title, price: price, qty: currentQuantity, img: imgSrc, addedAt: new Date().toISOString() });
             localStorage.setItem('rorraxy_cart', JSON.stringify(cart));
             
             updateCartBadge();
             document.getElementById('productDetailModal').style.display = 'none';
-            openLocalYouPanel(); // সরাসরি ঝুড়ি বা You প্যানেল ওপেন করবে
+            openLocalYouPanel(); 
         }
 
-        // অর্ডার ফাইনাল ও ফায়ারবেসে ডেটা সেভ
+        // ফাইনাল অর্ডার কনফার্ম ও ফায়ারবেসে ডেটা পাঠানো
         async function finalizeDirectOrder() {
             let cart = JSON.parse(localStorage.getItem('rorraxy_cart')) || [];
             if(cart.length === 0) { alert("Your cart (ঝুড়ি) is empty!"); return; }
