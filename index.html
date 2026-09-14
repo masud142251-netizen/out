@@ -122,7 +122,6 @@
         #productDetailModal, #localYouModal { z-index: 5000; background: var(--bg-retail); padding: 15px 10px 80px 10px; }
         .product-details-content { padding: 4px; max-width: 440px; margin: 25px auto 0 auto; display: flex; flex-direction: column; gap: 8px; }
 
-        /* লাক্সারি ঝুড়ি ও চেকআউট প্যানেল (কম্পিউটার ও মোবাইলে সুন্দর ফিট করার জন্য max-width ও padding অপ্টিমাইজড) */
         .local-you-box {
             max-width: 440px; width: 92%; margin: 30px auto; background: #0c0c0c; border: 1px solid rgba(212,175,55,0.35);
             border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.9);
@@ -201,7 +200,7 @@
         .app-card-icon i { font-size: 1.3rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .app-card-name { font-size: 0.7rem; font-weight: 600; color: var(--text-white); text-transform: uppercase; }
 
-        /* বটম ন্যাভবার ও নোটিফিকেশন ব্যাজ ফিক্সড (আইকনের ঠিক উপরে সুন্দরভাবে সেট করা) */
+        /* বটম ন্যাভবার ও কার্ট আইটেম কন্টেইনার (যেখানে ব্যাজটি নিখুঁতভাবে ঝুড়ির ওপর পজিশন করা হয়েছে) */
         nav.bottom-nav {
             position: fixed; bottom: 0; left: 0; width: 100%; background: var(--footer-retail);
             display: flex; justify-content: space-around; align-items: center; padding: 8px 4px;
@@ -214,11 +213,30 @@
         .nav-item i { font-size: 1.15rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .nav-item span { text-transform: uppercase; }
         
+        /* নোটিফিকেশন ব্যাজ - ঝুড়ি আইকনের ঠিক ওপরের ডান কোণায় নিখুঁতভাবে সেট করা */
+        .cart-badge-container {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
         .cart-badge {
-            position: absolute; top: -3px; right: 30%; background: #ff2a85; color: #fff;
-            font-size: 0.52rem; font-weight: 900; width: 16px; height: 16px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; border: 1.5px solid #000;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.8); z-index: 20;
+            position: absolute; 
+            top: -6px; 
+            right: -10px; 
+            background: #ff2a85; 
+            color: #fff;
+            font-size: 0.52rem; 
+            font-weight: 900; 
+            width: 17px; 
+            height: 17px; 
+            border-radius: 50%;
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            border: 1.5px solid #000;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.8); 
+            z-index: 20;
         }
 
         .search-popup-box { display: none; position: fixed; top: 75px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 520px; z-index: 4000; }
@@ -288,8 +306,10 @@
         <div class="golden-close-btn" onclick="closeLocalYouPanel()"><i class="fa-solid fa-xmark"></i></div>
         <div class="local-you-box">
             <div style="text-align:center;">
-                <i class="fa-solid fa-cart-shopping" style="font-size:1.3rem; color:var(--gold-solid);"></i>
-                <h3 style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:0.8rem; margin-top:3px; text-transform:uppercase;">Cart & Secure Checkout</h3>
+                <div class="cart-badge-container" style="display:inline-block; margin-bottom:2px;">
+                    <i class="fa-solid fa-cart-shopping" style="font-size:1.4rem; color:var(--gold-solid);"></i>
+                </div>
+                <h3 style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:0.8rem; margin-top:2px; text-transform:uppercase;">Cart & Secure Checkout</h3>
             </div>
             
             <!-- ঝুড়িতে থাকা প্রোডাক্টগুলোর তালিকা (ছবিসহ ও ডিলিট অপশন) -->
@@ -402,7 +422,7 @@
         </div>
     </div>
 
-    <!-- বটম ন্যাভবার (YOU মেনু এবং টগল সিস্টেম সংযুক্ত) -->
+    <!-- বটম ন্যাভবার (ব্যাজটি ঝুড়ি আইকনের ঠিক ওপরের ডান কোণায় নিখুঁতভাবে বসানো হয়েছে) -->
     <nav class="bottom-nav">
         <div class="nav-item" onclick="toggleSubdomainOverlay('https://affiliate.rorraxy.com')">
             <i class="fa-solid fa-handshake"></i>
@@ -413,9 +433,11 @@
             <span>Seller</span>
         </div>
         <div class="nav-item" onclick="toggleLocalYouPanel()">
-            <i class="fa-solid fa-cart-shopping"></i>
+            <div class="cart-badge-container">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <div class="cart-badge" id="cartCountBadge">0</div>
+            </div>
             <span>You</span>
-            <div class="cart-badge" id="cartCountBadge">0</div>
         </div>
         <div class="nav-item" onclick="toggleCategoryView()">
             <i class="fa-solid fa-border-all"></i>
@@ -434,7 +456,6 @@
         let activeSubdomainUrl = "";
         let currentProductImg = "";
 
-        // সমস্ত প্যানেল এক সাথে বন্ধ করার ফাংশন (কনফ্লিক্ট এড়াতে)
         function closeAllPanels() {
             document.getElementById('subdomainOverlay').style.display = 'none';
             document.getElementById('subdomainIframeElement').src = '';
@@ -471,7 +492,6 @@
             document.getElementById('fullScreenIframe').src = '';
         }
 
-        // সাব-ডোমেইন টগল সিস্টেম (Affiliate, Seller)
         function toggleSubdomainOverlay(url) {
             const overlay = document.getElementById('subdomainOverlay');
             const iframe = document.getElementById('subdomainIframeElement');
@@ -490,7 +510,6 @@
             activeSubdomainUrl = "";
         }
 
-        // ঝুড়ির ভেতরে প্রোডাক্টগুলোর তালিকা, ছবি, ডিলিট অপশন এবং টোটাল অ্যামাউন্ট রেন্ডার করা
         function renderCartInYouPanel() {
             let cart = JSON.parse(localStorage.getItem('rorraxy_cart')) || [];
             let container = document.getElementById('cartItemsPreviewBox');
@@ -529,7 +548,6 @@
             renderCartInYouPanel();
         }
 
-        // YOU (Cart) প্যানেল টগল সিস্টেম
         function toggleLocalYouPanel() {
             const modal = document.getElementById('localYouModal');
             if (modal.style.display === 'block') {
@@ -546,7 +564,6 @@
             document.getElementById('localYouModal').style.display = 'none';
         }
 
-        // গুগল ভেরিফাই করার পর সিকোয়েন্স অনুযায়ী শুধু ফরম এবং কনফার্ম অর্ডার বাটন আসবে
         function simulateGoogleAuth() {
             document.getElementById('checkoutFullName').value = "Masudar Rahman";
             document.getElementById('checkoutEmail').value = "masudar.rahman@gmail.com";
@@ -604,7 +621,6 @@
             document.getElementById('modalProductPrice').innerText = `$${finalPrice.toFixed(2)}`;
         }
 
-        // ক্যাটাগরি প্যানেল টগল সিস্টেম
         function toggleCategoryView() {
             const view = document.getElementById('categoryView');
             if (view.style.display === 'block') {
@@ -713,7 +729,6 @@
             `;
         }
 
-        // সার্চ পপআপ টগল সিস্টেম
         function toggleSearchPopup() {
             const popup = document.getElementById('searchPopup');
             if (popup.style.display === 'block') {
@@ -762,7 +777,6 @@
         }
         function closeShareModal() { document.getElementById('shareModal').style.display = 'none'; }
 
-        // "Order Now" ক্লিক করলে পপআপ বন্ধ হবে এবং প্রোডাক্ট কার্টে জমা হয়ে ব্যাজ আপডেট হবে
         function triggerOrderNow(event) {
             let title = document.getElementById('modalProductTitle').innerText;
             let price = document.getElementById('modalProductPrice').innerText;
@@ -776,7 +790,6 @@
             document.getElementById('productDetailModal').style.display = 'none';
         }
 
-        // ফাইনাল অর্ডার কনফার্ম ও ফায়ারবেসে ডেটা পাঠানো
         async function finalizeDirectOrder() {
             let cart = JSON.parse(localStorage.getItem('rorraxy_cart')) || [];
             if(cart.length === 0) { alert("Your cart is empty!"); return; }
