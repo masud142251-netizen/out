@@ -1,1 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RORRAXY | Luxury Global E-Commerce</title>
+    
+    <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <style>
+        :root {
+            --bg-black: #020202;
+            --surface-bg: #070707;
+            --gold-gradient: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            --text-white: #f3f3f3;
+            --text-gray: #a5a5a5;
+            --font-luxury: 'Cinzel', serif;
+            --font-body: 'Poppins', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        html, body { 
+            width: 100%; 
+            min-height: 100vh; 
+            background-color: var(--bg-black); 
+            color: var(--text-white); 
+            font-family: var(--font-body); 
+            overflow-x: hidden; 
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 70px;
+        }
+
+        h1, h2, h3, h4 { font-family: var(--font-luxury); }
+
+        .custom-toast { position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: rgba(12, 12, 12, 0.98); border: 1.5px solid; border-image: var(--gold-gradient) 1; color: #fcf6ba; padding: 8px 16px; border-radius: 30px; font-size: 0.75rem; font-weight: 700; z-index: 999999; display: none; box-shadow: 0 0 20px rgba(212,175,55,0.3); white-space: nowrap; }
+
+        .page-container {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* প্রোডাক্ট শোকেস ও ডিটেইল কার্ড */
+        .product-view-card {
+            background: var(--surface-bg);
+            border: 1.5px solid rgba(212,175,55,0.25);
+            border-radius: 18px;
+            padding: 18px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        .product-main-img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1px solid rgba(212,175,55,0.2);
+            margin-bottom: 12px;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 6px;
+        }
+
+        .product-price {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 15px;
+            font-family: var(--font-luxury);
+        }
+
+        .btn-gold-glow { 
+            background: var(--gold-gradient); 
+            border: none; 
+            padding: 12px; 
+            border-radius: 25px; 
+            color: #000; 
+            font-weight: 900; 
+            font-size: 0.8rem; 
+            cursor: pointer; 
+            text-transform: uppercase; 
+            font-family: var(--font-luxury); 
+            width: 100%; 
+            box-shadow: 0 0 15px rgba(212,175,55,0.3);
+        }
+
+        /* কার্ট সেকশন */
+        .cart-section {
+            background: var(--surface-bg);
+            border: 1.5px solid rgba(212,175,55,0.25);
+            border-radius: 18px;
+            padding: 18px;
+            display: none;
+        }
+
+        .cart-title {
+            font-size: 1rem;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .cart-items-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 250px;
+            overflow-y: auto;
+            margin-bottom: 12px;
+        }
+
+        .cart-row {
+            background: #000;
+            border: 1px solid rgba(212,175,55,0.2);
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+        }
+
+        .cart-total-box {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 10px 0;
+            border-top: 1px solid rgba(212,175,55,0.2);
+            margin-bottom: 12px;
+            font-family: var(--font-luxury);
+            color: #fcf6ba;
+        }
+
+        /* ড্যাশবোর্ড সেকশন */
+        .dashboard-section {
+            background: var(--surface-bg);
+            border: 1.5px solid rgba(212,175,55,0.25);
+            border-radius: 18px;
+            padding: 18px;
+            display: none;
+        }
+
+        /* নিচের ফিক্সড নেভবার (Bottom Navigation Bar) */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0; left: 0; width: 100%;
+            background: #050505;
+            border-top: 1.5px solid rgba(212,175,55,0.3);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            background: none;
+            border: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-gray);
+            cursor: pointer;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-family: var(--font-body);
+            transition: 0.3s;
+        }
+
+        .nav-item i {
+            font-size: 1.1rem;
+            margin-bottom: 3px;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-item.active, .nav-item:hover {
+            color: #fcf6ba;
+        }
+
+        /* পপআপ মডাল */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 15px;
+        }
+        .modal-card {
+            background: var(--surface-bg);
+            border: 1.5px solid rgba(212,175,55,0.4);
+            border-radius: 18px;
+            padding: 20px;
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 12px; right: 12px;
+            background: none; border: none;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 0.65rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; font-weight: 800; margin-bottom: 4px; }
+        .form-group input { width: 100%; background: #000; border: 1.5px solid rgba(212,175,55,0.3); padding: 10px; color: #fff; border-radius: 8px; font-size: 0.8rem; outline: none; }
+    </style>
+</head>
+<body>
+
+    <div class="custom-toast" id="customToast">Action completed!</div>
+
+    <div class="page-container">
+        
+        <!-- ১. হোম / প্রোডাক্ট পেজ (যেখানে ইউজার প্রোডাক্ট দেখতে পাবে এবং Add to Cart করবে) -->
+        <div id="homeView" class="product-view-card">
+            <img src="https://lh3.googleusercontent.com/d/1PD_g_agcbmm7bbJTHoOWss8YtQ17LNsb=s400" alt="Product" class="product-main-img" id="prodImg">
+            <h2 class="product-title" id="prodTitle">Luxury Gamar Wood Bracelet</h2>
+            <div class="product-price" id="prodPrice">$100.00</div>
+            <button class="btn-gold-glow" onclick="addToCart()">Add to Cart</button>
+        </div>
+
+        <!-- ২. কার্ট পেজ (যেখানে ইউজার তার সিলেক্ট করা প্রোডাক্টগুলো দেখবে) -->
+        <div id="cartView" class="cart-section">
+            <h3 class="cart-title">Your Shopping Cart</h3>
+            <div class="cart-items-list" id="cartItemsContainer">
+                <div style="text-align:center; color:var(--text-gray); font-size:0.75rem;">Cart is empty</div>
+            </div>
+            <div class="cart-total-box">
+                <span>Total:</span>
+                <span id="cartTotalAmt">$0.00</span>
+            </div>
+            <button class="btn-gold-glow" onclick="openCheckoutModal()">Proceed to Checkout</button>
+        </div>
+
+        <!-- ৩. ড্যাশবোর্ড পেজ (তথ্য পূরণ করার পর দেখাবে) -->
+        <div id="dashboardView" class="dashboard-section">
+            <h3 class="cart-title">Customer Dashboard</h3>
+            <div style="font-size: 0.8rem; text-align: center; color: var(--text-gray); margin-bottom: 10px;" id="dashCustomerName">Welcome!</div>
+            <button class="btn-gold-glow" onclick="showView('homeView')">Continue Shopping</button>
+        </div>
+
+    </div>
+
+    <!-- ইনফরমেশন ফর্ম পপআপ -->
+    <div class="modal-overlay" id="infoModal">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="cart-title" style="margin-bottom: 15px;">Customer Details</h3>
+            <form onsubmit="submitCustomerDetails(event)">
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="custName" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label>Gmail Account *</label>
+                    <input type="email" id="custEmail" placeholder="user@gmail.com" required>
+                </div>
+                <div class="form-group">
+                    <label>WhatsApp Number *</label>
+                    <input type="tel" id="custPhone" placeholder="017XXXXXXXX" required>
+                </div>
+                <div class="form-group">
+                    <label>Delivery Address *</label>
+                    <input type="text" id="custAddress" placeholder="City, Country" required>
+                </div>
+                <button type="submit" class="btn-gold-glow" style="margin-top: 10px;">Confirm & Open Dashboard</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- নিচের ফিক্সড নেভবার -->
+    <div class="bottom-nav">
+        <button class="nav-item" onclick="showView('homeView')">
+            <i class="fa-solid fa-store"></i>
+            Store
+        </button>
+        <button class="nav-item" onclick="showView('cartView')">
+            <i class="fa-solid fa-cart-shopping"></i>
+            Cart
+        </button>
+        <button class="nav-item" onclick="handleYouNavClick()">
+            <i class="fa-solid fa-user-shield"></i>
+            You
+        </button>
+        <button class="nav-item" onclick="showView('dashboardView')">
+            <i class="fa-solid fa-chart-line"></i>
+            Dashboard
+        </button>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, setDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDokhLgGo4Ib7oxUJ8zczLFWj0YJKk57Y",
+            authDomain: "rorraxy-fcb91.firebaseapp.com",
+            projectId: "rorraxy-fcb91",
+            storageBucket: "rorraxy-fcb91.appspot.com",
+            messagingSenderId: "880891394208",
+            appId: "1:880891394208:web:3bd8ccacf68ad5d3af1c5",
+            measurementId: "G-0XTRV9TPM3"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.db = db;
+        window.setDoc = setDoc;
+        window.doc = doc;
+
+        // ফায়ারবেস থেকে প্রোডাক্ট লোড করা
+        async function loadFirebaseProduct() {
+            try {
+                const querySnapshot = await getDocs(collection(db, "products"));
+                querySnapshot.forEach((docSnap) => {
+                    let prod = docSnap.data();
+                    if(prod.title || prod.name) {
+                        document.getElementById('prodTitle').innerText = prod.title || prod.name;
+                        document.getElementById('prodPrice').innerText = "$" + parseFloat(prod.price || 100).toFixed(2);
+                        if(prod.imageUrl || prod.img) {
+                            document.getElementById('prodImg').src = prod.imageUrl || prod.img;
+                        }
+                    }
+                });
+            } catch(e) {
+                console.log("Firebase Load Error:", e);
+            }
+        }
+        loadFirebaseProduct();
+    </script>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem('rorraxy_cart')) || [];
+
+        function showView(viewId) {
+            document.getElementById('homeView').style.display = 'none';
+            document.getElementById('cartView').style.display = 'none';
+            document.getElementById('dashboardView').style.display = 'none';
+            
+            document.getElementById(viewId).style.display = 'block';
+            if(viewId === 'cartView') renderCartItems();
+        }
+
+        function showToast(msg) {
+            let t = document.getElementById('customToast');
+            t.innerText = msg;
+            t.style.display = 'block';
+            setTimeout(() => { t.style.display = 'none'; }, 2000);
+        }
+
+        function addToCart() {
+            let title = document.getElementById('prodTitle').innerText;
+            let priceStr = document.getElementById('prodPrice').innerText.replace('$', '');
+            let img = document.getElementById('prodImg').src;
+
+            let item = {
+                name: title,
+                price: parseFloat(priceStr),
+                img: img,
+                qty: 1
+            };
+
+            cart.push(item);
+            localStorage.setItem('rorraxy_cart', JSON.stringify(cart));
+            showToast("Product added to cart successfully!");
+            
+            // অটোমেটিক কার্ট পেজে নিয়ে যাবে যাতে কাস্টমার দেখতে পায়
+            showView('cartView');
+        }
+
+        function renderCartItems() {
+            let container = document.getElementById('cartItemsContainer');
+            if(cart.length === 0) {
+                container.innerHTML = `<div style="text-align:center; color:var(--text-gray); font-size:0.75rem;">Cart is empty</div>`;
+                document.getElementById('cartTotalAmt').innerText = "$0.00";
+                return;
+            }
+
+            let html = "";
+            let total = 0;
+            cart.forEach((item, idx) => {
+                total += item.price * item.qty;
+                html += `
+                    <div class="cart-row">
+                        <span><b>${item.name}</b><br>$${item.price} x ${item.qty}</span>
+                        <button onclick="removeItem(${idx})" style="background:none; border:none; color:#e74c3c; cursor:pointer;"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+            document.getElementById('cartTotalAmt').innerText = "$" + total.toFixed(2);
+        }
+
+        function removeItem(idx) {
+            cart.splice(idx, 1);
+            localStorage.setItem('rorraxy_cart', JSON.stringify(cart));
+            renderCartItems();
+            showToast("Item removed");
+        }
+
+        function openCheckoutModal() {
+            if(cart.length === 0) {
+                showToast("Your cart is empty!");
+                return;
+            }
+            document.getElementById('infoModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('infoModal').style.display = 'none';
+        }
+
+        async function submitCustomerDetails(e) {
+            e.preventDefault();
+            let name = document.getElementById('custName').value.trim();
+            let email = document.getElementById('custEmail').value.trim();
+            let phone = document.getElementById('custPhone').value.trim();
+            let address = document.getElementById('custAddress').value.trim();
+
+            // ফায়ারবেসে কাস্টমার ইনফো সেভ করা
+            try {
+                if(window.db && window.setDoc) {
+                    await window.setDoc(window.doc(window.db, "customers", email), {
+                        name, email, phone, address, cart, date: new Date().toISOString()
+                    });
+                }
+            } catch(err) {
+                console.log("Firebase sync error:", err);
+            }
+
+            localStorage.setItem('rorraxy_cust_done', 'true');
+            localStorage.setItem('rorraxy_name', name);
+            
+            document.getElementById('dashCustomerName').innerText = "Welcome, " + name + " (" + email + ")";
+            closeModal();
+            showView('dashboardView');
+            showToast("Order placed & Dashboard unlocked!");
+        }
+
+        function handleYouNavClick() {
+            let isDone = localStorage.getItem('rorraxy_cust_done');
+            if(isDone === 'true') {
+                showView('dashboardView');
+            } else {
+                openCheckoutModal();
+            }
+        }
+    </script>
+</body>
+</html>
