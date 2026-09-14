@@ -141,7 +141,6 @@
         }
         .category-fullscreen-view { z-index: 4000; background: var(--bg-retail); padding: 15px 10px 80px 10px; }
         
-        /* অত্যন্ত কম্প্যাক্ট এবং এক স্ক্রিন ফিট প্রোডাক্ট ডিটেইলস পপআপ */
         #productDetailModal { z-index: 5000; background: var(--bg-retail); padding: 10px 10px 70px 10px; }
         .product-details-content { padding: 2px; max-width: 400px; margin: 10px auto 0 auto; display: flex; flex-direction: column; gap: 6px; }
 
@@ -211,8 +210,9 @@
         }
         .golden-close-btn i { font-size: 1rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        .media-slider-container { width: 100%; position: relative; border-radius: 8px; overflow: hidden; background: #000; }
-        .main-display-media { width: 100%; height: 180px; object-fit: contain; display: block; background: #000; }
+        /* 9:16 বা 1:1 রেশিওর ছবি নিখুঁতভাবে দেখানোর জন্য মিডিয়া কন্টেইনার */
+        .media-slider-container { width: 100%; position: relative; border-radius: 8px; overflow: hidden; background: #000; display: flex; justify-content: center; align-items: center; }
+        .main-display-media { width: 100%; max-height: 280px; object-fit: contain; display: block; background: #000; }
         .thumbnail-strip { display: flex; justify-content: center; gap: 4px; padding: 4px; background: #0c0c0c; overflow-x: auto; }
         .thumb-item { width: 36px; height: 36px; border-radius: 4px; overflow: hidden; border: 1.5px solid rgba(212,175,55,0.3); cursor: pointer; flex-shrink: 0; }
         .thumb-item img { width: 100%; height: 100%; object-fit: cover; }
@@ -225,7 +225,6 @@
 
         .product-title-bottom { font-size: 0.8rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; text-align: center; letter-spacing: 0.5px; }
         
-        /* ছোট ও সুন্দর বাটন বার (স্টক সহ) */
         .desc-size-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
         .extra-action-btn { background: #161616; border: 1px solid rgba(212,175,55,0.3); color: #fff; font-size: 0.48rem; font-weight: 700; padding: 6px 2px; border-radius: 5px; cursor: pointer; text-align: center; text-transform: uppercase; transition: 0.2s; }
         .extra-action-btn:hover { border-color: var(--gold-solid); background: #222; }
@@ -236,8 +235,10 @@
         .tier-btn { background: #161616; border: 1px solid rgba(212,175,55,0.3); color: #fff; font-size: 0.44rem; font-weight: 700; padding: 5px 2px; border-radius: 5px; cursor: pointer; text-align: center; }
         .tier-btn.active { background: var(--gold-gradient); color: #000; font-weight: 900; border: none; }
 
-        .quantity-row { display: flex; flex-direction: row; justify-content: space-between; align-items: center; background: #111; padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(212,175,55,0.2); }
-        .qty-box { display: flex; align-items: center; justify-content: center; gap: 12px; }
+        /* কোয়ান্টিটি অংশ ওপরের দিকে এবং প্লাস-মাইনাস মাঝখানে পারফেক্ট অ্যালাইনমেন্ট */
+        .quantity-row { display: flex; flex-direction: column; align-items: center; background: #111; padding: 5px 8px; border-radius: 6px; border: 1px solid rgba(212,175,55,0.2); gap: 3px; }
+        .qty-label-top { font-size: 0.5rem; font-weight: 700; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; }
+        .qty-box { display: flex; align-items: center; justify-content: center; gap: 15px; width: 100%; }
         .qty-btn { background: var(--gold-gradient); border: none; color: #000; font-size: 1rem; font-weight: 900; cursor: pointer; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
         .qty-display { font-size: 0.9rem; font-weight: 900; color: #fff; min-width: 25px; text-align: center; }
         
@@ -294,7 +295,29 @@
 </head>
 <body id="mainBody">
 
-    <audio id="successSound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
+    <!-- প্রফেশনাল ও ভিআইপি সফট স্মুথ সাউন্ড ইফেক্ট (Web Audio API Synthesizer) -->
+    <script>
+        function playVipSmoothSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5 note
+                osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15); // A5 note
+                
+                gainNode.gain.setValueAtTime(0.12, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.35);
+                
+                osc.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.35);
+            } catch(e) {}
+        }
+    </script>
 
     <header class="app-header" id="mainHeader">
         <div class="header-top-bar">
@@ -421,7 +444,7 @@
         </div>
     </div>
 
-    <!-- ইনফো পপআপ মডাল (ডেসক্রিপশন, সাইজ, প্যাকেজিং ও স্টক এক পপআপে) -->
+    <!-- ইনফো পপআপ মডাল -->
     <div id="infoPopupModal" onclick="if(event.target === this) closeInfoPopup()">
         <div class="info-popup-box">
             <div class="golden-close-btn" style="position:absolute; top:10px; right:10px; width:28px; height:28px;" onclick="closeInfoPopup()"><i class="fa-solid fa-xmark" style="font-size:0.8rem;"></i></div>
@@ -430,7 +453,7 @@
         </div>
     </div>
 
-    <!-- প্রোডাক্ট ডিটেইলস পপ-আপ (এক স্ক্রিন ফিট এবং সুন্দর বাটন সহ) -->
+    <!-- প্রোডাক্ট ডিটেইলস পপ-আপ -->
     <div id="productDetailModal">
         <div class="golden-close-btn" onclick="closeProductDetails()"><i class="fa-solid fa-xmark"></i></div>
         <div class="product-details-content">
@@ -452,7 +475,6 @@
                 <button class="chat-with-seller-btn" onclick="chatWithSeller()">Chat with Seller</button>
             </div>
 
-            <!-- ডেসক্রিপশন, সাইজ, প্যাকেজিং এবং ছোট স্টক বাটন (এক লাইনে একদম সুন্দরভাবে) -->
             <div class="desc-size-row">
                 <button class="extra-action-btn" onclick="openInfoPopup('description')"><i class="fa-solid fa-file-lines"></i> Desc</button>
                 <button class="extra-action-btn" onclick="openInfoPopup('size')"><i class="fa-solid fa-ruler"></i> Size</button>
@@ -466,8 +488,9 @@
                     <button class="tier-btn" onclick="setWholesaleTier(200, 75, event)">200+ Pcs</button>
                     <button class="tier-btn" onclick="setWholesaleTier(600, 60, event)">600+ Pcs</button>
                 </div>
+                <!-- কোয়ান্টিটি লেখা উপরে এবং প্লাস-মাইনাস মাঝখানে পারফেক্ট অ্যালাইনমেন্ট -->
                 <div class="quantity-row">
-                    <span style="font-size:0.55rem; font-weight:700; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">QUANTITY</span>
+                    <span class="qty-label-top">Quantity</span>
                     <div class="qty-box">
                         <button class="qty-btn" onclick="adjustQuantity(-1)">-</button>
                         <span class="qty-display" id="productQtyDisplay">1</span>
@@ -704,7 +727,6 @@
             document.getElementById('modalProductPrice').innerText = `$${finalPrice.toFixed(2)}`;
         }
 
-        /* সমস্ত তথ্য (Description, Size, Packaging, Stock) আলাদা বা এক পপআপে দেখানোর ফাংশন */
         function openInfoPopup(type) {
             const titleEl = document.getElementById('infoPopupTitle');
             const bodyEl = document.getElementById('infoPopupBody');
@@ -717,7 +739,7 @@
                 titleEl.innerText = "Size & Specifications";
                 bodyEl.innerHTML = "• Standard Length: Adjustable (7.5 - 8.5 inches)<br>• Finish: Golden Teak & High Gloss Lacquer<br>• Weight: 45g<br>• Material Grade: Premium alloy with gold plating.";
             } else if (type === 'packaging') {
-                titleEl.innerText = "Courier & Packaging Info (Amazon/Daraz)";
+                titleEl.innerText = "Courier & Packaging Info";
                 bodyEl.innerHTML = "• Package Weight: 0.15 kg<br>• Dimensions: 12cm x 8cm x 4cm<br>• Box Type: Eco-friendly Luxury Hard Box<br>• Courier Ready: Drop-test certified for international logistics.";
             } else if (type === 'stock') {
                 titleEl.innerText = "Inventory & Stock Status";
@@ -962,8 +984,8 @@
             let price = document.getElementById('modalProductPrice').innerText;
             let imgSrc = currentProductImg || 'https://0d2bc64b36fe70d346646a8bf8bfd5a.r2.cloudflarestorage.com/bracelet-1.jpg';
             
-            let sound = document.getElementById('successSound');
-            if(sound) { sound.currentTime = 0; sound.play().catch(() => {}); }
+            // ভিআইপি প্রফেশনাল স্মুথ সাউন্ড বাজানো
+            playVipSmoothSound();
 
             let rect = document.getElementById('orderNowActionBtn').getBoundingClientRect();
             let navTarget = document.getElementById('navCartItem').getBoundingClientRect();
