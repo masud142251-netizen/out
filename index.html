@@ -99,6 +99,7 @@
         }
         .live-chat-widget i { font-size: 1.7rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
+        /* Pinterest স্টাইল ফিড লেআউট (প্রোডাক্ট কখনো কাটা যাবে না) */
         .feed-container {
             padding: 12px 10px;
             display: grid;
@@ -123,10 +124,10 @@
             box-shadow: 0 6px 20px rgba(0,0,0,0.8); display: flex; flex-direction: column; transition: 0.3s; position: relative;
             border: 1px solid rgba(212, 175, 55, 0.15);
         }
-        /* ফিড কার্ডে পারফেক্ট ৯:১৬ শর্ট ভিডিও বা রিলস ফরম্যাট */
-        .product-media-box { position: relative; width: 100%; cursor: pointer; background: #000; overflow: hidden; aspect-ratio: 9/16; }
-        .product-media-box img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform 0.4s ease; }
-        .product-media-box:hover img { transform: scale(1.05); }
+        /* Pinterest ফ্লেক্সিবল সাইজ: ছবি বা ভিডিও পুরোপুরি দেখাবে, কোনো অংশ কাটা পড়বে না */
+        .product-media-box { position: relative; width: 100%; cursor: pointer; background: #000; overflow: hidden; aspect-ratio: 9/16; display: flex; align-items: center; justify-content: center; }
+        .product-media-box img { width: 100%; height: 100%; display: block; object-fit: contain; transition: transform 0.4s ease; background: #000; }
+        .product-media-box:hover img { transform: scale(1.03); }
         .card-footer-actions { display: flex; justify-content: center; align-items: center; padding: 8px; background: rgba(15, 15, 15, 0.95); }
         .love-share-group { display: flex; align-items: center; gap: 15px; justify-content: center; width: 100%; }
         
@@ -143,14 +144,14 @@
         .category-fullscreen-view { z-index: 4000; background: var(--bg-retail); padding: 15px 10px 80px 10px; }
         
         #productDetailModal { z-index: 5000; background: var(--bg-retail); padding: 10px 10px 70px 10px; }
-        .product-details-content { padding: 2px; max-width: 400px; margin: 10px auto 0 auto; display: flex; flex-direction: column; gap: 6px; }
+        .product-details-content { padding: 2px; max-width: 420px; margin: 10px auto 0 auto; display: flex; flex-direction: column; gap: 8px; }
 
-        #localYouModal { z-index: 5000; background: var(--bg-retail); padding: 20px 15px 90px 15px; display: flex; align-items: center; justify-content: center; }
+        #localYouModal { z-index: 5000; background: var(--bg-retail); padding: 15px 10px 80px 10px; display: none; align-items: center; justify-content: center; }
         
-        /* কার্ট এবং সিকিউর চেকআউট প্যানেল: কম্পিউটারে বড়, চমৎকার এবং মোবাইলে ফুল-ফিট ও রেসপনসিভ */
+        /* চেকআউট প্যানেল: ভেতরের সমস্ত অতিরিক্ত বর্ডার রিমুভ করে স্পেস বড় ও প্রিমিয়াম করা হয়েছে */
         .local-you-box {
-            max-width: 580px; width: 100%; margin: auto; background: #0c0c0c; border: 1.5px solid rgba(212,175,55,0.45);
-            border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 15px 45px rgba(0,0,0,0.95);
+            max-width: 620px; width: 95%; margin: auto; background: #0c0c0c; border: 2px solid rgba(212,175,55,0.5);
+            border-radius: 18px; padding: 25px 20px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 20px 50px rgba(0,0,0,0.95);
         }
 
         .info-popup-box {
@@ -174,52 +175,52 @@
             to { transform: scale(1); opacity: 1; }
         }
 
+        /* ভেতরের বর্ডার সম্পূর্ণ রিমুভ করে ক্লিন স্পেস তৈরি করা হয়েছে */
         .cart-items-preview-box {
-            background: #141414; border: 1px solid rgba(212,175,55,0.3); border-radius: 10px; padding: 10px; max-height: 240px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;
+            background: #111113; border: none; border-radius: 10px; padding: 6px 4px; max-height: 260px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;
         }
         .cart-item-row {
-            display: flex; align-items: center; justify-content: space-between; background: #1a1a1a; padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(212,175,55,0.15); gap: 10px;
+            display: flex; align-items: center; justify-content: space-between; background: #17171a; padding: 10px 12px; border-radius: 10px; border: none; gap: 12px;
         }
-        .cart-item-img { width: 44px; height: 44px; object-fit: cover; border-radius: 6px; border: 1px solid var(--gold-solid); background: #000; flex-shrink: 0; }
+        .cart-item-img { width: 48px; height: 48px; object-fit: contain; border-radius: 6px; border: 1px solid var(--gold-solid); background: #000; flex-shrink: 0; }
         .cart-item-info { flex: 1; display: flex; flex-direction: column; text-align: left; }
-        .cart-item-title { font-size: 0.72rem; font-weight: 700; color: #fff; }
-        .cart-item-qty-price { font-size: 0.6rem; color: var(--text-gray); }
+        .cart-item-title { font-size: 0.78rem; font-weight: 700; color: #fff; }
+        .cart-item-qty-price { font-size: 0.65rem; color: var(--text-gray); }
         
         .cart-item-delete { background: none; border: none; color: #ff0000; cursor: pointer; font-size: 1.1rem; padding: 4px; }
 
         #checkoutFormSection { display: none; flex-direction: column; gap: 10px; }
 
         .form-group-item { display: flex; flex-direction: column; gap: 4px; text-align: left; }
-        .form-group-item label { font-size: 0.6rem; font-weight: 700; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; }
+        .form-group-item label { font-size: 0.62rem; font-weight: 700; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; }
         .form-group-item input, .form-group-item select, .form-group-item textarea {
-            background: #141414; border: 1px solid rgba(212,175,55,0.35); padding: 9px 10px; border-radius: 8px;
-            color: #fff; font-size: 0.75rem; outline: none; font-family: var(--font-main); width: 100%;
+            background: #141414; border: 1px solid rgba(212,175,55,0.35); padding: 10px 12px; border-radius: 8px;
+            color: #fff; font-size: 0.78rem; outline: none; font-family: var(--font-main); width: 100%;
         }
         
         .google-verify-btn {
-            background: #ffffff; color: #000000; font-weight: 800; font-size: 0.72rem; padding: 12px; border-radius: 8px;
+            background: #ffffff; color: #000000; font-weight: 800; font-size: 0.75rem; padding: 13px; border-radius: 8px;
             border: none; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; text-transform: uppercase;
             box-shadow: 0 4px 15px rgba(255,255,255,0.2); transition: 0.3s; width: 100%;
         }
         .google-verify-btn:hover { background: #f0f0f0; }
 
-        .phone-input-row { display: grid; grid-template-columns: 105px 1fr; gap: 8px; }
+        .phone-input-row { display: grid; grid-template-columns: 110px 1fr; gap: 8px; }
 
         .golden-close-btn {
-            background: #141414; border: 1px solid rgba(212,175,55,0.4); width: 34px; height: 34px; border-radius: 50%;
+            background: #141414; border: 1px solid rgba(212,175,55,0.4); width: 36px; height: 36px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center; cursor: pointer; position: fixed; top: 15px; right: 15px; z-index: 99999;
         }
         .golden-close-btn i { font-size: 1.1rem; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* পারফেক্ট ৯:১৬ শর্ট ভিডিও রিলস ফরম্যাট এবং আল্ট্রা-ক্লিন মাস্কিং (কোনো লোগো বা টাইটেল থাকবে না) */
-        .media-slider-container { width: 100%; position: relative; border-radius: 10px; overflow: hidden; background: #000; border: 1px solid rgba(212,175,55,0.25); display: flex; flex-direction: column; align-items: center; }
+        /* ৯:১৬ শর্ট ভিডিও মাস্কড ফ্রেম */
+        .media-slider-container { width: 100%; position: relative; border-radius: 12px; overflow: hidden; background: #000; border: 1px solid rgba(212,175,55,0.25); display: flex; flex-direction: column; align-items: center; }
         .video-wrapper-clean { position: relative; width: 100%; height: 380px; background: #000; overflow: hidden; }
         .video-wrapper-clean iframe { width: 100%; height: calc(100% + 120px); margin-top: -60px; border: none; pointer-events: auto; }
-        /* শক্ত ওভারলে মাস্ক যা ইউটিউবের ওপরের টাইটেল এবং নিচের লোগো/শেয়ার বাটন পুরোপুরি ঢেকে রাখবে */
         .video-mask-top { position: absolute; top: 0; left: 0; width: 100%; height: 65px; background: #000; z-index: 10; pointer-events: none; }
         .video-mask-bottom { position: absolute; bottom: 0; left: 0; width: 100%; height: 60px; background: #000; z-index: 10; pointer-events: none; }
 
-        .main-display-media { width: 100%; max-height: 380px; object-fit: cover; display: block; background: #000; aspect-ratio: 9/16; }
+        .main-display-media { width: 100%; max-height: 380px; object-fit: contain; display: block; background: #000; aspect-ratio: 9/16; }
         .thumbnail-strip { display: flex; justify-content: center; gap: 6px; padding: 6px; background: #0a0a0c; overflow-x: auto; width: 100%; }
         .thumb-item { width: 44px; height: 44px; border-radius: 6px; overflow: hidden; border: 1.5px solid rgba(212,175,55,0.3); cursor: pointer; flex-shrink: 0; background: #000; display: flex; align-items: center; justify-content: center; }
         .thumb-item img, .thumb-item video { width: 100%; height: 100%; object-fit: cover; }
@@ -248,7 +249,7 @@
         .qty-btn { background: var(--gold-gradient); border: none; color: #000; font-size: 0.9rem; font-weight: 900; cursor: pointer; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
         .qty-display { font-size: 0.85rem; font-weight: 900; color: #fff; min-width: 25px; text-align: center; }
         
-        .order-now-btn { background: var(--gold-gradient); color: #000; font-weight: 900; font-size: 0.75rem; padding: 12px; border-radius: 8px; border: none; cursor: pointer; width: 100%; text-transform: uppercase; box-shadow: 0 4px 15px rgba(212,175,55,0.3); }
+        .order-now-btn { background: var(--gold-gradient); color: #000; font-weight: 900; font-size: 0.78rem; padding: 13px; border-radius: 8px; border: none; cursor: pointer; width: 100%; text-transform: uppercase; box-shadow: 0 4px 15px rgba(212,175,55,0.3); }
 
         .category-section { padding: 12px 6px; }
         .category-header-row { display: flex; justify-content: flex-start; align-items: center; margin-bottom: 10px; padding: 0 4px; }
@@ -348,7 +349,7 @@
         <i class="fa-solid fa-comments"></i>
     </div>
 
-    <!-- ফিড লেআউট (৯:১৬ শর্ট ভিডিও ফরম্যাট) -->
+    <!-- হোম পেজ ফিড লেআউট (Pinterest স্টাইল) -->
     <main class="feed-container" id="productFeed">
         <div class="product-card" id="card-prod-1">
             <div class="product-media-box" onclick="openProductDetails('PREMIUM BRACELET', '$100.00', ['https://0d2bc64b36fe70d346646a8bf8bfd5a.r2.cloudflarestorage.com/bracelet-1.jpg', 'https://www.youtube.com/embed/dQw4w9WgXcQ', 'https://lh3.googleusercontent.com/d/1qyOXxZ8s2cJMEo66NDE4BdoxiC4hy_sG'])">
@@ -402,21 +403,21 @@
         </div>
     </div>
 
-    <!-- লাক্সারি ঝুড়ি ও সিকিউর চেকআউট প্যানেল (বড় ও সুন্দর রেসপনসিভ ভিউ) -->
+    <!-- লাক্সারি ঝুড়ি ও সিকিউর চেকআউট প্যানেল (ক্লিন ও বর্ডারহীন বড় ভিউ) -->
     <div id="localYouModal">
         <div class="golden-close-btn" onclick="closeLocalYouPanel()"><i class="fa-solid fa-xmark"></i></div>
         <div class="local-you-box">
             <div style="text-align:center;">
                 <div class="cart-badge-container" style="display:inline-block; margin-bottom:2px;">
-                    <i class="fa-solid fa-cart-shopping" style="font-size:1.6rem; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;"></i>
+                    <i class="fa-solid fa-cart-shopping" style="font-size:1.8rem; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;"></i>
                 </div>
-                <h3 style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:0.95rem; margin-top:2px; text-transform:uppercase; letter-spacing: 0.5px;">Cart & Secure Checkout</h3>
+                <h3 style="background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-size:1.05rem; margin-top:2px; text-transform:uppercase; letter-spacing: 0.5px;">Cart & Secure Checkout</h3>
             </div>
             
             <div id="cartItemsPreviewBox" class="cart-items-preview-box"></div>
 
             <button class="google-verify-btn" id="googleVerifyBtn" onclick="simulateGoogleAuth()">
-                <i class="fa-brands fa-google" style="color:#ea4335; font-size: 0.9rem;"></i> Continue & Verify with Google
+                <i class="fa-brands fa-google" style="color:#ea4335; font-size: 1rem;"></i> Continue & Verify with Google
             </button>
 
             <div id="checkoutFormSection">
@@ -443,7 +444,7 @@
                 </div>
                 <div class="form-group-item">
                     <label>Delivery Address</label>
-                    <textarea id="checkoutAddress" placeholder="House, Area, City..." style="height:55px; resize:none;"></textarea>
+                    <textarea id="checkoutAddress" placeholder="House, Area, City..." style="height:60px; resize:none;"></textarea>
                 </div>
                 <button class="order-now-btn" onclick="finalizeDirectOrder()">Confirm Order</button>
             </div>
@@ -585,6 +586,7 @@
         }
 
         window.onload = function() {
+            closeAllPanels(); // Ensure website opens directly on Home page feed
             updateCartBadge();
             let baseLikes = 343 + Math.floor(Math.random() * 150);
             document.querySelectorAll('.love-count').forEach(el => el.innerText = baseLikes);
@@ -628,7 +630,7 @@
             let cart = JSON.parse(localStorage.getItem('rorraxy_cart')) || [];
             let container = document.getElementById('cartItemsPreviewBox');
             if(cart.length === 0) {
-                container.innerHTML = '<div style="color:var(--text-gray); text-align:center; font-size:0.75rem; padding:15px;">Your Cart is empty.</div>';
+                container.innerHTML = '<div style="color:var(--text-gray); text-align:center; font-size:0.8rem; padding:20px;">Your Cart is empty.</div>';
                 return;
             }
             let html = '', totalAmt = 0;
@@ -650,9 +652,9 @@
                 </div>`;
             });
             html += `
-            <div style="display:flex; justify-content:space-between; margin-top:6px; border-top:1px solid rgba(212,175,55,0.3); padding-top:6px;">
-                <span style="font-size:0.75rem; font-weight:bold;">Total Amount:</span>
-                <span style="font-size:0.85rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">$${totalAmt.toFixed(2)}</span>
+            <div style="display:flex; justify-content:space-between; margin-top:8px; padding:4px 6px;">
+                <span style="font-size:0.8rem; font-weight:bold;">Total Amount:</span>
+                <span style="font-size:0.95rem; font-weight:900; background:var(--gold-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">$${totalAmt.toFixed(2)}</span>
             </div>`;
             container.innerHTML = html;
         }
@@ -975,7 +977,6 @@
                     videoId = "dQw4w9WgXcQ";
                 }
                 
-                // ৯:১৬ শর্ট ভিডিও ফরম্যাটে ইউটিউব লোগো ও টাইটেল পুরোপুরি মাস্ক ও হাইড করা
                 let cleanEmbedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1&loop=1&playlist=${videoId}`;
                 
                 container.innerHTML = `
